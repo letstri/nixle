@@ -1,0 +1,14 @@
+{
+  "name": "elysia",
+  "scripts": {
+    "dev": "bun run --watch index.ts"
+  },
+  "dependencies": {
+    "elysia": "latest"
+  },
+  "devDependencies": {
+    "bun-types": "latest",
+    "prettier": "^3.1.0",
+    "vitepress": "^1.0.0-rc.30"
+  }
+}
