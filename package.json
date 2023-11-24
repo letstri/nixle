@@ -1,7 +1,8 @@
 {
   "name": "scalex",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "description": "Universal server-side architectural framework",
+  "homepage": "https://scalex.letstri.dev",
   "scripts": {
     "dev": "vite",
     "build": "vite build && tsc --emitDeclarationOnly",
@@ -22,7 +23,19 @@
     }
   },
   "types": "./dist/index.d.ts",
-  "keywords": [],
+  "keywords": [
+    "scalex",
+    "framework",
+    "server",
+    "universal",
+    "typescript",
+    "node",
+    "fastify",
+    "express",
+    "bun",
+    "elysia",
+    "server-side"
+  ],
   "author": "",
   "license": "ISC",
   "devDependencies": {
