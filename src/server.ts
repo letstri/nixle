@@ -1,7 +1,4 @@
 import { type Module } from './modules';
-import { expressProvider } from './providers/express';
-import { nitroProvider } from './providers/nitro';
-import { fastifyProvider } from './providers/fastify';
 
 export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
 export type ApiHandler = (
