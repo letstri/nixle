@@ -2,7 +2,7 @@
   <a href="https://scalex.letstri.dev" alt="ScaleX site">ScaleX</a>
 </h1>
 <p align="center">
-  <b>Universal server-side architectural framework.<br/>
+  <strong>Universal server-side architectural framework.</strong>
 </p>
 <p align="center">
   <a href="https://www.npmjs.com/package/scalex">
