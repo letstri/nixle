@@ -84,7 +84,3 @@ server.listen(4000);
 ## Author
 
 © [letstri](https://letstri.dev), released under the [MIT](https://github.com/letstri/scalex/blob/main/LICENSE) license.
-
-```
-
-```
