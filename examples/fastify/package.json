@@ -1,0 +1,9 @@
+{
+  "name": "fastify",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "dependencies": {
+    "fastify": "^4.24.3"
+  }
+}
