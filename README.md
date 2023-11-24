@@ -39,7 +39,7 @@ const usersModule = createModule({
 });
 ```
 
-### Nuxt
+### [Nuxt](https://github.com/letstri/scalex/tree/main/examples/nuxt)
 
 ```ts
 import { createApp, createRouter, createModule, nitroProvider } from 'scalex';
@@ -51,7 +51,7 @@ export default defineNitroPlugin((nitroApp) => {
 });
 ```
 
-### Express
+### [Express](https://github.com/letstri/scalex/tree/main/examples/express)
 
 ```ts
 const express = require('express');
@@ -66,7 +66,7 @@ const server = createApp(expressProvider(app), {
 server.listen(4000);
 ```
 
-### Elysia (Bun)
+### [Elysia (Bun)](https://github.com/letstri/scalex/tree/main/examples/elysia)
 
 ```ts
 import { Elysia } from 'elysia';
