@@ -3,9 +3,9 @@ import { createApp, createRouter, createModule, nitroProvider } from '../../../.
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'get',
+    method: 'GET',
     handler() {
-      return 'hello nuxt';
+      return 'Hello Nuxt!';
     },
   },
 ]);

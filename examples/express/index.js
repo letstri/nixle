@@ -1,19 +1,14 @@
 const express = require('express');
-const {
-  createApp,
-  expressProvider,
-  createModule,
-  createRouter,
-} = require('../../');
+const { createApp, expressProvider, createModule, createRouter } = require('../../');
 
 const app = express();
 
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'get',
+    method: 'GET',
     handler() {
-      return 'hello express';
+      return 'Hello Express!';
     },
   },
 ]);

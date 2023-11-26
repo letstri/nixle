@@ -6,9 +6,9 @@ const app = new Elysia();
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'get',
+    method: 'GET',
     handler() {
-      return 'hello elysia';
+      return 'Hello Elysia!';
     },
   },
 ]);
@@ -20,7 +20,3 @@ const server = createApp(elysiaProvider(app), {
 });
 
 server.listen(4000);
-
-console.log(
-  `🦊 Elysia is running at ${app.server?.hostname}:${app.server?.port}`
-);
