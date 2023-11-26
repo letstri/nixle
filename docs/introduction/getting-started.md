@@ -107,7 +107,7 @@ server.listen(4000);
 
 :::
 
-[Or create your own provider.](http://localhost:5173/providers/custom.html)
+[Or create your own provider.](/providers/custom)
 
 ### Try it
 
