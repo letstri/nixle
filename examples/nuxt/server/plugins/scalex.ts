@@ -1,4 +1,4 @@
-import { createApp, createRouter, createModule, nitroProvider } from '../../../../dist/scalex.cjs';
+import { createApp, createRouter, createModule, nitroProvider } from '../../../../dist/scalex.js';
 
 const usersRouter = createRouter('users', () => [
   {

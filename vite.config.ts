@@ -2,6 +2,11 @@ import { defineConfig } from 'vite';
 import pkg from './package.json';
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '~': '/src',
+    },
+  },
   build: {
     target: 'node18',
     lib: {

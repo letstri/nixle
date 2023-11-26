@@ -1,13 +1,15 @@
-import { type Module } from './createModule';
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-export type MethodHandler = (path: string, handler: (params: {
-    req: any;
-    res: any;
-}) => Promise<any> | any) => Promise<any> | any;
+import { type Logger } from './logger/logger';
+import { type Module } from './modules/createModule';
+import { type HTTPMethod } from './utils/HTTPMethod';
+import { type Route } from './router/createRouter';
+export type MethodHandler = (path: Route['path'], handler: Route['handler']) => void;
 export type ApiMethods = Record<Lowercase<HTTPMethod>, MethodHandler>;
-export declare const createApp: <Server>(provider: {
+export interface Provider<Server> {
     methods: ApiMethods;
     server: Server;
-}, { modules, }: {
+}
+export interface AppOptions {
     modules: Module[];
-}) => Server;
+    logger?: Logger;
+}
+export declare const createApp: <Server>(provider: Provider<Server>, { logger: _logger, ...options }: AppOptions) => Server;

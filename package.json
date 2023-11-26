@@ -1,11 +1,11 @@
 {
   "name": "scalex",
-  "version": "0.0.0-alpha.6",
+  "version": "0.1.0",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublish": "npm run build",
     "dev": "vite",
-    "build": "vite build && tsc --emitDeclarationOnly"
+    "build": "vite build && tsc"
   },
   "type": "module",
   "files": [
@@ -43,6 +43,8 @@
     "vite": "^5.0.2"
   },
   "dependencies": {
+    "chalk": "^5.3.0",
+    "dayjs": "^1.11.10",
     "h3": "^1.9.0"
   },
   "engines": {

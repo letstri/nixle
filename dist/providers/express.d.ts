@@ -1,6 +1,3 @@
 import { type Express } from 'express';
-import type { ApiMethods } from '../createApp';
-export declare const expressProvider: (app: Express) => {
-    methods: ApiMethods;
-    server: Express;
-};
+import { type Provider } from '../createApp';
+export declare const expressProvider: (app: Express) => Provider<Express>;

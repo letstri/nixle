@@ -1,32 +1,33 @@
-import { type Module } from './createModule';
+import { type Logger, createLogger, log } from './logger/logger';
+import { type Module } from './modules/createModule';
+import { type HTTPMethod } from './utils/HTTPMethod';
+import { buildModules } from './modules/buildModules';
+import { type Route } from './router/createRouter';
 
-export type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH';
-export type MethodHandler = (
-  path: string,
-  handler: (params: { req: any; res: any }) => Promise<any> | any,
-) => Promise<any> | any;
+export type MethodHandler = (path: Route['path'], handler: Route['handler']) => void;
 export type ApiMethods = Record<Lowercase<HTTPMethod>, MethodHandler>;
 
-export const createApp = <Server>(
-  provider: {
-    methods: ApiMethods;
-    server: Server;
-  },
-  {
-    modules,
-  }: {
-    modules: Module[];
-  },
-) => {
-  modules.forEach((module) => {
-    module.routers.forEach(([path, routes]) => {
-      routes().forEach((route) => {
-        const method = route.method ? (route.method.toLowerCase() as Lowercase<HTTPMethod>) : 'get';
+export interface Provider<Server> {
+  methods: ApiMethods;
+  server: Server;
+}
 
-        provider.methods[method](`/${path}` + route.path, route.handler);
-      });
-    });
-  });
+export interface AppOptions {
+  modules: Module[];
+  logger?: Logger;
+}
+
+export const createApp = <Server>(
+  provider: Provider<Server>,
+  { logger: _logger, ...options }: AppOptions,
+) => {
+  if (_logger) {
+    createLogger(_logger);
+  }
+
+  log('Starting an application...');
+  buildModules(provider, options.modules);
+  log('Application successfully started');
 
   return provider.server;
 };
