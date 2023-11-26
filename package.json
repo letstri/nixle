@@ -1,6 +1,6 @@
 {
   "name": "scalex",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublish": "npm run build",
@@ -11,15 +11,15 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/scalex.umd.cjs",
-  "module": "./dist/scalex.js",
+  "main": "./dist/scalex.cjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/scalex.js",
-      "require": "./dist/scalex.umd.cjs"
+      "types": "./dist/index.d.ts",
+      "import": "./dist/scalex.mjs",
+      "require": "./dist/scalex.cjs"
     }
   },
-  "types": "./dist/index.d.ts",
   "keywords": [
     "scalex",
     "framework",
