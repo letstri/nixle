@@ -1,6 +1,6 @@
 {
   "name": "scalex",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublish": "npm run build",
