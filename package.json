@@ -5,10 +5,7 @@
   "scripts": {
     "prepublish": "npm run build",
     "dev": "vite",
-    "build": "vite build && tsc --emitDeclarationOnly",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "build": "vite build && tsc --emitDeclarationOnly"
   },
   "type": "module",
   "files": [
