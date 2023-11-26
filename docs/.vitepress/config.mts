@@ -22,7 +22,7 @@ export default defineConfig({
     // https://vitepress.dev/reference/default-theme-config
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Docs', link: '/introduction/index' },
+      { text: 'Docs', link: '/introduction/getting-started' },
       {
         text: 'Providers',
         items: providers,
