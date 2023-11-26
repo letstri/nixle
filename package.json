@@ -1,6 +1,6 @@
 {
   "name": "scalex",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublish": "npm run build",
@@ -16,9 +16,10 @@
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/scalex.mjs",
+      "import": "./dist/scalex.js",
       "require": "./dist/scalex.cjs"
-    }
+    },
+    "./nitro": "./src/providers/nitro.ts"
   },
   "keywords": [
     "scalex",
