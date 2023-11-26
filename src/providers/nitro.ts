@@ -1,10 +1,10 @@
 import { type NodeIncomingMessage, type NodeServerResponse, fromNodeMiddleware } from 'h3';
 import { type NitroApp } from 'nitropack';
-import { type ApiHandler, type ApiMethods, type HTTPMethod } from '../server';
+import { type MethodHandler, type ApiMethods, type HTTPMethod } from '../createApp';
 
 export const nitroProvider = (app: NitroApp) => {
   const createMethod =
-    (method: Lowercase<HTTPMethod>): ApiHandler =>
+    (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app.router[method](
         path,

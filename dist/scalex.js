@@ -5,9 +5,10 @@ const R = ({
 }), A = (e, t) => [e, t], I = (e, {
   modules: t
 }) => (t.forEach((s) => {
-  s.routers.forEach(([a, o]) => {
-    o().forEach((r) => {
-      e.methods[r.method](`/${a}` + r.path, r.handler);
+  s.routers.forEach(([o, n]) => {
+    n().forEach((r) => {
+      const a = r.method ? r.method.toLowerCase() : "get";
+      e.methods[a](`/${o}` + r.path, r.handler);
     });
   });
 }), e.server);
@@ -18,26 +19,26 @@ function h(e, t) {
     return !1;
   }
 }
-var g = Object.defineProperty, _ = (e, t, s) => t in e ? g(e, t, { enumerable: !0, configurable: !0, writable: !0, value: s }) : e[t] = s, i = (e, t, s) => (_(e, typeof t != "symbol" ? t + "" : t, s), s);
-class u extends Error {
+var g = Object.defineProperty, _ = (e, t, s) => t in e ? g(e, t, { enumerable: !0, configurable: !0, writable: !0, value: s }) : e[t] = s, d = (e, t, s) => (_(e, typeof t != "symbol" ? t + "" : t, s), s);
+class i extends Error {
   constructor(t, s = {}) {
-    super(t, s), i(this, "statusCode", 500), i(this, "fatal", !1), i(this, "unhandled", !1), i(this, "statusMessage"), i(this, "data"), i(this, "cause"), s.cause && !this.cause && (this.cause = s.cause);
+    super(t, s), d(this, "statusCode", 500), d(this, "fatal", !1), d(this, "unhandled", !1), d(this, "statusMessage"), d(this, "data"), d(this, "cause"), s.cause && !this.cause && (this.cause = s.cause);
   }
   toJSON() {
     const t = {
       message: this.message,
-      statusCode: d(this.statusCode, 500)
+      statusCode: u(this.statusCode, 500)
     };
     return this.statusMessage && (t.statusMessage = l(this.statusMessage)), this.data !== void 0 && (t.data = this.data), t;
   }
 }
-i(u, "__h3_error__", !0);
+d(i, "__h3_error__", !0);
 function m(e) {
   if (typeof e == "string")
-    return new u(e);
+    return new i(e);
   if (M(e))
     return e;
-  const t = new u(e.message ?? e.statusMessage ?? "", {
+  const t = new i(e.message ?? e.statusMessage ?? "", {
     cause: e.cause || e
   });
   if (h(e, "stack"))
@@ -53,7 +54,7 @@ function m(e) {
       } catch {
       }
     }
-  if (e.data && (t.data = e.data), e.statusCode ? t.statusCode = d(e.statusCode, t.statusCode) : e.status && (t.statusCode = d(e.status, t.statusCode)), e.statusMessage ? t.statusMessage = e.statusMessage : e.statusText && (t.statusMessage = e.statusText), t.statusMessage) {
+  if (e.data && (t.data = e.data), e.statusCode ? t.statusCode = u(e.statusCode, t.statusCode) : e.status && (t.statusCode = u(e.status, t.statusCode)), e.statusMessage ? t.statusMessage = e.statusMessage : e.statusText && (t.statusMessage = e.statusText), t.statusMessage) {
     const s = t.statusMessage;
     l(t.statusMessage) !== s && console.warn(
       "[h3] Please prefer using `message` for longer error messages instead of `statusMessage`. In the future, `statusMessage` will be sanitized by default."
@@ -68,34 +69,34 @@ const y = /[^\u0009\u0020-\u007E]/g;
 function l(e = "") {
   return e.replace(y, "");
 }
-function d(e, t = 200) {
+function u(e, t = 200) {
   return !e || (typeof e == "string" && (e = Number.parseInt(e, 10)), e < 100 || e > 999) ? t : e;
 }
-function b(e) {
+function w(e) {
   if (typeof e == "function")
     return Object.assign(e, { __is_handler__: !0 });
   const t = {
     onRequest: f(e.onRequest),
     onBeforeResponse: f(e.onBeforeResponse)
   };
-  return Object.assign((a) => w(a, e.handler, t), { __is_handler__: !0 });
+  return Object.assign((o) => b(o, e.handler, t), { __is_handler__: !0 });
 }
 function f(e) {
   return e ? Array.isArray(e) ? e : [e] : void 0;
 }
-async function w(e, t, s) {
+async function b(e, t, s) {
   if (s.onRequest) {
     for (const r of s.onRequest)
       if (await r(e), e.handled)
         return;
   }
-  const o = { body: await t(e) };
+  const n = { body: await t(e) };
   if (s.onBeforeResponse)
     for (const r of s.onBeforeResponse)
-      await r(e, o);
-  return o.body;
+      await r(e, n);
+  return n.body;
 }
-const v = b;
+const v = w;
 function p(e) {
   return h(e, "__is_handler__");
 }
@@ -114,22 +115,22 @@ function E(e) {
   ));
 }
 function P(e, t, s) {
-  const a = e.length > 2;
-  return new Promise((o, r) => {
-    const c = (n) => (a && (s.off("close", c), s.off("error", c)), n ? r(m(n)) : o(void 0));
+  const o = e.length > 2;
+  return new Promise((n, r) => {
+    const a = (c) => (o && (s.off("close", a), s.off("error", a)), c ? r(m(c)) : n(void 0));
     try {
-      const n = e(t, s, c);
-      a && n === void 0 ? (s.once("close", c), s.once("error", c)) : o(n);
-    } catch (n) {
-      c(n);
+      const c = e(t, s, a);
+      o && c === void 0 ? (s.once("close", a), s.once("error", a)) : n(c);
+    } catch (c) {
+      a(c);
     }
   });
 }
 const q = (e) => {
-  const t = (a) => (o, r) => e.router[a](
-    o,
+  const t = (o) => (n, r) => e.router[o](
+    n,
     E(
-      (c, n) => r({ req: c, res: n })
+      (a, c) => r({ req: a, res: c })
     )
   );
   return {
@@ -143,8 +144,8 @@ const q = (e) => {
     server: e
   };
 }, x = (e) => {
-  const t = (a) => (o, r) => e[a](o, async (c, n) => {
-    n.send(await r({ req: c, res: n }));
+  const t = (o) => (n, r) => e[o](n, async (a, c) => {
+    c.send(await r({ req: a, res: c }));
   });
   return {
     methods: {
@@ -157,8 +158,8 @@ const q = (e) => {
     server: e
   };
 }, z = (e) => {
-  const t = (a) => (o, r) => e[a](o, async (c, n) => {
-    n.send(await r({ req: c, res: n }));
+  const t = (o) => (n, r) => e[o](n, async (a, c) => {
+    c.send(await r({ req: a, res: c }));
   });
   return {
     methods: {
@@ -171,7 +172,7 @@ const q = (e) => {
     server: e
   };
 }, H = (e) => {
-  const t = (a) => (o, r) => e[a](o, ({ request: c }) => r({ req: c, res: null }));
+  const t = (o) => (n, r) => e[o](n, ({ request: a }) => r({ req: a, res: null }));
   return {
     methods: {
       get: t("get"),

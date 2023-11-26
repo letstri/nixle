@@ -1,9 +1,9 @@
 import { type Express } from 'express';
-import type { HTTPMethod, ApiMethods, ApiHandler } from '../server';
+import type { HTTPMethod, ApiMethods, MethodHandler } from '../createApp';
 
 export const expressProvider = (app: Express) => {
   const createMethod =
-    (method: Lowercase<HTTPMethod>): ApiHandler =>
+    (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app[method](path, async (req, res) => {
         res.send(await handler({ req, res }));

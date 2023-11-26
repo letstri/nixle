@@ -1,9 +1,9 @@
 import { type Elysia } from 'elysia';
-import type { HTTPMethod, ApiMethods, ApiHandler } from '../server';
+import type { HTTPMethod, ApiMethods, MethodHandler } from '../createApp';
 
 export const elysiaProvider = (app: Elysia) => {
   const createMethod =
-    (method: Lowercase<HTTPMethod>): ApiHandler =>
+    (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app[method](path, ({ request }) => handler({ req: request, res: null }));
 

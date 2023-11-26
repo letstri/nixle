@@ -1,4 +1,4 @@
-import { createRouter } from './routers';
+import { createRouter } from './createRouter';
 export interface Module {
     routers: ReturnType<typeof createRouter>[];
 }
