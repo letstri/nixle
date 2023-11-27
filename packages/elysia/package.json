@@ -1,0 +1,43 @@
+{
+  "name": "@nixle/elysia",
+  "version": "0.2.4",
+  "description": "Universal server-side architectural framework",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "dev": "vite",
+    "build": "vite build && tsc && tsconfig-replace-paths"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/elysia.cjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/elysia.js",
+      "require": "./dist/elysia.cjs"
+    }
+  },
+  "license": "MIT",
+  "homepage": "https://nixle.letstri.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/letstri/nixle.git",
+    "directory": "packages/elysia"
+  },
+  "bugs": {
+    "url": "https://github.com/letstri/nixle/issues"
+  },
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "devDependencies": {
+    "tsconfig-replace-paths": "^0.0.14",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
+  },
+  "peerDependencies": {
+    "elysia": "^0.7.29",
+    "nixle": "^0.2.4"
+  }
+}
