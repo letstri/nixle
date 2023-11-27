@@ -1,5 +1,5 @@
-import { type log } from '~/logger/logger';
-import { type HTTPMethod } from '~/utils/HTTPMethod';
+import { type log } from '../logger/logger';
+import { type HTTPMethod } from '../utils/HTTPMethod';
 export interface Route {
     /**
      * HTTP method

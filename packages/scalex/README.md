@@ -27,7 +27,6 @@ Base setup for each provider.
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'get',
     handler() {
       return 'Hello from provider!';
     },
