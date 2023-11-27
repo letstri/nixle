@@ -33,18 +33,17 @@ bun i scalex
 ```ts
 import { createModule, createRouter } from 'scalex';
 
+const usersRouter = createRouter('users', () => [
+  {
+    path: '/',
+    handler() {
+      return 'Hello World!';
+    },
+  },
+]);
+
 const usersModule = createModule({
-  routers: [
-    createRouter('users', () => [
-      {
-        path: '/',
-        method: 'GET',
-        handler() {
-          return 'Hello World!';
-        },
-      },
-    ]),
-  ],
+  routers: [usersRouter],
 });
 ```
 

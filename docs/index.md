@@ -5,7 +5,7 @@ layout: home
 hero:
   name: 'ScaleX'
   text: 'Universal server-side architectural framework'
-  tagline: Use many frameworks with one structure
+  tagline: Use one of many frameworks with one structure
   actions:
     - theme: brand
       text: Getting Started
@@ -20,7 +20,7 @@ hero:
 features:
   - title: Frameworks
     icon: 📋
-    details: Use Nuxt, Express, Fastify, etc. with one structure
+    details: Use Nuxt Server, Express, Fastify, etc. with one beautiful structure
   - title: TypeScript
     icon: ⚙️
     details: Wonderful TypeScript support for all frameworks and our code

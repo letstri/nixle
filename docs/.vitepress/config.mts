@@ -16,7 +16,7 @@ const overview = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'ScaleX (alpha)',
+  title: 'ScaleX',
   description: 'Universal server-side architectural framework',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
