@@ -27,7 +27,7 @@
   "homepage": "https://nixle.letstri.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/letstri/nixle"
+    "url": "git+https://github.com/letstri/nixle.git"
   },
   "author": {
     "name": "Valerii Strilets",

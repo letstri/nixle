@@ -1,6 +1,6 @@
 {
   "name": "nixle",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -53,8 +53,8 @@
   },
   "author": "Valerii Strilets <valerii.strilets@gmail.com>",
   "dependencies": {
-    "chalk": "^5.3.0",
-    "dayjs": "^1.11.10"
+    "dayjs": "^1.11.10",
+    "picocolors": "^1.0.0"
   },
   "devDependencies": {
     "tsconfig-replace-paths": "^0.0.14",

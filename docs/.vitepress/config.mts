@@ -12,6 +12,7 @@ const overview = [
   { text: 'Modules', link: '/overview/modules' },
   { text: 'Routers', link: '/overview/routers' },
   { text: 'Services', link: '/overview/services' },
+  { text: 'Logger', link: '/overview/logger' },
 ];
 
 // https://vitepress.dev/reference/site-config

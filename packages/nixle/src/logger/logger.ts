@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import chalk from 'chalk';
+import picocolors from 'picocolors';
 
 export interface Logger {
   log(message: string): void;
@@ -16,14 +16,14 @@ export const createLogger = (instance: Logger | null) => {
 
 export const log = (message: string, options?: { type?: LoggerType }) => {
   const type = options?.type || 'info';
-  const startMessage = `🫡 ${chalk.bgBlue(' Nixle ')}`;
+  const startMessage = `🫡 ${picocolors.bgBlue(' Nixle ')}`;
   const timeMessage = `${dayjs().format('DD/MM/YYYY, HH:mm')}`;
-  const typeMessage = chalk.dim(`[${type.toUpperCase()}]`);
+  const typeMessage = picocolors.dim(`[${type.toUpperCase()}]`);
   const chalkType: Record<LoggerType, (message: string) => void> = {
-    info: chalk.blue,
-    success: chalk.green,
-    error: chalk.red,
-    warn: chalk.yellow,
+    info: picocolors.blue,
+    success: picocolors.green,
+    error: picocolors.red,
+    warn: picocolors.yellow,
   };
 
   loggerInstance?.log(`${startMessage} ${timeMessage} ${typeMessage} ${chalkType[type](message)}`);

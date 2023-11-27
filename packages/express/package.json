@@ -1,6 +1,6 @@
 {
   "name": "@nixle/express",
-  "version": "0.2.5",
+  "version": "0.2.6",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -39,6 +39,6 @@
   "peerDependencies": {
     "@types/express": "^4.17.21",
     "express": "^4.18.2",
-    "nixle": "^0.2.5"
+    "nixle": "^0.2.6"
   }
 }

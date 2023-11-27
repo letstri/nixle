@@ -17,6 +17,6 @@
   },
   "dependencies": {
     "@nixle/nitro": "^0.2.3",
-    "nixle": "^0.2.5"
+    "nixle": "^0.2.6"
   }
 }
