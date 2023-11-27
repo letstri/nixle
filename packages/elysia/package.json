@@ -1,6 +1,6 @@
 {
   "name": "@nixle/elysia",
-  "version": "0.2.8",
+  "version": "0.2.9",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",

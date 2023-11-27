@@ -41,7 +41,8 @@ const usersModule = createModule({
 ### [Nuxt](https://github.com/letstri/nixle/tree/main/examples/nuxt)
 
 ```ts
-import { createApp, createRouter, createModule, nitroProvider } from 'nixle';
+import { createApp, createRouter, createModule } from 'nixle';
+import { nitroProvider } from '@nuxt/nitro';
 
 export default defineNitroPlugin((nitroApp) => {
   createApp(nitroProvider(nitroApp), {
@@ -54,7 +55,8 @@ export default defineNitroPlugin((nitroApp) => {
 
 ```ts
 const express = require('express');
-const { createApp, createRouter, createModule, expressProvider } = require('nixle');
+const { createApp, createRouter, createModule } = require('nixle');
+const { expressProvider } = require('@nixle/express');
 
 const app = express();
 
@@ -69,7 +71,8 @@ server.listen(4000);
 
 ```ts
 import { Elysia } from 'elysia';
-import { createApp, createModule, createRouter, elysiaProvider } from 'nixle';
+import { createApp, createModule, createRouter } from 'nixle';
+import { elysiaProvider } from '@nixle/elysia';
 
 const app = new Elysia();
 
