@@ -1,6 +1,6 @@
 {
   "name": "@nixle/nitro",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -39,6 +39,6 @@
   "peerDependencies": {
     "h3": "^1.9.0",
     "nitropack": "^2.8.0",
-    "nixle": "^0.2.4"
+    "nixle": "^0.2.5"
   }
 }
