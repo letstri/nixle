@@ -1,5 +1,5 @@
 {
-  "name": "scalet",
+  "name": "nixle",
   "version": "0.2.3",
   "description": "Universal server-side architectural framework",
   "scripts": {
