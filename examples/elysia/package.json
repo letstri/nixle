@@ -4,7 +4,8 @@
     "dev": "bun run --watch index.ts"
   },
   "dependencies": {
-    "elysia": "latest"
+    "elysia": "latest",
+    "scalex": "^0.2.1"
   },
   "devDependencies": {
     "bun-types": "latest",

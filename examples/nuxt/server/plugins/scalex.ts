@@ -1,9 +1,8 @@
-import { createApp, createRouter, createModule, nitroProvider } from '../../../../dist/scalex.js';
+import { createApp, createRouter, createModule, nitroProvider } from 'scalex';
 
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'GET',
     handler() {
       return 'Hello Nuxt!';
     },

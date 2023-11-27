@@ -6,7 +6,6 @@ const app = fastify();
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'GET',
     handler() {
       return 'Hello Fastify!';
     },

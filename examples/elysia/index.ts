@@ -1,12 +1,11 @@
 import { Elysia } from 'elysia';
-import { createApp, createModule, createRouter, elysiaProvider } from '../../';
+import { createApp, createModule, createRouter, elysiaProvider } from 'scalex';
 
 const app = new Elysia();
 
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'GET',
     handler() {
       return 'Hello Elysia!';
     },

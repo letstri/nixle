@@ -6,7 +6,6 @@ const app = express();
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    method: 'GET',
     handler() {
       return 'Hello Express!';
     },
