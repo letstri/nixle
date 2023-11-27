@@ -1,4 +1,5 @@
-import { createApp, createRouter, createModule, nitroProvider } from 'nixle';
+import { createApp, createRouter, createModule } from 'nixle';
+import { nitroProvider } from '@nixle/nitro';
 
 const usersRouter = createRouter('users', () => [
   {
