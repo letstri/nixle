@@ -1,12 +1,12 @@
-import type { Express } from 'express';
-import { type MethodHandler, createProvider, type HTTPMethod } from 'nixle';
+import { type FastifyInstance } from 'fastify';
+import { type MethodHandler, type HTTPMethod, createProvider } from 'nixle';
 
-export const expressProvider = createProvider<Express>((app) => {
+export const fastifyProvider = createProvider<FastifyInstance>((app) => {
   const createMethod =
     (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app[method](path, async (req, res) => {
-        res.setHeader('x-powered-by', 'Nixle');
+        res.header('x-powered-by', 'Nixle');
         res.send(await handler({ req, res, setStatusCode: res.status }));
       });
 
