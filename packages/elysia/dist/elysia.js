@@ -1,17 +1,13 @@
-import { createProvider as p } from "nixle";
-const l = p((t) => {
-  const e = (o) => (s, d) => t[o](s, ({ request: a, set: r }) => (r.headers["x-powered-by"] = "Nixle", d({ req: a, res: null, setStatusCode: (c) => r.status = c })));
-  return {
-    methods: {
-      get: e("get"),
-      post: e("post"),
-      patch: e("patch"),
-      put: e("put"),
-      delete: e("delete")
-    },
-    server: t
-  };
-});
+import { createProvider as i } from "nixle";
+const v = i((t) => ({
+  request: (s, o, a) => t[s](o, ({ request: d, set: e }) => a({
+    req: d,
+    res: e,
+    setStatusCode: (r) => e.status = r,
+    setHeader: (r, u) => e.headers[r] = u
+  })),
+  server: t
+}));
 export {
-  l as elysiaProvider
+  v as elysiaProvider
 };

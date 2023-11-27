@@ -1,21 +1,17 @@
-import { fromNodeMiddleware as c } from "h3";
-import { createProvider as i } from "nixle";
-const h = i((o) => {
-  const e = (r) => (d, s) => o.router[r](
-    d,
-    c((p, t) => (t.setHeader("x-powered-by", "Nixle"), s({ req: p, res: t, setStatusCode: (a) => t.statusCode = a })))
-  );
-  return {
-    methods: {
-      get: e("get"),
-      post: e("post"),
-      patch: e("patch"),
-      put: e("put"),
-      delete: e("delete")
-    },
-    server: o
-  };
-});
+import { fromNodeMiddleware as u } from "h3";
+import { createProvider as a } from "nixle";
+const f = a((r) => ({
+  request: (t, o, d) => r.router[t](
+    o,
+    u((s, e) => d({
+      req: s,
+      res: e,
+      setStatusCode: (i) => e.statusCode = i,
+      setHeader: e.setHeader
+    }))
+  ),
+  server: r
+}));
 export {
-  h as nitroProvider
+  f as nitroProvider
 };

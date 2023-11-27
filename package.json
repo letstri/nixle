@@ -1,14 +1,13 @@
 {
   "name": "@nixle/monorepo",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --filter='./packages/nixle' run build && pnpm -r --filter='./packages/*' --filter='!./packages/nixle' run build",
-    "patch-versions": "tsx scripts/patch-versions.ts",
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
     "publish": "pnpm publish -r --filter='./packages/*'",
     "prepare": "husky install",
-    "prerelease": "pnpm run patch-versions && pnpm run build"
+    "prerelease": "tsx scripts/patch-versions.ts && pnpm run build"
   },
   "keywords": [
     "nixle",
@@ -40,9 +39,6 @@
     "packages/*"
   ],
   "packageManager": "pnpm@8.11.0",
-  "dependencies": {
-    "nixle": "workspace:^"
-  },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",

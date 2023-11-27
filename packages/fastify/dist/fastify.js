@@ -1,19 +1,10 @@
-import { createProvider as c } from "nixle";
-const i = c((o) => {
-  const t = (r) => (s, d) => o[r](s, async (a, e) => {
-    e.header("x-powered-by", "Nixle"), e.send(await d({ req: a, res: e, setStatusCode: e.status }));
-  });
-  return {
-    methods: {
-      get: t("get"),
-      post: t("post"),
-      patch: t("patch"),
-      put: t("put"),
-      delete: t("delete")
-    },
-    server: o
-  };
-});
+import { createProvider as d } from "nixle";
+const n = d((t) => ({
+  request: (r, a, s) => t[r](a, async (o, e) => {
+    e.send(await s({ req: o, res: e, setStatusCode: e.status, setHeader: e.header }));
+  }),
+  server: t
+}));
 export {
-  i as fastifyProvider
+  n as fastifyProvider
 };

@@ -30,8 +30,7 @@ export interface Route {
     handler: (params: {
         req: any;
         res: any;
-        setStatusCode: (code: number) => void;
-    }) => Promise<any> | any;
+    }) => any;
 }
 export type Routes = (params: {
     log: typeof log;

@@ -1,6 +1,6 @@
 {
   "name": "@nixle/elysia",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -38,6 +38,6 @@
   },
   "peerDependencies": {
     "elysia": "^0.7.29",
-    "nixle": "^0.2.6"
+    "nixle": "workspace:^"
   }
 }

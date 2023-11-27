@@ -1,6 +1,6 @@
-import { type Provider } from '../createApp';
-import { type HTTPMethod } from '../utils/HTTPMethod';
-import { type Routes } from './createRouter';
+import type { Provider } from '../createProvider';
+import type { HTTPMethod } from '../utils/HTTPMethod';
+import type { Routes } from './createRouter';
 import { fixPath } from '../utils/fixPath';
 import { log } from '~/logger/logger';
 
@@ -11,15 +11,16 @@ export const buildRoutes = <Server>(
 ) => {
   routes({ log }).forEach((route) => {
     const method = route.method ? (route.method.toLowerCase() as Lowercase<HTTPMethod>) : 'get';
-    const request = provider.methods[method];
     const routePath = fixPath(routerPath) + fixPath(route.path);
 
-    request(routePath, (params) => {
+    provider.request(method, routePath, (params) => {
+      params.setHeader('x-powered-by', 'Nixle');
+
       if (route.statusCode) {
         params.setStatusCode(route.statusCode);
       }
 
-      return route.handler(params);
+      return route.handler({ req: params.req, res: params.res });
     });
   });
 };
