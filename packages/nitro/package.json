@@ -1,5 +1,5 @@
 {
-  "name": "scalex",
+  "name": "@scalex/nitro",
   "version": "0.2.2",
   "description": "Universal server-side architectural framework",
   "scripts": {
@@ -11,55 +11,31 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/scalex.cjs",
+  "main": "./dist/nitro.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/scalex.js",
-      "require": "./dist/scalex.cjs"
-    },
-    "./provider": {
-      "types": "./dist/provider/index.d.ts",
-      "import": "./dist/provider/index.js",
-      "require": "./dist/provider/index.cjs"
+      "import": "./dist/nitro.js",
+      "require": "./dist/nitro.cjs"
     }
   },
-  "keywords": [
-    "scalex",
-    "framework",
-    "server",
-    "universal",
-    "typescript",
-    "node",
-    "fastify",
-    "express",
-    "bun",
-    "elysia",
-    "server-side"
-  ],
   "devDependencies": {
-    "@types/express": "^4.17.21",
-    "elysia": "^0.7.29",
-    "express": "^4.18.2",
-    "fastify": "^4.24.3",
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.2",
     "vite": "^5.0.2"
   },
-  "dependencies": {
-    "chalk": "^5.3.0",
-    "dayjs": "^1.11.10"
-  },
-  "engines": {
-    "node": "^18.0.0 || >=20.0.0"
+  "peerDependencies": {
+    "h3": "^1.9.0",
+    "nitropack": "^2.8.0",
+    "scalex": "^0.2.2"
   },
   "license": "MIT",
   "homepage": "https://scalex.letstri.dev",
   "repository": {
     "type": "git",
     "url": "https://github.com/letstri/scalex",
-    "directory": "packages/scalex"
+    "directory": "packages/nitro"
   },
   "bugs": {
     "url": "https://github.com/letstri/scalex/issues"

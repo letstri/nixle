@@ -1,9 +1,8 @@
 import { type NodeIncomingMessage, type NodeServerResponse, fromNodeMiddleware } from 'h3';
-import { type NitroApp } from 'nitropack';
-import { type MethodHandler, type ApiMethods, type Provider } from '../createApp';
-import { type HTTPMethod } from '../utils/HTTPMethod';
+import type { NitroApp } from 'nitropack';
+import { type MethodHandler, type HTTPMethod, createProvider } from 'scalex';
 
-export const nitroProvider = (app: NitroApp): Provider<NitroApp> => {
+export const nitroProvider = createProvider<NitroApp>((app) => {
   const createMethod =
     (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
@@ -15,7 +14,7 @@ export const nitroProvider = (app: NitroApp): Provider<NitroApp> => {
         }),
       );
 
-  const methods: ApiMethods = {
+  const methods = {
     get: createMethod('get'),
     post: createMethod('post'),
     patch: createMethod('patch'),
@@ -27,4 +26,4 @@ export const nitroProvider = (app: NitroApp): Provider<NitroApp> => {
     methods,
     server: app,
   };
-};
+});

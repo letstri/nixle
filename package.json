@@ -2,12 +2,11 @@
   "name": "@scalex/monorepo",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "pnpm -r --filter='./packages/*' run build",
+    "build": "pnpm -r --filter='./packages/scalex' run build && pnpm -r --filter='./packages/*' --filter='!./packages/scalex' run build",
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
     "publish": "pnpm publish -r --filter='./packages/*'",
     "prepare": "husky install"
   },
-  "packageManager": "pnpm@8.11.0",
   "keywords": [
     "scalex",
     "framework",
@@ -21,11 +20,14 @@
     "elysia",
     "server-side"
   ],
+  "dependencies": {
+    "scalex": "workspace:^"
+  },
   "devDependencies": {
-    "@changesets/cli": "^2.26.2",
     "@commitlint/cli": "^18.4.3",
     "@commitlint/config-conventional": "^18.4.3",
-    "husky": "^8.0.0"
+    "husky": "^8.0.0",
+    "vite": "^5.0.2"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
@@ -39,5 +41,9 @@
   "author": {
     "name": "Valerii Strilets",
     "email": "valerii.strilets@gmail.com"
-  }
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "packageManager": "pnpm@8.11.0"
 }
