@@ -4,6 +4,7 @@
     "start": "node ./index.js"
   },
   "dependencies": {
+    "@nixle/express": "^0.2.4",
     "express": "^4.18.2"
   }
 }

@@ -1,5 +1,6 @@
 const express = require('express');
-const { createApp, expressProvider, createModule, createRouter } = require('../../');
+const { createApp, createModule, createRouter } = require('nixle');
+const { expressProvider } = require('@nixle/express');
 
 const app = express();
 
