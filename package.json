@@ -4,7 +4,8 @@
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --filter='./packages/*' run build",
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
-    "publish": "pnpm publish -r --filter='./packages/*'"
+    "publish": "pnpm publish -r --filter='./packages/*'",
+    "prepare": "husky install"
   },
   "packageManager": "pnpm@8.11.0",
   "keywords": [
@@ -21,7 +22,10 @@
     "server-side"
   ],
   "devDependencies": {
-    "@changesets/cli": "^2.26.2"
+    "@changesets/cli": "^2.26.2",
+    "@commitlint/cli": "^18.4.3",
+    "@commitlint/config-conventional": "^18.4.3",
+    "husky": "^8.0.0"
   },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
