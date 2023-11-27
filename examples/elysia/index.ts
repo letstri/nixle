@@ -1,5 +1,6 @@
 import { Elysia } from 'elysia';
-import { createApp, createModule, createRouter, elysiaProvider } from 'nixle';
+import { createApp, createModule, createRouter } from 'nixle';
+import { elysiaProvider } from '@nixle/elysia';
 
 const app = new Elysia();
 

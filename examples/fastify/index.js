@@ -1,5 +1,6 @@
 const fastify = require('fastify');
-const { createApp, createModule, createRouter, fastifyProvider } = require('../../');
+const { createApp, createModule, createRouter } = require('nixle');
+const { fastifyProvider } = require('@nixle/fastify');
 
 const app = fastify();
 
