@@ -42,7 +42,7 @@ const usersModule = createModule({
 
 ```ts
 import { createApp, createRouter, createModule } from 'nixle';
-import { nitroProvider } from '@nuxt/nitro';
+import { nitroProvider } from '@nixle/nitro';
 
 export default defineNitroPlugin((nitroApp) => {
   createApp(nitroProvider(nitroApp), {
