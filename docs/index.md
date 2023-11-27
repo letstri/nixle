@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: 'ScaleX'
+  name: 'Nixle'
   text: 'Universal server-side architectural framework'
   tagline: Use one of many frameworks with one structure
   actions:
@@ -11,11 +11,11 @@ hero:
       text: Getting Started
       link: /introduction/getting-started
     - theme: alt
-      text: Why ScaleX?
+      text: Why Nixle?
       link: /introduction/why
     - theme: alt
       text: Examples
-      link: https://github.com/letstri/scalex/tree/main/examples
+      link: https://github.com/letstri/nixle/tree/main/examples
 
 features:
   - title: Frameworks

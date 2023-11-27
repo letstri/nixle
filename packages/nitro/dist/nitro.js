@@ -1,9 +1,9 @@
-import { fromNodeMiddleware as p } from "h3";
-import { createProvider as m } from "scalex";
-const h = m((o) => {
+import { fromNodeMiddleware as c } from "h3";
+import { createProvider as i } from "nixle";
+const h = i((o) => {
   const e = (r) => (d, s) => o.router[r](
     d,
-    p((a, t) => (t.setHeader("x-powered-by", "ScaleX"), s({ req: a, res: t, setStatusCode: (c) => t.statusCode = c })))
+    c((p, t) => (t.setHeader("x-powered-by", "Nixle"), s({ req: p, res: t, setStatusCode: (a) => t.statusCode = a })))
   );
   return {
     methods: {

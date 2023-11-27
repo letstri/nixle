@@ -7,7 +7,7 @@ export const elysiaProvider = (app: Elysia): Provider<Elysia> => {
     (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app[method](path, ({ request, set }) => {
-        set.headers['x-powered-by'] = 'ScaleX';
+        set.headers['x-powered-by'] = 'Nixle';
         return handler({ req: request, res: null, setStatusCode: (code) => (set.status = code) });
       });
 

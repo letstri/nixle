@@ -16,7 +16,7 @@ const overview = [
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  title: 'ScaleX',
+  title: 'Nixle',
   description: 'Universal server-side architectural framework',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
@@ -33,14 +33,14 @@ export default defineConfig({
       },
       {
         text: 'Examples',
-        link: 'https://github.com/letstri/scalex/tree/main/examples',
+        link: 'https://github.com/letstri/nixle/tree/main/examples',
       },
     ],
     sidebar: [
       {
         text: 'Introduction',
         items: [
-          { text: 'Why ScaleX?', link: '/introduction/why' },
+          { text: 'Why Nixle?', link: '/introduction/why' },
           { text: 'Getting Started', link: '/introduction/getting-started' },
         ],
       },
@@ -54,9 +54,9 @@ export default defineConfig({
       },
       {
         text: 'Examples',
-        link: 'https://github.com/letstri/scalex/tree/main/examples',
+        link: 'https://github.com/letstri/nixle/tree/main/examples',
       },
     ],
-    socialLinks: [{ icon: 'github', link: 'https://github.com/letstri/scalex' }],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/letstri/nixle' }],
   },
 });

@@ -16,7 +16,7 @@ export const createLogger = (instance: Logger | null) => {
 
 export const log = (message: string, options?: { type?: LoggerType }) => {
   const type = options?.type || 'info';
-  const startMessage = `🫡 ${chalk.bgBlue(' ScaleX ')}`;
+  const startMessage = `🫡 ${chalk.bgBlue(' Nixle ')}`;
   const timeMessage = `${dayjs().format('DD/MM/YYYY, HH:mm')}`;
   const typeMessage = chalk.dim(`[${type.toUpperCase()}]`);
   const chalkType: Record<LoggerType, (message: string) => void> = {

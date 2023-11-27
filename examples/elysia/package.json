@@ -5,7 +5,7 @@
   },
   "dependencies": {
     "elysia": "latest",
-    "scalex": "^0.2.1"
+    "nixle": "^0.2.1"
   },
   "devDependencies": {
     "bun-types": "latest",

@@ -1,13 +1,13 @@
-import { type FastifyInstance } from 'fastify';
+import { type Express } from 'express';
 import { type Provider, type ApiMethods, type MethodHandler } from '../createApp';
 import { type HTTPMethod } from '../utils/HTTPMethod';
 
-export const fastifyProvider = (app: FastifyInstance): Provider<FastifyInstance> => {
+export const expressProvider = (app: Express): Provider<Express> => {
   const createMethod =
     (method: Lowercase<HTTPMethod>): MethodHandler =>
     (path, handler) =>
       app[method](path, async (req, res) => {
-        res.header('x-powered-by', 'ScaleX');
+        res.setHeader('x-powered-by', 'Nixle');
         res.send(await handler({ req, res, setStatusCode: res.status }));
       });
 

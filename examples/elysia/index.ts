@@ -1,5 +1,5 @@
 import { Elysia } from 'elysia';
-import { createApp, createModule, createRouter, elysiaProvider } from 'scalex';
+import { createApp, createModule, createRouter, elysiaProvider } from 'nixle';
 
 const app = new Elysia();
 

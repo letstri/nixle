@@ -1,4 +1,4 @@
-import { createApp, createRouter, createModule, nitroProvider } from 'scalex';
+import { createApp, createRouter, createModule, nitroProvider } from 'nixle';
 
 const usersRouter = createRouter('users', () => [
   {

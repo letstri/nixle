@@ -1,14 +1,14 @@
 {
-  "name": "@scalex/monorepo",
+  "name": "@nixle/monorepo",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "build": "pnpm -r --filter='./packages/scalex' run build && pnpm -r --filter='./packages/*' --filter='!./packages/scalex' run build",
+    "build": "pnpm -r --filter='./packages/nixle' run build && pnpm -r --filter='./packages/*' --filter='!./packages/nixle' run build",
     "dev": "pnpm -r --parallel --filter='./packages/*' run dev",
     "publish": "pnpm publish -r --filter='./packages/*'",
     "prepare": "husky install"
   },
   "keywords": [
-    "scalex",
+    "nixle",
     "framework",
     "server",
     "universal",
@@ -21,7 +21,7 @@
     "server-side"
   ],
   "dependencies": {
-    "scalex": "workspace:^"
+    "nixle": "workspace:^"
   },
   "devDependencies": {
     "@commitlint/cli": "^18.4.3",
@@ -33,10 +33,10 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "license": "MIT",
-  "homepage": "https://scalex.letstri.dev",
+  "homepage": "https://nixle.letstri.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/letstri/scalex"
+    "url": "https://github.com/letstri/nixle"
   },
   "author": {
     "name": "Valerii Strilets",

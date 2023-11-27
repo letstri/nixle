@@ -6,4 +6,4 @@ next:
 
 # Providers
 
-Providers are the main way to setup the functionality of ScaleX.
+Providers are the main way to setup the functionality of Nixle.

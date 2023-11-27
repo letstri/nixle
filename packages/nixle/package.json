@@ -1,6 +1,6 @@
 {
-  "name": "scalex",
-  "version": "0.2.2",
+  "name": "scalet",
+  "version": "0.2.3",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -11,13 +11,13 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/scalex.cjs",
+  "main": "./dist/nixle.cjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/scalex.js",
-      "require": "./dist/scalex.cjs"
+      "import": "./dist/nixle.js",
+      "require": "./dist/nixle.cjs"
     },
     "./provider": {
       "types": "./dist/provider/index.d.ts",
@@ -26,7 +26,7 @@
     }
   },
   "keywords": [
-    "scalex",
+    "nixle",
     "framework",
     "server",
     "universal",
@@ -38,6 +38,10 @@
     "elysia",
     "server-side"
   ],
+  "dependencies": {
+    "chalk": "^5.3.0",
+    "dayjs": "^1.11.10"
+  },
   "devDependencies": {
     "@types/express": "^4.17.21",
     "elysia": "^0.7.29",
@@ -47,25 +51,18 @@
     "typescript": "^5.3.2",
     "vite": "^5.0.2"
   },
-  "dependencies": {
-    "chalk": "^5.3.0",
-    "dayjs": "^1.11.10"
-  },
   "engines": {
     "node": "^18.0.0 || >=20.0.0"
   },
   "license": "MIT",
-  "homepage": "https://scalex.letstri.dev",
+  "homepage": "https://nixle.letstri.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/letstri/scalex",
-    "directory": "packages/scalex"
+    "url": "git+https://github.com/letstri/nixle.git",
+    "directory": "packages/nixle"
   },
   "bugs": {
-    "url": "https://github.com/letstri/scalex/issues"
+    "url": "https://github.com/letstri/nixle/issues"
   },
-  "author": {
-    "name": "Valerii Strilets",
-    "email": "valerii.strilets@gmail.com"
-  }
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>"
 }

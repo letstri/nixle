@@ -16,6 +16,6 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "scalex": "^0.2.1"
+    "nixle": "^0.2.1"
   }
 }

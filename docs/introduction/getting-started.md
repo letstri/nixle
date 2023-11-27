@@ -9,19 +9,19 @@ outline: deep
 ::: code-group
 
 ```sh [npm]
-npm i scalex
+npm i nixle
 ```
 
 ```sh [pnpm]
-pnpm i scalex
+pnpm i nixle
 ```
 
 ```sh [yarn]
-yarn add scalex
+yarn add nixle
 ```
 
 ```sh [bun]
-bun i scalex
+bun i nixle
 ```
 
 :::
@@ -31,7 +31,7 @@ bun i scalex
 ### Create base
 
 ```ts
-import { createModule, createRouter } from 'scalex';
+import { createModule, createRouter } from 'nixle';
 
 const usersRouter = createRouter('users', () => [
   {
@@ -52,7 +52,7 @@ const usersModule = createModule({
 ::: code-group
 
 ```ts [Nuxt]
-import { nitroProvider } from 'scalex';
+import { nitroProvider } from 'nixle';
 import { usersModule } from './usersModule';
 
 export default defineNitroPlugin((nitroApp) => {
@@ -64,7 +64,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 ```ts [Express]
 const express = require('express');
-const { expressProvider } = require('scalex');
+const { expressProvider } = require('nixle');
 const { usersModule } = require('./usersModule');
 
 const app = express();
@@ -78,7 +78,7 @@ server.listen(4000);
 
 ```ts [Fastify]
 const fastify = require('fastify');
-const { fastifyProvider } = require('scalex');
+const { fastifyProvider } = require('nixle');
 const { usersModule } = require('./usersModule');
 
 const app = fastify();
@@ -92,7 +92,7 @@ server.listen({ port: 4000 });
 
 ```ts [Elysia]
 import { Elysia } from 'elysia';
-import { elysiaProvider } from 'scalex';
+import { elysiaProvider } from 'nixle';
 import { usersModule } from './usersModule';
 
 const app = new Elysia();
