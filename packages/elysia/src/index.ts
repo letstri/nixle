@@ -1,4 +1,4 @@
-import { type Elysia } from 'elysia';
+import type { Elysia } from 'elysia';
 import {
   type Provider,
   type ApiMethods,

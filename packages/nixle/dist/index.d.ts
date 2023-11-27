@@ -5,5 +5,3 @@ export { createModule } from './modules/createModule';
 export { createRouter } from './router/createRouter';
 export { createService } from './createService';
 export { createProvider, type Provider } from './createProvider';
-export { fastifyProvider } from './providers/fastify';
-export { elysiaProvider } from './providers/elysia';

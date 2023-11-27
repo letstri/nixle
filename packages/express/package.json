@@ -20,16 +20,6 @@
       "require": "./dist/express.cjs"
     }
   },
-  "devDependencies": {
-    "tsconfig-replace-paths": "^0.0.14",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.2"
-  },
-  "peerDependencies": {
-    "@types/express": "^4.17.21",
-    "express": "^4.18.2",
-    "nixle": "^0.2.4"
-  },
   "license": "MIT",
   "homepage": "https://nixle.letstri.dev",
   "repository": {
@@ -40,5 +30,15 @@
   "bugs": {
     "url": "https://github.com/letstri/nixle/issues"
   },
-  "author": "Valerii Strilets <valerii.strilets@gmail.com>"
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "devDependencies": {
+    "tsconfig-replace-paths": "^0.0.14",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
+  },
+  "peerDependencies": {
+    "@types/express": "^4.17.21",
+    "express": "^4.18.2",
+    "nixle": "^0.2.4"
+  }
 }

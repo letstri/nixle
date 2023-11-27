@@ -1,4 +1,4 @@
-import { type FastifyInstance } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import { type MethodHandler, type HTTPMethod, createProvider } from 'nixle';
 
 export const fastifyProvider = createProvider<FastifyInstance>((app) => {
