@@ -52,7 +52,7 @@ const usersModule = createModule({
 ::: code-group
 
 ```ts [Nuxt]
-import { nitroProvider } from 'nixle';
+import { nitroProvider } from '@nixle/nitro';
 import { usersModule } from './usersModule';
 
 export default defineNitroPlugin((nitroApp) => {
@@ -92,7 +92,7 @@ server.listen({ port: 4000 });
 
 ```ts [Elysia]
 import { Elysia } from 'elysia';
-import { elysiaProvider } from 'nixle';
+import { elysiaProvider } from '@nixle/elysia';
 import { usersModule } from './usersModule';
 
 const app = new Elysia();
