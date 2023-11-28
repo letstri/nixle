@@ -307,7 +307,7 @@ let tt = {
 const ct = (o) => {
   tt = o;
 }, P = (o, p) => {
-  const m = p?.type || "info", $ = `🫡 ${j.bgBlue(" Nixle ")}`, w = `${ot().format("DD/MM/YYYY, HH:mm")}`, _ = j.dim(`[${m.charAt(0).toUpperCase()}]`), M = {
+  const m = p?.type || "info", $ = `🫡 ${j.bgBlue(" Nixle ")}`, w = `${ot().format("DD/MM/YYYY, HH:mm")}`, _ = j.dim(`${m.charAt(0).toUpperCase()}:`), M = {
     info: j.blue,
     success: j.green,
     error: j.red,
