@@ -1,21 +1,22 @@
-import { type NodeIncomingMessage, type NodeServerResponse, fromNodeMiddleware } from 'h3';
+import { eventHandler, setCookie } from 'h3';
 import type { NitroApp } from 'nitropack';
 import { createProvider } from 'nixle';
 
 export const nitroProvider = createProvider<NitroApp>((app) => {
   return {
+    server: app,
     request: (method, path, handler) =>
       app.router[method](
         path,
-        fromNodeMiddleware((req: NodeIncomingMessage, res: NodeServerResponse) => {
+        eventHandler((event) => {
           return handler({
-            req,
-            res,
-            setStatusCode: (code) => (res.statusCode = code),
-            setHeader: res.setHeader,
+            req: event.node.req,
+            res: event.node.res,
+            setStatusCode: (code) => (event.node.res.statusCode = code),
+            setHeader: event.headers.set,
+            setCookie: (name, value, options) => setCookie(event, name, value, options),
           });
         }),
       ),
-    server: app,
   };
 });

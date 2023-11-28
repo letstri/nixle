@@ -15,7 +15,8 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp(elysiaProvider(app), {
+const server = createApp({
+  provider: elysiaProvider(app),
   modules: [usersModule],
 });
 

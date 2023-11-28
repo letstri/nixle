@@ -1,17 +1,18 @@
-import { fromNodeMiddleware as u } from "h3";
-import { createProvider as a } from "nixle";
-const f = a((r) => ({
-  request: (t, o, d) => r.router[t](
-    o,
-    u((s, e) => d({
-      req: s,
-      res: e,
-      setStatusCode: (i) => e.statusCode = i,
-      setHeader: e.setHeader
+import { eventHandler as a, setCookie as n } from "h3";
+import { createProvider as m } from "nixle";
+const c = m((o) => ({
+  server: o,
+  request: (t, s, d) => o.router[t](
+    s,
+    a((e) => d({
+      req: e.node.req,
+      res: e.node.res,
+      setStatusCode: (r) => e.node.res.statusCode = r,
+      setHeader: e.headers.set,
+      setCookie: (r, i, u) => n(e, r, i, u)
     }))
-  ),
-  server: r
+  )
 }));
 export {
-  f as nitroProvider
+  c as nitroProvider
 };

@@ -1,6 +1,6 @@
 {
   "name": "@nixle/fastify",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -39,5 +39,8 @@
   "peerDependencies": {
     "fastify": "^4.24.3",
     "nixle": "workspace:^"
+  },
+  "dependencies": {
+    "@fastify/cookie": "^9.2.0"
   }
 }

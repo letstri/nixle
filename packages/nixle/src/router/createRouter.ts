@@ -1,5 +1,6 @@
-import { type log } from '~/logger/logger';
-import { type HTTPMethod } from '~/utils/HTTPMethod';
+import type { log } from '~/logger/logger';
+import type { HTTPMethod } from '~/utils/HTTPMethod';
+import type { Handler } from '~/createProvider';
 
 export interface Route {
   /**
@@ -28,13 +29,11 @@ export interface Route {
    *   return { message: 'Hello world!' };
    * }
    */
-  handler: (params: { req: any; res: any }) => any;
+  handler: Handler;
 }
 
 export type Routes = (params: { log: typeof log }) => Route[];
 
 export const routers = new Map<string, Routes>([]);
 
-export const createRouter = (path: string, routes: Routes) => {
-  return [path, routes] as [string, Routes];
-};
+export const createRouter = (path: string, routes: Routes) => [path, routes] as [string, Routes];

@@ -15,7 +15,8 @@ const usersModule = createModule({
 });
 
 export default defineNitroPlugin((nitroApp) => {
-  createApp(nitroProvider(nitroApp), {
+  createApp({
+    provider: nitroProvider(nitroApp),
     modules: [usersModule],
   });
 });

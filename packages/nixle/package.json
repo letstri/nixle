@@ -1,6 +1,6 @@
 {
   "name": "nixle",
-  "version": "0.2.11",
+  "version": "0.3.0",
   "description": "Universal server-side architectural framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -57,6 +57,7 @@
     "picocolors": "^1.0.0"
   },
   "devDependencies": {
+    "@types/cookie": "^0.6.0",
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.2",
     "vite": "^5.0.2"

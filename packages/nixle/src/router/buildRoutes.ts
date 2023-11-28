@@ -20,7 +20,7 @@ export const buildRoutes = <Server>(
         params.setStatusCode(route.statusCode);
       }
 
-      return route.handler({ req: params.req, res: params.res });
+      return route.handler(params);
     });
   });
 };

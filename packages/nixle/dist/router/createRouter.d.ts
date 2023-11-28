@@ -1,5 +1,6 @@
-import { type log } from '../logger/logger';
-import { type HTTPMethod } from '../utils/HTTPMethod';
+import type { log } from '../logger/logger';
+import type { HTTPMethod } from '../utils/HTTPMethod';
+import type { Handler } from '../createProvider';
 export interface Route {
     /**
      * HTTP method
@@ -27,10 +28,7 @@ export interface Route {
      *   return { message: 'Hello world!' };
      * }
      */
-    handler: (params: {
-        req: any;
-        res: any;
-    }) => any;
+    handler: Handler;
 }
 export type Routes = (params: {
     log: typeof log;

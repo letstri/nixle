@@ -11,20 +11,23 @@ export type MethodHandler = (
     res: any;
     setStatusCode: (code: number) => void;
     setHeader: (key: string, value: string) => void;
+    setCookie: (key: string, value: string) => void;
   }) => Promise<any> | any,
 ) => void;
 export type ApiMethods = Record<Lowercase<HTTPMethod>, MethodHandler>;
 
-export interface AppOptions {
+export interface AppOptions<Server> {
+  provider: Provider<Server>;
   modules: Module[];
-  logger?: Logger;
+  logger?: Logger | null;
 }
 
-export const createApp = <Server>(
-  provider: Provider<Server>,
-  { logger: _logger, ...options }: AppOptions,
-) => {
-  if (_logger) {
+export const createApp = <Server>({
+  provider,
+  logger: _logger,
+  ...options
+}: AppOptions<Server>) => {
+  if (_logger !== undefined) {
     createLogger(_logger);
   }
 

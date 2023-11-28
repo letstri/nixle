@@ -15,7 +15,8 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp(expressProvider(app), {
+const server = createApp({
+  provider: expressProvider(app),
   modules: [usersModule],
 });
 

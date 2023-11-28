@@ -15,7 +15,8 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp(fastifyProvider(app), {
+const server = createApp({
+  provider: fastifyProvider(app),
   modules: [usersModule],
 });
 
