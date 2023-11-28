@@ -8,14 +8,14 @@ export const fastifyProvider = createProvider<FastifyInstance>((app) => {
   return {
     server: app,
     request: (method, path, handler) =>
-      app[method](path, async (req, res) => {
-        res.send(
+      app[method](path, async (request, response) => {
+        response.send(
           await handler({
-            req,
-            res,
-            setStatusCode: res.status,
-            setHeader: res.header,
-            setCookie: res.setCookie,
+            request,
+            response,
+            setStatusCode: response.status,
+            setHeader: response.header,
+            setCookie: response.setCookie,
           }),
         );
       }),

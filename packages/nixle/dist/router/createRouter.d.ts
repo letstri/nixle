@@ -21,8 +21,8 @@ export interface Route {
     /**
      * Handler
      * @param params
-     * @param params.req Request
-     * @param params.res Response
+     * @param params.request
+     * @param params.response
      * @example
      * handler() {
      *   return { message: 'Hello world!' };

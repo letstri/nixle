@@ -188,8 +188,8 @@ const H = /* @__PURE__ */ w(M), R = m((e) => (e.use(H()), {
   request: (i, o, r) => e[i](o, async (t, s) => {
     s.send(
       await r({
-        req: t,
-        res: s,
+        request: t,
+        response: s,
         setStatusCode: s.status,
         setHeader: s.setHeader,
         setCookie: s.cookie

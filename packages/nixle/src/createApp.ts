@@ -7,8 +7,8 @@ import type { Provider } from './createProvider';
 export type MethodHandler = (
   path: string,
   handler: (params: {
-    req: any;
-    res: any;
+    request: any;
+    response: any;
     setStatusCode: (code: number) => void;
     setHeader: (key: string, value: string) => void;
     setCookie: (key: string, value: string) => void;

@@ -323,8 +323,8 @@ const ge = /* @__PURE__ */ D(de), ke = U((e) => (e.register(ge), {
   request: (t, r, o) => e[t](r, async (i, n) => {
     n.send(
       await o({
-        req: i,
-        res: n,
+        request: i,
+        response: n,
         setStatusCode: n.status,
         setHeader: n.header,
         setCookie: n.setCookie

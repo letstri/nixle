@@ -1,8 +1,8 @@
 import type { CookieSerializeOptions } from 'cookie';
 import type { HTTPMethod } from '.';
 export type Handler = (params: {
-    req: any;
-    res: any;
+    request: any;
+    response: any;
     setStatusCode: (code: number) => void;
     setHeader: (key: string, value: string) => void;
     setCookie: (key: string, value: string, options?: CookieSerializeOptions) => void;

@@ -8,14 +8,14 @@ export const expressProvider = createProvider<Express>((app) => {
   return {
     server: app,
     request: (method, path, handler) =>
-      app[method](path, async (req, res) => {
-        res.send(
+      app[method](path, async (request, response) => {
+        response.send(
           await handler({
-            req,
-            res,
-            setStatusCode: res.status,
-            setHeader: res.setHeader,
-            setCookie: res.cookie,
+            request,
+            response,
+            setStatusCode: response.status,
+            setHeader: response.setHeader,
+            setCookie: response.cookie,
           }),
         );
       }),
