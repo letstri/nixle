@@ -16,9 +16,9 @@ export const createLogger = (instance: Logger | null) => {
 
 export const log = (message: string, options?: { type?: LoggerType }) => {
   const type = options?.type || 'info';
-  const startMessage = `🫡 ${picocolors.bgBlue(' Nixle ')}`;
+  const nixleMessage = `🫡 ${picocolors.bgBlue(' Nixle ')}`;
   const timeMessage = `${dayjs().format('DD/MM/YYYY, HH:mm')}`;
-  const typeMessage = picocolors.dim(`[${type.toUpperCase()}]`);
+  const typeMessage = picocolors.dim(`${type.charAt(0).toUpperCase()}:`);
   const chalkType: Record<LoggerType, (message: string) => void> = {
     info: picocolors.blue,
     success: picocolors.green,
@@ -26,5 +26,5 @@ export const log = (message: string, options?: { type?: LoggerType }) => {
     warn: picocolors.yellow,
   };
 
-  loggerInstance?.log(`${startMessage} ${timeMessage} ${typeMessage} ${chalkType[type](message)}`);
+  loggerInstance?.log(`${nixleMessage} ${timeMessage} ${typeMessage} ${chalkType[type](message)}`);
 };
