@@ -4,8 +4,8 @@
     "start": "node ./index.js"
   },
   "dependencies": {
-    "@nixle/fastify": "^0.2.7",
+    "@nixle/fastify": "latest",
     "fastify": "^4.24.3",
-    "nixle": "^0.2.7"
+    "nixle": "latest"
   }
 }

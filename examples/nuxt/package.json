@@ -16,7 +16,7 @@
     "vue-router": "^4.2.5"
   },
   "dependencies": {
-    "@nixle/nitro": "^0.2.3",
-    "nixle": "^0.2.6"
+    "@nixle/nitro": "latest",
+    "nixle": "latest"
   }
 }

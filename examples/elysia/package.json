@@ -4,7 +4,7 @@
     "dev": "bun run --watch index.ts"
   },
   "dependencies": {
-    "@nixle/elysia": "^0.2.7",
+    "@nixle/elysia": "latest",
     "elysia": "latest",
     "nixle": "latest"
   },
