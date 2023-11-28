@@ -4,6 +4,8 @@ import type { HTTPMethod } from '.';
 export type Handler = (params: {
   request: any;
   response: any;
+  params: Record<string, string>;
+  query: Record<string, string | string[]>;
   setStatusCode: (code: number) => void;
   setHeader: (key: string, value: string) => void;
   setCookie: (key: string, value: string, options?: CookieSerializeOptions) => void;

@@ -3,7 +3,7 @@ import { createProvider as U } from "nixle";
 function D(e) {
   return e && e.__esModule && Object.prototype.hasOwnProperty.call(e, "default") ? e.default : e;
 }
-var f = { exports: {} }, k = { exports: {} }, S = { exports: {} };
+var p = { exports: {} }, k = { exports: {} }, S = { exports: {} };
 const F = /at\s{1}(?:.*\.)?plugin\s{1}.*\n\s*(.*)/, M = /(\w*(\.\w*)*)\..*/;
 S.exports = function(t) {
   if (t.name.length > 0)
@@ -82,18 +82,18 @@ function X(e, t) {
   if (typeof e != "string")
     throw new TypeError("argument str must be a string");
   const r = {}, o = t && t.decode || $;
-  let i = 0, n = 0, s = 0;
-  for (; n !== e.length; ) {
-    if (n = e.indexOf(";", i), n = n === -1 ? e.length : n, s = e.indexOf("=", i), s === -1 || s > n) {
-      i = n + 1;
+  let i = 0, s = 0, n = 0;
+  for (; s !== e.length; ) {
+    if (s = e.indexOf(";", i), s = s === -1 ? e.length : s, n = e.indexOf("=", i), n === -1 || n > s) {
+      i = s + 1;
       continue;
     }
-    const a = e.substring(i, s++).trim();
+    const a = e.substring(i, n++).trim();
     if (r[a] === void 0) {
-      const p = e.charCodeAt(s) === 34 ? e.substring(s + 1, n - 1).trim() : e.substring(s, n).trim();
-      r[a] = o !== $ || p.indexOf("%") !== -1 ? V(p, o) : p;
+      const u = e.charCodeAt(n) === 34 ? e.substring(n + 1, s - 1).trim() : e.substring(n, s).trim();
+      r[a] = o !== $ || u.indexOf("%") !== -1 ? V(u, o) : u;
     }
-    i = n + 1;
+    i = s + 1;
   }
   return r;
 }
@@ -103,49 +103,49 @@ function Z(e, t, r) {
     throw new TypeError("option encode is invalid");
   if (!m.test(e))
     throw new TypeError("argument name is invalid");
-  const n = i(t);
-  if (n && !m.test(n))
+  const s = i(t);
+  if (s && !m.test(s))
     throw new TypeError("argument val is invalid");
-  let s = e + "=" + n;
+  let n = e + "=" + s;
   if (o.maxAge != null) {
     const a = o.maxAge - 0;
     if (isNaN(a) || !isFinite(a))
       throw new TypeError("option maxAge is invalid");
-    s += "; Max-Age=" + Math.floor(a);
+    n += "; Max-Age=" + Math.floor(a);
   }
   if (o.domain) {
     if (!m.test(o.domain))
       throw new TypeError("option domain is invalid");
-    s += "; Domain=" + o.domain;
+    n += "; Domain=" + o.domain;
   }
   if (o.path) {
     if (!m.test(o.path))
       throw new TypeError("option path is invalid");
-    s += "; Path=" + o.path;
+    n += "; Path=" + o.path;
   }
   if (o.expires) {
     if (typeof o.expires.toUTCString != "function")
       throw new TypeError("option expires is invalid");
-    s += "; Expires=" + o.expires.toUTCString();
+    n += "; Expires=" + o.expires.toUTCString();
   }
-  if (o.httpOnly && (s += "; HttpOnly"), o.secure && (s += "; Secure"), o.partitioned && (s += "; Partitioned"), o.sameSite)
+  if (o.httpOnly && (n += "; HttpOnly"), o.secure && (n += "; Secure"), o.partitioned && (n += "; Partitioned"), o.sameSite)
     switch (typeof o.sameSite == "string" ? o.sameSite.toLowerCase() : o.sameSite) {
       case !0:
-        s += "; SameSite=Strict";
+        n += "; SameSite=Strict";
         break;
       case "lax":
-        s += "; SameSite=Lax";
+        n += "; SameSite=Lax";
         break;
       case "strict":
-        s += "; SameSite=Strict";
+        n += "; SameSite=Strict";
         break;
       case "none":
-        s += "; SameSite=None";
+        n += "; SameSite=None";
         break;
       default:
         throw new TypeError("option sameSite is invalid");
     }
-  return s;
+  return n;
 }
 function V(e, t) {
   try {
@@ -184,12 +184,12 @@ function q(e, t, r) {
   if (typeof e != "string")
     throw new TypeError("Signed cookie string must be provided.");
   const o = e.slice(0, e.lastIndexOf(".")), i = Buffer.from(e.slice(e.lastIndexOf(".") + 1));
-  for (let n = 0; n < t.length; ++n) {
-    const s = t[n], a = Buffer.from(g.createHmac(r, s).update(o).digest("base64").replace(O, ""));
+  for (let s = 0; s < t.length; ++s) {
+    const n = t[s], a = Buffer.from(g.createHmac(r, n).update(o).digest("base64").replace(O, ""));
     if (a.length === i.length && g.timingSafeEqual(a, i))
       return {
         valid: !0,
-        renew: s !== t[0],
+        renew: n !== t[0],
         value: o
       };
   }
@@ -240,10 +240,10 @@ function w(e, t, r) {
   t.cookies = o ? e.parseCookie(o) : {}, r[c] = /* @__PURE__ */ new Map();
 }
 function ce(e, t) {
-  return t === "preParsing" ? function(o, i, n, s) {
-    w(e, o, i), s();
-  } : function(o, i, n) {
+  return t === "preParsing" ? function(o, i, s, n) {
     w(e, o, i), n();
+  } : function(o, i, s) {
+    w(e, o, i), s();
   };
 }
 function z(e) {
@@ -274,24 +274,24 @@ function fe(e, t, r) {
   const o = t.secret, i = pe(t.hook);
   if (i === void 0)
     return r(new Error("@fastify/cookie: Invalid value provided for the hook-option. You can set the hook-option only to false, 'onRequest' , 'preParsing' , 'preValidation' or 'preHandler'"));
-  const s = !o || typeof o.sign == "function" && typeof o.unsign == "function" ? o : new T(o, t.algorithm || "sha256");
-  e.decorate("serializeCookie", h.serialize), e.decorate("parseCookie", a), o !== void 0 && (e.decorate("signCookie", p), e.decorate("unsignCookie", y), e.decorateRequest("signCookie", p), e.decorateRequest("unsignCookie", y), e.decorateReply("signCookie", p), e.decorateReply("unsignCookie", y)), e.decorateRequest("cookies", null), e.decorateReply(c, null), e.decorateReply(R, !1), e.decorateReply("cookie", P), e.decorateReply("setCookie", P), e.decorateReply("clearCookie", I), i && (e.addHook(i, ce(e, i)), e.addHook("onSend", ue)), r();
-  function a(u) {
-    return h.parse(u, t.parseOptions);
+  const n = !o || typeof o.sign == "function" && typeof o.unsign == "function" ? o : new T(o, t.algorithm || "sha256");
+  e.decorate("serializeCookie", h.serialize), e.decorate("parseCookie", a), o !== void 0 && (e.decorate("signCookie", u), e.decorate("unsignCookie", y), e.decorateRequest("signCookie", u), e.decorateRequest("unsignCookie", y), e.decorateReply("signCookie", u), e.decorateReply("unsignCookie", y)), e.decorateRequest("cookies", null), e.decorateReply(c, null), e.decorateReply(R, !1), e.decorateReply("cookie", P), e.decorateReply("setCookie", P), e.decorateReply("clearCookie", I), i && (e.addHook(i, ce(e, i)), e.addHook("onSend", ue)), r();
+  function a(f) {
+    return h.parse(f, t.parseOptions);
   }
-  function p(u) {
-    return s.sign(u);
+  function u(f) {
+    return n.sign(f);
   }
-  function y(u) {
-    return s.unsign(u);
+  function y(f) {
+    return n.unsign(f);
   }
-  function P(u, x, C) {
+  function P(f, x, C) {
     const B = Object.assign({}, t.parseOptions, C);
-    return j(this, u, x, B);
+    return j(this, f, x, B);
   }
-  function I(u, x) {
+  function I(f, x) {
     const C = Object.assign({}, t.parseOptions, x);
-    return ae(this, u, C);
+    return ae(this, f, C);
   }
 }
 function pe(e = "onRequest") {
@@ -310,24 +310,26 @@ const H = ie(fe, {
   fastify: "4.x",
   name: "@fastify/cookie"
 });
-f.exports = H;
-f.exports.default = H;
-f.exports.fastifyCookie = H;
-f.exports.signerFactory = T;
-f.exports.Signer = T;
-f.exports.sign = ne;
-f.exports.unsign = se;
-var de = f.exports;
+p.exports = H;
+p.exports.default = H;
+p.exports.fastifyCookie = H;
+p.exports.signerFactory = T;
+p.exports.Signer = T;
+p.exports.sign = ne;
+p.exports.unsign = se;
+var de = p.exports;
 const ge = /* @__PURE__ */ D(de), ke = U((e) => (e.register(ge), {
   server: e,
-  request: (t, r, o) => e[t](r, async (i, n) => {
-    n.send(
+  request: (t, r, o) => e[t](r, async (i, s) => {
+    s.send(
       await o({
         request: i,
-        response: n,
-        setStatusCode: n.status,
-        setHeader: n.header,
-        setCookie: n.setCookie
+        response: s,
+        params: i.params || {},
+        query: { ...i.query || {} },
+        setStatusCode: (n) => s.status(n),
+        setHeader: (n, a) => s.header(n, a),
+        setCookie: (n, a, u) => s.setCookie(n, a, u)
       })
     );
   })

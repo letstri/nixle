@@ -13,9 +13,11 @@ export const expressProvider = createProvider<Express>((app) => {
           await handler({
             request,
             response,
-            setStatusCode: response.status,
-            setHeader: response.setHeader,
-            setCookie: response.cookie,
+            params: request.params || {},
+            query: (request.query as Record<string, string | string[]>) || {},
+            setStatusCode: (code) => response.status(code),
+            setHeader: (name, value) => response.setHeader(name, value),
+            setCookie: (key, value, options = {}) => response.cookie(key, value, options),
           }),
         );
       }),

@@ -5,12 +5,12 @@ function w(e) {
 function S(e) {
   if (e.__esModule)
     return e;
-  var i = e.default;
-  if (typeof i == "function") {
+  var n = e.default;
+  if (typeof n == "function") {
     var o = function r() {
-      return this instanceof r ? Reflect.construct(i, arguments, this.constructor) : i.apply(this, arguments);
+      return this instanceof r ? Reflect.construct(n, arguments, this.constructor) : n.apply(this, arguments);
     };
-    o.prototype = i.prototype;
+    o.prototype = n.prototype;
   } else
     o = {};
   return Object.defineProperty(o, "__esModule", { value: !0 }), Object.keys(e).forEach(function(r) {
@@ -23,7 +23,7 @@ function S(e) {
     });
   }), o;
 }
-var u = { exports: {} }, l = {};
+var c = { exports: {} }, l = {};
 /*!
  * cookie
  * Copyright(c) 2012-2014 Roman Shtylman
@@ -33,73 +33,73 @@ var u = { exports: {} }, l = {};
 l.parse = E;
 l.serialize = x;
 var b = decodeURIComponent, O = encodeURIComponent, C = /; */, p = /^[\u0009\u0020-\u007e\u0080-\u00ff]+$/;
-function E(e, i) {
+function E(e, n) {
   if (typeof e != "string")
     throw new TypeError("argument str must be a string");
-  for (var o = {}, r = i || {}, t = e.split(C), s = r.decode || b, n = 0; n < t.length; n++) {
-    var a = t[n], c = a.indexOf("=");
-    if (!(c < 0)) {
-      var v = a.substr(0, c).trim(), f = a.substr(++c, a.length).trim();
+  for (var o = {}, r = n || {}, t = e.split(C), s = r.decode || b, i = 0; i < t.length; i++) {
+    var a = t[i], u = a.indexOf("=");
+    if (!(u < 0)) {
+      var v = a.substr(0, u).trim(), f = a.substr(++u, a.length).trim();
       f[0] == '"' && (f = f.slice(1, -1)), o[v] == null && (o[v] = T(f, s));
     }
   }
   return o;
 }
-function x(e, i, o) {
+function x(e, n, o) {
   var r = o || {}, t = r.encode || O;
   if (typeof t != "function")
     throw new TypeError("option encode is invalid");
   if (!p.test(e))
     throw new TypeError("argument name is invalid");
-  var s = t(i);
+  var s = t(n);
   if (s && !p.test(s))
     throw new TypeError("argument val is invalid");
-  var n = e + "=" + s;
+  var i = e + "=" + s;
   if (r.maxAge != null) {
     var a = r.maxAge - 0;
     if (isNaN(a) || !isFinite(a))
       throw new TypeError("option maxAge is invalid");
-    n += "; Max-Age=" + Math.floor(a);
+    i += "; Max-Age=" + Math.floor(a);
   }
   if (r.domain) {
     if (!p.test(r.domain))
       throw new TypeError("option domain is invalid");
-    n += "; Domain=" + r.domain;
+    i += "; Domain=" + r.domain;
   }
   if (r.path) {
     if (!p.test(r.path))
       throw new TypeError("option path is invalid");
-    n += "; Path=" + r.path;
+    i += "; Path=" + r.path;
   }
   if (r.expires) {
     if (typeof r.expires.toUTCString != "function")
       throw new TypeError("option expires is invalid");
-    n += "; Expires=" + r.expires.toUTCString();
+    i += "; Expires=" + r.expires.toUTCString();
   }
-  if (r.httpOnly && (n += "; HttpOnly"), r.secure && (n += "; Secure"), r.sameSite) {
-    var c = typeof r.sameSite == "string" ? r.sameSite.toLowerCase() : r.sameSite;
-    switch (c) {
+  if (r.httpOnly && (i += "; HttpOnly"), r.secure && (i += "; Secure"), r.sameSite) {
+    var u = typeof r.sameSite == "string" ? r.sameSite.toLowerCase() : r.sameSite;
+    switch (u) {
       case !0:
-        n += "; SameSite=Strict";
+        i += "; SameSite=Strict";
         break;
       case "lax":
-        n += "; SameSite=Lax";
+        i += "; SameSite=Lax";
         break;
       case "strict":
-        n += "; SameSite=Strict";
+        i += "; SameSite=Strict";
         break;
       case "none":
-        n += "; SameSite=None";
+        i += "; SameSite=None";
         break;
       default:
         throw new TypeError("option sameSite is invalid");
     }
   }
-  return n;
+  return i;
 }
-function T(e, i) {
+function T(e, n) {
   try {
-    return i(e);
+    return n(e);
   } catch {
     return e;
   }
@@ -110,23 +110,23 @@ const P = {}, _ = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
   default: P
 }, Symbol.toStringTag, { value: "Module" })), j = /* @__PURE__ */ S(_);
 (function(e) {
-  var i = j;
+  var n = j;
   e.sign = function(r, t) {
     if (typeof r != "string")
       throw new TypeError("Cookie value must be provided as a string.");
     if (typeof t != "string")
       throw new TypeError("Secret string must be provided.");
-    return r + "." + i.createHmac("sha256", t).update(r).digest("base64").replace(/\=+$/, "");
+    return r + "." + n.createHmac("sha256", t).update(r).digest("base64").replace(/\=+$/, "");
   }, e.unsign = function(r, t) {
     if (typeof r != "string")
       throw new TypeError("Signed cookie string must be provided.");
     if (typeof t != "string")
       throw new TypeError("Secret string must be provided.");
-    var s = r.slice(0, r.lastIndexOf(".")), n = e.sign(s, t);
-    return o(n) == o(r) ? s : !1;
+    var s = r.slice(0, r.lastIndexOf(".")), i = e.sign(s, t);
+    return o(i) == o(r) ? s : !1;
   };
   function o(r) {
-    return i.createHash("sha1").update(r).digest("hex");
+    return n.createHash("sha1").update(r).digest("hex");
   }
 })(g);
 /*!
@@ -136,20 +136,20 @@ const P = {}, _ = /* @__PURE__ */ Object.freeze(/* @__PURE__ */ Object.definePro
  * MIT Licensed
  */
 var N = l, $ = g;
-u.exports = A;
-u.exports.JSONCookie = y;
-u.exports.JSONCookies = d;
-u.exports.signedCookie = h;
-u.exports.signedCookies = k;
-function A(e, i) {
+c.exports = A;
+c.exports.JSONCookie = y;
+c.exports.JSONCookies = d;
+c.exports.signedCookie = h;
+c.exports.signedCookies = k;
+function A(e, n) {
   var o = !e || Array.isArray(e) ? e || [] : [e];
-  return function(t, s, n) {
+  return function(t, s, i) {
     if (t.cookies)
-      return n();
+      return i();
     var a = t.headers.cookie;
     if (t.secret = o[0], t.cookies = /* @__PURE__ */ Object.create(null), t.signedCookies = /* @__PURE__ */ Object.create(null), !a)
-      return n();
-    t.cookies = N.parse(a, i), o.length !== 0 && (t.signedCookies = k(t.cookies, o), t.signedCookies = d(t.signedCookies)), t.cookies = d(t.cookies), n();
+      return i();
+    t.cookies = N.parse(a, n), o.length !== 0 && (t.signedCookies = k(t.cookies, o), t.signedCookies = d(t.signedCookies)), t.cookies = d(t.cookies), i();
   };
 }
 function y(e) {
@@ -161,15 +161,15 @@ function y(e) {
     }
 }
 function d(e) {
-  for (var i = Object.keys(e), o, r, t = 0; t < i.length; t++)
-    o = i[t], r = y(e[o]), r && (e[o] = r);
+  for (var n = Object.keys(e), o, r, t = 0; t < n.length; t++)
+    o = n[t], r = y(e[o]), r && (e[o] = r);
   return e;
 }
-function h(e, i) {
+function h(e, n) {
   if (typeof e == "string") {
     if (e.substr(0, 2) !== "s:")
       return e;
-    for (var o = !i || Array.isArray(i) ? i || [] : [i], r = 0; r < o.length; r++) {
+    for (var o = !n || Array.isArray(n) ? n || [] : [n], r = 0; r < o.length; r++) {
       var t = $.unsign(e.slice(2), o[r]);
       if (t !== !1)
         return t;
@@ -177,22 +177,24 @@ function h(e, i) {
     return !1;
   }
 }
-function k(e, i) {
-  for (var o = Object.keys(e), r, t, s = /* @__PURE__ */ Object.create(null), n, a = 0; a < o.length; a++)
-    t = o[a], n = e[t], r = h(n, i), n !== r && (s[t] = r, delete e[t]);
+function k(e, n) {
+  for (var o = Object.keys(e), r, t, s = /* @__PURE__ */ Object.create(null), i, a = 0; a < o.length; a++)
+    t = o[a], i = e[t], r = h(i, n), i !== r && (s[t] = r, delete e[t]);
   return s;
 }
-var M = u.exports;
+var M = c.exports;
 const H = /* @__PURE__ */ w(M), R = m((e) => (e.use(H()), {
   server: e,
-  request: (i, o, r) => e[i](o, async (t, s) => {
+  request: (n, o, r) => e[n](o, async (t, s) => {
     s.send(
       await r({
         request: t,
         response: s,
-        setStatusCode: s.status,
-        setHeader: s.setHeader,
-        setCookie: s.cookie
+        params: t.params || {},
+        query: t.query || {},
+        setStatusCode: (i) => s.status(i),
+        setHeader: (i, a) => s.setHeader(i, a),
+        setCookie: (i, a, u = {}) => s.cookie(i, a, u)
       })
     );
   })

@@ -1,4 +1,4 @@
-import { eventHandler, setCookie } from 'h3';
+import { eventHandler, setCookie, getQuery } from 'h3';
 import type { NitroApp } from 'nitropack';
 import { createProvider } from 'nixle';
 
@@ -12,8 +12,10 @@ export const nitroProvider = createProvider<NitroApp>((app) => {
           return handler({
             request: event.node.req,
             response: event.node.res,
+            params: event.context.params || {},
+            query: getQuery(event),
             setStatusCode: (code) => (event.node.res.statusCode = code),
-            setHeader: event.headers.set,
+            setHeader: (key, value) => event.headers.set(key, value),
             setCookie: (name, value, options) => setCookie(event, name, value, options),
           });
         }),

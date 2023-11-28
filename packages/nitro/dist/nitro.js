@@ -1,15 +1,17 @@
-import { eventHandler as n, setCookie as a } from "h3";
-import { createProvider as m } from "nixle";
-const c = m((o) => ({
-  server: o,
-  request: (s, t, d) => o.router[s](
-    t,
-    n((e) => d({
-      request: e.node.req,
-      response: e.node.res,
-      setStatusCode: (r) => e.node.res.statusCode = r,
-      setHeader: e.headers.set,
-      setCookie: (r, i, u) => a(e, r, i, u)
+import { eventHandler as i, getQuery as m, setCookie as n } from "h3";
+import { createProvider as p } from "nixle";
+const c = p((s) => ({
+  server: s,
+  request: (t, d, a) => s.router[t](
+    d,
+    i((r) => a({
+      request: r.node.req,
+      response: r.node.res,
+      params: r.context.params || {},
+      query: m(r),
+      setStatusCode: (e) => r.node.res.statusCode = e,
+      setHeader: (e, o) => r.headers.set(e, o),
+      setCookie: (e, o, u) => n(r, e, o, u)
     }))
   )
 }));

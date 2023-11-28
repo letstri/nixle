@@ -13,9 +13,11 @@ export const fastifyProvider = createProvider<FastifyInstance>((app) => {
           await handler({
             request,
             response,
-            setStatusCode: response.status,
-            setHeader: response.header,
-            setCookie: response.setCookie,
+            params: (request.params as Record<string, string>) || {},
+            query: { ...(request.query || {}) } as any,
+            setStatusCode: (code) => response.status(code),
+            setHeader: (key, value) => response.header(key, value),
+            setCookie: (key, value, options) => response.setCookie(key, value, options),
           }),
         );
       }),
