@@ -1,6 +1,6 @@
 {
   "name": "@nixle/elysia",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -14,6 +14,9 @@
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://nixle.letstri.dev",
   "repository": {
     "type": "git",

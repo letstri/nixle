@@ -1,6 +1,6 @@
 {
   "name": "nixle",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -30,6 +30,9 @@
     "node": "^18.0.0 || >=20.0.0"
   },
   "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
   "homepage": "https://nixle.letstri.dev",
   "repository": {
     "type": "git",
