@@ -64,7 +64,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 ```ts [Express]
 const express = require('express');
-const { expressProvider } = require('nixle');
+const { expressProvider } = require('@nixle/express');
 const { usersModule } = require('./usersModule');
 
 const app = express();
@@ -78,7 +78,7 @@ server.listen(4000);
 
 ```ts [Fastify]
 const fastify = require('fastify');
-const { fastifyProvider } = require('nixle');
+const { fastifyProvider } = require('@nixle/fastify');
 const { usersModule } = require('./usersModule');
 
 const app = fastify();

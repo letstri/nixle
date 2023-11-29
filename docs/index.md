@@ -6,6 +6,9 @@ hero:
   name: 'Nixle'
   text: 'Universal server-side architectural framework'
   tagline: Use one of many frameworks with one structure
+  image:
+    src: /logo.svg
+    alt: Nixle
   actions:
     - theme: brand
       text: Getting Started

@@ -21,6 +21,7 @@ export default defineConfig({
   description: 'Universal server-side architectural framework',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
+    logo: '/logo.svg',
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/introduction/getting-started' },
