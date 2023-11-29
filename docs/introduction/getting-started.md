@@ -56,7 +56,8 @@ import { nitroProvider } from '@nixle/nitro';
 import { usersModule } from './usersModule';
 
 export default defineNitroPlugin((nitroApp) => {
-  createApp(nitroProvider(nitroApp), {
+  createApp({
+    provider: nitroProvider(nitroApp),
     modules: [usersModule],
   });
 });
@@ -69,7 +70,8 @@ const { usersModule } = require('./usersModule');
 
 const app = express();
 
-const server = createApp(expressProvider(app), {
+const server = createApp({
+  provider: expressProvider(app),
   modules: [usersModule],
 });
 
@@ -83,7 +85,8 @@ const { usersModule } = require('./usersModule');
 
 const app = fastify();
 
-const server = createApp(fastifyProvider(app), {
+const server = createApp({
+  provider: fastifyProvider(app),
   modules: [usersModule],
 });
 
@@ -97,7 +100,8 @@ import { usersModule } from './usersModule';
 
 const app = new Elysia();
 
-const server = createApp(elysiaProvider(app), {
+const server = createApp({
+  provider: elysiaProvider(app),
   modules: [usersModule],
 });
 
