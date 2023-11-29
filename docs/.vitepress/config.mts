@@ -18,7 +18,7 @@ const overview = [
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Nixle',
-  description: 'Universal server-side architectural framework',
+  description: 'Universal server-side framework',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
