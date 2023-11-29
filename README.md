@@ -3,7 +3,6 @@
     <img width="180" src="https://nixle.letstri.dev/logo.svg" alt="Nixle logo">
   </a>
 </p>
-<br/>
 <h1 align="center">
   <a href="https://nixle.letstri.dev" alt="Nixle site">Nixle</a>
 </h1>

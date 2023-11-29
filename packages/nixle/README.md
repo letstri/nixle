@@ -3,7 +3,6 @@
     <img width="180" src="https://nixle.letstri.dev/logo.svg" alt="Nixle logo">
   </a>
 </p>
-<br/>
 <h1 align="center">
   <a href="https://nixle.letstri.dev" alt="Nixle site">Nixle</a>
 </h1>
@@ -48,7 +47,7 @@ const usersModule = createModule({
 
 ```ts
 import { createApp, createRouter, createModule } from 'nixle';
-import { nitroProvider } from '@nixle/nitro';
+import { nitroProvider } from '@nuxt/nitro';
 
 export default defineNitroPlugin((nitroApp) => {
   createApp(nitroProvider(nitroApp), {
