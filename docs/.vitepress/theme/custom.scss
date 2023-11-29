@@ -1,0 +1,29 @@
+:root {
+  --vp-nav-logo-height: 16px;
+  --vp-home-hero-name-color: transparent;
+  --vp-home-hero-name-background: linear-gradient(150deg, #315eff 10%, #fa00ff);
+  --vp-c-brand-1: #315eff;
+  --vp-c-brand-2: #466eff;
+  --vp-c-brand-3: #2a4ed2;
+}
+
+.VPHome .VPHero {
+  @media screen and (min-width: 640px) {
+    padding-bottom: 120px;
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    .text {
+      max-width: 900px;
+    }
+
+    .actions {
+      justify-content: center;
+    }
+  }
+}
