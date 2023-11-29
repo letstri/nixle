@@ -52,6 +52,7 @@ const usersModule = createModule({
 ::: code-group
 
 ```ts [Nuxt]
+import { createApp } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 import { usersModule } from './usersModule';
 
@@ -65,6 +66,7 @@ export default defineNitroPlugin((nitroApp) => {
 
 ```ts [Express]
 const express = require('express');
+const { createApp } = require('nixle');
 const { expressProvider } = require('@nixle/express');
 const { usersModule } = require('./usersModule');
 
@@ -80,6 +82,7 @@ server.listen(4000);
 
 ```ts [Fastify]
 const fastify = require('fastify');
+const { createApp } = require('nixle');
 const { fastifyProvider } = require('@nixle/fastify');
 const { usersModule } = require('./usersModule');
 
@@ -95,6 +98,7 @@ server.listen({ port: 4000 });
 
 ```ts [Elysia]
 import { Elysia } from 'elysia';
+import { createApp } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
 import { usersModule } from './usersModule';
 
