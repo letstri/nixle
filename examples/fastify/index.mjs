@@ -1,6 +1,6 @@
-const fastify = require('fastify');
-const { createApp, createModule, createRouter } = require('nixle');
-const { fastifyProvider } = require('@nixle/fastify');
+import fastify from 'fastify';
+import { createApp, createModule, createRouter } from 'nixle';
+import { fastifyProvider } from '@nixle/fastify';
 
 const app = fastify();
 

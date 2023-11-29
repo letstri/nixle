@@ -1,6 +1,6 @@
-const express = require('express');
-const { createApp, createModule, createRouter } = require('nixle');
-const { expressProvider } = require('@nixle/express');
+import express from 'express';
+import { createApp, createModule, createRouter } from 'nixle';
+import { expressProvider } from '@nixle/express';
 
 const app = express();
 
