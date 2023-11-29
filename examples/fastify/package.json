@@ -4,8 +4,8 @@
     "start": "node ./index.mjs"
   },
   "dependencies": {
-    "@nixle/fastify": "latest",
+    "@nixle/fastify": "workspace:^",
     "fastify": "^4.24.3",
-    "nixle": "latest"
+    "nixle": "workspace:^"
   }
 }

@@ -4,9 +4,9 @@
     "dev": "bun run --watch index.ts"
   },
   "dependencies": {
-    "@nixle/elysia": "latest",
+    "@nixle/elysia": "workspace:^",
     "elysia": "latest",
-    "nixle": "latest"
+    "nixle": "workspace:^"
   },
   "devDependencies": {
     "bun-types": "latest",

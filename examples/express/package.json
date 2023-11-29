@@ -4,8 +4,8 @@
     "start": "node ./index.mjs"
   },
   "dependencies": {
-    "@nixle/express": "latest",
+    "@nixle/express": "workspace:^",
     "express": "^4.18.2",
-    "nixle": "latest"
+    "nixle": "workspace:^"
   }
 }
