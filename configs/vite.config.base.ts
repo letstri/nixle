@@ -1,4 +1,4 @@
-import { defineConfig } from 'vite';
+import { UserConfig } from 'vite';
 
 export const viteConfig = ({
   name,
@@ -8,27 +8,27 @@ export const viteConfig = ({
   name: string;
   entry: string;
   package: Record<string, any>;
-}) =>
-  defineConfig({
-    resolve: {
-      alias: {
-        '~': '/src',
-      },
+}): UserConfig => ({
+  resolve: {
+    alias: {
+      '~': '/src',
     },
-    build: {
-      target: 'node18',
-      lib: {
-        entry,
-        name,
-        fileName: name,
-        formats: ['es', 'cjs', 'umd', 'iife'],
-      },
-      rollupOptions: {
-        external: [
-          ...Object.keys(_package.devDependencies || {}),
-          ...Object.keys(_package.peerDependencies || {}),
-          /^node:.*/,
-        ],
-      },
+  },
+  build: {
+    target: 'node18',
+    lib: {
+      entry,
+      name,
+      fileName: 'index',
+      formats: ['es'],
     },
-  });
+    rollupOptions: {
+      external: [
+        ...Object.keys(_package.dependencies || {}),
+        ...Object.keys(_package.devDependencies || {}),
+        ...Object.keys(_package.peerDependencies || {}),
+        /^node:.*/,
+      ],
+    },
+  },
+});
