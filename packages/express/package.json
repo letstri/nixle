@@ -1,7 +1,7 @@
 {
   "name": "@nixle/express",
-  "version": "0.4.0",
-  "description": "Universal server-side architectural framework",
+  "version": "0.4.1",
+  "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
     "dev": "vite",
@@ -11,15 +11,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/express.cjs",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/express.js",
-      "require": "./dist/express.cjs"
-    }
-  },
   "license": "MIT",
   "homepage": "https://nixle.letstri.dev",
   "repository": {

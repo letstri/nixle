@@ -1,7 +1,7 @@
 {
   "name": "@nixle/elysia",
-  "version": "0.4.0",
-  "description": "Universal server-side architectural framework",
+  "version": "0.4.1",
+  "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
     "dev": "vite",
@@ -11,15 +11,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/elysia.cjs",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/elysia.js",
-      "require": "./dist/elysia.cjs"
-    }
-  },
   "license": "MIT",
   "homepage": "https://nixle.letstri.dev",
   "repository": {

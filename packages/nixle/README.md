@@ -7,7 +7,7 @@
   <a href="https://nixle.letstri.dev" alt="Nixle site">Nixle</a>
 </h1>
 <p align="center">
-  <strong>Universal server-side architectural framework.</strong>
+  <strong>Universal server-side framework.</strong>
 </p>
 <p align="center">
   <a href="https://www.npmjs.com/package/nixle">
@@ -50,7 +50,8 @@ import { createApp, createRouter, createModule } from 'nixle';
 import { nitroProvider } from '@nuxt/nitro';
 
 export default defineNitroPlugin((nitroApp) => {
-  createApp(nitroProvider(nitroApp), {
+  createApp({
+    provider: nitroProvider(nitroApp),
     modules: [usersModule],
   });
 });
@@ -65,7 +66,8 @@ const { expressProvider } = require('@nixle/express');
 
 const app = express();
 
-const server = createApp(expressProvider(app), {
+const server = createApp({
+  provider: expressProvider(app),
   modules: [usersModule],
 });
 
@@ -81,7 +83,8 @@ import { elysiaProvider } from '@nixle/elysia';
 
 const app = new Elysia();
 
-const server = createApp(elysiaProvider(app), {
+const server = createApp({
+  provider: elysiaProvider(app),
   modules: [usersModule],
 });
 

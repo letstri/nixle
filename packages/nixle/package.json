@@ -1,7 +1,7 @@
 {
   "name": "nixle",
-  "version": "0.4.0",
-  "description": "Universal server-side architectural framework",
+  "version": "0.4.1",
+  "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
     "dev": "vite",
@@ -11,20 +11,8 @@
   "files": [
     "dist"
   ],
-  "main": "./dist/nixle.cjs",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/nixle.js",
-      "require": "./dist/nixle.cjs"
-    },
-    "./provider": {
-      "types": "./dist/provider/index.d.ts",
-      "import": "./dist/provider/index.js",
-      "require": "./dist/provider/index.cjs"
-    }
-  },
   "keywords": [
     "nixle",
     "framework",
