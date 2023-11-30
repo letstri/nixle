@@ -1,6 +1,6 @@
 {
   "name": "@nixle/nitro",
-  "version": "0.5.0",
+  "version": "0.5.1",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",

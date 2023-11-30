@@ -32,7 +32,7 @@ const usersModule = createModule({
   routers: [usersRouter],
 });
 const server = createApp({
-  // provider: fastifyProvider(),
+  provider: fastifyProvider(),
   modules: [usersModule],
 });
 

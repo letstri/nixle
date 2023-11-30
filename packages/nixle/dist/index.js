@@ -1,71 +1,90 @@
-import y from "picocolors";
-import { createConsola as l } from "consola";
-import m from "dayjs";
-const f = "YYYY-MM-DD HH:mm:ss";
-class c extends Error {
-  constructor({ message: e, statusCode: s, ...o }) {
-    super(e), this.time = m().format(f), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = s || 400, Object.assign(this, o), Error.captureStackTrace(this, this.constructor);
+import E from "picocolors";
+import { createConsola as d } from "consola";
+import h from "dayjs";
+const f = "YYYY-MM-DD HH:mm:ss", x = (e, t) => Object.fromEntries(Object.entries(e).filter(([r]) => !t.includes(r))), w = (e) => e !== Object(e);
+class i extends Error {
+  constructor({ message: t, statusCode: r, ...o }) {
+    super(t), this.time = h().format(f), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = r || 400, Object.assign(this, o), Error.captureStackTrace(this, this.constructor);
   }
 }
-function u(t) {
-  throw typeof t == "string" ? new c({ message: t, isInternal: !0 }) : new c({ ...t, isInternal: !0 });
+function a(e) {
+  throw typeof e == "string" ? new i({ message: e, isInternal: !0 }) : new i({ ...e, isInternal: !0 });
 }
-function S(t) {
-  throw typeof t == "string" ? new c({ message: t }) : new c(t);
+function P(e) {
+  throw typeof e == "string" ? new i({ message: e }) : new i(e);
 }
-const E = (t) => t instanceof c;
-let d = l();
-const w = (t) => {
-  d = l(t);
-}, r = (t, e) => {
-  const s = e?.type || "log", o = `${y.bgBlue(" Nixle ")}`, n = d?.[s || "log"];
-  n || u(`Logger method "${s}" not found`), n(`${o} ${t}`);
-}, a = (t) => {
-  const e = t.startsWith("/") ? t : `/${t}`;
-  return e.endsWith("/") ? e.slice(0, -1) : e;
-}, x = (t, e) => Object.fromEntries(Object.entries(t).filter(([s]) => !e.includes(s))), O = (t) => t !== Object(t), h = (t) => {
-  E(t) ? r(t.isInternal && t.stack || t.message, { type: "error" }) : t instanceof Error ? r(t.stack || t.message, { type: "error" }) : O(t) ? r(t, { type: "error" }) : r(`${t.constructor.name} ${JSON.stringify(t)}`, { type: "error" });
-  const e = ["name", "stack", "message", "statusCode", "time", "isInternal"], s = {
-    statusCode: t.statusCode || 500,
-    message: t.message || "Internal Server Error",
-    time: t.time || m().format(f)
+const O = (e) => e instanceof i, c = (e) => {
+  O(e) ? n(e.isInternal && e.stack || e.message, { type: "error" }) : e instanceof Error ? n(e.stack || e.message, { type: "error" }) : w(e) ? n(e, { type: "error" }) : n(`${e.constructor.name} ${JSON.stringify(e)}`, { type: "error" });
+  const t = ["name", "stack", "message", "statusCode", "time", "isInternal"], r = {
+    statusCode: e.statusCode || 500,
+    message: e.message || "Internal Server Error",
+    time: e.time || h().format(f)
   };
-  return t instanceof Error && Object.assign(
-    s,
-    x(JSON.parse(JSON.stringify(t, Object.getOwnPropertyNames(t))), e)
-  ), s;
-}, b = (t, e, s) => {
-  s({ log: r }).forEach((o) => {
-    const n = o.method ? o.method.toLowerCase() : "get", g = a(e) + a(o.path);
-    t.request(n, g, async (i) => {
-      i.setHeader("x-powered-by", "Nixle"), o.statusCode && i.setStatusCode(o.statusCode);
+  return e instanceof Error && Object.assign(
+    r,
+    x(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), t)
+  ), r;
+};
+let m = d();
+const b = (e) => {
+  m = d(e);
+}, n = (e, t) => {
+  const r = t?.type || "log", o = `${E.bgBlue(" Nixle ")}`, s = m?.[r || "log"];
+  s || a(`Logger method "${r}" not found`), s(`${o} ${e}`);
+}, u = (e) => {
+  const t = e.startsWith("/") ? e : `/${e}`;
+  return t.endsWith("/") ? t.slice(0, -1) : t;
+}, C = (e, t, r) => {
+  const o = r({ log: n });
+  if (o.length === 0)
+    try {
+      a("At least one router is required");
+    } catch (s) {
+      c(s), process.exit(1);
+    }
+  if (o.some((s) => !s.path || !s.handler))
+    try {
+      a("Path and handler are required for each route");
+    } catch (s) {
+      c(s), process.exit(1);
+    }
+  o.forEach((s) => {
+    const g = s.method ? s.method.toLowerCase() : "get", p = u(t) + u(s.path);
+    e.request(g, p, async (l) => {
+      l.setHeader("x-powered-by", "Nixle"), s.statusCode && l.setStatusCode(s.statusCode);
       try {
-        return await o.handler(i);
-      } catch (p) {
-        throw h(p);
+        return await s.handler(l);
+      } catch (y) {
+        throw c(y);
       }
     });
   });
-}, P = (t, e) => [t, e], $ = (t) => t({ log: r }), A = (t) => t, C = (t, e) => {
-  e.forEach((s) => {
-    s.routers.forEach(([o, n]) => {
-      b(t, o, n);
+}, S = (e, t) => [e, t], $ = (e) => e({ log: n }), M = (e) => e, N = (e, t) => {
+  t.forEach((r) => {
+    r.routers.forEach(([o, s]) => {
+      C(e, o, s);
     });
   });
-}, M = ({ provider: t, logger: e, ...s }) => {
-  if (!t)
+}, q = ({ provider: e, logger: t, ...r }) => {
+  if (!e)
     try {
-      u("Provider is required");
+      a("Provider is required");
     } catch (o) {
-      h(o), process.exit(1);
+      c(o), process.exit(1);
     }
-  return e !== void 0 && w(e), r("Starting an application...", { type: "info" }), C(t, s.modules), r("Application started!", { type: "success" }), t.server;
-}, v = (t) => t;
+  if (t !== void 0 && b(t), n("Starting an application...", { type: "info" }), r.modules.length === 0)
+    try {
+      a("At least one module is required");
+    } catch (o) {
+      c(o), process.exit(1);
+    }
+  return N(e, r.modules), n("Application started!", { type: "success" }), e.server;
+}, v = (e) => e;
 export {
-  M as createApp,
-  S as createError,
-  A as createModule,
+  q as createApp,
+  P as createError,
+  M as createModule,
   v as createProvider,
-  P as createRouter,
+  S as createRouter,
   $ as createService
 };

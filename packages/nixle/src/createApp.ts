@@ -3,8 +3,7 @@ import { createLogger, log } from './logger/logger';
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
 import type { Provider } from './createProvider';
-import { createInternalError } from './createError';
-import { logAndFormatError } from './router/buildRoutes';
+import { createInternalError, logAndFormatError } from './createError';
 
 export interface AppOptions<Server> {
   provider: Provider<Server>;
@@ -27,6 +26,16 @@ export const createApp = <Server>({ provider, logger, ...options }: AppOptions<S
   }
 
   log('Starting an application...', { type: 'info' });
+
+  if (options.modules.length === 0) {
+    try {
+      createInternalError('At least one module is required');
+    } catch (e) {
+      logAndFormatError(e);
+      process.exit(1);
+    }
+  }
+
   buildModules(provider, options.modules);
   log('Application started!', { type: 'success' });
 
