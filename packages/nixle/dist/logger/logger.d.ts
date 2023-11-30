@@ -1,5 +1,4 @@
 import { type ConsolaOptions, type LogType } from 'consola';
-export declare let loggerInstance: import("consola/core").ConsolaInstance;
 export declare const createLogger: (options: Partial<ConsolaOptions>) => void;
 /**
  * @description Log message

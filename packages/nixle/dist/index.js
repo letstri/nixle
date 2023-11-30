@@ -1,90 +1,166 @@
-import E from "picocolors";
-import { createConsola as d } from "consola";
-import h from "dayjs";
-const f = "YYYY-MM-DD HH:mm:ss", x = (e, t) => Object.fromEntries(Object.entries(e).filter(([r]) => !t.includes(r))), w = (e) => e !== Object(e);
-class i extends Error {
-  constructor({ message: t, statusCode: r, ...o }) {
-    super(t), this.time = h().format(f), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = r || 400, Object.assign(this, o), Error.captureStackTrace(this, this.constructor);
+import { createConsola as B } from "consola";
+import * as m from "node:tty";
+import C from "dayjs";
+const {
+  env: o = {},
+  argv: p = [],
+  platform: M = ""
+} = typeof process > "u" ? {} : process, N = "NO_COLOR" in o || p.includes("--no-color"), R = "FORCE_COLOR" in o || p.includes("--color"), T = M === "win32", E = o.TERM === "dumb", j = m && m.isatty && m.isatty(1) && o.TERM && !E, k = "CI" in o && ("GITHUB_ACTIONS" in o || "GITLAB_CI" in o || "CIRCLECI" in o), A = !N && (R || T && !E || j || k);
+function O(e, s, n, i, r = s.slice(0, Math.max(0, e)) + i, a = s.slice(Math.max(0, e + n.length)), h = a.indexOf(n)) {
+  return r + (h < 0 ? a : O(h, a, n, i));
+}
+function S(e, s, n, i, r) {
+  return e < 0 ? n + s + i : n + O(e, s, i, r) + i;
+}
+function v(e, s, n = e, i = e.length + 1) {
+  return (r) => r || !(r === "" || r === void 0) ? S(
+    ("" + r).indexOf(s, i),
+    r,
+    e,
+    s,
+    n
+  ) : "";
+}
+function t(e, s, n) {
+  return v(`\x1B[${e}m`, `\x1B[${s}m`, n);
+}
+const f = {
+  reset: t(0, 0),
+  bold: t(1, 22, "\x1B[22m\x1B[1m"),
+  dim: t(2, 22, "\x1B[22m\x1B[2m"),
+  italic: t(3, 23),
+  underline: t(4, 24),
+  inverse: t(7, 27),
+  hidden: t(8, 28),
+  strikethrough: t(9, 29),
+  black: t(30, 39),
+  red: t(31, 39),
+  green: t(32, 39),
+  yellow: t(33, 39),
+  blue: t(34, 39),
+  magenta: t(35, 39),
+  cyan: t(36, 39),
+  white: t(37, 39),
+  gray: t(90, 39),
+  bgBlack: t(40, 49),
+  bgRed: t(41, 49),
+  bgGreen: t(42, 49),
+  bgYellow: t(43, 49),
+  bgBlue: t(44, 49),
+  bgMagenta: t(45, 49),
+  bgCyan: t(46, 49),
+  bgWhite: t(47, 49),
+  blackBright: t(90, 39),
+  redBright: t(91, 39),
+  greenBright: t(92, 39),
+  yellowBright: t(93, 39),
+  blueBright: t(94, 39),
+  magentaBright: t(95, 39),
+  cyanBright: t(96, 39),
+  whiteBright: t(97, 39),
+  bgBlackBright: t(100, 49),
+  bgRedBright: t(101, 49),
+  bgGreenBright: t(102, 49),
+  bgYellowBright: t(103, 49),
+  bgBlueBright: t(104, 49),
+  bgMagentaBright: t(105, 49),
+  bgCyanBright: t(106, 49),
+  bgWhiteBright: t(107, 49)
+};
+function $(e = A) {
+  return e ? f : Object.fromEntries(Object.keys(f).map((s) => [s, String]));
+}
+const b = $();
+function L(e, s = "reset") {
+  return b[e] || b[s];
+}
+function P(e, s) {
+  return L(e)(s);
+}
+const w = "YYYY-MM-DD HH:mm:ss", D = (e, s) => Object.fromEntries(Object.entries(e).filter(([n]) => !s.includes(n))), _ = (e) => e !== Object(e);
+class g extends Error {
+  constructor({ message: s, statusCode: n, ...i }) {
+    super(s), this.time = C().format(w), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = n || 400, Object.assign(this, i), Error.captureStackTrace(this, this.constructor);
   }
 }
-function a(e) {
-  throw typeof e == "string" ? new i({ message: e, isInternal: !0 }) : new i({ ...e, isInternal: !0 });
+function u(e) {
+  throw typeof e == "string" ? new g({ message: e, isInternal: !0 }) : new g({ ...e, isInternal: !0 });
 }
-function P(e) {
-  throw typeof e == "string" ? new i({ message: e }) : new i(e);
+function J(e) {
+  throw typeof e == "string" ? new g({ message: e }) : new g(e);
 }
-const O = (e) => e instanceof i, c = (e) => {
-  O(e) ? n(e.isInternal && e.stack || e.message, { type: "error" }) : e instanceof Error ? n(e.stack || e.message, { type: "error" }) : w(e) ? n(e, { type: "error" }) : n(`${e.constructor.name} ${JSON.stringify(e)}`, { type: "error" });
-  const t = ["name", "stack", "message", "statusCode", "time", "isInternal"], r = {
+const Y = (e) => e instanceof g, l = (e) => {
+  Y(e) ? c(e.isInternal && e.stack || e.message, { type: "error" }) : e instanceof Error ? c(e.stack || e.message, { type: "error" }) : _(e) ? c(e, { type: "error" }) : c(`${e.constructor.name} ${JSON.stringify(e)}`, { type: "error" });
+  const s = ["name", "stack", "message", "statusCode", "time", "isInternal"], n = {
     statusCode: e.statusCode || 500,
     message: e.message || "Internal Server Error",
-    time: e.time || h().format(f)
+    time: e.time || C().format(w)
   };
   return e instanceof Error && Object.assign(
-    r,
-    x(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), t)
-  ), r;
+    n,
+    D(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), s)
+  ), n;
 };
-let m = d();
-const b = (e) => {
-  m = d(e);
-}, n = (e, t) => {
-  const r = t?.type || "log", o = `${E.bgBlue(" Nixle ")}`, s = m?.[r || "log"];
-  s || a(`Logger method "${r}" not found`), s(`${o} ${e}`);
-}, u = (e) => {
-  const t = e.startsWith("/") ? e : `/${e}`;
-  return t.endsWith("/") ? t.slice(0, -1) : t;
-}, C = (e, t, r) => {
-  const o = r({ log: n });
-  if (o.length === 0)
+let x = B();
+const q = (e) => {
+  x = B(e);
+}, c = (e, s) => {
+  const n = s?.type || "log", i = `${P("bgBlue", " Nixle ")}`, r = x?.[n || "log"];
+  r || u(`Logger method "${n}" not found`), r(`${i} ${e}`);
+}, y = (e) => {
+  const s = e.startsWith("/") ? e : `/${e}`;
+  return s.endsWith("/") ? s.slice(0, -1) : s;
+}, F = (e, s, n) => {
+  const i = n({ log: c });
+  if (i.length === 0)
     try {
-      a("At least one router is required");
-    } catch (s) {
-      c(s), process.exit(1);
+      u("At least one router is required");
+    } catch (r) {
+      l(r), process.exit(1);
     }
-  if (o.some((s) => !s.path || !s.handler))
+  if (i.some((r) => !r.path || !r.handler))
     try {
-      a("Path and handler are required for each route");
-    } catch (s) {
-      c(s), process.exit(1);
+      u("Path and handler are required for each route");
+    } catch (r) {
+      l(r), process.exit(1);
     }
-  o.forEach((s) => {
-    const g = s.method ? s.method.toLowerCase() : "get", p = u(t) + u(s.path);
-    e.request(g, p, async (l) => {
-      l.setHeader("x-powered-by", "Nixle"), s.statusCode && l.setStatusCode(s.statusCode);
+  i.forEach((r) => {
+    const a = r.method ? r.method.toLowerCase() : "get", h = y(s) + y(r.path);
+    e.request(a, h, async (d) => {
+      d.setHeader("x-powered-by", "Nixle"), r.statusCode && d.setStatusCode(r.statusCode);
       try {
-        return await s.handler(l);
-      } catch (y) {
-        throw c(y);
+        return await r.handler(d);
+      } catch (I) {
+        throw l(I);
       }
     });
   });
-}, S = (e, t) => [e, t], $ = (e) => e({ log: n }), M = (e) => e, N = (e, t) => {
-  t.forEach((r) => {
-    r.routers.forEach(([o, s]) => {
-      C(e, o, s);
+}, U = (e, s) => [e, s], z = (e) => e({ log: c }), K = (e) => e, W = (e, s) => {
+  s.forEach((n) => {
+    n.routers.forEach(([i, r]) => {
+      F(e, i, r);
     });
   });
-}, q = ({ provider: e, logger: t, ...r }) => {
+}, Q = ({ provider: e, logger: s, ...n }) => {
   if (!e)
     try {
-      a("Provider is required");
-    } catch (o) {
-      c(o), process.exit(1);
+      u("Provider is required");
+    } catch (i) {
+      l(i), process.exit(1);
     }
-  if (t !== void 0 && b(t), n("Starting an application...", { type: "info" }), r.modules.length === 0)
+  if (s !== void 0 && q(s), n.modules.length === 0)
     try {
-      a("At least one module is required");
-    } catch (o) {
-      c(o), process.exit(1);
+      u("At least one module is required");
+    } catch (i) {
+      l(i), process.exit(1);
     }
-  return N(e, r.modules), n("Application started!", { type: "success" }), e.server;
-}, v = (e) => e;
+  return W(e, n.modules), c("🫡 Application successfully started", { type: "success" }), e.server;
+}, V = (e) => e;
 export {
-  q as createApp,
-  P as createError,
-  M as createModule,
-  v as createProvider,
-  S as createRouter,
-  $ as createService
+  Q as createApp,
+  J as createError,
+  K as createModule,
+  V as createProvider,
+  U as createRouter,
+  z as createService
 };

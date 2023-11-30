@@ -1,8 +1,8 @@
-import picocolors from 'picocolors';
 import { createConsola, type ConsolaOptions, type LogType } from 'consola';
+import { colorize } from 'consola/utils';
 import { createInternalError } from '~/createError';
 
-export let loggerInstance = createConsola();
+let loggerInstance = createConsola();
 
 export const createLogger = (options: Partial<ConsolaOptions>) => {
   loggerInstance = createConsola(options);
@@ -19,7 +19,7 @@ export const createLogger = (options: Partial<ConsolaOptions>) => {
  */
 export const log = (message: string, options?: { type?: LogType }) => {
   const type = options?.type || 'log';
-  const nixleMessage = `${picocolors.bgBlue(' Nixle ')}`;
+  const nixleMessage = `${colorize('bgBlue', ' Nixle ')}`;
 
   const method = loggerInstance?.[type || 'log'];
 

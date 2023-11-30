@@ -25,8 +25,6 @@ export const createApp = <Server>({ provider, logger, ...options }: AppOptions<S
     createLogger(logger);
   }
 
-  log('Starting an application...', { type: 'info' });
-
   if (options.modules.length === 0) {
     try {
       createInternalError('At least one module is required');
@@ -37,7 +35,7 @@ export const createApp = <Server>({ provider, logger, ...options }: AppOptions<S
   }
 
   buildModules(provider, options.modules);
-  log('Application started!', { type: 'success' });
+  log('🫡 Application successfully started', { type: 'success' });
 
   return provider.server;
 };
