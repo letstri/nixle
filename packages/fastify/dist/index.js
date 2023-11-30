@@ -1,21 +1,22 @@
-import c from "@fastify/cookie";
-import { createProvider as f } from "nixle";
-const k = f((e) => (e.register(c), {
+import { fastify as d } from "fastify";
+import y from "@fastify/cookie";
+import { createProvider as c } from "nixle";
+const C = c((e = d()) => (e.register(y), {
   server: e,
-  request: (i, d, m) => e[i](d, async (a, r) => {
+  request: (i, m, f) => e[i](m, async (o, r) => {
     r.send(
-      await m({
-        request: a,
+      await f({
+        request: o,
         response: r,
-        params: a.params || {},
-        query: { ...a.query || {} },
+        params: o.params || {},
+        query: { ...o.query || {} },
         setStatusCode: (t) => r.status(t),
-        setHeader: (t, o) => r.header(t, o),
-        setCookie: (t, o, s) => r.setCookie(t, o, s)
+        setHeader: (t, a) => r.header(t, a),
+        setCookie: (t, a, s) => r.setCookie(t, a, s)
       })
     );
   })
 }));
 export {
-  k as fastifyProvider
+  C as fastifyProvider
 };

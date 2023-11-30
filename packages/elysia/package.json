@@ -1,6 +1,6 @@
 {
   "name": "@nixle/elysia",
-  "version": "0.4.3",
+  "version": "0.5.0",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -27,6 +27,10 @@
     "url": "https://github.com/letstri/nixle/issues"
   },
   "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/nixle"
+  },
   "devDependencies": {
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.2",

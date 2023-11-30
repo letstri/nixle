@@ -1,8 +1,8 @@
-import type { Express } from 'express';
+import express, { type Express } from 'express';
 import cookieParser from 'cookie-parser';
 import { createProvider } from 'nixle';
 
-export const expressProvider = createProvider<Express>((app) => {
+export const expressProvider = createProvider<Express>((app = express()) => {
   app.use(cookieParser());
 
   return {

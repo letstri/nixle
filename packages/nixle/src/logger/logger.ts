@@ -1,30 +1,31 @@
-import dayjs from 'dayjs';
 import picocolors from 'picocolors';
+import { createConsola, type ConsolaOptions, type LogType } from 'consola';
+import { createInternalError } from '~/createError';
 
-export interface Logger {
-  log(message: string): void;
-}
-export type LoggerType = 'info' | 'success' | 'error' | 'warn';
+export let loggerInstance = createConsola();
 
-export let loggerInstance: Logger | null = {
-  log: console.log,
+export const createLogger = (options: Partial<ConsolaOptions>) => {
+  loggerInstance = createConsola(options);
 };
 
-export const createLogger = (instance: Logger | null) => {
-  loggerInstance = instance;
-};
+/**
+ * @description Log message
+ *
+ * @param {string} message
+ * @param {object} options
+ * @param {string} options.type
+ *
+ * @example log('Hello world', { type: 'info' })
+ */
+export const log = (message: string, options?: { type?: LogType }) => {
+  const type = options?.type || 'log';
+  const nixleMessage = `${picocolors.bgBlue(' Nixle ')}`;
 
-export const log = (message: string, options?: { type?: LoggerType }) => {
-  const type = options?.type || 'info';
-  const nixleMessage = `🫡 ${picocolors.bgBlue(' Nixle ')}`;
-  const timeMessage = `${dayjs().format('DD/MM/YYYY, HH:mm')}`;
-  const typeMessage = picocolors.dim(`${type.charAt(0).toUpperCase()}:`);
-  const chalkType: Record<LoggerType, (message: string) => void> = {
-    info: picocolors.blue,
-    success: picocolors.green,
-    error: picocolors.red,
-    warn: picocolors.yellow,
-  };
+  const method = loggerInstance?.[type || 'log'];
 
-  loggerInstance?.log(`${nixleMessage} ${timeMessage} ${typeMessage} ${chalkType[type](message)}`);
+  if (!method) {
+    createInternalError(`Logger method "${type}" not found`);
+  }
+
+  method(`${nixleMessage} ${message}`);
 };

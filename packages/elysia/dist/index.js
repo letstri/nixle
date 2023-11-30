@@ -1,15 +1,16 @@
-import { createProvider as m } from "nixle";
-const q = m((t) => ({
+import { Elysia as l } from "elysia";
+import { createProvider as n } from "nixle";
+const q = n((t = new l()) => ({
   server: t,
-  request: (o, d, i) => t[o](d, ({ request: v, set: r, cookie: a, params: f, query: l }) => i({
-    request: v,
+  request: (u, i, d) => t[u](i, ({ request: m, set: r, cookie: a, params: v, query: f }) => d({
+    request: m,
     response: r,
-    params: f || {},
-    query: l || {},
+    params: v || {},
+    query: f || {},
     setStatusCode: (e) => r.status = e,
     setHeader: (e, s) => r.headers[e] = s,
-    setCookie: (e, s, u) => {
-      u && a[e].set(u), a[e].value = s;
+    setCookie: (e, s, o) => {
+      o && a[e].set(o), a[e].value = s;
     }
   }))
 }));

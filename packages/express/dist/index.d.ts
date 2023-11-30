@@ -1,2 +1,2 @@
-import type { Express } from 'express';
-export declare const expressProvider: (app: Express) => import("nixle").Provider<Express>;
+import express from 'express';
+export declare const expressProvider: (app: express.Express) => import("nixle").Provider<express.Express>;

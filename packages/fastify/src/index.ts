@@ -1,8 +1,8 @@
-import type { FastifyInstance } from 'fastify';
+import { fastify, type FastifyInstance } from 'fastify';
 import cookie from '@fastify/cookie';
 import { createProvider } from 'nixle';
 
-export const fastifyProvider = createProvider<FastifyInstance>((app) => {
+export const fastifyProvider = createProvider<FastifyInstance>((app = fastify()) => {
   app.register(cookie);
 
   return {

@@ -1,22 +1,38 @@
-import fastify from 'fastify';
-import { createApp, createModule, createRouter } from 'nixle';
+import { createApp, createModule, createRouter, createError, createService } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const app = fastify();
+const usersService = createService(({ log }) => {
+  const getUsers = async () => {
+    createError('User not found');
+
+    return [
+      {
+        id: 1,
+        name: 'John',
+      },
+      {
+        id: 2,
+        name: 'Jane',
+      },
+    ];
+  };
+
+  return {
+    getUsers,
+  };
+});
 
 const usersRouter = createRouter('users', () => [
   {
     path: '/',
-    handler() {
-      return 'Hello Fastify!';
-    },
+    handler: usersService.getUsers,
   },
 ]);
 const usersModule = createModule({
   routers: [usersRouter],
 });
 const server = createApp({
-  provider: fastifyProvider(app),
+  // provider: fastifyProvider(),
   modules: [usersModule],
 });
 

@@ -1,4 +1,4 @@
-import type { Elysia } from 'elysia';
+import { Elysia } from 'elysia';
 export declare const elysiaProvider: (app: Elysia<"", {
     request: {};
     store: {};

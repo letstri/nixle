@@ -1,9 +1,15 @@
-export interface Logger {
-    log(message: string): void;
-}
-export type LoggerType = 'info' | 'success' | 'error' | 'warn';
-export declare let loggerInstance: Logger | null;
-export declare const createLogger: (instance: Logger | null) => void;
+import { type ConsolaOptions, type LogType } from 'consola';
+export declare let loggerInstance: import("consola/core").ConsolaInstance;
+export declare const createLogger: (options: Partial<ConsolaOptions>) => void;
+/**
+ * @description Log message
+ *
+ * @param {string} message
+ * @param {object} options
+ * @param {string} options.type
+ *
+ * @example log('Hello world', { type: 'info' })
+ */
 export declare const log: (message: string, options?: {
-    type?: LoggerType;
+    type?: LogType;
 }) => void;

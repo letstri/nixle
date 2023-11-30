@@ -1,6 +1,6 @@
 <p align="center">
   <a href="https://nixle.letstri.dev" target="_blank" rel="noopener noreferrer">
-    <img width="180" src="https://nixle.letstri.dev/logo.svg" alt="Nixle logo">
+    <img width="100" src="https://nixle.letstri.dev/logo.svg" alt="Nixle logo">
   </a>
 </p>
 <h1 align="center">

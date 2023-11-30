@@ -1,7 +1,7 @@
-import type { Elysia } from 'elysia';
+import { Elysia } from 'elysia';
 import { createProvider } from 'nixle';
 
-export const elysiaProvider = createProvider<Elysia>((app) => {
+export const elysiaProvider = createProvider<Elysia>((app = new Elysia()) => {
   return {
     server: app,
     request: (method, path, handler) =>

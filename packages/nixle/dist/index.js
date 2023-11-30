@@ -1,41 +1,71 @@
-import g from "dayjs";
-import c from "picocolors";
-let d = {
-  log: console.log
-};
-const u = (e) => {
-  d = e;
-}, a = (e, t) => {
-  const s = t?.type || "info", o = `🫡 ${c.bgBlue(" Nixle ")}`, r = `${g().format("DD/MM/YYYY, HH:mm")}`, l = c.dim(`${s.charAt(0).toUpperCase()}:`), n = {
-    info: c.blue,
-    success: c.green,
-    error: c.red,
-    warn: c.yellow
+import y from "picocolors";
+import { createConsola as l } from "consola";
+import m from "dayjs";
+const f = "YYYY-MM-DD HH:mm:ss";
+class c extends Error {
+  constructor({ message: e, statusCode: s, ...o }) {
+    super(e), this.time = m().format(f), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = s || 400, Object.assign(this, o), Error.captureStackTrace(this, this.constructor);
+  }
+}
+function u(t) {
+  throw typeof t == "string" ? new c({ message: t, isInternal: !0 }) : new c({ ...t, isInternal: !0 });
+}
+function S(t) {
+  throw typeof t == "string" ? new c({ message: t }) : new c(t);
+}
+const E = (t) => t instanceof c;
+let d = l();
+const w = (t) => {
+  d = l(t);
+}, r = (t, e) => {
+  const s = e?.type || "log", o = `${y.bgBlue(" Nixle ")}`, n = d?.[s || "log"];
+  n || u(`Logger method "${s}" not found`), n(`${o} ${t}`);
+}, a = (t) => {
+  const e = t.startsWith("/") ? t : `/${t}`;
+  return e.endsWith("/") ? e.slice(0, -1) : e;
+}, x = (t, e) => Object.fromEntries(Object.entries(t).filter(([s]) => !e.includes(s))), O = (t) => t !== Object(t), h = (t) => {
+  E(t) ? r(t.isInternal && t.stack || t.message, { type: "error" }) : t instanceof Error ? r(t.stack || t.message, { type: "error" }) : O(t) ? r(t, { type: "error" }) : r(`${t.constructor.name} ${JSON.stringify(t)}`, { type: "error" });
+  const e = ["name", "stack", "message", "statusCode", "time", "isInternal"], s = {
+    statusCode: t.statusCode || 500,
+    message: t.message || "Internal Server Error",
+    time: t.time || m().format(f)
   };
-  d?.log(`${o} ${r} ${l} ${n[s](e)}`);
-}, y = (e, t) => [e, t], $ = (e) => e({ log: a }), M = (e) => e, i = (e) => {
-  const t = e.startsWith("/") ? e : `/${e}`;
-  return t.endsWith("/") ? t.slice(0, -1) : t;
-}, p = (e, t, s) => {
-  s({ log: a }).forEach((o) => {
-    const r = o.method ? o.method.toLowerCase() : "get", l = i(t) + i(o.path);
-    e.request(r, l, (n) => (n.setHeader("x-powered-by", "Nixle"), o.statusCode && n.setStatusCode(o.statusCode), o.handler(n)));
-  });
-}, h = (e, t) => {
-  t.forEach((s) => {
-    s.routers.forEach(([o, r]) => {
-      p(e, o, r);
+  return t instanceof Error && Object.assign(
+    s,
+    x(JSON.parse(JSON.stringify(t, Object.getOwnPropertyNames(t))), e)
+  ), s;
+}, b = (t, e, s) => {
+  s({ log: r }).forEach((o) => {
+    const n = o.method ? o.method.toLowerCase() : "get", g = a(e) + a(o.path);
+    t.request(n, g, async (i) => {
+      i.setHeader("x-powered-by", "Nixle"), o.statusCode && i.setStatusCode(o.statusCode);
+      try {
+        return await o.handler(i);
+      } catch (p) {
+        throw h(p);
+      }
     });
   });
-}, x = ({
-  provider: e,
-  logger: t,
-  ...s
-}) => (t !== void 0 && u(t), a("Starting an application..."), h(e, s.modules), a("Application successfully started"), e.server), b = (e) => e;
+}, P = (t, e) => [t, e], $ = (t) => t({ log: r }), A = (t) => t, C = (t, e) => {
+  e.forEach((s) => {
+    s.routers.forEach(([o, n]) => {
+      b(t, o, n);
+    });
+  });
+}, M = ({ provider: t, logger: e, ...s }) => {
+  if (!t)
+    try {
+      u("Provider is required");
+    } catch (o) {
+      h(o), process.exit(1);
+    }
+  return e !== void 0 && w(e), r("Starting an application...", { type: "info" }), C(t, s.modules), r("Application started!", { type: "success" }), t.server;
+}, v = (t) => t;
 export {
-  x as createApp,
-  M as createModule,
-  b as createProvider,
-  y as createRouter,
+  M as createApp,
+  S as createError,
+  A as createModule,
+  v as createProvider,
+  P as createRouter,
   $ as createService
 };

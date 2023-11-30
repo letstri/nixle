@@ -1,17 +1,18 @@
-import c from "cookie-parser";
-import { createProvider as u } from "nixle";
-const y = u((t) => (t.use(c()), {
+import c from "express";
+import u from "cookie-parser";
+import { createProvider as f } from "nixle";
+const y = f((t = c()) => (t.use(u()), {
   server: t,
-  request: (i, s, d) => t[i](s, async (a, r) => {
+  request: (s, i, m) => t[s](i, async (o, r) => {
     r.send(
-      await d({
-        request: a,
+      await m({
+        request: o,
         response: r,
-        params: a.params || {},
-        query: a.query || {},
+        params: o.params || {},
+        query: o.query || {},
         setStatusCode: (e) => r.status(e),
-        setHeader: (e, o) => r.setHeader(e, o),
-        setCookie: (e, o, m = {}) => r.cookie(e, o, m)
+        setHeader: (e, a) => r.setHeader(e, a),
+        setCookie: (e, a, d = {}) => r.cookie(e, a, d)
       })
     );
   })
