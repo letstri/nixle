@@ -38,7 +38,7 @@ Each service provides `log` function in context.
 ```ts{5}
 import { createService } from 'nixle';
 
-const usersRouter = createService(({ log }) => {
+const usersService = createService(({ log }) => {
   const getUsers = () => {
     log('Some log for debug', { type: 'debug' });
 
