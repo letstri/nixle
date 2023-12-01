@@ -1,4 +1,7 @@
-import { log as _log } from './logger/logger';
-export declare const createService: <Methods extends Record<string, (...args: any) => any>>(service: ({ log }: {
-    log: typeof _log;
-}) => Methods) => Methods;
+import { log } from './services/logger';
+interface ServiceOptions {
+    log: typeof log;
+}
+type ServiceMethods = Record<string, (name: string, ...args: any) => any>;
+export declare const createService: <Methods extends ServiceMethods>(service: (options: ServiceOptions) => Methods) => Methods;
+export {};

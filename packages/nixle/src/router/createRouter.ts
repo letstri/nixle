@@ -1,5 +1,5 @@
-import type { log } from '~/logger/logger';
-import type { HTTPMethod } from '~/utils/HTTPMethod';
+import type { log } from '~/services/logger';
+import type { HTTPMethod } from '~/types/HTTPMethod';
 import type { Handler } from '~/createProvider';
 
 export interface Route {
@@ -36,4 +36,4 @@ export type Routes = (params: { log: typeof log }) => Route[];
 
 export const routers = new Map<string, Routes>([]);
 
-export const createRouter = (path: string, routes: Routes) => [path, routes] as [string, Routes];
+export const createRouter = (path: string, routes: Routes) => [path, routes] as const;

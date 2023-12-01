@@ -1,10 +1,11 @@
 export interface NixleErrorOptions extends Omit<Error, 'name'> {
     statusCode?: number;
-    isInternal?: boolean;
     [key: string]: any;
 }
 export declare class NixleError extends Error {
-    constructor({ message, statusCode, ...options }: NixleErrorOptions);
+    constructor({ message, statusCode, ...options }: NixleErrorOptions & {
+        isInternal: boolean;
+    });
     time: string;
     statusCode: number;
     isInternal: boolean;

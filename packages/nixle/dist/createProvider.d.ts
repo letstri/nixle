@@ -50,6 +50,15 @@ export type Handler = (params: {
      */
     setHeader: (key: string, value: string) => void;
     /**
+     * Get header
+     *
+     * @param key
+     *
+     * @example
+     * getHeader('Content-Type'); // -> application/json
+     */
+    getHeader: (key: string) => string | null;
+    /**
      * Set cookie
      *
      * @param key
@@ -61,8 +70,17 @@ export type Handler = (params: {
      * setCookie('token', '123', { httpOnly: true });
      */
     setCookie: (key: string, value: string, options?: CookieSerializeOptions) => void;
+    /**
+     * Get cookie
+     *
+     * @param key
+     *
+     * @example
+     * getCookie('token'); // -> 123
+     */
+    getCookie: (key: string) => string | null;
 }) => Promise<any> | any;
-export interface Provider<Server> {
+export interface Provider<App> {
     /**
      * Register a route
      *
@@ -74,6 +92,6 @@ export interface Provider<Server> {
      * request('get', '/users', () => ({ message: 'Hello world!' }));
      */
     request: (method: Lowercase<HTTPMethod>, path: string, handler: Handler) => void;
-    server: Server;
+    app: App;
 }
-export declare const createProvider: <Server>(config: (app: Server) => Provider<Server>) => (app: Server) => Provider<Server>;
+export declare const createProvider: <App>(config: (app: App) => Provider<App>) => (app: App) => Provider<App>;

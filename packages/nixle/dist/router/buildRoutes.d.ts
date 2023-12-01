@@ -1,3 +1,3 @@
-import type { Provider } from '../createProvider';
 import type { Routes } from './createRouter';
-export declare const buildRoutes: <Server>(provider: Provider<Server>, routerPath: string, _routes: Routes) => void;
+import type { AppOptions } from '../createApp';
+export declare const buildRoutes: <Server>(options: AppOptions<Server>, routerPath: string, _routes: Routes) => void;

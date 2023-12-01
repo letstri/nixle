@@ -1,30 +1,31 @@
-import { createConsola as B } from "consola";
-import * as m from "node:tty";
-import C from "dayjs";
+import { createConsola as C } from "consola";
+import * as b from "node:tty";
+import E from "dayjs";
+import M from "mitt";
 const {
   env: o = {},
-  argv: p = [],
-  platform: M = ""
-} = typeof process > "u" ? {} : process, N = "NO_COLOR" in o || p.includes("--no-color"), R = "FORCE_COLOR" in o || p.includes("--color"), T = M === "win32", E = o.TERM === "dumb", j = m && m.isatty && m.isatty(1) && o.TERM && !E, k = "CI" in o && ("GITHUB_ACTIONS" in o || "GITLAB_CI" in o || "CIRCLECI" in o), A = !N && (R || T && !E || j || k);
-function O(e, s, n, i, r = s.slice(0, Math.max(0, e)) + i, a = s.slice(Math.max(0, e + n.length)), h = a.indexOf(n)) {
-  return r + (h < 0 ? a : O(h, a, n, i));
+  argv: O = [],
+  platform: N = ""
+} = typeof process > "u" ? {} : process, R = "NO_COLOR" in o || O.includes("--no-color"), T = "FORCE_COLOR" in o || O.includes("--color"), j = N === "win32", w = o.TERM === "dumb", k = b && b.isatty && b.isatty(1) && o.TERM && !w, A = "CI" in o && ("GITHUB_ACTIONS" in o || "GITLAB_CI" in o || "CIRCLECI" in o), S = !R && (T || j && !w || k || A);
+function x(e, r, s, i, n = r.slice(0, Math.max(0, e)) + i, a = r.slice(Math.max(0, e + s.length)), m = a.indexOf(s)) {
+  return n + (m < 0 ? a : x(m, a, s, i));
 }
-function S(e, s, n, i, r) {
-  return e < 0 ? n + s + i : n + O(e, s, i, r) + i;
+function P(e, r, s, i, n) {
+  return e < 0 ? s + r + i : s + x(e, r, i, n) + i;
 }
-function v(e, s, n = e, i = e.length + 1) {
-  return (r) => r || !(r === "" || r === void 0) ? S(
-    ("" + r).indexOf(s, i),
-    r,
+function $(e, r, s = e, i = e.length + 1) {
+  return (n) => n || !(n === "" || n === void 0) ? P(
+    ("" + n).indexOf(r, i),
+    n,
     e,
-    s,
-    n
+    r,
+    s
   ) : "";
 }
-function t(e, s, n) {
-  return v(`\x1B[${e}m`, `\x1B[${s}m`, n);
+function t(e, r, s) {
+  return $(`\x1B[${e}m`, `\x1B[${r}m`, s);
 }
-const f = {
+const y = {
   reset: t(0, 0),
   bold: t(1, 22, "\x1B[22m\x1B[1m"),
   dim: t(2, 22, "\x1B[22m\x1B[2m"),
@@ -67,100 +68,108 @@ const f = {
   bgCyanBright: t(106, 49),
   bgWhiteBright: t(107, 49)
 };
-function $(e = A) {
-  return e ? f : Object.fromEntries(Object.keys(f).map((s) => [s, String]));
+function L(e = S) {
+  return e ? y : Object.fromEntries(Object.keys(y).map((r) => [r, String]));
 }
-const b = $();
-function L(e, s = "reset") {
-  return b[e] || b[s];
+const p = L();
+function D(e, r = "reset") {
+  return p[e] || p[r];
 }
-function P(e, s) {
-  return L(e)(s);
+function _(e, r) {
+  return D(e)(r);
 }
-const w = "YYYY-MM-DD HH:mm:ss", D = (e, s) => Object.fromEntries(Object.entries(e).filter(([n]) => !s.includes(n))), _ = (e) => e !== Object(e);
-class g extends Error {
-  constructor({ message: s, statusCode: n, ...i }) {
-    super(s), this.time = C().format(w), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = n || 400, Object.assign(this, i), Error.captureStackTrace(this, this.constructor);
+const I = "YYYY-MM-DD HH:mm:ss", q = (e, r) => Object.fromEntries(Object.entries(e).filter(([s]) => !r.includes(s))), Y = (e) => e !== Object(e), g = M();
+class u extends Error {
+  constructor({ message: r, statusCode: s, ...i }) {
+    super(r), this.time = E().format(I), this.statusCode = 400, this.isInternal = !1, this.name = "NixleError", this.statusCode = s || 400, Object.assign(this, i), Error.captureStackTrace(this, this.constructor);
   }
 }
-function u(e) {
-  throw typeof e == "string" ? new g({ message: e, isInternal: !0 }) : new g({ ...e, isInternal: !0 });
+function h(e) {
+  throw typeof e == "string" ? new u({ message: e, isInternal: !0 }) : new u({ ...e, isInternal: !0 });
 }
-function J(e) {
-  throw typeof e == "string" ? new g({ message: e }) : new g(e);
+function K(e) {
+  throw typeof e == "string" ? new u({ message: e, isInternal: !1 }) : new u({ ...e, isInternal: !1 });
 }
-const Y = (e) => e instanceof g, l = (e) => {
-  Y(e) ? c(e.isInternal && e.stack || e.message, { type: "error" }) : e instanceof Error ? c(e.stack || e.message, { type: "error" }) : _(e) ? c(e, { type: "error" }) : c(`${e.constructor.name} ${JSON.stringify(e)}`, { type: "error" });
-  const s = ["name", "stack", "message", "statusCode", "time", "isInternal"], n = {
+const F = (e) => e instanceof u, l = (e) => {
+  g.emit("error", e), F(e) ? c(e.isInternal && e.stack || e.message, { type: "error" }) : e instanceof Error ? c(e.stack || e.message, { type: "error" }) : Y(e) ? c(e, { type: "error" }) : c(`${e.constructor.name} ${JSON.stringify(e)}`, { type: "error" });
+  const r = ["name", "stack", "message", "statusCode", "time", "isInternal"], s = {
     statusCode: e.statusCode || 500,
     message: e.message || "Internal Server Error",
-    time: e.time || C().format(w)
+    time: e.time || E().format(I)
   };
   return e instanceof Error && Object.assign(
-    n,
-    D(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), s)
-  ), n;
+    s,
+    q(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), r)
+  ), s;
 };
-let x = B();
-const q = (e) => {
-  x = B(e);
-}, c = (e, s) => {
-  const n = s?.type || "log", i = `${P("bgBlue", " Nixle ")}`, r = x?.[n || "log"];
-  r || u(`Logger method "${n}" not found`), r(`${i} ${e}`);
-}, y = (e) => {
-  const s = e.startsWith("/") ? e : `/${e}`;
-  return s.endsWith("/") ? s.slice(0, -1) : s;
-}, F = (e, s, n) => {
-  const i = n({ log: c });
+let v = C();
+const W = (e) => {
+  v = C(e);
+}, c = (e, r) => {
+  const s = r?.type || "log", i = `${_("bgBlue", " Nixle ")}`, n = v?.[s || "log"];
+  n || h(`Logger method "${s}" not found`), n(`${i} ${e}`);
+}, B = (e) => {
+  const r = e.startsWith("/") ? e : `/${e}`;
+  return r.endsWith("/") ? r.slice(0, -1) : r;
+}, G = (e, r, s) => {
+  const i = s({ log: c });
   if (i.length === 0)
     try {
-      u("At least one router is required");
-    } catch (r) {
-      l(r), process.exit(1);
+      h("At least one router is required");
+    } catch (n) {
+      l(n), process.exit(1);
     }
-  if (i.some((r) => !r.path || !r.handler))
+  if (i.some((n) => !n.path || !n.handler))
     try {
-      u("Path and handler are required for each route");
-    } catch (r) {
-      l(r), process.exit(1);
+      h("Path and handler are required for each route");
+    } catch (n) {
+      l(n), process.exit(1);
     }
-  i.forEach((r) => {
-    const a = r.method ? r.method.toLowerCase() : "get", h = y(s) + y(r.path);
-    e.request(a, h, async (d) => {
-      d.setHeader("x-powered-by", "Nixle"), r.statusCode && d.setStatusCode(r.statusCode);
+  i.forEach((n) => {
+    const a = n.method ? n.method.toLowerCase() : "get", m = B(r) + B(n.path);
+    e.provider.request(a, m, async (d) => {
+      g.emit("request", d), d.setHeader("x-powered-by", "Nixle"), n.statusCode && d.setStatusCode(n.statusCode);
       try {
-        return await r.handler(d);
-      } catch (I) {
-        throw l(I);
+        const f = await n.handler(d);
+        return g.emit("response", f), f;
+      } catch (f) {
+        throw l(f);
       }
     });
   });
-}, U = (e, s) => [e, s], z = (e) => e({ log: c }), K = (e) => e, W = (e, s) => {
-  s.forEach((n) => {
-    n.routers.forEach(([i, r]) => {
-      F(e, i, r);
+}, H = (e) => {
+  e.modules.forEach((r) => {
+    r.routers.forEach(([s, i]) => {
+      G(e, s, i);
     });
   });
-}, Q = ({ provider: e, logger: s, ...n }) => {
-  if (!e)
+}, Q = (e) => {
+  if (!e.provider)
     try {
-      u("Provider is required");
-    } catch (i) {
-      l(i), process.exit(1);
+      h("Provider is required");
+    } catch (r) {
+      l(r), process.exit(1);
     }
-  if (s !== void 0 && q(s), n.modules.length === 0)
+  if (e.logger !== void 0 && W(e.logger), e.modules.length === 0)
     try {
-      u("At least one module is required");
-    } catch (i) {
-      l(i), process.exit(1);
+      h("At least one module is required");
+    } catch (r) {
+      l(r), process.exit(1);
     }
-  return W(e, n.modules), c("🫡 Application successfully started", { type: "success" }), e.server;
-}, V = (e) => e;
+  return H(e), c("🫡 Application successfully started", { type: "success" }), {
+    app: e.provider.app,
+    events: {
+      on: g.on,
+      emit: g.emit
+    }
+  };
+}, V = (e, r) => [e, r], X = (e) => e, Z = (e) => e({ log: c }), ee = (e) => e, te = (e, r) => (s) => [e, r({ app: s, log: c })];
 export {
   Q as createApp,
-  J as createError,
-  K as createModule,
-  V as createProvider,
-  U as createRouter,
-  z as createService
+  K as createError,
+  X as createModule,
+  te as createPlugin,
+  ee as createProvider,
+  V as createRouter,
+  Z as createService
 };

@@ -1,9 +1,10 @@
 import type { ConsolaOptions } from 'consola';
-import { createLogger, log } from './logger/logger';
+import { createLogger, log } from './services/logger';
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
 import type { Provider } from './createProvider';
 import { createInternalError, logAndFormatError } from './createError';
+import { emitter } from './services/emmiter';
 
 export interface AppOptions<Server> {
   provider: Provider<Server>;
@@ -11,8 +12,8 @@ export interface AppOptions<Server> {
   logger?: Partial<ConsolaOptions>;
 }
 
-export const createApp = <Server>({ provider, logger, ...options }: AppOptions<Server>) => {
-  if (!provider) {
+export const createApp = <Server>(options: AppOptions<Server>) => {
+  if (!options.provider) {
     try {
       createInternalError('Provider is required');
     } catch (e) {
@@ -21,8 +22,8 @@ export const createApp = <Server>({ provider, logger, ...options }: AppOptions<S
     }
   }
 
-  if (logger !== undefined) {
-    createLogger(logger);
+  if (options.logger !== undefined) {
+    createLogger(options.logger);
   }
 
   if (options.modules.length === 0) {
@@ -34,8 +35,15 @@ export const createApp = <Server>({ provider, logger, ...options }: AppOptions<S
     }
   }
 
-  buildModules(provider, options.modules);
+  buildModules(options);
+
   log('🫡 Application successfully started', { type: 'success' });
 
-  return provider.server;
+  return {
+    app: options.provider.app,
+    events: {
+      on: emitter.on,
+      emit: emitter.emit,
+    },
+  };
 };

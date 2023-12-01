@@ -1,12 +1,14 @@
 import type { Provider } from '~/createProvider';
-import type { HTTPMethod } from '~/utils/HTTPMethod';
+import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
-import { log } from '~/logger/logger';
+import { log } from '~/services/logger';
 import type { Routes } from './createRouter';
 import { createInternalError, logAndFormatError } from '~/createError';
+import type { AppOptions } from '~/createApp';
+import { emitter } from '~/services/emmiter';
 
 export const buildRoutes = <Server>(
-  provider: Provider<Server>,
+  options: AppOptions<Server>,
   routerPath: string,
   _routes: Routes,
 ) => {
@@ -34,7 +36,8 @@ export const buildRoutes = <Server>(
     const method = route.method ? (route.method.toLowerCase() as Lowercase<HTTPMethod>) : 'get';
     const routePath = fixPath(routerPath) + fixPath(route.path);
 
-    provider.request(method, routePath, async (params) => {
+    options.provider.request(method, routePath, async (params) => {
+      emitter.emit('request', params);
       params.setHeader('x-powered-by', 'Nixle');
 
       if (route.statusCode) {
@@ -42,7 +45,11 @@ export const buildRoutes = <Server>(
       }
 
       try {
-        return await route.handler(params);
+        const response = await route.handler(params);
+
+        emitter.emit('response', response);
+
+        return response;
       } catch (error) {
         throw logAndFormatError(error);
       }

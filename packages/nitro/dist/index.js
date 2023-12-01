@@ -1,20 +1,22 @@
-import { eventHandler as i, getQuery as m, setCookie as n } from "h3";
-import { createProvider as p } from "nixle";
-const c = p((s) => ({
-  server: s,
-  request: (t, d, a) => s.router[t](
+import { eventHandler as i, getQuery as m, setCookie as C, getCookie as g } from "h3";
+import { createProvider as k } from "nixle";
+const q = k((t) => ({
+  app: t,
+  request: (s, d, a) => t.router[s](
     d,
-    i((r) => a({
-      request: r.node.req,
-      response: r.node.res,
-      params: r.context.params || {},
-      query: m(r),
-      setStatusCode: (e) => r.node.res.statusCode = e,
-      setHeader: (e, o) => r.headers.set(e, o),
-      setCookie: (e, o, u) => n(r, e, o, u)
+    i((e) => a({
+      request: e.node.req,
+      response: e.node.res,
+      params: e.context.params || {},
+      query: m(e),
+      setStatusCode: (r) => e.node.res.statusCode = r,
+      setHeader: (r, o) => e.headers.set(r, o),
+      getHeader: (r) => e.headers.get(r),
+      setCookie: (r, o, u) => C(e, r, o, u),
+      getCookie: (r) => g(e, r) || null
     }))
   )
 }));
 export {
-  c as nitroProvider
+  q as nitroProvider
 };

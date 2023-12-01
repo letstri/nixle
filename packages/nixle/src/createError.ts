@@ -1,16 +1,16 @@
 import dayjs from 'dayjs';
 import { DEFAULT_DATE_FORMAT } from './utils/date';
-import { log } from './logger/logger';
+import { log } from './services/logger';
 import { isPrimitive, omit } from './utils/helpers';
+import { emitter } from './services/emmiter';
 
 export interface NixleErrorOptions extends Omit<Error, 'name'> {
   statusCode?: number;
-  isInternal?: boolean;
   [key: string]: any;
 }
 
 export class NixleError extends Error {
-  constructor({ message, statusCode, ...options }: NixleErrorOptions) {
+  constructor({ message, statusCode, ...options }: NixleErrorOptions & { isInternal: boolean }) {
     super(message);
     this.name = 'NixleError';
     this.statusCode = statusCode || 400;
@@ -33,9 +33,9 @@ export function createInternalError(options: string | NixleErrorOptions): never 
 
 export function createError(options: string | NixleErrorOptions): never {
   if (typeof options === 'string') {
-    throw new NixleError({ message: options });
+    throw new NixleError({ message: options, isInternal: false });
   } else {
-    throw new NixleError(options);
+    throw new NixleError({ ...options, isInternal: false });
   }
 }
 
@@ -44,6 +44,7 @@ export const isNixleError = (error: any): error is NixleError => {
 };
 
 export const logAndFormatError = (error: any) => {
+  emitter.emit('error', error);
   if (isNixleError(error)) {
     log((error.isInternal && error.stack) || error.message, { type: 'error' });
   } else if (error instanceof Error) {

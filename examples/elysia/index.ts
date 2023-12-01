@@ -1,8 +1,5 @@
-import { Elysia } from 'elysia';
 import { createApp, createModule, createRouter } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
-
-const app = new Elysia();
 
 const usersRouter = createRouter('users', () => [
   {
@@ -15,9 +12,9 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp({
-  provider: elysiaProvider(app),
+const { app } = createApp({
+  provider: elysiaProvider(),
   modules: [usersModule],
 });
 
-server.listen(4000);
+app.listen(4000);

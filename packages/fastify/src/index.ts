@@ -6,7 +6,7 @@ export const fastifyProvider = createProvider<FastifyInstance>((app = fastify())
   app.register(cookie);
 
   return {
-    server: app,
+    app,
     request: (method, path, handler) =>
       app[method](path, async (request, response) => {
         response.send(
@@ -17,7 +17,9 @@ export const fastifyProvider = createProvider<FastifyInstance>((app = fastify())
             query: { ...(request.query || {}) } as any,
             setStatusCode: (code) => response.status(code),
             setHeader: (key, value) => response.header(key, value),
+            getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
             setCookie: (key, value, options) => response.setCookie(key, value, options),
+            getCookie: (key) => request.cookies[key] || null,
           }),
         );
       }),

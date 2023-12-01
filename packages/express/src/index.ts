@@ -6,7 +6,7 @@ export const expressProvider = createProvider<Express>((app = express()) => {
   app.use(cookieParser());
 
   return {
-    server: app,
+    app,
     request: (method, path, handler) =>
       app[method](path, async (request, response) => {
         response.send(
@@ -17,7 +17,9 @@ export const expressProvider = createProvider<Express>((app = express()) => {
             query: (request.query as Record<string, string | string[]>) || {},
             setStatusCode: (code) => response.status(code),
             setHeader: (name, value) => response.setHeader(name, value),
+            getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
             setCookie: (key, value, options = {}) => response.cookie(key, value, options),
+            getCookie: (key) => request.cookies[key] || null,
           }),
         );
       }),
