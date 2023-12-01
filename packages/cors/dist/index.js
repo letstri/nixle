@@ -57,7 +57,7 @@ const H = (t, o) => {
     maxAge: 5,
     preflight: !0,
     ...t
-  }, s = typeof origin == "boolean" ? void 0 : Array.isArray(origin) ? origin : [origin];
+  }, s = typeof e.origin == "boolean" ? void 0 : Array.isArray(e.origin) ? e.origin : [e.origin];
   e.preflight && o.createRoute("options", "/", (r) => (n(r, t, s), i(r, t), e.exposedHeaders.length && r.setHeader(
     "Access-Control-Allow-Headers",
     typeof e.allowedHeaders == "string" ? e.allowedHeaders : e.allowedHeaders.join(", ")
