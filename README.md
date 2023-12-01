@@ -1,21 +1,14 @@
 <p align="center">
   <a href="https://nixle.letstri.dev" target="_blank" rel="noopener noreferrer">
-    <img width="100" src="https://nixle.letstri.dev/logo.svg" alt="Nixle logo">
+    <img height="50" src="https://nixle.letstri.dev/logo-with-text.svg" alt="Nixle logo">
   </a>
 </p>
-<h1 align="center">
-  <a href="https://nixle.letstri.dev" alt="Nixle site">Nixle</a>
-</h1>
 <p align="center">
-  <strong>Universal server-side framework.</strong>
+  Universal server-side framework.
 </p>
 <p align="center">
-  <a href="https://www.npmjs.com/package/nixle">
-    <img src="https://img.shields.io/npm/v/nixle.svg">
-  </a>
-  <a href="https://nixle.letstri.dev">
-    <img src="https://img.shields.io/badge/you_want-this-blue">
-  </a>
+  <a href="https://www.npmjs.com/package/nixle"><img src="https://img.shields.io/npm/v/nixle.svg?style=for-the-badge"></a>
+  <a href="https://nixle.letstri.dev"><img src="https://img.shields.io/badge/you_want-nixle-blue?style=for-the-badge"></a>
 </p>
 
 ## Installation
