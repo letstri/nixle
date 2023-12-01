@@ -30,7 +30,11 @@ export const corsPlugin = (
     };
 
     const origins =
-      typeof origin === 'boolean' ? undefined : Array.isArray(origin) ? origin : [origin];
+      typeof _config.origin === 'boolean'
+        ? undefined
+        : Array.isArray(_config.origin)
+          ? _config.origin
+          : [_config.origin];
 
     if (_config.preflight)
       nixleApp.createRoute('options', '/', (params) => {
