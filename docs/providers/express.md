@@ -1,8 +1,14 @@
+---
+outline: deep
+---
+
 # Express
 
-To use Express with Nixle, you need to install the `@nixle/express` package.
+To use Express as the main provider with Nixle, you need to install the `@nixle/express` package. This package provides the necessary functionality for integrating Express into your Nixle application.
 
 ## Install
+
+You can install the `@nixle/express` package using npm, pnpm, yarn, or bun:
 
 ::: code-group
 
@@ -11,7 +17,7 @@ npm i @nixle/express
 ```
 
 ```sh [pnpm]
-pnpm i @nixle/express
+pnpm add @nixle/express
 ```
 
 ```sh [yarn]
@@ -24,12 +30,12 @@ bun i @nixle/express
 
 :::
 
-## Usage
+## Setup
 
 ```ts
-const express = require('express');
-const { createApp, createModule, createRouter } = require('nixle');
-const { expressProvider } = require('@nixle/express');
+import express from 'express';
+import { createApp, createModule, createRouter } from 'nixle';
+import { expressProvider } from '@nixle/express';
 
 const app = express();
 
@@ -53,4 +59,4 @@ server.listen(4000);
 
 ---
 
-[Example](https://github.com/letstri/nixle/tree/main/examples/express)
+[Example](https://github.com/letstri/nixle/blob/main/examples/express/index.mjs)

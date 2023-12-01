@@ -1,11 +1,12 @@
 :root {
-  --vp-nav-logo-height: 16px;
+  --vp-nav-logo-height: 12px;
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: linear-gradient(150deg, #315eff 10%, #fa00ff);
   --vp-c-brand-1: #6635fe;
   --vp-c-brand-2: #885aff;
   --vp-c-brand-3: #6635fe;
   --vp-sidebar-bg-color: transparent;
+  --vp-c-gray-soft: rgba(101, 117, 133, 0.08);
 }
 
 .VPHome .VPHero {

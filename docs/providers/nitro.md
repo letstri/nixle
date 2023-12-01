@@ -1,12 +1,17 @@
 ---
+outline: deep
 title: Nuxt as backend framework
 ---
 
-# Nuxt
+# Nitro (Nuxt)
 
-To use Nuxt with Nixle, you need to install the `@nixle/nitro` package.
+Nuxt uses [Nitro](https://nitro.unjs.io/) as the backend framework for building server-side applications.
+
+To use Nitro as the main provider with Nixle, you need to install the `@nixle/nitro` package. This package provides the necessary functionality for integrating Nitro into your Nixle application.
 
 ## Install
+
+You can install the `@nixle/nitro` package using npm, pnpm, yarn, or bun:
 
 ::: code-group
 
@@ -15,7 +20,7 @@ npm i @nixle/nitro
 ```
 
 ```sh [pnpm]
-pnpm i @nixle/nitro
+pnpm add @nixle/nitro
 ```
 
 ```sh [yarn]
@@ -28,7 +33,7 @@ bun i @nixle/nitro
 
 :::
 
-## Usage
+## Setup
 
 ```ts
 // server/plugins/nixle.ts

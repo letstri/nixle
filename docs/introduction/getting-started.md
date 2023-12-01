@@ -4,7 +4,11 @@ outline: deep
 
 # Getting Started
 
+Nixle is a framework for building HTTP servers. It is designed to be simple, fast, and extensible. It is built on top of existing frameworks, such as Express, Fastify, and Nitro.
+
 ## Installation
+
+You can install the `nixle` package using npm, pnpm, yarn, or bun:
 
 ::: code-group
 
@@ -13,7 +17,7 @@ npm i nixle
 ```
 
 ```sh [pnpm]
-pnpm i nixle
+pnpm add nixle
 ```
 
 ```sh [yarn]
@@ -28,9 +32,16 @@ bun i nixle
 
 ## Quick Start
 
+::: tip Compatibility Note
+Nixle requires [Node.js](https://nodejs.org/en/) version 18+. 20+.
+:::
+
 ### Create base
 
+Before you can create a server, you need to create a base. A base is a collaboration of modules and routes that make up your server.
+
 ```ts
+// usersModule.ts
 import { createModule, createRouter } from 'nixle';
 
 const usersRouter = createRouter('users', () => [
@@ -49,6 +60,8 @@ const usersModule = createModule({
 
 ### Choose a provider
 
+Each provider provides the same functionality, but with different frameworks. You can choose from the following providers:
+
 ::: code-group
 
 ```ts [Nuxt]
@@ -65,10 +78,10 @@ export default defineNitroPlugin((nitroApp) => {
 ```
 
 ```ts [Express]
-const express = require('express');
-const { createApp } = require('nixle');
-const { expressProvider } = require('@nixle/express');
-const { usersModule } = require('./usersModule');
+import express from 'express';
+import { createApp } from 'nixle';
+import { expressProvider } from '@nixle/express';
+import { usersModule } from './usersModule';
 
 const app = express();
 
@@ -81,10 +94,10 @@ server.listen(4000);
 ```
 
 ```ts [Fastify]
-const fastify = require('fastify');
-const { createApp } = require('nixle');
-const { fastifyProvider } = require('@nixle/fastify');
-const { usersModule } = require('./usersModule');
+import fastify from 'fastify';
+import { createApp } from 'nixle';
+import { fastifyProvider } from '@nixle/fastify';
+import { usersModule } from './usersModule';
 
 const app = fastify();
 
@@ -114,9 +127,11 @@ server.listen(4000);
 
 :::
 
-[Or create your own provider.](/providers/custom)
+Or [create](/providers/custom) your own provider.
 
 ### Try it
+
+After successfully creating the server, you can try it out to send a request to the server.
 
 ```ts
 const data = fetch('http://localhost:4000/users').then((res) => res.text());

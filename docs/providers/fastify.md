@@ -1,8 +1,14 @@
+---
+outline: deep
+---
+
 # Fastify
 
-To use Fastify with Nixle, you need to install the `@nixle/fastify` package.
+To use Fastify as the main provider with Nixle, you need to install the `@nixle/fastify` package. This package provides the necessary functionality for integrating Fastify into your Nixle application.
 
 ## Install
+
+You can install the `@nixle/fastify` package using npm, pnpm, yarn, or bun:
 
 ::: code-group
 
@@ -11,7 +17,7 @@ npm i @nixle/fastify
 ```
 
 ```sh [pnpm]
-pnpm i @nixle/fastify
+pnpm add @nixle/fastify
 ```
 
 ```sh [yarn]
@@ -24,12 +30,12 @@ bun i @nixle/fastify
 
 :::
 
-## Usage
+## Setup
 
 ```ts
-const fastify = require('fastify');
-const { createApp, createModule, createRouter } = require('nixle');
-const { fastifyProvider } = require('@nixle/fastify');
+import fastify from 'fastify';
+import { createApp, createModule, createRouter } from 'nixle';
+import { fastifyProvider } from '@nixle/fastify';
 
 const app = fastify();
 
@@ -53,4 +59,4 @@ server.listen({ port: 4000 });
 
 ---
 
-[Example](https://github.com/letstri/nixle/tree/main/examples/fastify)
+[Example](https://github.com/letstri/nixle/blob/main/examples/fastify/index.mjs)

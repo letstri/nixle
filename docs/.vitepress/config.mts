@@ -1,7 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 const providers = [
-  { text: 'Nuxt', link: '/providers/nuxt' },
+  { text: 'Nitro (Nuxt)', link: '/providers/nitro' },
   { text: 'Express', link: '/providers/express' },
   { text: 'Fastify', link: '/providers/fastify' },
   { text: 'Elysia (Bun)', link: '/providers/elysia' },
@@ -9,10 +9,13 @@ const providers = [
 ];
 
 const overview = [
+  { text: 'App', link: '/overview/app' },
   { text: 'Modules', link: '/overview/modules' },
   { text: 'Routers', link: '/overview/routers' },
   { text: 'Services', link: '/overview/services' },
   { text: 'Logger', link: '/overview/logger' },
+  { text: 'Errors', link: '/overview/errors' },
+  { text: 'Plugins', link: '/overview/plugins' },
 ];
 
 // https://vitepress.dev/reference/site-config
@@ -44,11 +47,12 @@ export default defineConfig({
         items: [
           { text: 'Why Nixle?', link: '/introduction/why' },
           { text: 'Getting Started', link: '/introduction/getting-started' },
+          { text: 'Roadmap', link: '/introduction/roadmap' },
         ],
       },
       {
         text: 'Providers',
-        items: [{ text: 'What is Provider?', link: '/providers/index' }, ...providers],
+        items: [{ text: 'What is Provider?', link: '/providers/what' }, ...providers],
       },
       {
         text: 'Overview',

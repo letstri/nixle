@@ -1,8 +1,14 @@
+---
+outline: deep
+---
+
 # Elysia
 
-To use Elysia with Nixle, you need to install the `@nixle/elysia` package.
+To use Elysia as the main provider with Nixle, you need to install the `@nixle/elysia` package. This package provides the necessary functionality for integrating Elysia into your Nixle application.
 
 ## Install
+
+You can install the `@nixle/elysia` package using npm, pnpm, yarn, or bun:
 
 ::: code-group
 
@@ -11,7 +17,7 @@ npm i @nixle/elysia
 ```
 
 ```sh [pnpm]
-pnpm i @nixle/elysia
+pnpm add @nixle/elysia
 ```
 
 ```sh [yarn]
@@ -24,7 +30,7 @@ bun i @nixle/elysia
 
 :::
 
-## Usage
+## Setup
 
 ```ts
 import { Elysia } from 'elysia';
@@ -54,4 +60,4 @@ server.listen(4000);
 
 ---
 
-[Example](https://github.com/letstri/nixle/tree/main/examples/elysia)
+[Example](https://github.com/letstri/nixle/blob/main/examples/elysia/index.ts)
