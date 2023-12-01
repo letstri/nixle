@@ -1,45 +1,45 @@
-import { createPlugin as g } from "nixle";
-const h = (e, r) => {
-  switch (typeof e) {
+import { createPlugin as a } from "nixle";
+const H = (t, o) => {
+  switch (typeof t) {
     case "string":
-      const o = r.indexOf("://");
-      return o === -1 ? !1 : e === r.slice(o + 3);
+      const e = o.indexOf("://");
+      return e === -1 ? !1 : t === o.slice(e + 3);
     case "object":
-      return e.test(r);
+      return t.test(o);
   }
-}, A = (e, r, o) => {
-  if (r.origin === !0) {
-    e.setHeader("Vary", "*"), e.setHeader("Access-Control-Allow-Origin", e.getHeader("Origin") || "*");
+}, n = (t, o, e) => {
+  if (o.origin === !0) {
+    t.setHeader("Vary", "*"), t.setHeader("Access-Control-Allow-Origin", t.getHeader("Origin") || "*");
     return;
   }
-  if (!o?.length)
+  if (!e?.length)
     return;
-  const d = [];
-  if (o.length) {
-    const s = e.getHeader("Origin") ?? "";
-    for (let n = 0; n < o.length; n++) {
-      const l = h(o[n], s);
+  const s = [];
+  if (e.length) {
+    const r = t.getHeader("Origin") ?? "";
+    for (let d = 0; d < e.length; d++) {
+      const l = H(e[d], r);
       if (l === !0) {
-        e.setHeader("Vary", origin ? "Origin" : "*"), e.setHeader("Access-Control-Allow-Origin", e.getHeader("Origin") || "*");
+        t.setHeader("Vary", origin ? "Origin" : "*"), t.setHeader("Access-Control-Allow-Origin", t.getHeader("Origin") || "*");
         return;
       }
-      l && d.push(l);
+      l && s.push(l);
     }
   }
-  e.setHeader("Vary", "Origin"), e.setHeader("Access-Control-Allow-Origin", d.join(", "));
-}, u = (e, r) => {
-  if (r.methods?.length) {
-    if (r.methods === "*") {
-      e.setHeader("Access-Control-Allow-Methods", "*");
+  t.setHeader("Vary", "Origin"), t.setHeader("Access-Control-Allow-Origin", s.join(", "));
+}, i = (t, o) => {
+  if (o.methods?.length) {
+    if (o.methods === "*") {
+      t.setHeader("Access-Control-Allow-Methods", "*");
       return;
     }
-    if (!Array.isArray(r.methods)) {
-      e.setHeader("Access-Control-Allow-Methods", r.methods);
+    if (!Array.isArray(o.methods)) {
+      t.setHeader("Access-Control-Allow-Methods", o.methods);
       return;
     }
-    e.setHeader("Access-Control-Allow-Methods", r.methods.join(", "));
+    t.setHeader("Access-Control-Allow-Methods", o.methods.join(", "));
   }
-}, C = (e = {
+}, g = (t = {
   origin: !0,
   methods: "*",
   allowedHeaders: "*",
@@ -47,32 +47,33 @@ const h = (e, r) => {
   credentials: !1,
   maxAge: 5,
   preflight: !0
-}) => g("CORS", ({ nixleApp: r }) => {
-  const {
-    origin: o = !0,
-    methods: d = "*",
-    allowedHeaders: s = "*",
-    exposedHeaders: n = "*",
-    credentials: l = !1,
-    maxAge: i = 5,
-    preflight: H = !0
-  } = e, c = typeof o == "boolean" ? void 0 : Array.isArray(o) ? o : [o];
-  H && r.createRoute("options", "/", (t) => (A(t, e, c), u(t, e), n.length && t.setHeader(
+}) => a("CORS", ({ nixleApp: o }) => {
+  const e = {
+    origin: !0,
+    methods: "*",
+    allowedHeaders: "*",
+    exposedHeaders: "*",
+    credentials: !1,
+    maxAge: 5,
+    preflight: !0,
+    ...t
+  }, s = typeof origin == "boolean" ? void 0 : Array.isArray(origin) ? origin : [origin];
+  e.preflight && o.createRoute("options", "/", (r) => (n(r, t, s), i(r, t), e.exposedHeaders.length && r.setHeader(
     "Access-Control-Allow-Headers",
-    typeof s == "string" ? s : s.join(", ")
-  ), i && t.setHeader("Access-Control-Max-Age", i.toString()), t.setStatusCode(204), "")), r.createRoute("options", "/*", (t) => (A(t, e, c), u(t, e), n.length && t.setHeader(
+    typeof e.allowedHeaders == "string" ? e.allowedHeaders : e.allowedHeaders.join(", ")
+  ), e.maxAge && r.setHeader("Access-Control-Max-Age", e.maxAge.toString()), r.setStatusCode(204), "")), o.createRoute("options", "/*", (r) => (n(r, t, s), i(r, t), e.exposedHeaders.length && r.setHeader(
     "Access-Control-Allow-Headers",
-    typeof s == "string" ? s : s.join(", ")
-  ), i && t.setHeader("Access-Control-Max-Age", i.toString()), t.setStatusCode(204), "")), r.events.on("request", (t) => {
-    A(t, e, c), u(t, e), s.length && t.setHeader(
+    typeof e.allowedHeaders == "string" ? e.allowedHeaders : e.allowedHeaders.join(", ")
+  ), e.maxAge && r.setHeader("Access-Control-Max-Age", e.maxAge.toString()), r.setStatusCode(204), "")), o.events.on("request", (r) => {
+    n(r, t, s), i(r, t), e.allowedHeaders.length && r.setHeader(
       "Access-Control-Allow-Headers",
-      typeof s == "string" ? s : s.join(", ")
-    ), n.length && t.setHeader(
+      typeof e.allowedHeaders == "string" ? e.allowedHeaders : e.allowedHeaders.join(", ")
+    ), e.exposedHeaders.length && r.setHeader(
       "Access-Control-Exposed-Headers",
-      typeof n == "string" ? n : n.join(", ")
-    ), l && t.setHeader("Access-Control-Allow-Credentials", "true");
+      typeof e.exposedHeaders == "string" ? e.exposedHeaders : e.exposedHeaders.join(", ")
+    ), e.credentials && r.setHeader("Access-Control-Allow-Credentials", "true");
   });
 });
 export {
-  C as corsPlugin
+  g as corsPlugin
 };

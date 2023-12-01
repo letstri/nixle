@@ -1,24 +1,24 @@
-import { fastify as s } from "fastify";
-import c from "@fastify/cookie";
-import { createProvider as k } from "nixle";
-const C = k((e = s()) => (e.register(c), {
-  app: e,
-  request: (a, d, f) => e[a](d, async (t, o) => {
-    o.send(
-      await f({
-        request: t,
-        response: o,
-        params: t.params || {},
-        query: { ...t.query || {} },
-        setStatusCode: (r) => o.status(r),
-        setHeader: (r, i) => o.header(r, i),
-        getHeader: (r) => t.headers[r] ? String(t.headers[r]) : null,
-        setCookie: (r, i, m) => o.setCookie(r, i, m),
-        getCookie: (r) => t.cookies[r] || null
+import { fastify as m } from "fastify";
+import n from "@fastify/cookie";
+import { createProvider as c } from "nixle";
+const h = c((t = m()) => (t.register(n), {
+  app: t,
+  request: (i, a, d) => t[i](a, async (o, r) => {
+    r.send(
+      await d({
+        request: o,
+        response: r,
+        params: o.params || {},
+        query: { ...o.query || {} },
+        setStatusCode: (e) => r.status(e),
+        setHeader: (e, s) => r.header(e, s),
+        getHeader: (e) => o.headers[e] ? String(o.headers[e]) : null,
+        setCookie: (e, s, f) => r.setCookie(e, s, f),
+        getCookie: (e) => o.cookies[e] || null
       })
     );
   })
 }));
 export {
-  C as fastifyProvider
+  h as fastifyProvider
 };
