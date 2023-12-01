@@ -18,32 +18,35 @@ export const corsPlugin = (
   },
 ) =>
   createPlugin('CORS', ({ nixleApp }) => {
-    const {
-      origin = true,
-      methods = '*',
-      allowedHeaders = '*',
-      exposedHeaders = '*',
-      credentials = false,
-      maxAge = 5,
-      preflight = true,
-    } = config;
+    const _config = {
+      origin: true,
+      methods: '*',
+      allowedHeaders: '*',
+      exposedHeaders: '*',
+      credentials: false,
+      maxAge: 5,
+      preflight: true,
+      ...config,
+    };
 
     const origins =
       typeof origin === 'boolean' ? undefined : Array.isArray(origin) ? origin : [origin];
 
-    if (preflight)
+    if (_config.preflight)
       nixleApp.createRoute('options', '/', (params) => {
         handleOrigin(params, config, origins);
         handleMethod(params, config);
 
-        if (exposedHeaders.length)
+        if (_config.exposedHeaders.length)
           params.setHeader(
             'Access-Control-Allow-Headers',
-            typeof allowedHeaders === 'string' ? allowedHeaders : allowedHeaders.join(', '),
+            typeof _config.allowedHeaders === 'string'
+              ? _config.allowedHeaders
+              : _config.allowedHeaders.join(', '),
           );
 
-        if (maxAge) {
-          params.setHeader('Access-Control-Max-Age', maxAge.toString());
+        if (_config.maxAge) {
+          params.setHeader('Access-Control-Max-Age', _config.maxAge.toString());
         }
 
         params.setStatusCode(204);
@@ -55,13 +58,15 @@ export const corsPlugin = (
       handleOrigin(params, config, origins);
       handleMethod(params, config);
 
-      if (exposedHeaders.length)
+      if (_config.exposedHeaders.length)
         params.setHeader(
           'Access-Control-Allow-Headers',
-          typeof allowedHeaders === 'string' ? allowedHeaders : allowedHeaders.join(', '),
+          typeof _config.allowedHeaders === 'string'
+            ? _config.allowedHeaders
+            : _config.allowedHeaders.join(', '),
         );
 
-      if (maxAge) params.setHeader('Access-Control-Max-Age', maxAge.toString());
+      if (_config.maxAge) params.setHeader('Access-Control-Max-Age', _config.maxAge.toString());
 
       params.setStatusCode(204);
 
@@ -72,19 +77,23 @@ export const corsPlugin = (
       handleOrigin(params, config, origins);
       handleMethod(params, config);
 
-      if (allowedHeaders.length)
+      if (_config.allowedHeaders.length)
         params.setHeader(
           'Access-Control-Allow-Headers',
-          typeof allowedHeaders === 'string' ? allowedHeaders : allowedHeaders.join(', '),
+          typeof _config.allowedHeaders === 'string'
+            ? _config.allowedHeaders
+            : _config.allowedHeaders.join(', '),
         );
 
-      if (exposedHeaders.length)
+      if (_config.exposedHeaders.length)
         params.setHeader(
           'Access-Control-Exposed-Headers',
-          typeof exposedHeaders === 'string' ? exposedHeaders : exposedHeaders.join(', '),
+          typeof _config.exposedHeaders === 'string'
+            ? _config.exposedHeaders
+            : _config.exposedHeaders.join(', '),
         );
 
-      if (credentials) {
+      if (_config.credentials) {
         params.setHeader('Access-Control-Allow-Credentials', 'true');
       }
     });
