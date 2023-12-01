@@ -1,6 +1,6 @@
-import type { Handler } from '../createProvider';
+import type { HandlerParams } from '../createProvider';
 type Events = {
-    request: Parameters<Handler>[0];
+    request: HandlerParams;
     response: any;
     error: any;
 };

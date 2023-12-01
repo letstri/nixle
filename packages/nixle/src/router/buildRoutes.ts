@@ -1,7 +1,6 @@
-import type { Provider } from '~/createProvider';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
-import { log } from '~/services/logger';
+import { contextLog, log } from '~/services/logger';
 import type { Routes } from './createRouter';
 import { createInternalError, logAndFormatError } from '~/createError';
 import type { AppOptions } from '~/createApp';
@@ -12,7 +11,7 @@ export const buildRoutes = <Server>(
   routerPath: string,
   _routes: Routes,
 ) => {
-  const routes = _routes({ log });
+  const routes = _routes({ log: contextLog(routerPath) });
 
   if (routes.length === 0) {
     try {

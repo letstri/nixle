@@ -44,7 +44,6 @@ export const isNixleError = (error: any): error is NixleError => {
 };
 
 export const logAndFormatError = (error: any) => {
-  emitter.emit('error', error);
   if (isNixleError(error)) {
     log((error.isInternal && error.stack) || error.message, { type: 'error' });
   } else if (error instanceof Error) {
@@ -55,11 +54,13 @@ export const logAndFormatError = (error: any) => {
     log(`${error.constructor.name} ${JSON.stringify(error)}`, { type: 'error' });
   }
 
+  emitter.emit('error', error);
+
   const removeProperties = ['name', 'stack', 'message', 'statusCode', 'time', 'isInternal'];
   const json = {
-    statusCode: error.statusCode || 500,
-    message: error.message || 'Internal Server Error',
-    time: error.time || dayjs().format(DEFAULT_DATE_FORMAT),
+    statusCode: (error.statusCode as number) || 500,
+    message: (error.message as string) || 'Internal Server Error',
+    time: (error.time as string) || dayjs().format(DEFAULT_DATE_FORMAT),
   };
 
   if (error instanceof Error) {

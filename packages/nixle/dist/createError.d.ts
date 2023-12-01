@@ -14,7 +14,7 @@ export declare function createInternalError(options: string | NixleErrorOptions)
 export declare function createError(options: string | NixleErrorOptions): never;
 export declare const isNixleError: (error: any) => error is NixleError;
 export declare const logAndFormatError: (error: any) => {
-    statusCode: any;
-    message: any;
-    time: any;
+    statusCode: number;
+    message: string;
+    time: string;
 };

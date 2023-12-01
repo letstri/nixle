@@ -24,6 +24,7 @@ export const viteConfig = ({
     },
     rollupOptions: {
       external: [
+        'consola/utils',
         ...Object.keys(_package.dependencies || {}),
         ...Object.keys(_package.devDependencies || {}),
         ...Object.keys(_package.peerDependencies || {}),

@@ -1,6 +1,6 @@
 import type { log } from '../services/logger';
 import type { HTTPMethod } from '../types/HTTPMethod';
-import type { Handler } from '../createProvider';
+import type { RequestHandler } from '../createProvider';
 export interface Route {
     /**
      * HTTP method
@@ -28,7 +28,7 @@ export interface Route {
      *   return { message: 'Hello world!' };
      * }
      */
-    handler: Handler;
+    handler: RequestHandler;
 }
 export type Routes = (params: {
     log: typeof log;

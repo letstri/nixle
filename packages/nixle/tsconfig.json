@@ -5,8 +5,7 @@
     "rootDir": "./src",
     "baseUrl": "./src",
     "paths": {
-      "~/*": ["./*"],
-      "NixleApp/*": ["./src/*"]
+      "~/*": ["./*"]
     }
   },
   "include": ["./src/**/*"],

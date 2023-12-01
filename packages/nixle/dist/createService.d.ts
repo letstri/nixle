@@ -1,4 +1,4 @@
-import { log } from './services/logger';
+import { type log } from './services/logger';
 interface ServiceOptions {
     log: typeof log;
 }

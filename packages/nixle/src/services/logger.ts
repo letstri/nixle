@@ -1,8 +1,12 @@
-import { createConsola, type ConsolaOptions, type LogType } from 'consola';
-import { colorize } from 'consola/utils';
+import { createConsola, type ConsolaOptions, type LogType, type ConsolaInstance } from 'consola';
+import { colorize, type ColorName } from 'consola/utils';
 import { createInternalError } from '~/createError';
 
-let loggerInstance = createConsola();
+interface LogOptions {
+  type?: LogType;
+}
+
+let loggerInstance: ConsolaInstance;
 
 export const createLogger = (options: Partial<ConsolaOptions>) => {
   loggerInstance = createConsola(options);
@@ -17,7 +21,7 @@ export const createLogger = (options: Partial<ConsolaOptions>) => {
  *
  * @example log('Hello world', { type: 'info' })
  */
-export const log = (message: string, options?: { type?: LogType }) => {
+export const log = (message: string, options?: LogOptions) => {
   const type = options?.type || 'log';
   const nixleMessage = `${colorize('bgBlue', ' Nixle ')}`;
 
@@ -29,3 +33,8 @@ export const log = (message: string, options?: { type?: LogType }) => {
 
   method(`${nixleMessage} ${message}`);
 };
+
+export const contextLog =
+  (context: string, color: ColorName = 'bgWhite'): typeof log =>
+  (message, options) =>
+    log(`[${colorize(color, context)}] ${message}`, options);

@@ -5,14 +5,21 @@ import { buildModules } from './modules/buildModules';
 import type { Provider } from './createProvider';
 import { createInternalError, logAndFormatError } from './createError';
 import { emitter } from './services/emmiter';
+import type { createPlugin } from './plugins/createPlugin';
+import { buildPlugins } from './plugins/buildPlugins';
 
 export interface AppOptions<Server> {
   provider: Provider<Server>;
   modules: Module[];
+  plugins?: ReturnType<typeof createPlugin>[];
   logger?: Partial<ConsolaOptions>;
 }
 
-export const createApp = <Server>(options: AppOptions<Server>) => {
+export type NixleApp<Server> = ReturnType<typeof createApp<Server>>;
+
+export const createApp = <Server = unknown>(options: AppOptions<Server>) => {
+  createLogger(options.logger || {});
+
   if (!options.provider) {
     try {
       createInternalError('Provider is required');
@@ -20,10 +27,6 @@ export const createApp = <Server>(options: AppOptions<Server>) => {
       logAndFormatError(e);
       process.exit(1);
     }
-  }
-
-  if (options.logger !== undefined) {
-    createLogger(options.logger);
   }
 
   if (options.modules.length === 0) {
@@ -39,11 +42,18 @@ export const createApp = <Server>(options: AppOptions<Server>) => {
 
   log('🫡 Application successfully started', { type: 'success' });
 
-  return {
+  const app = {
     app: options.provider.app,
     events: {
       on: emitter.on,
       emit: emitter.emit,
     },
+    createRoute: options.provider.request,
   };
+
+  if (options.plugins) {
+    buildPlugins(app, options);
+  }
+
+  return app;
 };

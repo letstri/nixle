@@ -1,12 +1,15 @@
 import type { ConsolaOptions } from 'consola';
 import type { Module } from './modules/createModule';
 import type { Provider } from './createProvider';
+import type { createPlugin } from './plugins/createPlugin';
 export interface AppOptions<Server> {
     provider: Provider<Server>;
     modules: Module[];
+    plugins?: ReturnType<typeof createPlugin>[];
     logger?: Partial<ConsolaOptions>;
 }
-export declare const createApp: <Server>(options: AppOptions<Server>) => {
+export type NixleApp<Server> = ReturnType<typeof createApp<Server>>;
+export declare const createApp: <Server = unknown>(options: AppOptions<Server>) => {
     app: Server;
     events: {
         on: {
@@ -116,4 +119,5 @@ export declare const createApp: <Server>(options: AppOptions<Server>) => {
             }[Key_2] ? Key_2 : never): void;
         };
     };
+    createRoute: (method: "get" | "post" | "put" | "delete" | "patch" | "head" | "options", path: string, handler: import("./createProvider").RequestHandler) => void;
 };
