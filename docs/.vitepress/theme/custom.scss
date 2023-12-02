@@ -6,11 +6,12 @@
   --vp-c-brand-2: #885aff;
   --vp-c-brand-3: #6635fe;
   --vp-c-gray-soft: rgba(101, 117, 133, 0.08);
+  --vp-sidebar-bg-color: transparent;
 }
 
 @media (max-width: 768px) {
   :root {
-    --vp-sidebar-bg-color: transparent;
+    --vp-sidebar-bg-color: var(--vp-c-bg-alt);
   }
 }
 
