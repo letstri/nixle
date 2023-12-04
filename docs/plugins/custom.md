@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # Plugins
 
 To extend Nixle, you can create a plugin. The plugin is a function that extends the functionality of the application. It is defined by a pair: a name (a string) and a plugin function.

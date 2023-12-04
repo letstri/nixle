@@ -1,3 +1,7 @@
+---
+outline: deep
+---
+
 # ofetch
 
 [ofetch](https://github.com/unjs/ofetch) is a HTTP client for Node.js and browsers. We created a plugin for easily connect ofetch to your services and sending HTTP requests for your needs.
