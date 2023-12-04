@@ -16,6 +16,6 @@ That's where **Nixle** comes in. It's designed to solve these problems by provid
 
 One of the great things about Nixle is that it's built with **TypeScript**, which brings many benefits like type safety and code completion. This makes it easier to write code and reduces the number of bugs in your application.
 
-## SSR
+## SSR Compatibility
 
 Future-proof your projects by integrating with SSR frameworks like [Nuxt](https://nuxt.com). Say goodbye to separate frontend and backend applications and instead build a single application that can be deployed anywhere. With Nixle, you can seamlessly incorporate SSR capabilities, opening up new possibilities for improved performance and user experience.
