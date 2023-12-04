@@ -19,7 +19,7 @@ const overview = [
 ];
 
 const plugins = [
-  { text: 'Create Plugin', link: '/overview/custom' },
+  { text: 'Create Plugin', link: '/plugins/custom' },
   { text: 'CORS', link: '/plugins/cors' },
   { text: 'Swagger', link: '/plugins/swagger' },
 ];
