@@ -63,6 +63,15 @@ export default defineConfig({
         link: 'https://github.com/letstri/nixle/tree/main/examples',
       },
     ],
-    socialLinks: [{ icon: 'github', link: 'https://github.com/letstri/nixle' }],
+    socialLinks: [
+      {
+        icon: 'github',
+        link: 'https://github.com/letstri/nixle',
+      },
+      {
+        icon: 'twitter',
+        link: 'https://twitter.com/nixlejs',
+      },
+    ],
   },
 });
