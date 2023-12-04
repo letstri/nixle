@@ -15,7 +15,7 @@ import { createProvider } from 'nixle';
 const provider = createProvider<YourApp>((app) => {
   return {
     app,
-    request: (method, path, handler) =>
+    createRoute: (method, path, handler) =>
       app.router[method](path, (options) => {
         return handler({
           request: options.req,
