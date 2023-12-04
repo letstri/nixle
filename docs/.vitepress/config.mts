@@ -16,10 +16,10 @@ const overview = [
   { text: 'Services', link: '/overview/services' },
   { text: 'Logger', link: '/overview/logger' },
   { text: 'Errors', link: '/overview/errors' },
-  { text: 'Plugins', link: '/overview/plugins' },
 ];
 
 const plugins = [
+  { text: 'Create Plugin', link: '/overview/custom' },
   { text: 'CORS', link: '/plugins/cors' },
   { text: 'Swagger', link: '/plugins/swagger' },
 ];
