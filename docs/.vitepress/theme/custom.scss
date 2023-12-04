@@ -15,6 +15,12 @@
   }
 }
 
+.dark {
+  --vp-c-bg: #101010;
+  --vp-c-bg-soft: #17181b;
+  --vp-c-divider: #1b1b1e;
+}
+
 .VPHome .VPHero {
   @media screen and (min-width: 640px) {
     padding-bottom: 120px;
