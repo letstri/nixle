@@ -34,7 +34,7 @@ export interface Route {
 
 export const routerOptions: Nixle.RouterOptions = {};
 
-export const addRouterOptions = (options: Record<string, unknown>) => {
+export const extendRouterOptions = (options: Record<string, unknown>) => {
   Object.assign(routerOptions, options);
 };
 

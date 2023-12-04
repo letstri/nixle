@@ -1,13 +1,13 @@
-import type { addRouterOptions } from '~/router/createRouter';
+import type { extendRouterOptions } from '~/router/createRouter';
+import type { extendServiceOptions } from '~/service/createService';
 import type { NixleApp } from '../createApp';
 import type { log } from '../logger';
-import type { addServiceOptions } from '~/service/createService';
 
 interface PluginOptions<Server> {
   nixleApp: NixleApp<Server>;
   log: typeof log;
-  addRouterOptions: typeof addRouterOptions;
-  addServiceOptions: typeof addServiceOptions;
+  extendRouterOptions: typeof extendRouterOptions;
+  extendServiceOptions: typeof extendServiceOptions;
 }
 
 type PluginFunction<Server> = (options: PluginOptions<Server>) => void;

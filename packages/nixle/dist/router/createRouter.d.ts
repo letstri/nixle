@@ -31,7 +31,7 @@ export interface Route {
     handler: RequestHandler;
 }
 export declare const routerOptions: Nixle.RouterOptions;
-export declare const addRouterOptions: (options: Record<string, unknown>) => void;
+export declare const extendRouterOptions: (options: Record<string, unknown>) => void;
 export type Routes = (params: {
     log: typeof log;
 } & Nixle.RouterOptions) => Route[];

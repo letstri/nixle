@@ -8,7 +8,7 @@ type ServiceMethods = Record<string, (name: string, ...args: any) => any>;
 
 const serviceOptions: Nixle.ServiceOptions = {};
 
-export const addServiceOptions = (options: Record<string, unknown>) => {
+export const extendServiceOptions = (options: Record<string, unknown>) => {
   Object.assign(serviceOptions, options);
 };
 

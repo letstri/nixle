@@ -10,6 +10,6 @@ declare global {
 }
 
 export const ofetchPlugin = (options?: FetchOptions) =>
-  createPlugin('ofetch', ({ addServiceOptions }) => {
-    addServiceOptions({ ofetch: ofetch.create(options || {}) });
+  createPlugin('ofetch', ({ extendServiceOptions }) => {
+    extendServiceOptions({ ofetch: ofetch.create(options || {}) });
   });
