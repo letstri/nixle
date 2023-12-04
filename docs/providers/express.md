@@ -33,11 +33,8 @@ bun i @nixle/express
 ## Setup
 
 ```ts
-import express from 'express';
 import { createApp, createModule, createRouter } from 'nixle';
 import { expressProvider } from '@nixle/express';
-
-const app = express();
 
 const usersRouter = createRouter('users', () => [
   {
@@ -50,7 +47,8 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp(expressProvider(app), {
+const server = createApp({
+  provider: expressProvider(),
   modules: [usersModule],
 });
 

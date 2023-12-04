@@ -33,11 +33,8 @@ bun i @nixle/elysia
 ## Setup
 
 ```ts
-import { Elysia } from 'elysia';
 import { createApp, createModule, createRouter } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
-
-const app = new Elysia();
 
 const usersRouter = createRouter('users', () => [
   {
@@ -51,7 +48,7 @@ const usersModule = createModule({
   routers: [usersRouter],
 });
 const server = createApp({
-  provider: elysiaProvider(app),
+  provider: elysiaProvider(),
   modules: [usersModule],
 });
 
