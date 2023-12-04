@@ -34,6 +34,15 @@ You can extend the router options by using function `extendRouterOptions`:
 ```ts
 import { createPlugin } from 'nixle';
 
+// To create TypeScript definitions
+declare global {
+  namespace Nixle {
+    interface RouterOptions {
+      someOption: string;
+    }
+  }
+}
+
 export const myPlugin = createPlugin('myPlugin', async ({ extendRouterOptions }) => {
   extendRouterOptions({ someOption: 'someValue' });
 });
@@ -60,6 +69,15 @@ You can extend the services by using function `extendServiceOptions`:
 
 ```ts
 import { createPlugin } from 'nixle';
+
+// To create TypeScript definitions
+declare global {
+  namespace Nixle {
+    interface ServiceOptions {
+      someOption: string;
+    }
+  }
+}
 
 export const myPlugin = createPlugin('myPlugin', async ({ extendServiceOptions }) => {
   extendServiceOptions({ someOption: 'someValue' });
