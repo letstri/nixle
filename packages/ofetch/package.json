@@ -1,0 +1,45 @@
+{
+  "name": "@nixle/ofetch",
+  "version": "0.7.4",
+  "description": "Universal server-side framework",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "dev": "vite",
+    "build": "vite build && tsc && tsconfig-replace-paths"
+  },
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "license": "MIT",
+  "publishConfig": {
+    "access": "public"
+  },
+  "homepage": "https://nixle.letstri.dev",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/letstri/nixle.git",
+    "directory": "packages/ofetch"
+  },
+  "bugs": {
+    "url": "https://github.com/letstri/nixle/issues"
+  },
+  "author": "Valerii Strilets <valerii.strilets@gmail.com>",
+  "funding": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/nixle"
+  },
+  "devDependencies": {
+    "tsconfig-replace-paths": "^0.0.14",
+    "typescript": "^5.3.2",
+    "vite": "^5.0.2"
+  },
+  "peerDependencies": {
+    "nixle": "workspace:^"
+  },
+  "dependencies": {
+    "ofetch": "^1.3.3"
+  }
+}
