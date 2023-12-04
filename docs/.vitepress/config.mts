@@ -21,6 +21,7 @@ const overview = [
 const plugins = [
   { text: 'Create Plugin', link: '/plugins/custom' },
   { text: 'CORS', link: '/plugins/cors' },
+  { text: 'ofetch', link: '/plugins/ofetch' },
   { text: 'Swagger', link: '/plugins/swagger' },
 ];
 

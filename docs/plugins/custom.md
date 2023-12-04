@@ -14,6 +14,70 @@ export const myPlugin = createPlugin('myPlugin', async ({ nixleApp, log }) => {
 });
 ```
 
+Available options:
+
+- `nixleApp` - the application instance
+- `log` - a function that logs a message to the console
+
+### Extending the application
+
+There are two ways to extend the application:
+
+#### Router
+
+You can extend the router options by using function `extendRouterOptions`:
+
+```ts
+import { createPlugin } from 'nixle';
+
+export const myPlugin = createPlugin('myPlugin', async ({ extendRouterOptions }) => {
+  extendRouterOptions({ someOption: 'someValue' });
+});
+```
+
+And then you can use the `someOption` in the router:
+
+```ts
+import { createRouter } from 'nixle';
+
+const app = createRouter('/users', ({ log, someOption }) => [
+  {
+    path: '/',
+    handler: () => {
+      log(someOption);
+    },
+  },
+]);
+```
+
+#### Services
+
+You can extend the services by using function `extendServiceOptions`:
+
+```ts
+import { createPlugin } from 'nixle';
+
+export const myPlugin = createPlugin('myPlugin', async ({ extendServiceOptions }) => {
+  extendServiceOptions({ someOption: 'someValue' });
+});
+```
+
+And then you can use the `someOption` in the service:
+
+```ts
+import { createService } from 'nixle';
+
+const app = createService('users', ({ log, someOption }) => {
+  const getUsers = async () => {
+    log(someOption);
+  };
+
+  return {
+    getUsers,
+  };
+});
+```
+
 ## Using a plugin
 
 To use a plugin, you need to import it and pass it to the `plugins` option of the `createApp` function.
