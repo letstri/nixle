@@ -1,6 +1,7 @@
 import { defineConfig } from 'vitepress';
 
 const providers = [
+  { text: 'What is Provider?', link: '/providers/what' },
   { text: 'Nitro (Nuxt)', link: '/providers/nitro' },
   { text: 'Express', link: '/providers/express' },
   { text: 'Fastify', link: '/providers/fastify' },
@@ -16,6 +17,11 @@ const overview = [
   { text: 'Logger', link: '/overview/logger' },
   { text: 'Errors', link: '/overview/errors' },
   { text: 'Plugins', link: '/overview/plugins' },
+];
+
+const plugins = [
+  { text: 'CORS', link: '/plugins/cors' },
+  { text: 'Swagger', link: '/plugins/swagger' },
 ];
 
 // https://vitepress.dev/reference/site-config
@@ -37,6 +43,10 @@ export default defineConfig({
         items: overview,
       },
       {
+        text: 'Plugins',
+        items: plugins,
+      },
+      {
         text: 'Examples',
         link: 'https://github.com/letstri/nixle/tree/main/examples',
       },
@@ -52,11 +62,15 @@ export default defineConfig({
       },
       {
         text: 'Providers',
-        items: [{ text: 'What is Provider?', link: '/providers/what' }, ...providers],
+        items: providers,
       },
       {
         text: 'Overview',
         items: overview,
+      },
+      {
+        text: 'Plugins',
+        items: plugins,
       },
       {
         text: 'Examples',
