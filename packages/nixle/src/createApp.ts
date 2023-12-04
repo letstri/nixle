@@ -1,10 +1,10 @@
 import type { ConsolaOptions } from 'consola';
-import { createLogger, log } from './services/logger';
+import { createLogger, log } from './logger';
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
 import type { Provider } from './provider/createProvider';
 import { createInternalError, logError } from './createError';
-import { emitter } from './services/emmiter';
+import { emitter } from './emmiter';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 

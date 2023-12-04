@@ -1,5 +1,5 @@
 import type { RequestHandler } from '~/provider/RequestHandler';
-import type { log } from '~/services/logger';
+import type { log } from '~/logger';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 
 export interface Route {
@@ -32,7 +32,13 @@ export interface Route {
   handler: RequestHandler;
 }
 
-export type Routes = (params: { log: typeof log }) => Route[];
+export const routerOptions: Nixle.RouterOptions = {};
+
+export const addRouterOptions = (options: Record<string, unknown>) => {
+  Object.assign(routerOptions, options);
+};
+
+export type Routes = (params: { log: typeof log } & Nixle.RouterOptions) => Route[];
 
 export const routers = new Map<string, Routes>([]);
 

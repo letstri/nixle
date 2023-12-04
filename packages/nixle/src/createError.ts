@@ -1,9 +1,9 @@
 import dayjs from 'dayjs';
 import { colorize } from 'consola/utils';
 import { DEFAULT_DATE_FORMAT } from './utils/date';
-import { log } from './services/logger';
+import { log } from './logger';
 import { isPrimitive, omit } from './utils/helpers';
-import { emitter } from './services/emmiter';
+import { emitter } from './emmiter';
 
 export interface NixleErrorOptions {
   message: string;

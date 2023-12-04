@@ -1,10 +1,10 @@
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
-import { contextLog } from '~/services/logger';
+import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import type { Routes } from './createRouter';
+import { routerOptions, type Routes } from './createRouter';
 import { createInternalError, logError, formatError } from '~/createError';
-import { emitter } from '~/services/emmiter';
+import { emitter } from '~/emmiter';
 
 export const buildRoutes = <Server>(
   options: AppOptions<Server>,
@@ -13,7 +13,7 @@ export const buildRoutes = <Server>(
 ) => {
   const fixedRouterPath = fixPath(routerPath);
   const log = contextLog(fixedRouterPath, 'bgGreen');
-  const routes = _routes({ log });
+  const routes = _routes({ log, ...routerOptions });
 
   try {
     if (routes.length === 0) {
