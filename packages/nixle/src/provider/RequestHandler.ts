@@ -1,7 +1,6 @@
 import type { CookieSerializeOptions } from 'cookie';
-import type { HTTPMethod } from '.';
 
-export type RequestHandler = (params: {
+export interface RequestHandlerParams {
   /**
    * Request
    */
@@ -80,23 +79,10 @@ export type RequestHandler = (params: {
    * getCookie('token'); // -> 123
    */
   getCookie: (key: string) => string | null;
-}) => Promise<any> | any;
+}
 
-export interface Provider<App> {
-  /**
-   * Register a route
-   *
-   * @param method
-   * @param path
-   * @param handler
-   *
-   * @example
-   * request('get', '/users', () => ({ message: 'Hello world!' }));
-   */
-  request: (method: Lowercase<HTTPMethod>, path: string, handler: RequestHandler) => void;
-  app: App;
+export interface RequestHandler {
+  (params: RequestHandlerParams): Promise<any> | any;
 }
 
 export type HandlerParams = Parameters<RequestHandler>[0];
-
-export const createProvider = <App>(config: (app: App) => Provider<App>) => config;

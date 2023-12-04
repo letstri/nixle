@@ -5,7 +5,7 @@ import { createProvider } from 'nixle';
 export const nitroProvider = createProvider<NitroApp>((app) => {
   return {
     app,
-    request: (method, path, handler) =>
+    createRoute: (method, path, handler) =>
       app.router[method](
         path,
         eventHandler((event) => {

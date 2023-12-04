@@ -7,7 +7,7 @@ export const fastifyProvider = createProvider<FastifyInstance>((app = fastify())
 
   return {
     app,
-    request: (method, path, handler) =>
+    createRoute: (method, path, handler) =>
       app[method](path, async (request, reply) => {
         reply.send(
           await handler({

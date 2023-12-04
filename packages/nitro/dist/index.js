@@ -1,10 +1,10 @@
 import { eventHandler as i, getQuery as m, setCookie as C, getCookie as g } from "h3";
-import { createProvider as k } from "nixle";
-const q = k((t) => ({
+import { createProvider as c } from "nixle";
+const p = c((t) => ({
   app: t,
-  request: (s, d, a) => t.router[s](
-    d,
-    i((e) => a({
+  createRoute: (s, a, d) => t.router[s](
+    a,
+    i((e) => d({
       request: e.node.req,
       response: e.node.res,
       params: e.context.params || {},
@@ -18,5 +18,5 @@ const q = k((t) => ({
   )
 }));
 export {
-  q as nitroProvider
+  p as nitroProvider
 };

@@ -2,16 +2,16 @@ import type { ConsolaOptions } from 'consola';
 import { createLogger, log } from './services/logger';
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
-import type { Provider } from './createProvider';
-import { createInternalError, logAndFormatError } from './createError';
+import type { Provider } from './provider/createProvider';
+import { createInternalError, logError } from './createError';
 import { emitter } from './services/emmiter';
-import type { createPlugin } from './plugins/createPlugin';
+import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 
 export interface AppOptions<Server> {
   provider: Provider<Server>;
   modules: Module[];
-  plugins?: ReturnType<typeof createPlugin>[];
+  plugins?: Plugin<Server>[];
   logger?: Partial<ConsolaOptions>;
 }
 
@@ -20,27 +20,19 @@ export type NixleApp<Server> = ReturnType<typeof createApp<Server>>;
 export const createApp = <Server = unknown>(options: AppOptions<Server>) => {
   createLogger(options.logger || {});
 
-  if (!options.provider) {
-    try {
+  try {
+    if (!options.provider) {
       createInternalError('Provider is required');
-    } catch (e) {
-      logAndFormatError(e);
-      process.exit(1);
     }
-  }
-
-  if (options.modules.length === 0) {
-    try {
+    if (options.modules.length === 0) {
       createInternalError('At least one module is required');
-    } catch (e) {
-      logAndFormatError(e);
-      process.exit(1);
     }
+  } catch (e) {
+    logError(e);
+    process.exit(1);
   }
 
   buildModules(options);
-
-  log('🫡 Application successfully started', { type: 'success' });
 
   const app = {
     app: options.provider.app,
@@ -48,12 +40,14 @@ export const createApp = <Server = unknown>(options: AppOptions<Server>) => {
       on: emitter.on,
       emit: emitter.emit,
     },
-    createRoute: options.provider.request,
+    createRoute: options.provider.createRoute,
   };
 
   if (options.plugins) {
     buildPlugins(app, options);
   }
+
+  log('🫡  Application successfully started', { type: 'success' });
 
   return app;
 };

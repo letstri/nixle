@@ -1,12 +1,16 @@
 import type { AppOptions, NixleApp } from '~/createApp';
-import { contextLog } from '~/services/logger';
+import { log, contextLog } from '~/services/logger';
 
 export const buildPlugins = <Server>(nixleApp: NixleApp<Server>, options: AppOptions<Server>) => {
-  options.plugins?.forEach(([name, plugin]) => {
-    const log = contextLog(name);
+  if (!options.plugins) {
+    return;
+  }
 
-    plugin({ nixleApp, log });
+  options.plugins.forEach(([name, plugin]) => {
+    const _log = contextLog(name, 'bgMagenta');
 
-    log(`🚀 ${name} plugin loaded`, { type: 'success' });
+    plugin({ nixleApp, log: _log });
+
+    log(`🚀 ${name.trim()} plugin successfully loaded`, { type: 'success' });
   });
 };

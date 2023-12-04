@@ -1,6 +1,6 @@
+import type { RequestHandler } from '../provider/RequestHandler';
 import type { log } from '../services/logger';
 import type { HTTPMethod } from '../types/HTTPMethod';
-import type { RequestHandler } from '../createProvider';
 export interface Route {
     /**
      * HTTP method

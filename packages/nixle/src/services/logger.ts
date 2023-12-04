@@ -37,4 +37,4 @@ export const log = (message: string, options?: LogOptions) => {
 export const contextLog =
   (context: string, color: ColorName = 'bgWhite'): typeof log =>
   (message, options) =>
-    log(`[${colorize(color, context)}] ${message}`, options);
+    log(`${colorize(color, `[${context}]`)} ${message}`, options);

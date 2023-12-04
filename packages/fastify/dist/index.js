@@ -3,7 +3,7 @@ import n from "@fastify/cookie";
 import { createProvider as c } from "nixle";
 const h = c((t = m()) => (t.register(n), {
   app: t,
-  request: (i, a, d) => t[i](a, async (o, r) => {
+  createRoute: (i, s, d) => t[i](s, async (o, r) => {
     r.send(
       await d({
         request: o,
@@ -11,9 +11,9 @@ const h = c((t = m()) => (t.register(n), {
         params: o.params || {},
         query: { ...o.query || {} },
         setStatusCode: (e) => r.status(e),
-        setHeader: (e, s) => r.header(e, s),
+        setHeader: (e, a) => r.header(e, a),
         getHeader: (e) => o.headers[e] ? String(o.headers[e]) : null,
-        setCookie: (e, s, f) => r.setCookie(e, s, f),
+        setCookie: (e, a, f) => r.setCookie(e, a, f),
         getCookie: (e) => o.cookies[e] || null
       })
     );

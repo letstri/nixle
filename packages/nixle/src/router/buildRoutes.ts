@@ -1,9 +1,9 @@
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
-import { contextLog, log } from '~/services/logger';
-import type { Routes } from './createRouter';
-import { createInternalError, logAndFormatError } from '~/createError';
+import { contextLog } from '~/services/logger';
 import type { AppOptions } from '~/createApp';
+import type { Routes } from './createRouter';
+import { createInternalError, logError, formatError } from '~/createError';
 import { emitter } from '~/services/emmiter';
 
 export const buildRoutes = <Server>(
@@ -11,31 +11,27 @@ export const buildRoutes = <Server>(
   routerPath: string,
   _routes: Routes,
 ) => {
-  const routes = _routes({ log: contextLog(routerPath) });
+  const fixedRouterPath = fixPath(routerPath);
+  const log = contextLog(fixedRouterPath, 'bgGreen');
+  const routes = _routes({ log });
 
-  if (routes.length === 0) {
-    try {
+  try {
+    if (routes.length === 0) {
       createInternalError('At least one router is required');
-    } catch (e) {
-      logAndFormatError(e);
-      process.exit(1);
     }
-  }
-
-  if (routes.some((route) => !route.path || !route.handler)) {
-    try {
+    if (routes.some((route) => !route.path || !route.handler)) {
       createInternalError('Path and handler are required for each route');
-    } catch (e) {
-      logAndFormatError(e);
-      process.exit(1);
     }
+  } catch (e) {
+    logError(e);
+    process.exit(1);
   }
 
   routes.forEach((route) => {
     const method = route.method ? (route.method.toLowerCase() as Lowercase<HTTPMethod>) : 'get';
-    const routePath = fixPath(routerPath) + fixPath(route.path);
+    const routePath = fixPath(fixedRouterPath) + fixPath(route.path);
 
-    options.provider.request(method, routePath, async (params) => {
+    options.provider.createRoute(method, routePath, async (params) => {
       emitter.emit('request', params);
       params.setHeader('x-powered-by', 'Nixle');
 
@@ -50,8 +46,13 @@ export const buildRoutes = <Server>(
 
         return response;
       } catch (error) {
-        throw logAndFormatError(error);
+        logError(error);
+        throw formatError(error);
       }
     });
+  });
+
+  log(`🚏 ${routes.length} route${routes.length === 1 ? '' : 's'} successfully built`, {
+    type: 'success',
   });
 };

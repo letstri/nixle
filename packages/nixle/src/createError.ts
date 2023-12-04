@@ -1,12 +1,13 @@
 import dayjs from 'dayjs';
+import { colorize } from 'consola/utils';
 import { DEFAULT_DATE_FORMAT } from './utils/date';
 import { log } from './services/logger';
 import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './services/emmiter';
 
-export interface NixleErrorOptions extends Omit<Error, 'name'> {
+export interface NixleErrorOptions {
+  message: string;
   statusCode?: number;
-  [key: string]: any;
 }
 
 export class NixleError extends Error {
@@ -15,7 +16,6 @@ export class NixleError extends Error {
     this.name = 'NixleError';
     this.statusCode = statusCode || 400;
     Object.assign(this, options);
-    Error.captureStackTrace(this, this.constructor);
   }
 
   time = dayjs().format(DEFAULT_DATE_FORMAT);
@@ -43,25 +43,38 @@ export const isNixleError = (error: any): error is NixleError => {
   return error instanceof NixleError;
 };
 
-export const logAndFormatError = (error: any) => {
+export const logError = (error: any) => {
+  let message = '';
+
   if (isNixleError(error)) {
-    log((error.isInternal && error.stack) || error.message, { type: 'error' });
+    message = (error.isInternal && error.stack) || error.message;
   } else if (error instanceof Error) {
-    log(error.stack || error.message, { type: 'error' });
+    message = error.stack || error.message;
   } else if (isPrimitive(error)) {
-    log(error, { type: 'error' });
+    message = error;
   } else {
-    log(`${error.constructor.name} ${JSON.stringify(error)}`, { type: 'error' });
+    message = `${error.constructor.name} ${JSON.stringify(error)}`;
   }
 
-  emitter.emit('error', error);
+  log(colorize('red', message), { type: 'error' });
 
+  emitter.emit('error', error);
+};
+
+export const formatError = (error: any) => {
   const removeProperties = ['name', 'stack', 'message', 'statusCode', 'time', 'isInternal'];
-  const json = {
-    statusCode: (error.statusCode as number) || 500,
-    message: (error.message as string) || 'Internal Server Error',
-    time: (error.time as string) || dayjs().format(DEFAULT_DATE_FORMAT),
-  };
+  const defaultTime = dayjs().format(DEFAULT_DATE_FORMAT);
+  const json = isPrimitive(error)
+    ? {
+        statusCode: 500,
+        message: String(error),
+        time: defaultTime,
+      }
+    : {
+        statusCode: (error.statusCode as number) || 500,
+        message: (error.message as string) || 'Internal Server Error',
+        time: (error.time as string) || defaultTime,
+      };
 
   if (error instanceof Error) {
     Object.assign(

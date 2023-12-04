@@ -1,6 +1,6 @@
-export interface NixleErrorOptions extends Omit<Error, 'name'> {
+export interface NixleErrorOptions {
+    message: string;
     statusCode?: number;
-    [key: string]: any;
 }
 export declare class NixleError extends Error {
     constructor({ message, statusCode, ...options }: NixleErrorOptions & {
@@ -13,7 +13,8 @@ export declare class NixleError extends Error {
 export declare function createInternalError(options: string | NixleErrorOptions): never;
 export declare function createError(options: string | NixleErrorOptions): never;
 export declare const isNixleError: (error: any) => error is NixleError;
-export declare const logAndFormatError: (error: any) => {
+export declare const logError: (error: any) => void;
+export declare const formatError: (error: any) => {
     statusCode: number;
     message: string;
     time: string;

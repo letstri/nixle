@@ -1,11 +1,5 @@
 import { Elysia } from 'elysia';
-export declare const elysiaProvider: (app: Elysia<"", {
-    request: {};
-    store: {};
-}, {
-    type: {};
-    error: {};
-}, {}, {}, false>) => import("nixle").Provider<Elysia<"", {
+export declare const elysiaProvider: import("nixle").ProviderCreator<Elysia<"", {
     request: {};
     store: {};
 }, {

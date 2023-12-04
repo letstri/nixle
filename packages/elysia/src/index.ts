@@ -4,7 +4,7 @@ import { createProvider } from 'nixle';
 export const elysiaProvider = createProvider<Elysia>((app = new Elysia()) => {
   return {
     app,
-    request: (method, path, handler) =>
+    createRoute: (method, path, handler) =>
       app[method](path, ({ request, set, cookie, params, query }) => {
         return handler({
           request: request,

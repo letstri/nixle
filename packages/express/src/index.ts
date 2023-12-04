@@ -7,7 +7,7 @@ export const expressProvider = createProvider<Express>((app = express()) => {
 
   return {
     app,
-    request: (method, path, handler) =>
+    createRoute: (method, path, handler) =>
       app[method](path, async (request, response) => {
         response.send(
           await handler({
