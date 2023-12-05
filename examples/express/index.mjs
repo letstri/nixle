@@ -2,7 +2,7 @@ import { createApp as createExpress } from 'express';
 import { createApp, createModule, createRouter } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {

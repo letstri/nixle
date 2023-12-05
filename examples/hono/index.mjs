@@ -1,12 +1,13 @@
-import { Elysia } from 'elysia';
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
 import { createApp, createModule, createRouter } from 'nixle';
-import { elysiaProvider } from '@nixle/elysia';
+import { honoProvider } from '@nixle/hono';
 
 const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {
-      return 'Hello Elysia!';
+      return 'Hello Hono!';
     },
   },
 ]);
@@ -14,8 +15,10 @@ const usersModule = createModule({
   routers: [usersRouter],
 });
 const { app } = createApp({
-  provider: elysiaProvider(new Elysia()),
+  provider: honoProvider(new Hono()),
   modules: [usersModule],
 });
 
-app.listen(4000);
+serve(app, (info) => {
+  console.log(`Listening on http://localhost:${info.port}`);
+});

@@ -2,7 +2,7 @@ import fastify from 'fastify';
 import { createApp, createModule, createRouter } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {

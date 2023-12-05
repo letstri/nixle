@@ -1,0 +1,12 @@
+{
+  "name": "hono",
+  "scripts": {
+    "start": "node ./index.mjs"
+  },
+  "dependencies": {
+    "@hono/node-server": "^1.3.1",
+    "@nixle/hono": "workspace:^",
+    "hono": "latest",
+    "nixle": "workspace:^"
+  }
+}

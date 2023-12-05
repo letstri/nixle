@@ -20,6 +20,7 @@
     "express",
     "bun",
     "elysia",
+    "hono",
     "server-side"
   ],
   "engines": {

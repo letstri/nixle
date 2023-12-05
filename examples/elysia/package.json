@@ -9,8 +9,6 @@
     "nixle": "workspace:^"
   },
   "devDependencies": {
-    "bun-types": "latest",
-    "prettier": "^3.1.0",
-    "vitepress": "^1.0.0-rc.30"
+    "bun-types": "latest"
   }
 }
