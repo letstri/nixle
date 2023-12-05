@@ -3,7 +3,7 @@ import { log, contextLog } from '~/logger';
 import { extendRouterOptions } from '~/router/createRouter';
 import { extendServiceOptions } from '~/service/createService';
 
-export const buildPlugins = <Server>(nixleApp: NixleApp<Server>, options: AppOptions<Server>) => {
+export const buildPlugins = (nixleApp: NixleApp, options: AppOptions) => {
   if (!options.plugins) {
     return;
   }

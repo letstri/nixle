@@ -8,16 +8,16 @@ import { emitter } from './emmiter';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 
-export interface AppOptions<Server> {
-  provider: Provider<Server>;
+export interface AppOptions {
+  provider: Provider;
   modules: Module[];
-  plugins?: Plugin<Server>[];
+  plugins?: Plugin[];
   logger?: Partial<ConsolaOptions>;
 }
 
-export type NixleApp<Server> = ReturnType<typeof createApp<Server>>;
+export type NixleApp = ReturnType<typeof createApp>;
 
-export const createApp = <Server = unknown>(options: AppOptions<Server>) => {
+export const createApp = (options: AppOptions) => {
   createLogger(options.logger || {});
 
   try {

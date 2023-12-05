@@ -6,11 +6,7 @@ import { routerOptions, type Routes } from './createRouter';
 import { createInternalError, logError, formatError } from '~/createError';
 import { emitter } from '~/emmiter';
 
-export const buildRoutes = <Server>(
-  options: AppOptions<Server>,
-  routerPath: string,
-  _routes: Routes,
-) => {
+export const buildRoutes = (options: AppOptions, routerPath: string, _routes: Routes) => {
   const fixedRouterPath = fixPath(routerPath);
   const log = contextLog(fixedRouterPath, 'bgGreen');
   const routes = _routes({ log, ...routerOptions });

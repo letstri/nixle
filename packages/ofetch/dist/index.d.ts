@@ -6,4 +6,4 @@ declare global {
         }
     }
 }
-export declare const ofetchPlugin: (options?: FetchOptions) => import("nixle/dist/plugins/createPlugin").Plugin<unknown>;
+export declare const ofetchPlugin: (options?: FetchOptions) => import("nixle/dist/plugins/createPlugin").Plugin;

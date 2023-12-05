@@ -1,24 +1,23 @@
-import { fastify as m } from "fastify";
-import n from "@fastify/cookie";
-import { createProvider as c } from "nixle";
-const h = c((t = m()) => (t.register(n), {
+import c from "@fastify/cookie";
+import { createProvider as k } from "nixle";
+const g = k((t) => (t.register(c), {
   app: t,
-  createRoute: (i, s, d) => t[i](s, async (o, r) => {
+  createRoute: (s, i, d) => t[s](i, async (o, r) => {
     r.send(
       await d({
-        request: o,
-        response: r,
+        request: o.raw,
+        response: r.raw,
         params: o.params || {},
         query: { ...o.query || {} },
         setStatusCode: (e) => r.status(e),
         setHeader: (e, a) => r.header(e, a),
         getHeader: (e) => o.headers[e] ? String(o.headers[e]) : null,
-        setCookie: (e, a, f) => r.setCookie(e, a, f),
+        setCookie: (e, a, n) => r.setCookie(e, a, n),
         getCookie: (e) => o.cookies[e] || null
       })
     );
   })
 }));
 export {
-  h as fastifyProvider
+  g as fastifyProvider
 };

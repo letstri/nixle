@@ -1,8 +1,17 @@
+import type { IncomingMessage, ServerResponse } from 'http';
 import { eventHandler, setCookie, getCookie, getQuery } from 'h3';
 import type { NitroApp } from 'nitropack';
 import { createProvider } from 'nixle';
 
-export const nitroProvider = createProvider<NitroApp>((app) => {
+declare global {
+  namespace Nixle {
+    interface Provider extends NitroApp {}
+    interface Request extends IncomingMessage {}
+    interface Response extends ServerResponse<IncomingMessage> {}
+  }
+}
+
+export const nitroProvider = createProvider((app) => {
   return {
     app,
     createRoute: (method, path, handler) =>

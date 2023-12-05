@@ -2,15 +2,15 @@ import type { ConsolaOptions } from 'consola';
 import type { Module } from './modules/createModule';
 import type { Provider } from './provider/createProvider';
 import type { Plugin } from './plugins/createPlugin';
-export interface AppOptions<Server> {
-    provider: Provider<Server>;
+export interface AppOptions {
+    provider: Provider;
     modules: Module[];
-    plugins?: Plugin<Server>[];
+    plugins?: Plugin[];
     logger?: Partial<ConsolaOptions>;
 }
-export type NixleApp<Server> = ReturnType<typeof createApp<Server>>;
-export declare const createApp: <Server = unknown>(options: AppOptions<Server>) => {
-    app: Server;
+export type NixleApp = ReturnType<typeof createApp>;
+export declare const createApp: (options: AppOptions) => {
+    app: Nixle.Provider;
     events: {
         on: {
             <Key extends keyof {

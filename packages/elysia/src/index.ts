@@ -1,13 +1,24 @@
-import { Elysia } from 'elysia';
+import type { Elysia, Context } from 'elysia';
 import { createProvider } from 'nixle';
 
-export const elysiaProvider = createProvider<Elysia>((app = new Elysia()) => {
+type ElysiaRequest = Context['request'];
+type ElysiaResponse = Context['set'];
+
+declare global {
+  namespace Nixle {
+    interface Provider extends Elysia {}
+    interface Request extends ElysiaRequest {}
+    interface Response extends ElysiaResponse {}
+  }
+}
+
+export const elysiaProvider = createProvider((app) => {
   return {
     app,
     createRoute: (method, path, handler) =>
       app[method](path, ({ request, set, cookie, params, query }) => {
         return handler({
-          request: request,
+          request,
           response: set,
           params: params || {},
           query: (query as Record<string, string | string[]>) || {},

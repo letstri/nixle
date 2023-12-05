@@ -1,2 +1,2 @@
 import type { AppOptions } from '../createApp';
-export declare const buildModules: <Server>(options: AppOptions<Server>) => void;
+export declare const buildModules: (options: AppOptions) => void;

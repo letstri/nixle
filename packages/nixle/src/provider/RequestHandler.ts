@@ -4,11 +4,11 @@ export interface RequestHandlerParams {
   /**
    * Request
    */
-  request: any;
+  request: Nixle.Request;
   /**
    * Response
    */
-  response: any;
+  response: Nixle.Response;
   /**
    * Path parameters
    *

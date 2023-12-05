@@ -1,21 +1,20 @@
-import { Elysia as v } from "elysia";
-import { createProvider as f } from "nixle";
-const C = f((s = new v()) => ({
+import { createProvider as n } from "nixle";
+const f = n((s) => ({
   app: s,
-  createRoute: (d, i, l) => s[d](i, ({ request: o, set: r, cookie: t, params: m, query: n }) => l({
-    request: o,
+  createRoute: (o, l, i) => s[o](l, ({ request: u, set: r, cookie: t, params: v, query: g }) => i({
+    request: u,
     response: r,
-    params: m || {},
-    query: n || {},
+    params: v || {},
+    query: g || {},
     setStatusCode: (e) => r.status = e,
     setHeader: (e, a) => r.headers[e] = a,
-    getHeader: (e) => o.headers.get(e),
-    setCookie: (e, a, u) => {
-      u && t[e].set(u), t[e].value = a;
+    getHeader: (e) => u.headers.get(e),
+    setCookie: (e, a, d) => {
+      d && t[e].set(d), t[e].value = a;
     },
     getCookie: (e) => t[e].value || null
   }))
 }));
 export {
-  C as elysiaProvider
+  f as elysiaProvider
 };

@@ -1,8 +1,17 @@
-import express, { type Express } from 'express';
+import type { IncomingMessage, ServerResponse } from 'http';
+import type { Express } from 'express';
 import cookieParser from 'cookie-parser';
 import { createProvider } from 'nixle';
 
-export const expressProvider = createProvider<Express>((app = express()) => {
+declare global {
+  namespace Nixle {
+    interface Provider extends Express {}
+    interface Request extends IncomingMessage {}
+    interface Response extends ServerResponse<IncomingMessage> {}
+  }
+}
+
+export const expressProvider = createProvider((app) => {
   app.use(cookieParser());
 
   return {
