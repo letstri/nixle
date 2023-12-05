@@ -33,6 +33,7 @@ bun i @nixle/fastify
 ## Setup
 
 ```ts
+import fastify from 'fastify';
 import { createApp, createModule, createRouter } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
@@ -48,7 +49,7 @@ const usersModule = createModule({
   routers: [usersRouter],
 });
 const server = createApp({
-  provider: fastifyProvider(),
+  provider: fastifyProvider(fastify()),
   modules: [usersModule],
 });
 

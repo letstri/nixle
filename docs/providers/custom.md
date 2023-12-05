@@ -8,11 +8,20 @@ If our list of providers does not include the one you need, you can create your 
 
 In short, you need to import the `createProvider` function from `nixle` and call it with the required fields.
 
-<!-- prettier-ignore -->
-```js
+For TypeScript, you should extend the `Nixle.Provider`, `Nixle.Request`, and `Nixle.Response` interfaces to add your own types.
+
+```ts
 import { createProvider } from 'nixle';
 
-const provider = createProvider<YourApp>((app) => {
+declare global {
+  namespace Nixle {
+    interface Provider extends YourProvider {}
+    interface Request extends YourRequest {}
+    interface Response extends YourResponse {}
+  }
+}
+
+const provider = createProvider((app) => {
   return {
     app,
     createRoute: (method, path, handler) =>

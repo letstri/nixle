@@ -1,3 +1,4 @@
+import fastify from 'fastify';
 import { createApp, createModule, createRouter } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
@@ -13,7 +14,7 @@ const usersModule = createModule({
   routers: [usersRouter],
 });
 const { app } = createApp({
-  provider: fastifyProvider(),
+  provider: fastifyProvider(fastify()),
   modules: [usersModule],
 });
 
