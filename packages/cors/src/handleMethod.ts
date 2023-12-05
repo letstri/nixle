@@ -1,7 +1,7 @@
-import type { HandlerParams } from 'nixle';
+import type { RequestHandlerParams } from 'nixle';
 import type { CorsConfig } from './types/CorsConfig';
 
-export const handleMethod = (params: HandlerParams, config: CorsConfig) => {
+export const handleMethod = (params: RequestHandlerParams, config: CorsConfig) => {
   if (!config.methods?.length) {
     return;
   }

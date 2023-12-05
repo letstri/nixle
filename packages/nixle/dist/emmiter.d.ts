@@ -1,6 +1,6 @@
-import type { HandlerParams } from './provider/RequestHandler';
+import type { RequestHandlerParams } from './provider/RequestHandler';
 type Events = {
-    request: HandlerParams;
+    request: RequestHandlerParams;
     response: any;
     error: any;
 };

@@ -1,4 +1,4 @@
-import type { CookieSerializeOptions } from 'cookie';
+import type { CookieOptions } from '..';
 
 export interface RequestHandlerParams {
   /**
@@ -69,7 +69,7 @@ export interface RequestHandlerParams {
    * setCookie('token', '123');
    * setCookie('token', '123', { httpOnly: true });
    */
-  setCookie: (key: string, value: string, options?: CookieSerializeOptions) => void;
+  setCookie: (key: string, value: string, options?: CookieOptions) => void;
   /**
    * Get cookie
    *
@@ -82,7 +82,5 @@ export interface RequestHandlerParams {
 }
 
 export interface RequestHandler {
-  (params: RequestHandlerParams): Promise<any> | any;
+  (params: RequestHandlerParams): any;
 }
-
-export type HandlerParams = Parameters<RequestHandler>[0];

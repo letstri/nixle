@@ -1,5 +1,5 @@
 {
-  "name": "nixle",
+  "name": "@nixle/hono",
   "version": "0.8.2",
   "description": "Universal server-side framework",
   "scripts": {
@@ -13,23 +13,6 @@
   ],
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "keywords": [
-    "nixle",
-    "framework",
-    "server",
-    "universal",
-    "typescript",
-    "node",
-    "fastify",
-    "express",
-    "bun",
-    "elysia",
-    "hono",
-    "server-side"
-  ],
-  "engines": {
-    "node": "^18.0.0 || >=20.0.0"
-  },
   "license": "MIT",
   "publishConfig": {
     "access": "public"
@@ -38,7 +21,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/letstri/nixle.git",
-    "directory": "packages/nixle"
+    "directory": "packages/hono"
   },
   "bugs": {
     "url": "https://github.com/letstri/nixle/issues"
@@ -48,16 +31,13 @@
     "type": "opencollective",
     "url": "https://opencollective.com/nixle"
   },
-  "dependencies": {
-    "consola": "^3.2.3",
-    "dayjs": "^1.11.10",
-    "mitt": "^3.0.1"
-  },
   "devDependencies": {
-    "@types/cookie": "^0.6.0",
-    "@types/node": "^20.10.3",
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.2",
     "vite": "^5.0.5"
+  },
+  "peerDependencies": {
+    "nixle": "workspace:^",
+    "hono": "^3.11.2"
   }
 }

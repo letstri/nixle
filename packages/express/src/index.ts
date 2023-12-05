@@ -27,7 +27,18 @@ export const expressProvider = createProvider((app) => {
             setStatusCode: (code) => response.status(code),
             setHeader: (name, value) => response.setHeader(name, value),
             getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
-            setCookie: (key, value, options = {}) => response.cookie(key, value, options),
+            setCookie: (key, value, options) => {
+              const sameSiteMap = new Map([
+                ['Strict', 'strict' as const],
+                ['Lax', 'lax' as const],
+                ['None', 'none' as const],
+              ]);
+
+              return response.cookie(key, value, {
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              });
+            },
             getCookie: (key) => request.cookies[key] || null,
           }),
         );

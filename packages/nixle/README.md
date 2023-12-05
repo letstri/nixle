@@ -22,7 +22,7 @@ npm install nixle
 Base setup for each provider.
 
 ```ts
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {

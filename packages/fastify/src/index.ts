@@ -27,7 +27,18 @@ export const fastifyProvider = createProvider((app) => {
             setStatusCode: (code) => reply.status(code),
             setHeader: (key, value) => reply.header(key, value),
             getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
-            setCookie: (key, value, options) => reply.setCookie(key, value, options),
+            setCookie: (key, value, options) => {
+              const sameSiteMap = new Map([
+                ['Strict', 'strict' as const],
+                ['Lax', 'lax' as const],
+                ['None', 'none' as const],
+              ]);
+
+              return reply.setCookie(key, value, {
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              });
+            },
             getCookie: (key) => request.cookies[key] || null,
           }),
         );

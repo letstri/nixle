@@ -12,8 +12,9 @@ declare global {
         }
     }
 }
-export type { HandlerParams } from './provider/RequestHandler';
+export type { RequestHandlerParams } from './provider/RequestHandler';
 export type { HTTPMethod } from './types/HTTPMethod';
+export type { CookieOptions } from './types/CookieOptions';
 export { StatusCode } from './types/StatusCode';
 export { createApp, type NixleApp } from './createApp';
 export { createModule, type Module } from './modules/createModule';

@@ -26,7 +26,18 @@ export const nitroProvider = createProvider((app) => {
             setStatusCode: (code) => (event.node.res.statusCode = code),
             setHeader: (key, value) => event.headers.set(key, value),
             getHeader: (key) => event.headers.get(key),
-            setCookie: (name, value, options) => setCookie(event, name, value, options),
+            setCookie: (name, value, options) => {
+              const sameSiteMap = new Map([
+                ['Strict', 'strict' as const],
+                ['Lax', 'lax' as const],
+                ['None', 'none' as const],
+              ]);
+
+              return setCookie(event, name, value, {
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              });
+            },
             getCookie: (name) => getCookie(event, name) || null,
           });
         }),

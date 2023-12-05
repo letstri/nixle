@@ -1,23 +1,33 @@
-import c from "@fastify/cookie";
-import { createProvider as k } from "nixle";
-const g = k((t) => (t.register(c), {
-  app: t,
-  createRoute: (s, i, d) => t[s](i, async (o, r) => {
+import m from "@fastify/cookie";
+import { createProvider as S } from "nixle";
+const u = S((a) => (a.register(m), {
+  app: a,
+  createRoute: (i, n, c) => a[i](n, async (t, r) => {
     r.send(
-      await d({
-        request: o.raw,
+      await c({
+        request: t.raw,
         response: r.raw,
-        params: o.params || {},
-        query: { ...o.query || {} },
+        params: t.params || {},
+        query: { ...t.query || {} },
         setStatusCode: (e) => r.status(e),
-        setHeader: (e, a) => r.header(e, a),
-        getHeader: (e) => o.headers[e] ? String(o.headers[e]) : null,
-        setCookie: (e, a, n) => r.setCookie(e, a, n),
-        getCookie: (e) => o.cookies[e] || null
+        setHeader: (e, o) => r.header(e, o),
+        getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
+        setCookie: (e, o, s) => {
+          const d = /* @__PURE__ */ new Map([
+            ["Strict", "strict"],
+            ["Lax", "lax"],
+            ["None", "none"]
+          ]);
+          return r.setCookie(e, o, {
+            ...s,
+            sameSite: d.get(s?.sameSite || "Strict") || "strict"
+          });
+        },
+        getCookie: (e) => t.cookies[e] || null
       })
     );
   })
 }));
 export {
-  g as fastifyProvider
+  u as fastifyProvider
 };

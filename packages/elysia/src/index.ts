@@ -26,8 +26,17 @@ export const elysiaProvider = createProvider((app) => {
           setHeader: (key, value) => (set.headers[key] = value),
           getHeader: (key) => request.headers.get(key),
           setCookie: (name, value, options) => {
+            const sameSiteMap = new Map([
+              ['Strict', 'strict' as const],
+              ['Lax', 'lax' as const],
+              ['None', 'none' as const],
+            ]);
+
             if (options) {
-              cookie[name].set(options);
+              cookie[name].set({
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              });
             }
             cookie[name].value = value;
           },

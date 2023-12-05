@@ -1,4 +1,4 @@
-import type { HandlerParams } from 'nixle';
+import type { RequestHandlerParams } from 'nixle';
 import type { CorsConfig } from './types/CorsConfig';
 import type { Origin } from './types/Origin';
 
@@ -18,7 +18,7 @@ const processOrigin = (origin: Origin, from: string) => {
 };
 
 export const handleOrigin = (
-  params: HandlerParams,
+  params: RequestHandlerParams,
   config: CorsConfig,
   origins: Origin[] | undefined,
 ) => {
