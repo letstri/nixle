@@ -50,7 +50,7 @@ app.get('/users', (req, res) => {
 
 app.listen(3000, () => {
   console.log('Server is running on port 3000');
-}
+});
 ```
 
 ## Available Providers
@@ -59,3 +59,4 @@ app.listen(3000, () => {
 - [Express](/providers/express)
 - [Fastify](/providers/fastify)
 - [Elysia (Bun)](/providers/elysia)
+- [Hono](/providers/hono)
