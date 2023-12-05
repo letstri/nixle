@@ -33,13 +33,13 @@ Use it only when Nixle does not provide the functionality you need.
 :::
 
 ```ts
-import { createApp as createExpress } from 'express';
+import express from 'express';
 import cors from 'cors';
 import { createApp } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
 const { app } = createApp({
-  provider: expressProvider(createExpress()),
+  provider: expressProvider(express()),
 });
 
 app.use(cors());
