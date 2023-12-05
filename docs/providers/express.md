@@ -37,7 +37,7 @@ import { createApp as createExpress } from 'express';
 import { createApp, createModule, createRouter } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {
@@ -48,12 +48,12 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp({
+const { app } = createApp({
   provider: expressProvider(createExpress()),
   modules: [usersModule],
 });
 
-server.listen(4000);
+app.listen(4000);
 ```
 
 ---

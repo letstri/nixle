@@ -44,7 +44,7 @@ Before you can create a server, you need to create a base. A base is a collabora
 // usersModule.ts
 import { createModule, createRouter } from 'nixle';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {
@@ -83,14 +83,12 @@ import { createApp } from 'nixle';
 import { expressProvider } from '@nixle/express';
 import { usersModule } from './usersModule';
 
-const app = express();
-
-const server = createApp({
-  provider: expressProvider(app),
+const { app } = createApp({
+  provider: expressProvider(express()),
   modules: [usersModule],
 });
 
-server.listen(4000);
+app.listen(3000);
 ```
 
 ```ts [Fastify]
@@ -99,14 +97,12 @@ import { createApp } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 import { usersModule } from './usersModule';
 
-const app = fastify();
-
-const server = createApp({
+const { app } = createApp({
   provider: fastifyProvider(app),
   modules: [usersModule],
 });
 
-server.listen({ port: 4000 });
+app.listen({ port: 3000 });
 ```
 
 ```ts [Elysia]
@@ -115,14 +111,29 @@ import { createApp } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
 import { usersModule } from './usersModule';
 
-const app = new Elysia();
-
-const server = createApp({
-  provider: elysiaProvider(app),
+const { app } = createApp({
+  provider: honoProvider(new Elysia()),
   modules: [usersModule],
 });
 
-server.listen(4000);
+app.listen(3000);
+```
+
+```ts [Hono]
+import { Hono } from 'hono';
+import { serve } from '@hono/node-server';
+import { createApp } from 'nixle';
+import { honoProvider } from '@nixle/hono';
+import { usersModule } from './usersModule';
+
+const { app } = createApp({
+  provider: honoProvider(app),
+  modules: [usersModule],
+});
+
+serve(app, (info) => {
+  console.log(`Listening on http://localhost:${info.port}`);
+});
 ```
 
 :::
@@ -134,7 +145,7 @@ Or [create](/providers/custom) your own provider.
 After successfully creating the server, you can try it out to send a request to the server.
 
 ```ts
-const data = fetch('http://localhost:4000/users').then((res) => res.text());
+const data = fetch('http://localhost:3000/users').then((res) => res.text());
 
 console.log(data); // Hello World!
 ```

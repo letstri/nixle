@@ -40,7 +40,7 @@ bun i @nixle/nitro
 import { createApp, createRouter, createModule } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = createRouter('/users', () => [
   {
     path: '/',
     handler() {

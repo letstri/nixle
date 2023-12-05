@@ -6,6 +6,7 @@ const providers = [
   { text: 'Express', link: '/providers/express' },
   { text: 'Fastify', link: '/providers/fastify' },
   { text: 'Elysia (Bun)', link: '/providers/elysia' },
+  { text: 'Hono', link: '/providers/hono' },
   { text: 'Custom', link: '/providers/custom' },
 ];
 

@@ -17,11 +17,40 @@ You can easily switch between providers by setting the `provider` option in the 
 
 ```ts
 import { createApp } from 'nixle';
-import { providerNameProvider } from '@nixle/{provider-name}';
+import { yourProvider } from '@nixle/provider-name';
 
 createApp({
-  provider: providerNameProvider(),
+  provider: yourProvider(),
 });
+```
+
+## Accessing the Framework
+
+Each provider returns an instance of the framework it is built for. This means that you can continue using the framework as usual. For example, if you are using Express, you can add plugins, middlewares, or routes just like you normally would.
+
+::: tip
+Use it only when Nixle does not provide the functionality you need.
+:::
+
+```ts
+import { createApp as createExpress } from 'express';
+import cors from 'cors';
+import { createApp } from 'nixle';
+import { expressProvider } from '@nixle/express';
+
+const { app } = createApp({
+  provider: expressProvider(createExpress()),
+});
+
+app.use(cors());
+
+app.get('/users', (req, res) => {
+  res.json({ users: [] });
+});
+
+app.listen(3000, () => {
+  console.log('Server is running on port 3000');
+}
 ```
 
 ## Available Providers

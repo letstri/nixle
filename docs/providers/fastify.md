@@ -37,7 +37,7 @@ import fastify from 'fastify';
 import { createApp, createModule, createRouter } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const usersRouter = createRouter('users', () => [
+const usersRouter = /users', () => [
   {
     path: '/',
     handler() {
@@ -48,12 +48,12 @@ const usersRouter = createRouter('users', () => [
 const usersModule = createModule({
   routers: [usersRouter],
 });
-const server = createApp({
+const { app } = createApp({
   provider: fastifyProvider(fastify()),
   modules: [usersModule],
 });
 
-server.listen({ port: 4000 });
+app.listen({ port: 4000 });
 ```
 
 ---
