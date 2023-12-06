@@ -1,10 +1,10 @@
-import { eventHandler as u, getQuery as m, setCookie as c, getCookie as n } from "h3";
+import { getQuery as m, setCookie as u, getCookie as c } from "h3";
 import { createProvider as S } from "nixle";
-const k = S((o) => ({
+const C = S((o) => ({
   app: o,
   createRoute: (a, i, d) => o.router[a](
     i,
-    u((e) => d({
+    (e) => d({
       request: e.node.req,
       response: e.node.res,
       params: e.context.params || {},
@@ -12,7 +12,7 @@ const k = S((o) => ({
       setStatusCode: (r) => e.node.res.statusCode = r,
       setHeader: (r, t) => e.headers.set(r, t),
       getHeader: (r) => e.headers.get(r),
-      setCookie: (r, t, s) => c(e, r, t, {
+      setCookie: (r, t, s) => u(e, r, t, {
         ...s,
         sameSite: (/* @__PURE__ */ new Map([
           ["Strict", "strict"],
@@ -20,10 +20,10 @@ const k = S((o) => ({
           ["None", "none"]
         ])).get(s?.sameSite || "Strict") || "strict"
       }),
-      getCookie: (r) => n(e, r) || null
-    }))
+      getCookie: (r) => c(e, r) || null
+    })
   )
 }));
 export {
-  k as nitroProvider
+  C as nitroProvider
 };

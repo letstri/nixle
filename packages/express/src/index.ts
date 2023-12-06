@@ -1,13 +1,12 @@
-import type { IncomingMessage, ServerResponse } from 'http';
-import type { Express } from 'express';
+import type { Express, Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import cookieParser from 'cookie-parser';
 import { createProvider } from 'nixle';
 
 declare global {
   namespace Nixle {
     interface Provider extends Express {}
-    interface Request extends IncomingMessage {}
-    interface Response extends ServerResponse<IncomingMessage> {}
+    interface Request extends ExpressRequest {}
+    interface Response extends ExpressResponse {}
   }
 }
 

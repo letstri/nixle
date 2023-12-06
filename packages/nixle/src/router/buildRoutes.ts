@@ -7,8 +7,7 @@ import { createInternalError, logError, formatError } from '~/createError';
 import { emitter } from '~/emmiter';
 
 export const buildRoutes = (options: AppOptions, routerPath: string, _routes: Routes) => {
-  const fixedRouterPath = fixPath(routerPath);
-  const log = contextLog(fixedRouterPath, 'bgGreen');
+  const log = contextLog(routerPath, 'bgGreen');
   const routes = _routes({ log, ...routerOptions });
 
   try {
@@ -25,7 +24,7 @@ export const buildRoutes = (options: AppOptions, routerPath: string, _routes: Ro
 
   routes.forEach((route) => {
     const method = route.method ? (route.method.toLowerCase() as Lowercase<HTTPMethod>) : 'get';
-    const routePath = fixPath(fixedRouterPath) + fixPath(route.path);
+    const routePath = routerPath + fixPath(route.path);
 
     options.provider.createRoute(method, routePath, async (params) => {
       emitter.emit('request', params);

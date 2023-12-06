@@ -13,6 +13,7 @@ export interface AppOptions {
   modules: Module[];
   plugins?: Plugin[];
   logger?: Partial<ConsolaOptions>;
+  globalPrefix?: string;
 }
 
 export type NixleApp = ReturnType<typeof createApp>;
