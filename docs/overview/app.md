@@ -10,6 +10,7 @@ App is the entry point of your application. It is a wrapper around the provider 
 
 Create an app with the `createApp` function. This function takes a config object with the following properties:
 
+- `globalPrefix` - A prefix that will be used for all routes.
 - `provider` - A provider that will be used to create a store.
 - `modules` - An array with modules.
 - `logger` - A [consola](/overview/logger) config that will be used to update options of the logger.
@@ -20,6 +21,7 @@ import { fastifyProvider } from '@nixle/fastify';
 import { usersModule } from './users';
 
 export const app = createApp({
+  globalPrefix: '/api',
   provider: fastifyProvider(),
   modules: [usersModule],
   logger: {
