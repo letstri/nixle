@@ -21,7 +21,7 @@ export const createLogger = (options: Partial<ConsolaOptions>) => {
  *
  * @example log('Hello world', { type: 'info' })
  */
-export const log = (message: string, options?: LogOptions) => {
+export const log = (message: string | string[], options?: LogOptions) => {
   const type = options?.type || 'log';
   const nixleMessage = `${colorize('bgBlue', ' Nixle ')}`;
 
@@ -31,10 +31,13 @@ export const log = (message: string, options?: LogOptions) => {
     createInternalError(`Logger method "${type}" not found`);
   }
 
-  method(`${nixleMessage} ${message}`);
+  method(`${nixleMessage}`, ...(Array.isArray(message) ? message : [message]));
 };
 
 export const contextLog =
   (context: string, color: ColorName = 'bgWhite'): typeof log =>
-  (message, options) =>
-    log(`${colorize(color, `[${context}]`)} ${message}`, options);
+  (message, options?: LogOptions) =>
+    log(
+      [colorize(color, ` ${context} `), ...(Array.isArray(message) ? message : [message])],
+      options,
+    );
