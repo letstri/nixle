@@ -12,6 +12,12 @@ interface PluginOptions {
 
 type PluginFunction = (options: PluginOptions) => void;
 
-export type Plugin = [name: string, plugin: PluginFunction];
+export interface Plugin {
+  name: string;
+  plugin: PluginFunction;
+}
 
-export const createPlugin = (name: string, plugin: PluginFunction): Plugin => [name, plugin];
+export const createPlugin = (name: string, plugin: PluginFunction): Plugin => ({
+  name,
+  plugin,
+});

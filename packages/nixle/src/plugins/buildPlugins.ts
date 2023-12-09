@@ -8,7 +8,7 @@ export const buildPlugins = (nixleApp: NixleApp, options: AppOptions) => {
     return;
   }
 
-  options.plugins.forEach(([name, plugin]) => {
+  options.plugins.forEach(({ name, plugin }) => {
     const _log = contextLog(name, 'bgMagenta');
 
     plugin({ nixleApp, log: _log, extendRouterOptions, extendServiceOptions });
