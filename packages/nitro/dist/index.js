@@ -30,7 +30,6 @@ const S = /* @__PURE__ */ new Map([
     createMiddleware: (e) => a.router.use(
       "*",
       u(async (r) => {
-        r.context;
         const t = await e(await o(r));
         if (t)
           return t;

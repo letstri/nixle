@@ -6,7 +6,7 @@ const f = /* @__PURE__ */ new Map([
   ["None", "none"]
 ]), S = m((s) => {
   s.register(c);
-  const i = (t, a) => ({
+  const n = (t, a) => ({
     request: t.raw,
     response: a.raw,
     url: t.raw.url || "",
@@ -28,17 +28,19 @@ const f = /* @__PURE__ */ new Map([
     app: s,
     createMiddleware: (t) => {
       s.addHook("onRequest", async (a, e) => {
-        const o = await t(i(a, e));
+        const o = await t(n(a, e));
         o && e.send(o);
       });
     },
-    createRoute: ({ method: t, path: a, middleware: e, handler: o }) => s[t](a, async (r, n) => {
+    createRoute: ({ method: t, path: a, middleware: e, handler: o }) => s[t](a, async (r, i) => {
       if (e) {
-        const d = await e(i(r, n));
-        if (d)
-          return d;
+        const d = await e(n(r, i));
+        if (d) {
+          i.send(d);
+          return;
+        }
       }
-      n.send(await o(i(r, n)));
+      i.send(await o(n(r, i)));
     })
   };
 });

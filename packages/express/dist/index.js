@@ -8,36 +8,38 @@ const y = /* @__PURE__ */ new Map([
   ["None", "none"]
 ]), g = l((r) => {
   r.use(m()), r.use(n.json());
-  const d = (t, a) => ({
-    request: t,
+  const c = (e, a) => ({
+    request: e,
     response: a,
-    url: t.url,
-    method: t.method,
-    params: t.params || {},
-    query: t.query || {},
-    body: t.body,
-    setStatusCode: (e) => a.status(e),
-    setHeader: (e, o) => a.setHeader(e, o),
-    getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
-    headers: t.headers,
-    getCookie: (e) => t.cookies[e] || null,
-    setCookie: (e, o, i) => a.cookie(e, o, {
+    url: e.url,
+    method: e.method,
+    params: e.params || {},
+    query: e.query || {},
+    body: e.body,
+    setStatusCode: (t) => a.status(t),
+    setHeader: (t, o) => a.setHeader(t, o),
+    getHeader: (t) => e.headers[t] ? String(e.headers[t]) : null,
+    headers: e.headers,
+    getCookie: (t) => e.cookies[t] || null,
+    setCookie: (t, o, i) => a.cookie(t, o, {
       ...i,
       sameSite: y.get(i?.sameSite || "Strict") || "strict"
     })
   });
   return {
     app: r,
-    createMiddleware: (t) => r.use("*", async (a, e) => {
-      e.send(await t(d(a, e)));
+    createMiddleware: (e) => r.use("*", async (a, t) => {
+      t.send(await e(c(a, t)));
     }),
-    createRoute: ({ method: t, path: a, middleware: e, handler: o }) => r[t](a, async (i, c) => {
-      if (e) {
-        const s = await e(d(i, c));
-        if (s)
-          return s;
+    createRoute: ({ method: e, path: a, middleware: t, handler: o }) => r[e](a, async (i, d) => {
+      if (t) {
+        const s = await t(c(i, d));
+        if (s) {
+          d.send(s);
+          return;
+        }
       }
-      c.send(await o(d(i, c)));
+      d.send(await o(c(i, d)));
     })
   };
 });

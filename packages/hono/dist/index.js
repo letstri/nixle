@@ -40,7 +40,8 @@ const y = m((i) => {
     createMiddleware: (e) => {
       i.use(async (r) => {
         const s = await e(await t(r));
-        s && r.body(s);
+        if (s)
+          return r.body(s);
       });
     },
     createRoute: ({ method: e, path: r, middleware: s, handler: o }) => {
@@ -55,7 +56,7 @@ const y = m((i) => {
         if (s) {
           const d = await s(await t(a));
           if (d)
-            return d;
+            return a.body(d);
         }
         return a.body(await o(await t(a)));
       });
