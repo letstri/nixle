@@ -1,4 +1,5 @@
 import { log } from './logger';
+import { StatusCode } from '.';
 export interface NixleErrorOptions {
     message: string;
     statusCode?: number;
@@ -14,7 +15,7 @@ export declare class NixleError extends Error implements ErrorResponse<unknown> 
         isInternal?: boolean;
     });
     time: string;
-    statusCode: number;
+    statusCode: StatusCode;
     isInternal: boolean;
     details: {};
 }
@@ -22,4 +23,4 @@ export declare function createInternalError(options: string | NixleErrorOptions)
 export declare function createError(options: string | NixleErrorOptions): never;
 export declare const isNixleError: (error: any) => error is NixleError;
 export declare const logError: (error: any, _log: typeof log) => void;
-export declare const formatError: (error: any, statusCode?: number) => ErrorResponse<any>;
+export declare const formatError: (error: any, statusCode?: StatusCode) => ErrorResponse<any>;

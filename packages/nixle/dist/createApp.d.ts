@@ -51,7 +51,7 @@ export declare const createApp: (options: AppOptions) => {
         };
     };
     createRoute: (params: {
-        method: "options" | "get" | "post" | "put" | "delete" | "patch";
+        method: "get" | "post" | "put" | "delete" | "patch" | "options";
         path: string;
         middleware?: import("./router/createRoute").RouteHandler | undefined;
         handler: import("./router/createRoute").RouteHandler;
