@@ -34,17 +34,10 @@ bun i @nixle/fastify
 
 ```ts
 import fastify from 'fastify';
-import { createApp, createModule, createRouter } from 'nixle';
+import { createApp, createModule, createRouter, route } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const usersRouter = /users', () => [
-  {
-    path: '/',
-    handler() {
-      return 'Hello Fastify!';
-    },
-  },
-]);
+const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello Fastify!')]);
 const usersModule = createModule({
   routers: [usersRouter],
 });

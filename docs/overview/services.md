@@ -27,18 +27,15 @@ export const usersService = createService('users', () => {
 To use a service, you need to import it into your router and then call the service's methods.
 
 ```ts
-import { createRouter } from 'nixle';
+import { createRouter, route } from 'nixle';
 import { usersService } from './usersService';
 
 export const usersRouter = createRouter('/users', () => [
-  {
-    path: '/',
-    async handler() {
-      const users = await usersService.getUsers();
+  route.get('/', () => {
+    const users = await usersService.getUsers();
 
-      return users;
-    },
-  },
+    return users;
+  }),
 ]);
 ```
 
@@ -47,19 +44,16 @@ export const usersRouter = createRouter('/users', () => [
 You can destruct the `params` object to get some useful parameters.
 
 ```ts
-import { createRouter } from 'nixle';
+import { createRouter, route } from 'nixle';
 import { usersService } from './usersService';
 
 export const usersRouter = createRouter('/users', ({ log }) => [
-  {
-    path: '/',
-    async handler() {
-      log('Getting users...', { type: 'info' });
-      const users = await usersService.getUsers();
-      log('Users fetched!', { type: 'success' });
+  route.get('/', () => {
+    log('Getting users...', { type: 'info' });
+    const users = await usersService.getUsers();
+    log('Users fetched!', { type: 'success' });
 
-      return users;
-    },
-  },
+    return users;
+  }),
 ]);
 ```

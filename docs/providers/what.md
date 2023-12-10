@@ -38,12 +38,15 @@ import cors from 'cors';
 import { createApp } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
+const expressApp = express();
+
+expressApp.use(cors());
+
 const { app } = createApp({
-  provider: expressProvider(express()),
+  provider: expressProvider(expressApp),
 });
 
-app.use(cors());
-
+// Not recommended
 app.get('/users', (req, res) => {
   res.json({ users: [] });
 });

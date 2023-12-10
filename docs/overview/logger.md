@@ -16,18 +16,15 @@ Available types: `silent`, `fatal`, `error`, `warn`, `log`, `info`, `success`, `
 
 Each router provides `log` function in context.
 
-```ts{7}
-import { createRouter } from 'nixle';
+```ts{5}
+import { createRouter, route } from 'nixle';
 
 const usersRouter = createRouter('/users', ({ log }) => [
-  {
-    path: '/',
-    handler: () => {
-      log('Some log for debug', { type: 'debug' });
+  route.get('/', () => {
+    log('Some log for debug', { type: 'debug' });
 
-      return [];
-    },
-  },
+    return [];
+  }),
 ]);
 ```
 

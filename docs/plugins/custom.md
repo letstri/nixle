@@ -54,12 +54,9 @@ And then you can use the `someOption` in the router:
 import { createRouter } from 'nixle';
 
 const app = createRouter('/users', ({ log, someOption }) => [
-  {
-    path: '/',
-    handler: () => {
-      log(someOption);
-    },
-  },
+  route.get('/', () => {
+    log(someOption);
+  }),
 ]);
 ```
 

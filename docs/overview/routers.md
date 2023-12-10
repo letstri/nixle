@@ -11,16 +11,9 @@ Routers are second fundamental and essential part of the Nixle framework. With r
 To create a router, you need to use the `createRouter` function. This function takes two arguments, which are a base path and a function that returns an array of routes.
 
 ```ts
-import { createRouter } from 'nixle';
+import { createRouter, route } from 'nixle';
 
-export const usersRouter = createRouter('/users', () => [
-  {
-    path: '/',
-    handler() {
-      return 'Hello World!';
-    },
-  },
-]);
+export const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello World!')]);
 ```
 
 After that, you call the `createModule` function to create a module and register the router with the server.
@@ -41,4 +34,34 @@ fetch('http://localhost:4000/users')
   .then(console.log);
 
 // Hello World!
+```
+
+## Parameters
+
+In each route, you can use context parameters to get information about the request.
+
+Available parameters:
+
+- `params` - URL parameters (e.g. `/users/:id`)
+- `body` - Request body (for now supports only JSON)
+- `query` - Query parameters (e.g. `/users?name=John`)
+- `url` - Request URL
+- `method` - Request method
+- `getCookie` - Function to get cookie
+- `setCookie` - Function to set cookie
+- `getHeader` - Function to get header
+- `setHeader` - Function to set header
+- `headers` - Request headers
+
+```ts
+import { createRouter, route } from 'nixle';
+
+export const usersRouter = createRouter('/users', () => [
+  route.get(
+    '/',
+    ({ params, body, query, url, method, getCookie, setCookie, getHeader, setHeader, headers }) => {
+      return 'Hello World!';
+    },
+  ),
+]);
 ```

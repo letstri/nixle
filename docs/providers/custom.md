@@ -11,7 +11,7 @@ In short, you need to import the `createProvider` function from `nixle` and call
 For TypeScript, you should extend the `Nixle.Provider`, `Nixle.Request`, and `Nixle.Response` interfaces to add your own types.
 
 ```ts
-import { createProvider } from 'nixle';
+import { createProvider, type RouteHandlerContext } from 'nixle';
 
 declare global {
   namespace Nixle {
@@ -22,22 +22,30 @@ declare global {
 }
 
 const provider = createProvider((app) => {
+  const formatHandler = (context): RouteHandlerContext => {};
+
   return {
     app,
-    createRoute: (method, path, handler) =>
-      app.router[method](path, (options) => {
-        return handler({
-          request: options.req,
-          response: options.res,
-          params: options.params || {},
-          query: options.query || {},
-          setStatusCode: (code) => options.setStatusCode(code),
-          setHeader: (key, value) => options.setHeader(key, value),
-          getHeader: (key) => options.getHeader(key) || null,
-          setCookie: (name, value, options) => options.setCookie(name, value, options),
-          getCookie: (name) => options.getCookie(event, name) || null,
-        });
-      }),
+    createMiddleware: (handler) => {
+      app.beforeEach(async (context) => {
+        const response = await handler(formatHandler(context));
+
+        if (response) {
+          return response;
+        }
+      });
+    },
+    createRoute: ({ method, path, middleware, handler }) => {
+      if (middleware) {
+        const response = await middleware(formatHandler(context));
+
+        if (response) {
+          return response;
+        }
+      }
+
+      return handler(formatHandler(context));
+    },
   };
 });
 ```
