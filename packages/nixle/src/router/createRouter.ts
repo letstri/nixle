@@ -1,45 +1,15 @@
-import type { RequestHandler } from '~/provider/RequestHandler';
-import type { log } from '~/logger';
-import type { HTTPMethod } from '~/types/HTTPMethod';
+import { contextLog, type log } from '~/logger';
+import type { Route } from './createRoute';
 
-export interface Route {
-  /**
-   * HTTP method
-   * @default 'GET'
-   */
-  method?: HTTPMethod;
-  /**
-   * Path
-   * @example '/users'
-   * @example '/users/:id'
-   */
-  path: string;
-  /**
-   * Status code
-   * @default 200
-   */
-  statusCode?: number;
-  /**
-   * Handler
-   * @param params
-   * @param params.request
-   * @param params.response
-   * @example
-   * handler() {
-   *   return { message: 'Hello world!' };
-   * }
-   */
-  handler: RequestHandler;
-}
+const routerOptions: Nixle.RouterOptions = {};
 
-export const routerOptions: Nixle.RouterOptions = {};
-
-export const extendRouterOptions = (options: Record<string, unknown>) => {
+const extendRouterOptions = (options: Record<string, unknown>) => {
   Object.assign(routerOptions, options);
 };
 
-export type Routes = (params: { log: typeof log } & Nixle.RouterOptions) => Route[];
+const createRouter = (
+  path: string,
+  routes: (params: { log: typeof log } & Nixle.RouterOptions) => Route[],
+) => [path, routes({ log: contextLog(path, 'bgGreen'), ...routerOptions })] as const;
 
-export const routers = new Map<string, Routes>([]);
-
-export const createRouter = (path: string, routes: Routes) => [path, routes] as const;
+export { createRouter, extendRouterOptions, routerOptions };

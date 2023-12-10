@@ -1,5 +1,6 @@
 import type { ConsolaOptions } from 'consola';
-import { createLogger, log } from './logger';
+import { colors } from 'consola/utils';
+import { contextLog, createLogger, log } from './logger';
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
 import type { Provider } from './provider/createProvider';
@@ -29,11 +30,18 @@ export const createApp = (options: AppOptions) => {
       createInternalError('At least one module is required');
     }
   } catch (e) {
-    logError(e);
+    logError(e, log);
     process.exit(1);
   }
 
   buildModules(options);
+
+  options.provider.createMiddleware(({ url, method }) => {
+    contextLog(url.split('?')[0], 'bgGreen')(`📫 ${colors.bold(method)} Request received`, {
+      type: 'info',
+    });
+    emitter.emit('request');
+  });
 
   const app = {
     app: options.provider.app,
@@ -42,13 +50,14 @@ export const createApp = (options: AppOptions) => {
       emit: emitter.emit,
     },
     createRoute: options.provider.createRoute,
+    createMiddleware: options.provider.createMiddleware,
   };
 
   if (options.plugins) {
     buildPlugins(app, options);
   }
 
-  log('🫡  Application successfully started', { type: 'success' });
+  log('🚀 Application successfully started', { type: 'success' });
 
   return app;
 };

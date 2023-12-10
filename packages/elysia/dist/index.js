@@ -1,28 +1,43 @@
-import { createProvider as m } from "nixle";
-const v = m((i) => ({
-  app: i,
-  createRoute: (u, d, n) => i[u](d, ({ request: o, set: t, cookie: r, params: c, query: l }) => n({
-    request: o,
-    response: t,
-    params: c || {},
-    query: l || {},
-    setStatusCode: (e) => t.status = e,
-    setHeader: (e, a) => t.headers[e] = a,
-    getHeader: (e) => o.headers.get(e),
-    setCookie: (e, a, s) => {
-      const S = /* @__PURE__ */ new Map([
+import { createProvider as o } from "nixle";
+const m = o((i) => {
+  const u = (e) => ({
+    request: e.request,
+    response: e.set,
+    url: e.request.url,
+    method: e.request.method,
+    params: e.params || {},
+    query: e.query || {},
+    body: e.body || {},
+    setStatusCode: (r) => e.set.status = r,
+    setHeader: (r, s) => e.set.headers[r] = s,
+    getHeader: (r) => e.request.headers.get(r),
+    headers: Object.fromEntries(e.request.headers.entries()),
+    setCookie: (r, s, a) => {
+      const t = /* @__PURE__ */ new Map([
         ["Strict", "strict"],
         ["Lax", "lax"],
         ["None", "none"]
       ]);
-      s && r[e].set({
-        ...s,
-        sameSite: S.get(s?.sameSite || "Strict") || "strict"
-      }), r[e].value = a;
+      a && e.cookie[r].set({
+        ...a,
+        sameSite: t.get(a?.sameSite || "Strict") || "strict"
+      }), e.cookie[r].value = s;
     },
-    getCookie: (e) => r[e].value || null
-  }))
-}));
+    getCookie: (r) => e.cookie[r].value || null
+  });
+  return {
+    app: i,
+    createMiddleware: (e) => i.onBeforeHandle((r) => e(u(r))),
+    createRoute: ({ method: e, path: r, middleware: s, handler: a }) => i[e](r, async (t) => {
+      if (s) {
+        const d = await s(u(t));
+        if (d)
+          return d;
+      }
+      return a(u(t));
+    })
+  };
+});
 export {
-  v as elysiaProvider
+  m as elysiaProvider
 };

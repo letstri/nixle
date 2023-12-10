@@ -1,4 +1,4 @@
-import type { Express, Request as ExpressRequest, Response as ExpressResponse } from 'express';
+import { type Express, type Request as ExpressRequest, type Response as ExpressResponse } from 'express';
 declare global {
     namespace Nixle {
         interface Provider extends Express {

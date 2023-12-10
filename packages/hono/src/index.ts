@@ -1,6 +1,6 @@
 import type { Hono, Context } from 'hono';
 import { setCookie, getCookie } from 'hono/cookie';
-import { createProvider } from 'nixle';
+import { createProvider, type HTTPMethod, type RouteHandlerContext } from 'nixle';
 
 type HonoRequest = Context['req'];
 type HonoResponse = Context['res'];
@@ -14,9 +14,34 @@ declare global {
 }
 
 export const honoProvider = createProvider((app) => {
+  const formatHandler = async (context: Context): Promise<RouteHandlerContext> => ({
+    request: context.req,
+    response: context.res,
+    url: context.req.url,
+    method: context.req.method as HTTPMethod,
+    params: (context.req.param() as Record<string, string>) || {},
+    query: (context.req.query() as Record<string, string | string[]>) || {},
+    body: await context.req.json(),
+    setStatusCode: (code) => context.status(code),
+    setHeader: (key, value) => context.header(key, value),
+    getHeader: (key) => context.req.header(key) || null,
+    headers: context.req.header(),
+    setCookie: (name, value, options) => setCookie(context, name, value, options),
+    getCookie: (name) => getCookie(context, name) || null,
+  });
+
   return {
     app,
-    createRoute: (method, path, handler) => {
+    createMiddleware: (handler) => {
+      app.use(async (context) => {
+        const response = await handler(await formatHandler(context));
+
+        if (response) {
+          context.body(response);
+        }
+      });
+    },
+    createRoute: ({ method, path, middleware, handler }) => {
       const methods: Record<typeof method, typeof app.get> = {
         get: app.get,
         post: app.post,
@@ -26,21 +51,17 @@ export const honoProvider = createProvider((app) => {
         options: app.options,
       };
 
-      methods[method](path, async (context) =>
-        context.body(
-          await handler({
-            request: context.req,
-            response: context.res,
-            params: (context.req.param() as Record<string, string>) || {},
-            query: (context.req.query() as Record<string, string | string[]>) || {},
-            setStatusCode: (code) => context.status(code),
-            setHeader: (key, value) => context.header(key, value),
-            getHeader: (key) => context.req.header(key) || null,
-            setCookie: (name, value, options) => setCookie(context, name, value, options),
-            getCookie: (name) => getCookie(context, name) || null,
-          }),
-        ),
-      );
+      methods[method](path, async (context) => {
+        if (middleware) {
+          const response = await middleware(await formatHandler(context));
+
+          if (response) {
+            return response;
+          }
+        }
+
+        return context.body(await handler(await formatHandler(context)));
+      });
     },
   };
 });

@@ -9,6 +9,9 @@ interface PluginOptions {
     extendServiceOptions: typeof extendServiceOptions;
 }
 type PluginFunction = (options: PluginOptions) => void;
-export type Plugin = [name: string, plugin: PluginFunction];
+export interface Plugin {
+    name: string;
+    plugin: PluginFunction;
+}
 export declare const createPlugin: (name: string, plugin: PluginFunction) => Plugin;
 export {};

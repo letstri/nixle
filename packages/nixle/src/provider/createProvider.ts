@@ -1,19 +1,15 @@
+import type { RouteHandler } from '~/router/createRoute';
 import type { HTTPMethod } from '~/types/HTTPMethod';
-import type { RequestHandler } from './RequestHandler';
 
 export interface Provider {
   app: Nixle.Provider;
-  /**
-   * Register a route
-   *
-   * @param method
-   * @param path
-   * @param handler
-   *
-   * @example
-   * createRoute('get', '/users', () => ({ message: 'Hello world!' }));
-   */
-  createRoute: (method: Lowercase<HTTPMethod>, path: string, handler: RequestHandler) => void;
+  createMiddleware: (handler: RouteHandler) => void;
+  createRoute: (params: {
+    method: Lowercase<HTTPMethod>;
+    path: string;
+    middleware?: RouteHandler;
+    handler: RouteHandler;
+  }) => void;
 }
 
 export const createProvider = (config: (app: Nixle.Provider) => Provider) => config;
