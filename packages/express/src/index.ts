@@ -61,7 +61,8 @@ export const expressProvider = createProvider((app) => {
           const _response = await middleware(formatHandler(request, response));
 
           if (_response) {
-            return _response;
+            response.send(_response);
+            return;
           }
         }
 

@@ -57,7 +57,8 @@ export const fastifyProvider = createProvider((app) => {
           const response = await middleware(formatHandler(request, reply));
 
           if (response) {
-            return response;
+            reply.send(response);
+            return;
           }
         }
 

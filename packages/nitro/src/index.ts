@@ -59,7 +59,6 @@ export const nitroProvider = createProvider((app) => {
       app.router.use(
         '*',
         eventHandler(async (event) => {
-          event.context;
           const response = await handler(await formatHandler(event));
 
           if (response) {

@@ -37,7 +37,7 @@ export const honoProvider = createProvider((app) => {
         const response = await handler(await formatHandler(context));
 
         if (response) {
-          context.body(response);
+          return context.body(response);
         }
       });
     },
@@ -56,7 +56,7 @@ export const honoProvider = createProvider((app) => {
           const response = await middleware(await formatHandler(context));
 
           if (response) {
-            return response;
+            return context.body(response);
           }
         }
 
