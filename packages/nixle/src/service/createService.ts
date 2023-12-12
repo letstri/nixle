@@ -1,15 +1,13 @@
 import { contextLog, type log } from '../logger';
 import { env } from '~/env';
 
-type ServiceMethods = Record<string, (name: string, ...args: any) => any>;
-
 const serviceOptions: Nixle.ServiceOptions = {};
 
 export const extendServiceOptions = (options: Record<string, unknown>) => {
   Object.assign(serviceOptions, options);
 };
 
-export const createService = <Methods extends ServiceMethods>(
+export const createService = <Methods extends any = any>(
   name: string,
   service: (
     options: {
