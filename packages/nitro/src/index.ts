@@ -4,12 +4,10 @@ import {
   getCookie,
   getQuery,
   eventHandler,
-  readRawBody,
-  H3Event,
-  type EventHandlerRequest,
   getRequestHeaders,
   getRouterParams,
   setResponseStatus,
+  readBody,
 } from 'h3';
 import type { NitroApp } from 'nitropack';
 import { createProvider, type HTTPMethod, type RouteHandlerContext } from 'nixle';
@@ -56,7 +54,7 @@ export const nitroProvider = createProvider((app) => {
             method: event.method as HTTPMethod,
             params: getRouterParams(event),
             query: getQuery(event),
-            body: await readRawBody(event),
+            body: ['post', 'put', 'patch'].includes(method) ? await readBody(event) : {},
             setStatusCode: (code) => setResponseStatus(event, code),
             setHeader: (key, value) => event.headers.set(key, value),
             getHeader: (key) => event.headers.get(key),
@@ -70,6 +68,7 @@ export const nitroProvider = createProvider((app) => {
               }),
             getCookie: (name) => getCookie(event, name) || null,
           };
+
           await middleware(handlerContext);
 
           return handler(handlerContext);
