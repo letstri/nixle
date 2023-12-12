@@ -13,6 +13,6 @@ export declare const createLogger: (options: Partial<ConsolaOptions>) => void;
  *
  * @example log('Hello world', { type: 'info' })
  */
-export declare const log: (message: string | string[], options?: LogOptions) => void;
+export declare const log: (message: any, options?: LogOptions) => void;
 export declare const contextLog: (context: string, color?: ColorName) => typeof log;
 export {};

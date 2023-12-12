@@ -1,4 +1,5 @@
 import type { ConsolaOptions } from 'consola';
+import type dotenv from 'dotenv';
 import type { Module } from './modules/createModule';
 import type { Provider } from './provider/createProvider';
 import type { Plugin } from './plugins/createPlugin';
@@ -6,7 +7,8 @@ export interface AppOptions {
     provider: Provider;
     modules: Module[];
     plugins?: Plugin[];
-    logger?: Partial<ConsolaOptions>;
+    logger?: Partial<ConsolaOptions> | false;
+    env?: dotenv.DotenvConfigOptions;
     globalPrefix?: string;
 }
 export type NixleApp = ReturnType<typeof createApp>;
@@ -50,11 +52,4 @@ export declare const createApp: (options: AppOptions) => {
             }[Key_2] ? Key_2 : never): void;
         };
     };
-    createRoute: (params: {
-        method: "get" | "post" | "put" | "delete" | "patch" | "options";
-        path: string;
-        middleware?: import("./router/createRoute").RouteHandler | undefined;
-        handler: import("./router/createRoute").RouteHandler;
-    }) => void;
-    createMiddleware: (handler: import("./router/createRoute").RouteHandler) => void;
 };

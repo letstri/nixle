@@ -1,48 +1,43 @@
 import "express";
-import m from "cookie-parser";
-import n from "body-parser";
-import { createProvider as l } from "nixle";
-const y = /* @__PURE__ */ new Map([
+import h from "cookie-parser";
+import l from "body-parser";
+import { createProvider as S } from "nixle";
+const g = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), g = l((r) => {
-  r.use(m()), r.use(n.json());
-  const c = (e, a) => ({
-    request: e,
-    response: a,
-    url: e.url,
-    method: e.method,
-    params: e.params || {},
-    query: e.query || {},
-    body: e.body,
-    setStatusCode: (t) => a.status(t),
-    setHeader: (t, o) => a.setHeader(t, o),
-    getHeader: (t) => e.headers[t] ? String(e.headers[t]) : null,
-    headers: e.headers,
-    getCookie: (t) => e.cookies[t] || null,
-    setCookie: (t, o, i) => a.cookie(t, o, {
-      ...i,
-      sameSite: y.get(i?.sameSite || "Strict") || "strict"
-    })
-  });
-  return {
-    app: r,
-    createMiddleware: (e) => r.use("*", async (a, t) => {
-      t.send(await e(c(a, t)));
-    }),
-    createRoute: ({ method: e, path: a, middleware: t, handler: o }) => r[e](a, async (i, d) => {
-      if (t) {
-        const s = await t(c(i, d));
-        if (s) {
-          d.send(s);
-          return;
-        }
-      }
-      d.send(await o(c(i, d)));
-    })
-  };
-});
+]), b = S((o) => (o.use(h()), o.use(l.json()), {
+  app: o,
+  globalMiddleware: (d) => o.use(async (t, i, s) => {
+    await d({
+      url: t.url,
+      method: t.method,
+      setHeader: (e, r) => i.setHeader(e, r),
+      getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
+      headers: t.headers
+    }), s();
+  }),
+  createRoute: ({ method: d, path: t, middleware: i, handler: s }) => o[d](t, async (e, r) => {
+    const c = {
+      request: e,
+      response: r,
+      method: e.method,
+      params: e.params || {},
+      query: e.query || {},
+      body: e.body,
+      setStatusCode: (a) => r.status(a),
+      setHeader: (a, m) => r.setHeader(a, m),
+      getHeader: (a) => e.headers[a] ? String(e.headers[a]) : null,
+      headers: e.headers,
+      getCookie: (a) => e.cookies[a] || null,
+      setCookie: (a, m, n) => r.cookie(a, m, {
+        ...n,
+        sameSite: g.get(n?.sameSite || "Strict") || "strict"
+      })
+    };
+    await i(c), r.send(await s(c));
+  })
+}));
 export {
-  g as expressProvider
+  b as expressProvider
 };

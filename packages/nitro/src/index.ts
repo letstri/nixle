@@ -29,56 +29,50 @@ const sameSiteMap = new Map([
 ]);
 
 export const nitroProvider = createProvider((app) => {
-  const formatHandler = async (
-    event: H3Event<EventHandlerRequest>,
-  ): Promise<RouteHandlerContext> => ({
-    request: event.node.req,
-    response: event.node.res,
-    url: event.node.req.url || '',
-    method: event.method as HTTPMethod,
-    params: getRouterParams(event),
-    query: getQuery(event),
-    body: await readRawBody(event),
-    setStatusCode: (code) => setResponseStatus(event, code),
-    setHeader: (key, value) => event.headers.set(key, value),
-    getHeader: (key) => event.headers.get(key),
-    headers: Object.fromEntries(
-      Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
-    ) as Record<string, string>,
-    setCookie: (name, value, options) =>
-      setCookie(event, name, value, {
-        ...options,
-        sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
-      }),
-    getCookie: (name) => getCookie(event, name) || null,
-  });
-
   return {
     app,
-    createMiddleware: (handler) =>
+    globalMiddleware: (middleware) =>
       app.router.use(
         '*',
         eventHandler(async (event) => {
-          const response = await handler(await formatHandler(event));
-
-          if (response) {
-            return response;
-          }
+          await middleware({
+            url: event.node.req.url!,
+            method: event.method as HTTPMethod,
+            setHeader: (key, value) => event.headers.set(key, value),
+            getHeader: (key) => event.headers.get(key),
+            headers: Object.fromEntries(
+              Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
+            ) as Record<string, string>,
+          });
         }),
       ),
     createRoute: ({ method, path, middleware, handler }) =>
       app.router.use(
         path,
         eventHandler(async (event) => {
-          if (middleware) {
-            const response = await middleware(await formatHandler(event));
+          const handlerContext: RouteHandlerContext = {
+            request: event.node.req,
+            response: event.node.res,
+            method: event.method as HTTPMethod,
+            params: getRouterParams(event),
+            query: getQuery(event),
+            body: await readRawBody(event),
+            setStatusCode: (code) => setResponseStatus(event, code),
+            setHeader: (key, value) => event.headers.set(key, value),
+            getHeader: (key) => event.headers.get(key),
+            headers: Object.fromEntries(
+              Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
+            ) as Record<string, string>,
+            setCookie: (name, value, options) =>
+              setCookie(event, name, value, {
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              }),
+            getCookie: (name) => getCookie(event, name) || null,
+          };
+          await middleware(handlerContext);
 
-            if (response) {
-              return response;
-            }
-          }
-
-          return handler(await formatHandler(event));
+          return handler(handlerContext);
         }),
         method,
       ),

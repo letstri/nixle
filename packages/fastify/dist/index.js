@@ -1,49 +1,41 @@
-import c from "@fastify/cookie";
-import { createProvider as m } from "nixle";
-const f = /* @__PURE__ */ new Map([
+import m from "@fastify/cookie";
+import { createProvider as w } from "nixle";
+const l = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), S = m((s) => {
-  s.register(c);
-  const n = (t, a) => ({
-    request: t.raw,
-    response: a.raw,
-    url: t.raw.url || "",
-    method: t.raw.method,
-    params: { ...t.params || {} },
-    query: { ...t.query || {} },
-    body: { ...t.body || {} },
-    setStatusCode: (e) => a.status(e),
-    setHeader: (e, o) => a.header(e, o),
-    getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
-    headers: t.headers,
-    getCookie: (e) => t.cookies[e] || null,
-    setCookie: (e, o, r) => a.setCookie(e, o, {
-      ...r,
-      sameSite: f.get(r?.sameSite || "Strict") || "strict"
-    })
-  });
-  return {
-    app: s,
-    createMiddleware: (t) => {
-      s.addHook("onRequest", async (a, e) => {
-        const o = await t(n(a, e));
-        o && e.send(o);
-      });
-    },
-    createRoute: ({ method: t, path: a, middleware: e, handler: o }) => s[t](a, async (r, i) => {
-      if (e) {
-        const d = await e(n(r, i));
-        if (d) {
-          i.send(d);
-          return;
-        }
-      }
-      i.send(await o(n(r, i)));
-    })
-  };
-});
+]), k = w((d) => (d.register(m), {
+  app: d,
+  globalMiddleware: (i) => d.addHook("onRequest", async (t, s) => {
+    await i({
+      url: t.raw.url,
+      method: t.raw.method,
+      setHeader: (o, e) => s.header(o, e),
+      getHeader: (o) => t.headers[o] ? String(t.headers[o]) : null,
+      headers: t.headers
+    });
+  }),
+  createRoute: ({ method: i, path: t, middleware: s, handler: o }) => d[i](t, async (e, r) => {
+    const h = {
+      request: e.raw,
+      response: r.raw,
+      method: e.raw.method,
+      params: { ...e.params || {} },
+      query: { ...e.query || {} },
+      body: { ...e.body || {} },
+      setStatusCode: (a) => r.status(a),
+      setHeader: (a, n) => r.header(a, n),
+      getHeader: (a) => e.headers[a] ? String(e.headers[a]) : null,
+      headers: e.headers,
+      getCookie: (a) => e.cookies[a] || null,
+      setCookie: (a, n, c) => r.setCookie(a, n, {
+        ...c,
+        sameSite: l.get(c?.sameSite || "Strict") || "strict"
+      })
+    };
+    await s(h), r.send(await o(h));
+  })
+}));
 export {
-  S as fastifyProvider
+  k as fastifyProvider
 };

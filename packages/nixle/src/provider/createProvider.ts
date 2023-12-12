@@ -1,13 +1,14 @@
-import type { RouteHandler } from '~/router/createRoute';
+import type { GlobalMiddlewareHandler } from '~/router/interfaces/GlobalMiddleware';
+import type { RouteHandler } from '~/router/interfaces/Route';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 
 export interface Provider {
   app: Nixle.Provider;
-  createMiddleware: (handler: RouteHandler) => void;
+  globalMiddleware: (middleware: GlobalMiddlewareHandler) => void;
   createRoute: (params: {
     method: Lowercase<HTTPMethod>;
     path: string;
-    middleware?: RouteHandler;
+    middleware: RouteHandler;
     handler: RouteHandler;
   }) => void;
 }

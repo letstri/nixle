@@ -6,64 +6,48 @@ import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
 
-export interface NixleErrorOptions {
-  message: string;
-  statusCode?: number;
-}
-
-export interface ErrorResponse<D> {
+export interface NixleError<D> {
   time: string;
   statusCode: number;
   message: string;
   details?: D;
+  __nixle: typeof errorSymbol;
 }
 
-export class NixleError extends Error implements ErrorResponse<unknown> {
-  constructor({
+const errorSymbol = Symbol('NixleError');
+
+export function createError(
+  options:
+    | string
+    | {
+        message: string;
+        statusCode?: number;
+        details?: Record<string, unknown>;
+      },
+): never {
+  const message = typeof options === 'string' ? options : options.message;
+
+  throw {
     message,
-    statusCode,
-    isInternal = false,
-    ...options
-  }: NixleErrorOptions & { isInternal?: boolean }) {
-    super(message);
-    this.name = 'NixleError';
-    this.statusCode = statusCode || StatusCode.BAD_REQUEST;
-    Object.assign(this, options);
-  }
-
-  time = dayjs().format(DEFAULT_DATE_FORMAT);
-  statusCode = StatusCode.BAD_REQUEST;
-  isInternal = false;
-  details = {};
+    statusCode:
+      typeof options === 'string'
+        ? StatusCode.INTERNAL_SERVER_ERROR
+        : options.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
+    time: dayjs().format(),
+    details: typeof options === 'string' ? {} : options.details,
+    __nixle: errorSymbol,
+  } satisfies NixleError<unknown>;
 }
 
-export function createInternalError(options: string | NixleErrorOptions): never {
-  if (typeof options === 'string') {
-    throw new NixleError({ message: options, isInternal: true });
-  } else {
-    throw new NixleError({ ...options, isInternal: true });
-  }
-}
-
-export function createError(options: string | NixleErrorOptions): never {
-  if (typeof options === 'string') {
-    throw new NixleError({ message: options });
-  } else {
-    throw new NixleError(options);
-  }
-}
-
-export const isNixleError = (error: any): error is NixleError => {
-  return error instanceof NixleError;
+export const isNixleError = (error: any): error is NixleError<unknown> => {
+  return error?.__nixle === errorSymbol;
 };
 
 export const logError = (error: any, _log: typeof log) => {
   let message = '';
 
-  if (isNixleError(error)) {
-    message = (error.isInternal && error.stack) || error.message;
-  } else if (error instanceof Error) {
-    message = error.stack || error.message;
+  if (isNixleError(error) || error instanceof Error) {
+    message = error.message;
   } else if (isPrimitive(error)) {
     message = error;
   } else {
@@ -75,28 +59,32 @@ export const logError = (error: any, _log: typeof log) => {
   emitter.emit('error', error);
 };
 
-export const formatError = (error: any, statusCode = StatusCode.INTERNAL_SERVER_ERROR) => {
-  const removeProperties = ['name', 'stack', 'message', 'statusCode', 'time', 'isInternal'];
-  const defaultTime = dayjs().format(DEFAULT_DATE_FORMAT);
-  const json: ErrorResponse<any> = isPrimitive(error)
-    ? {
-        statusCode,
-        message: String(error),
-        time: defaultTime,
-        details: error,
-      }
-    : {
-        statusCode: (error.statusCode as number) || statusCode,
-        message: (error.message as string) || 'Internal Server Error',
-        time: (error.time as string) || defaultTime,
-        details: error,
-      };
+export const transformErrorToResponse = (
+  error: any,
+  statusCode = StatusCode.INTERNAL_SERVER_ERROR,
+) => {
+  const defaultTime = dayjs().format();
+  const isPrimitiveError = isPrimitive(error);
+
+  const _statusCode = (isPrimitiveError && statusCode) || error.statusCode || statusCode;
+  const _message = (isPrimitiveError && error) || error.message || 'Internal Server Error';
+  const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
+  const _details = (isPrimitiveError && {}) || error.details || {};
+
+  const json: NixleError<unknown> = {
+    statusCode: _statusCode,
+    message: _message,
+    time: _time,
+    details: _details,
+    __nixle: errorSymbol,
+  };
 
   if (error instanceof Error) {
-    json.details = omit(
-      JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))),
-      removeProperties,
-    );
+    json.details = omit(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
+      'message',
+      'name',
+      'stack',
+    ]);
   }
 
   return json;

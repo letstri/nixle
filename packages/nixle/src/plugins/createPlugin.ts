@@ -10,7 +10,7 @@ interface PluginOptions {
   extendServiceOptions: typeof extendServiceOptions;
 }
 
-type PluginFunction = (options: PluginOptions) => void;
+type PluginFunction = (options: PluginOptions) => void | Promise<void>;
 
 export interface Plugin {
   name: string;

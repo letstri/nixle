@@ -2,16 +2,17 @@ import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import { createInternalError, logError, formatError, NixleError } from '~/createError';
+import { createError, logError, transformErrorToResponse } from '~/createError';
 import { emitter } from '~/emmiter';
 import type { Route } from '..';
+import { colors } from 'consola/utils';
 
 export const buildRoutes = (options: AppOptions, routerPath: string, routes: Route[]) => {
   const log = contextLog(routerPath, 'bgGreen');
 
   try {
     if (routes.length === 0) {
-      createInternalError('At least one router is required');
+      createError('At least one router is required');
     }
     if (
       routes.some(
@@ -19,7 +20,7 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
           !path || !method || !(typeof route === 'function' ? route : route.handler),
       )
     ) {
-      createInternalError('Path and handler are required for each route');
+      createError('Path and handler are required for each route');
     }
   } catch (e) {
     logError(e, log);
@@ -31,17 +32,16 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
     const statusCode = typeof route === 'function' ? undefined : route.statusCode;
     const routeOptions = typeof route === 'function' ? undefined : route;
     const _handler = typeof route === 'function' ? route : route.handler;
+    const log = contextLog(`${colors.bold(method)} ${routePath}`, 'bgGreen');
 
     options.provider.createRoute({
       method: method.toLowerCase() as Lowercase<HTTPMethod>,
       path: routePath,
-      middleware: routeOptions?.middleware,
-      handler: async (context) => {
+      middleware: (context) => {
         emitter.emit('request', context);
-        context.setHeader('x-powered-by', 'Nixle');
-
-        const log = contextLog(context.url, 'bgGreen');
-
+        routeOptions?.middleware?.(context);
+      },
+      handler: async (context) => {
         try {
           await Promise.all([
             routeOptions?.queryValidation?.(context.query),
@@ -49,13 +49,9 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
             routeOptions?.bodyValidation?.(context.body),
           ]);
         } catch (error) {
-          logError(
-            error instanceof Error
-              ? new NixleError({ message: `${error.name}: ${error.message}` })
-              : error,
-            log,
-          );
-          throw formatError(error, 400);
+          logError(error, log);
+          context.setStatusCode(400);
+          throw transformErrorToResponse(error, 400);
         }
 
         if (statusCode) {
@@ -70,7 +66,7 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
           return response;
         } catch (error) {
           logError(error, log);
-          throw formatError(error);
+          throw transformErrorToResponse(error);
         }
       },
     });

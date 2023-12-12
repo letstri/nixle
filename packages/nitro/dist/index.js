@@ -1,54 +1,52 @@
-import { eventHandler as u, getRouterParams as c, getQuery as n, readRawBody as m, setResponseStatus as f, getRequestHeaders as g, setCookie as l, getCookie as w } from "h3";
-import { createProvider as y } from "nixle";
-const S = /* @__PURE__ */ new Map([
+import { eventHandler as m, getRequestHeaders as l, getRouterParams as g, getQuery as h, readRawBody as n, setResponseStatus as S, setCookie as b, getCookie as f } from "h3";
+import { createProvider as w } from "nixle";
+const y = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), q = y((a) => {
-  const o = async (e) => ({
-    request: e.node.req,
-    response: e.node.res,
-    url: e.node.req.url || "",
-    method: e.method,
-    params: c(e),
-    query: n(e),
-    body: await m(e),
-    setStatusCode: (r) => f(e, r),
-    setHeader: (r, t) => e.headers.set(r, t),
-    getHeader: (r) => e.headers.get(r),
-    headers: Object.fromEntries(
-      Object.entries(g(e)).filter(([, r]) => r)
-    ),
-    setCookie: (r, t, s) => l(e, r, t, {
-      ...s,
-      sameSite: S.get(s?.sameSite || "Strict") || "strict"
+]), q = w((o) => ({
+  app: o,
+  globalMiddleware: (a) => o.router.use(
+    "*",
+    m(async (t) => {
+      await a({
+        url: t.node.req.url,
+        method: t.method,
+        setHeader: (s, d) => t.headers.set(s, d),
+        getHeader: (s) => t.headers.get(s),
+        headers: Object.fromEntries(
+          Object.entries(l(t)).filter(([, s]) => s)
+        )
+      });
+    })
+  ),
+  createRoute: ({ method: a, path: t, middleware: s, handler: d }) => o.router.use(
+    t,
+    m(async (e) => {
+      const u = {
+        request: e.node.req,
+        response: e.node.res,
+        method: e.method,
+        params: g(e),
+        query: h(e),
+        body: await n(e),
+        setStatusCode: (r) => S(e, r),
+        setHeader: (r, i) => e.headers.set(r, i),
+        getHeader: (r) => e.headers.get(r),
+        headers: Object.fromEntries(
+          Object.entries(l(e)).filter(([, r]) => r)
+        ),
+        setCookie: (r, i, c) => b(e, r, i, {
+          ...c,
+          sameSite: y.get(c?.sameSite || "Strict") || "strict"
+        }),
+        getCookie: (r) => f(e, r) || null
+      };
+      return await s(u), d(u);
     }),
-    getCookie: (r) => w(e, r) || null
-  });
-  return {
-    app: a,
-    createMiddleware: (e) => a.router.use(
-      "*",
-      u(async (r) => {
-        const t = await e(await o(r));
-        if (t)
-          return t;
-      })
-    ),
-    createRoute: ({ method: e, path: r, middleware: t, handler: s }) => a.router.use(
-      r,
-      u(async (i) => {
-        if (t) {
-          const d = await t(await o(i));
-          if (d)
-            return d;
-        }
-        return s(await o(i));
-      }),
-      e
-    )
-  };
-});
+    a
+  )
+}));
 export {
   q as nitroProvider
 };

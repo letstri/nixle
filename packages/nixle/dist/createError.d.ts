@@ -1,26 +1,19 @@
 import { log } from './logger';
 import { StatusCode } from '.';
-export interface NixleErrorOptions {
-    message: string;
-    statusCode?: number;
-}
-export interface ErrorResponse<D> {
+export interface NixleError<D> {
     time: string;
     statusCode: number;
     message: string;
     details?: D;
+    __nixle: typeof errorSymbol;
 }
-export declare class NixleError extends Error implements ErrorResponse<unknown> {
-    constructor({ message, statusCode, isInternal, ...options }: NixleErrorOptions & {
-        isInternal?: boolean;
-    });
-    time: string;
-    statusCode: StatusCode;
-    isInternal: boolean;
-    details: {};
-}
-export declare function createInternalError(options: string | NixleErrorOptions): never;
-export declare function createError(options: string | NixleErrorOptions): never;
-export declare const isNixleError: (error: any) => error is NixleError;
+declare const errorSymbol: unique symbol;
+export declare function createError(options: string | {
+    message: string;
+    statusCode?: number;
+    details?: Record<string, unknown>;
+}): never;
+export declare const isNixleError: (error: any) => error is NixleError<unknown>;
 export declare const logError: (error: any, _log: typeof log) => void;
-export declare const formatError: (error: any, statusCode?: StatusCode) => ErrorResponse<any>;
+export declare const transformErrorToResponse: (error: any, statusCode?: StatusCode) => NixleError<unknown>;
+export {};

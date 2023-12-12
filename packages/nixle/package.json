@@ -1,7 +1,7 @@
 {
   "name": "nixle",
   "version": "0.9.1",
-  "description": "Universal server-side framework",
+  "description": "Universal Server-Side Framework. Backend for everyone and everywhere.",
   "scripts": {
     "prepublishOnly": "npm run build",
     "dev": "vite",
@@ -51,13 +51,14 @@
   "dependencies": {
     "consola": "^3.2.3",
     "dayjs": "^1.11.10",
+    "dotenv": "^16.3.1",
     "mitt": "^3.0.1"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",
-    "@types/node": "^20.10.3",
+    "@types/node": "^20.10.4",
     "tsconfig-replace-paths": "^0.0.14",
-    "typescript": "^5.3.2",
-    "vite": "^5.0.5"
+    "typescript": "^5.3.3",
+    "vite": "^5.0.7"
   }
 }

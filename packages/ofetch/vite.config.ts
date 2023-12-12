@@ -3,7 +3,7 @@ import { viteConfig } from '../../configs/vite.config.base';
 
 export default defineConfig(
   viteConfig({
-    name: 'nitro',
+    name: 'ofetch',
     entry: 'src/index.ts',
     package: await import('./package.json'),
   }),
