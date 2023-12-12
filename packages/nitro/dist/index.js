@@ -1,15 +1,15 @@
-import { eventHandler as m, getRequestHeaders as l, getRouterParams as g, getQuery as h, readRawBody as n, setResponseStatus as S, setCookie as b, getCookie as f } from "h3";
-import { createProvider as w } from "nixle";
+import { eventHandler as m, getRequestHeaders as l, getRouterParams as g, getQuery as h, readBody as n, setResponseStatus as S, setCookie as b, getCookie as f } from "h3";
+import { createProvider as p } from "nixle";
 const y = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), q = w((o) => ({
-  app: o,
-  globalMiddleware: (a) => o.router.use(
+]), q = p((a) => ({
+  app: a,
+  globalMiddleware: (o) => a.router.use(
     "*",
     m(async (t) => {
-      await a({
+      await o({
         url: t.node.req.url,
         method: t.method,
         setHeader: (s, d) => t.headers.set(s, d),
@@ -20,7 +20,7 @@ const y = /* @__PURE__ */ new Map([
       });
     })
   ),
-  createRoute: ({ method: a, path: t, middleware: s, handler: d }) => o.router.use(
+  createRoute: ({ method: o, path: t, middleware: s, handler: d }) => a.router.use(
     t,
     m(async (e) => {
       const u = {
@@ -29,7 +29,7 @@ const y = /* @__PURE__ */ new Map([
         method: e.method,
         params: g(e),
         query: h(e),
-        body: await n(e),
+        body: ["post", "put", "patch"].includes(o) ? await n(e) : {},
         setStatusCode: (r) => S(e, r),
         setHeader: (r, i) => e.headers.set(r, i),
         getHeader: (r) => e.headers.get(r),
@@ -44,7 +44,7 @@ const y = /* @__PURE__ */ new Map([
       };
       return await s(u), d(u);
     }),
-    a
+    o
   )
 }));
 export {
