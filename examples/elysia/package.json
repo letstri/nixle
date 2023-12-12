@@ -6,7 +6,8 @@
   "dependencies": {
     "@nixle/elysia": "workspace:^",
     "elysia": "latest",
-    "nixle": "workspace:^"
+    "nixle": "workspace:^",
+    "zod": "^3.22.4"
   },
   "devDependencies": {
     "bun-types": "latest"
