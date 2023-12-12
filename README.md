@@ -15,11 +15,11 @@
 
 Nixle is a framework for building HTTP servers. It is designed to be simple, fast, and extensible. It is built on top of existing frameworks, such as Express, Fastify, and Nitro.
 
-- Simple and intuitive API.
-- Supports multiple providers such as Express, Fastify, and Hono.
-- Supports SSR frameworks such as Nuxt.
-- Incredible TypeScript support.
-- Easy to use and extend.
+- ✨ Simple and intuitive API.
+- 🚀 Supports multiple providers such as Express, Fastify, and Hono.
+- 🌐 Supports SSR frameworks such as Nuxt.
+- 💪 Incredible TypeScript support.
+- 🎯 Easy to use and extend.
 
 ## Documentation
 
