@@ -116,7 +116,7 @@ import { createService } from 'nixle';
 
 const app = createService('users', ({ env }) => {
   const getUsers = async () => {
-    const users = await fetch(`${env.SOME_SERVICE_URL}/users`);
+    const users = await fetch(`${env.SOME_SERVICE_URL}/users`).then((res) => res.json());
 
     return users;
   };

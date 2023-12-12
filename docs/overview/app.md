@@ -14,6 +14,7 @@ Create an app with the `createApp` function. This function takes a config object
 - `provider` - A provider that will be used to create a store.
 - `modules` - An array with modules.
 - `logger` - A [consola](/overview/logger) config that will be used to update options of the logger.
+- `env` - A [dotenv](/overview/env) config that will be used to load environment variables.
 
 ```ts
 import { createApp } from 'nixle';
@@ -26,6 +27,9 @@ export const app = createApp({
   modules: [usersModule],
   logger: {
     level: 3,
+  },
+  env: {
+    path: '.env',
   },
 });
 ```
