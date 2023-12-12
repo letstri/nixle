@@ -75,9 +75,6 @@ importers:
       nixle:
         specifier: workspace:^
         version: link:../../packages/nixle
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
 
   examples/hono:
     dependencies:
@@ -287,25 +284,6 @@ importers:
       ofetch:
         specifier: ^1.3.3
         version: 1.3.3
-    devDependencies:
-      tsconfig-replace-paths:
-        specifier: ^0.0.14
-        version: 0.0.14
-      typescript:
-        specifier: ^5.3.3
-        version: 5.3.3
-      vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
-
-  packages/zod:
-    dependencies:
-      nixle:
-        specifier: workspace:^
-        version: link:../nixle
-      zod:
-        specifier: ^3.22.4
-        version: 3.22.4
     devDependencies:
       tsconfig-replace-paths:
         specifier: ^0.0.14
