@@ -17,6 +17,7 @@ const overview = [
   { text: 'Services', link: '/overview/services' },
   { text: 'Logger', link: '/overview/logger' },
   { text: 'Errors', link: '/overview/errors' },
+  { text: 'Environment Variables', link: '/overview/env' },
 ];
 
 const plugins = [
