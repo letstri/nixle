@@ -30,7 +30,7 @@ const plugins = [
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'Nixle',
-  description: 'Universal server-side framework',
+  description: 'Universal server-side framework. Backend for everyone and everywhere.',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
