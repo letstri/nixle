@@ -10,6 +10,7 @@ import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
 import { colors } from 'consola/utils';
+import { fixPath } from './utils/fixPath';
 
 export interface AppOptions {
   provider: Provider;
@@ -45,12 +46,9 @@ export const createApp = (options: AppOptions) => {
   options.provider.globalMiddleware(({ setHeader, method, url }) => {
     setHeader('X-Powered-By', 'Nixle');
 
-    const _log = contextLog(
-      `${colors.bold(method)} ${
-        url.startsWith('http') ? new URL(url).pathname : url.split('&')[0]
-      }`,
-      'bgGreen',
-    );
+    const path = fixPath(url.startsWith('http') ? new URL(url).pathname : url.split('&')[0]);
+
+    const _log = contextLog(`${colors.bold(method)} ${path}`, 'bgGreen');
 
     _log(`📫 Request received`, {
       type: 'info',
