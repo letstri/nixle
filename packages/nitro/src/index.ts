@@ -37,7 +37,7 @@ export const nitroProvider = createProvider((app) => {
         await middleware({
           url: getRequestURL(event).href,
           method: event.method as HTTPMethod,
-          setHeader: (key, value) => event.node.res.setHeader(key, value),
+          setHeader: (key, value) => setHeader(event, key, value),
           getHeader: (key) => getHeader(event, key) || null,
           headers: Object.fromEntries(
             Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
