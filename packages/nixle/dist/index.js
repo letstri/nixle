@@ -18,9 +18,9 @@ const B = (E) => E?.__nixle === m, U = (E, T) => {
   let R = "";
   B(E) || E instanceof Error ? R = E.message : F(E) ? R = E : R = `${E.constructor.name} ${JSON.stringify(E)}`, T(f("red", R), { type: "error" }), c.emit("error", E);
 }, p = (E, T = L.INTERNAL_SERVER_ERROR) => {
-  const R = y().format(), _ = F(E), O = _ && T || E.statusCode || T, e = _ && E || E.message || "Internal Server Error", r = _ && R || E.time || R, l = _ && {} || E.details || {}, i = {
+  const R = y().format(), _ = F(E), O = _ && T || E.statusCode || T, n = _ && E || E.message || "Internal Server Error", r = _ && R || E.time || R, l = _ && {} || E.details || {}, i = {
     statusCode: O,
-    message: e,
+    message: n,
     time: r,
     details: l,
     __nixle: m
@@ -31,33 +31,33 @@ const B = (E) => E?.__nixle === m, U = (E, T) => {
     "stack"
   ])), i;
 };
-let g;
+let s;
 const W = (E) => {
-  g = H(E);
+  s = H(E);
 }, P = (E, T) => {
-  if (!g)
+  if (!s)
     return;
-  const R = T?.type || "log", _ = `${f("bgBlue", " Nixle ")}`, O = g[R || "log"];
+  const R = T?.type || "log", _ = `${f("bgBlue", " Nixle ")}`, O = s[R || "log"];
   O || A(`Logger method "${R}" not found`), O(`${_}`, ...Array.isArray(E) ? E : [E]);
 }, I = (E, T = "bgWhite") => (R, _) => P(
   [f(T, ` ${E} `), ...Array.isArray(R) ? R : [R]],
   _
-), s = (E) => {
+), g = (E) => {
   const T = E.startsWith("/") ? E : `/${E}`;
   return T.endsWith("/") ? T.slice(0, -1) : T;
 }, $ = (E, T, R) => {
   const _ = I(T, "bgGreen");
   try {
     R.length === 0 && A("At least one router is required"), R.some(
-      ({ path: O, method: e, route: r }) => !O || !e || !(typeof r == "function" ? r : r.handler)
+      ({ path: O, method: n, route: r }) => !O || !n || !(typeof r == "function" ? r : r.handler)
     ) && A("Path and handler are required for each route");
   } catch (O) {
     U(O, _), process.exit(1);
   }
-  R.forEach(({ path: O, method: e, route: r }) => {
-    const l = T + s(O), i = typeof r == "function" ? void 0 : r.statusCode, D = typeof r == "function" ? void 0 : r, Q = typeof r == "function" ? r : r.handler, o = I(`${h.bold(e)} ${l}`, "bgGreen");
+  R.forEach(({ path: O, method: n, route: r }) => {
+    const l = T + g(O), i = typeof r == "function" ? void 0 : r.statusCode, D = typeof r == "function" ? void 0 : r, Q = typeof r == "function" ? r : r.handler, o = I(`${h.bold(n)} ${l}`, "bgGreen");
     E.provider.createRoute({
-      method: e.toLowerCase(),
+      method: n.toLowerCase(),
       path: l,
       middleware: (N) => {
         c.emit("request", N), D?.middleware?.(N);
@@ -69,15 +69,15 @@ const W = (E) => {
             D?.paramsValidation?.(N.params),
             D?.bodyValidation?.(N.body)
           ]);
-        } catch (n) {
-          throw U(n, o), N.setStatusCode(400), p(n, 400);
+        } catch (e) {
+          throw U(e, o), N.setStatusCode(400), p(e, 400);
         }
         i && N.setStatusCode(i);
         try {
-          const n = await Q(N);
-          return c.emit("response", n), n;
-        } catch (n) {
-          throw U(n, o), p(n);
+          const e = await Q(N);
+          return c.emit("response", e), e;
+        } catch (e) {
+          throw U(e, o), p(e);
         }
       }
     });
@@ -87,8 +87,8 @@ const W = (E) => {
 }, w = (E) => {
   E.modules.forEach((T) => {
     T.routers.forEach(([R, _]) => {
-      const O = E.globalPrefix ? s(E.globalPrefix) : "";
-      $(E, O + s(R), _);
+      const O = E.globalPrefix ? g(E.globalPrefix) : "";
+      $(E, O + g(R), _);
     });
   });
 }, M = {}, x = (E) => {
@@ -112,10 +112,9 @@ const W = (E) => {
     U(R, P), process.exit(1);
   }
   x(E.env), w(E), E.provider.globalMiddleware(({ setHeader: R, method: _, url: O }) => {
-    R("X-Powered-By", "Nixle"), I(
-      `${h.bold(_)} ${O.startsWith("http") ? new URL(O).pathname : O.split("&")[0]}`,
-      "bgGreen"
-    )("📫 Request received", {
+    R("X-Powered-By", "Nixle");
+    const n = g(O.startsWith("http") ? new URL(O).pathname : O.split("&")[0]);
+    I(`${h.bold(_)} ${n}`, "bgGreen")("📫 Request received", {
       type: "info"
     });
   });
