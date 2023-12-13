@@ -30,20 +30,17 @@ export const nitroProvider = createProvider((app) => {
   return {
     app,
     globalMiddleware: (middleware) =>
-      app.router.use(
-        '*',
-        eventHandler(async (event) => {
-          await middleware({
-            url: event.node.req.url!,
-            method: event.method as HTTPMethod,
-            setHeader: (key, value) => event.headers.set(key, value),
-            getHeader: (key) => event.headers.get(key),
-            headers: Object.fromEntries(
-              Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
-            ) as Record<string, string>,
-          });
-        }),
-      ),
+      app.hooks.hook('request', async (event) => {
+        await middleware({
+          url: event.node.req.url!,
+          method: event.method as HTTPMethod,
+          setHeader: (key, value) => event.node.res.setHeader(key, value),
+          getHeader: (key) => (event.node.res.getHeader(key) as string | undefined) || null,
+          headers: Object.fromEntries(
+            Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
+          ) as Record<string, string>,
+        });
+      }),
     createRoute: ({ method, path, middleware, handler }) =>
       app.router.use(
         path,

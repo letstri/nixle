@@ -45,7 +45,12 @@ export const createApp = (options: AppOptions) => {
   options.provider.globalMiddleware(({ setHeader, method, url }) => {
     setHeader('X-Powered-By', 'Nixle');
 
-    const _log = contextLog(`${colors.bold(method)} ${new URL(url).pathname}`, 'bgGreen');
+    const _log = contextLog(
+      `${colors.bold(method)} ${
+        url.startsWith('http') ? new URL(url).pathname : url.split('&')[0]
+      }`,
+      'bgGreen',
+    );
 
     _log(`📫 Request received`, {
       type: 'info',
