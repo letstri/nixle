@@ -47,8 +47,14 @@ export const createApp = (options: AppOptions) => {
     setHeader('X-Powered-By', 'Nixle');
 
     const path = fixPath(url.startsWith('http') ? new URL(url).pathname : url.split('&')[0]);
+    const fullPath = options.globalPrefix ? fixPath(options.globalPrefix) + path : path;
 
-    const _log = contextLog(`${colors.bold(method)} ${path}`, 'bgGreen');
+    const _log = contextLog(
+      `${colors.bold(method)} ${
+        options.globalPrefix && fullPath.startsWith(fixPath(options.globalPrefix)) ? fullPath : path
+      }`,
+      'bgGreen',
+    );
 
     _log(`📫 Request received`, {
       type: 'info',
