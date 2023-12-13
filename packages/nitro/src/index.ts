@@ -7,6 +7,9 @@ import {
   getRequestHeaders,
   getRouterParams,
   setResponseStatus,
+  getRequestURL,
+  getHeader,
+  setHeader,
   readBody,
 } from 'h3';
 import type { NitroApp } from 'nitropack';
@@ -32,10 +35,10 @@ export const nitroProvider = createProvider((app) => {
     globalMiddleware: (middleware) =>
       app.hooks.hook('request', async (event) => {
         await middleware({
-          url: event.node.req.url!,
+          url: getRequestURL(event).href,
           method: event.method as HTTPMethod,
-          setHeader: (key, value) => event.node.res.setHeader(key, value),
-          getHeader: (key) => (event.node.res.getHeader(key) as string | undefined) || null,
+          setHeader: (key, value) => setHeader(event, key, value),
+          getHeader: (key) => getHeader(event, key) || null,
           headers: Object.fromEntries(
             Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
           ) as Record<string, string>,
@@ -53,8 +56,8 @@ export const nitroProvider = createProvider((app) => {
             query: getQuery(event),
             body: ['post', 'put', 'patch'].includes(method) ? await readBody(event) : {},
             setStatusCode: (code) => setResponseStatus(event, code),
-            setHeader: (key, value) => event.headers.set(key, value),
-            getHeader: (key) => event.headers.get(key),
+            setHeader: (key, value) => setHeader(event, key, value),
+            getHeader: (key) => getHeader(event, key) || null,
             headers: Object.fromEntries(
               Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
             ) as Record<string, string>,

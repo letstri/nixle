@@ -4,4 +4,4 @@ export interface Module {
   routers: ReturnType<typeof createRouter>[];
 }
 
-export const createModule = (module: Module): Module => module;
+export const createModule = (module: Module) => module;

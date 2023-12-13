@@ -1,5 +1,5 @@
 import type { HTTPMethod } from '../../index';
-interface GlobalMiddlewareHandlerContext {
+export interface GlobalMiddlewareHandlerContext {
     /**
      * URL of the request
      */
@@ -37,4 +37,3 @@ interface GlobalMiddlewareHandlerContext {
 export interface GlobalMiddlewareHandler {
     (context: GlobalMiddlewareHandlerContext): any;
 }
-export {};

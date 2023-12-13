@@ -1,49 +1,49 @@
-import { getRequestHeaders as l, eventHandler as m, getRouterParams as n, getQuery as g, readBody as h, setResponseStatus as H, setCookie as S, getCookie as b } from "h3";
-import { createProvider as f } from "nixle";
-const k = /* @__PURE__ */ new Map([
+import { getRequestURL as g, setHeader as l, getHeader as m, getRequestHeaders as n, eventHandler as h, getRouterParams as H, getQuery as f, readBody as S, setResponseStatus as b, setCookie as k, getCookie as p } from "h3";
+import { createProvider as q } from "nixle";
+const y = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), y = f((a) => ({
+]), w = q((a) => ({
   app: a,
-  globalMiddleware: (s) => a.hooks.hook("request", async (t) => {
+  globalMiddleware: (s) => a.hooks.hook("request", async (r) => {
     await s({
-      url: t.node.req.url,
-      method: t.method,
-      setHeader: (o, d) => t.node.res.setHeader(o, d),
-      getHeader: (o) => t.node.res.getHeader(o) || null,
+      url: g(r).href,
+      method: r.method,
+      setHeader: (o, i) => l(r, o, i),
+      getHeader: (o) => m(r, o) || null,
       headers: Object.fromEntries(
-        Object.entries(l(t)).filter(([, o]) => o)
+        Object.entries(n(r)).filter(([, o]) => o)
       )
     });
   }),
-  createRoute: ({ method: s, path: t, middleware: o, handler: d }) => a.router.use(
-    t,
-    m(async (e) => {
+  createRoute: ({ method: s, path: r, middleware: o, handler: i }) => a.router.use(
+    r,
+    h(async (e) => {
       const u = {
         request: e.node.req,
         response: e.node.res,
         method: e.method,
-        params: n(e),
-        query: g(e),
-        body: ["post", "put", "patch"].includes(s) ? await h(e) : {},
-        setStatusCode: (r) => H(e, r),
-        setHeader: (r, i) => e.headers.set(r, i),
-        getHeader: (r) => e.headers.get(r),
+        params: H(e),
+        query: f(e),
+        body: ["post", "put", "patch"].includes(s) ? await S(e) : {},
+        setStatusCode: (t) => b(e, t),
+        setHeader: (t, d) => l(e, t, d),
+        getHeader: (t) => m(e, t) || null,
         headers: Object.fromEntries(
-          Object.entries(l(e)).filter(([, r]) => r)
+          Object.entries(n(e)).filter(([, t]) => t)
         ),
-        setCookie: (r, i, c) => S(e, r, i, {
+        setCookie: (t, d, c) => k(e, t, d, {
           ...c,
-          sameSite: k.get(c?.sameSite || "Strict") || "strict"
+          sameSite: y.get(c?.sameSite || "Strict") || "strict"
         }),
-        getCookie: (r) => b(e, r) || null
+        getCookie: (t) => p(e, t) || null
       };
-      return await o(u), d(u);
+      return await o(u), i(u);
     }),
     s
   )
 }));
 export {
-  y as nitroProvider
+  w as nitroProvider
 };

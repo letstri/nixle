@@ -1,12 +1,11 @@
-import "express";
-import h from "cookie-parser";
-import l from "body-parser";
+import l from "cookie-parser";
+import n from "body-parser";
 import { createProvider as S } from "nixle";
 const g = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), b = S((o) => (o.use(h()), o.use(l.json()), {
+]), x = S((o) => (o.use(l()), o.use(n.json()), {
   app: o,
   globalMiddleware: (d) => o.use(async (t, i, s) => {
     await d({
@@ -18,7 +17,7 @@ const g = /* @__PURE__ */ new Map([
     }), s();
   }),
   createRoute: ({ method: d, path: t, middleware: i, handler: s }) => o[d](t, async (e, r) => {
-    const c = {
+    const m = {
       request: e,
       response: r,
       method: e.method,
@@ -26,18 +25,18 @@ const g = /* @__PURE__ */ new Map([
       query: e.query || {},
       body: e.body,
       setStatusCode: (a) => r.status(a),
-      setHeader: (a, m) => r.setHeader(a, m),
+      setHeader: (a, c) => r.setHeader(a, c),
       getHeader: (a) => e.headers[a] ? String(e.headers[a]) : null,
       headers: e.headers,
       getCookie: (a) => e.cookies[a] || null,
-      setCookie: (a, m, n) => r.cookie(a, m, {
-        ...n,
-        sameSite: g.get(n?.sameSite || "Strict") || "strict"
+      setCookie: (a, c, h) => r.cookie(a, c, {
+        ...h,
+        sameSite: g.get(h?.sameSite || "Strict") || "strict"
       })
     };
-    await i(c), r.send(await s(c));
+    await i(m), r.send(await s(m));
   })
 }));
 export {
-  b as expressProvider
+  x as expressProvider
 };

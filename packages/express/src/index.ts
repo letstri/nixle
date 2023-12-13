@@ -1,9 +1,4 @@
-import {
-  response,
-  type Express,
-  type Request as ExpressRequest,
-  type Response as ExpressResponse,
-} from 'express';
+import type { Express, Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { createProvider, type RouteHandlerContext, type HTTPMethod } from 'nixle';

@@ -1,6 +1,6 @@
 import type { HTTPMethod } from '~/index';
 
-interface GlobalMiddlewareHandlerContext {
+export interface GlobalMiddlewareHandlerContext {
   /**
    * URL of the request
    */
