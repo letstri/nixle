@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@vercel/analytics": "^1.1.1",
-    "@vercel/speed-insights": "^1.0.1",
     "vue-router": "^4.2.5"
   }
 }
