@@ -24,6 +24,13 @@ declare global {
         options?: ZodOptions,
       ) => Promise<T>;
     }
+
+    interface RouterOptions {
+      zodObject: <T extends _zod.ZodRawShape>(
+        shape: T | ((zod: typeof _zod.z) => T),
+        options?: ZodOptions,
+      ) => Promise<T>;
+    }
   }
 }
 
@@ -65,6 +72,7 @@ export const zodObject = async <T extends _zod.ZodRawShape>(
   }
 };
 
-export const zodPlugin = createPlugin('zod', ({ extendServiceOptions }) => {
+export const zodPlugin = createPlugin('zod', ({ extendServiceOptions, extendRouterOptions }) => {
   extendServiceOptions({ zodObject });
+  extendRouterOptions({ zodObject });
 });
