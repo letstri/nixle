@@ -19,6 +19,9 @@ declare global {
         interface ServiceOptions {
             zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<T>;
         }
+        interface RouterOptions {
+            zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<T>;
+        }
     }
 }
 export declare const zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<{ [k_1 in keyof _zod.objectUtil.addQuestionMarks<_zod.baseObjectOutputType<T>, { [k in keyof _zod.baseObjectOutputType<T>]: undefined extends _zod.baseObjectOutputType<T>[k] ? never : k; }[keyof T]>]: _zod.objectUtil.addQuestionMarks<_zod.baseObjectOutputType<T>, { [k_2 in keyof _zod.baseObjectOutputType<T>]: undefined extends _zod.baseObjectOutputType<T>[k_2] ? never : k_2; }[keyof T]>[k_1]; }>;
