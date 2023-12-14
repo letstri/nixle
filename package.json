@@ -1,6 +1,6 @@
 {
   "name": "@nixle/app",
-  "version": "0.10.12",
+  "version": "0.10.13",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --filter='./packages/nixle' run build && pnpm -r --filter='./packages/*' --filter='!./packages/nixle' run build",
