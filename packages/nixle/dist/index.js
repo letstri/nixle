@@ -17,7 +17,7 @@ function A(E) {
 const B = (E) => E?.__nixle === m, L = (E, T) => {
   let R = "";
   B(E) || E instanceof Error ? R = E.message : F(E) ? R = E : R = `${E.constructor.name} ${JSON.stringify(E)}`, T(f("red", R), { type: "error" }), c.emit("error", E);
-}, p = (E, T = P.INTERNAL_SERVER_ERROR) => {
+}, o = (E, T = P.INTERNAL_SERVER_ERROR) => {
   const R = y().format(), _ = F(E), O = _ && T || E.statusCode || T, n = _ && E || E.message || "Internal Server Error", r = _ && R || E.time || R, D = _ && {} || E.details || {}, i = {
     statusCode: O,
     message: n,
@@ -55,7 +55,7 @@ const W = (E) => {
     L(O, _), process.exit(1);
   }
   R.forEach(({ path: O, method: n, route: r }) => {
-    const D = T + l(O), i = typeof r == "function" ? void 0 : r.statusCode, U = typeof r == "function" ? void 0 : r, Q = typeof r == "function" ? r : r.handler, o = I(`${h.bold(n)} ${D}`, "bgGreen");
+    const D = T + l(O), i = typeof r == "function" ? void 0 : r.statusCode, U = typeof r == "function" ? void 0 : r, Q = typeof r == "function" ? r : r.handler, p = I(`${h.bold(n)} ${D}`, "bgGreen");
     E.provider.createRoute({
       method: n.toLowerCase(),
       path: D,
@@ -70,28 +70,28 @@ const W = (E) => {
             U?.bodyValidation?.(N.body)
           ]);
         } catch (e) {
-          throw L(e, o), N.setStatusCode(400), p(e, 400);
+          return L(e, p), N.setStatusCode(400), o(e, 400);
         }
         i && N.setStatusCode(i);
         try {
           const e = await Q(N);
           return c.emit("response", e), e;
         } catch (e) {
-          throw L(e, o), p(e);
+          return L(e, p), o(e);
         }
       }
     });
   }), _(`🚏 ${R.length} route${R.length === 1 ? "" : "s"} successfully built`, {
     type: "success"
   });
-}, w = (E) => {
+}, x = (E) => {
   E.modules.forEach((T) => {
     T.routers.forEach(({ path: R, routes: _ }) => {
       const O = E.globalPrefix ? l(E.globalPrefix) : "";
       $(E, O + R, _);
     });
   });
-}, M = {}, x = (E) => {
+}, M = {}, w = (E) => {
   v.config(E), Object.keys(process.env).forEach((T) => {
     M[T] = process.env[T];
   });
@@ -114,7 +114,7 @@ const W = (E) => {
   } catch (R) {
     L(R, g), process.exit(1);
   }
-  x(E.env), w(E), E.provider.globalMiddleware(({ setHeader: R, method: _, url: O }) => {
+  w(E.env), x(E), E.provider.globalMiddleware(({ setHeader: R, method: _, url: O }) => {
     R("X-Powered-By", "Nixle");
     const n = l(O.startsWith("http") ? new URL(O).pathname : O.split("&")[0]);
     I(`${h.bold(_)} ${n}`, "bgGreen")("📫 Request received", {
