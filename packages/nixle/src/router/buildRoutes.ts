@@ -2,9 +2,15 @@ import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import { createError, logError, transformErrorToResponse } from '~/createError';
+import {
+  createError,
+  isNixleError,
+  logError,
+  transformErrorToResponse,
+  type NixleError,
+} from '~/createError';
 import { emitter } from '~/emmiter';
-import type { Route } from '..';
+import { StatusCode, type Route } from '..';
 import { colors } from 'consola/utils';
 
 export const buildRoutes = (options: AppOptions, routerPath: string, routes: Route[]) => {
@@ -50,8 +56,8 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
           ]);
         } catch (error) {
           logError(error, log);
-          context.setStatusCode(400);
-          return transformErrorToResponse(error, 400);
+          context.setStatusCode((error as NixleError<any>)?.statusCode || StatusCode.BAD_REQUEST);
+          return transformErrorToResponse(error, StatusCode.BAD_REQUEST);
         }
 
         if (statusCode) {
