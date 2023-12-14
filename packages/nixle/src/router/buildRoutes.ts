@@ -51,7 +51,7 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
         } catch (error) {
           logError(error, log);
           context.setStatusCode(400);
-          throw transformErrorToResponse(error, 400);
+          return transformErrorToResponse(error, 400);
         }
 
         if (statusCode) {
@@ -66,7 +66,7 @@ export const buildRoutes = (options: AppOptions, routerPath: string, routes: Rou
           return response;
         } catch (error) {
           logError(error, log);
-          throw transformErrorToResponse(error);
+          return transformErrorToResponse(error);
         }
       },
     });
