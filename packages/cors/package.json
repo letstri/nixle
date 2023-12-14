@@ -34,7 +34,7 @@
   "devDependencies": {
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.3",
-    "vite": "^5.0.7"
+    "vite": "^5.0.8"
   },
   "peerDependencies": {
     "nixle": "workspace:^"

@@ -30,8 +30,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   examples/elysia:
     dependencies:
@@ -83,7 +83,7 @@ importers:
         version: link:../../packages/hono
       hono:
         specifier: latest
-        version: 3.11.4
+        version: 3.11.7
       nixle:
         specifier: workspace:^
         version: link:../../packages/nixle
@@ -123,8 +123,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   packages/elysia:
     dependencies:
@@ -142,8 +142,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   packages/express:
     dependencies:
@@ -176,8 +176,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   packages/fastify:
     dependencies:
@@ -217,8 +217,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   packages/nitro:
     dependencies:
@@ -239,8 +239,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
   packages/nixle:
     dependencies:
@@ -270,8 +270,8 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@20.10.4)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@20.10.4)
 
   packages/ofetch:
     dependencies:
@@ -289,8 +289,27 @@ importers:
         specifier: ^5.3.3
         version: 5.3.3
       vite:
-        specifier: ^5.0.7
-        version: 5.0.7(@types/node@18.18.13)
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
+
+  packages/zod:
+    dependencies:
+      nixle:
+        specifier: workspace:^
+        version: link:../nixle
+      zod:
+        specifier: ^3.22.4
+        version: 3.22.4
+    devDependencies:
+      tsconfig-replace-paths:
+        specifier: ^0.0.14
+        version: 0.0.14
+      typescript:
+        specifier: ^5.3.3
+        version: 5.3.3
+      vite:
+        specifier: ^5.0.8
+        version: 5.0.8(@types/node@18.18.13)
 
 packages:
 
@@ -4217,8 +4236,8 @@ packages:
     engines: {node: '>=16.0.0'}
     dev: false
 
-  /hono@3.11.4:
-    resolution: {integrity: sha512-lU8Et1Nkpa4RqgBvjGUGyu8/2QNdAOR9EqFzNCoP7wM+xtcq2v/DHi9CMJ/ixVxRU9Q2uAh0G3xIKTVYzzC4dg==}
+  /hono@3.11.7:
+    resolution: {integrity: sha512-TcfAq7IdipF+9coxnuzYlSSBXbm9mTyWjjagLCv/2ampboNcKJdi+XCK5G48mHQtpI5+9Rj3J4FfcGgw9vzIww==}
     engines: {node: '>=16.0.0'}
     dev: false
 
@@ -7447,8 +7466,44 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vite@5.0.7(@types/node@20.10.4):
-    resolution: {integrity: sha512-B4T4rJCDPihrQo2B+h1MbeGL/k/GMAHzhQ8S0LjQ142s6/+l3hHTT095ORvsshj4QCkoWu3Xtmob5mazvakaOw==}
+  /vite@5.0.8(@types/node@18.18.13):
+    resolution: {integrity: sha512-jYMALd8aeqR3yS9xlHd0OzQJndS9fH5ylVgWdB+pxTwxLKdO1pgC5Dlb398BUxpfaBxa4M9oT7j1g503Gaj5IQ==}
+    engines: {node: ^18.0.0 || >=20.0.0}
+    hasBin: true
+    peerDependencies:
+      '@types/node': ^18.0.0 || >=20.0.0
+      less: '*'
+      lightningcss: ^1.21.0
+      sass: '*'
+      stylus: '*'
+      sugarss: '*'
+      terser: ^5.4.0
+    peerDependenciesMeta:
+      '@types/node':
+        optional: true
+      less:
+        optional: true
+      lightningcss:
+        optional: true
+      sass:
+        optional: true
+      stylus:
+        optional: true
+      sugarss:
+        optional: true
+      terser:
+        optional: true
+    dependencies:
+      '@types/node': 18.18.13
+      esbuild: 0.19.8
+      postcss: 8.4.32
+      rollup: 4.6.0
+    optionalDependencies:
+      fsevents: 2.3.3
+    dev: true
+
+  /vite@5.0.8(@types/node@20.10.4):
+    resolution: {integrity: sha512-jYMALd8aeqR3yS9xlHd0OzQJndS9fH5ylVgWdB+pxTwxLKdO1pgC5Dlb398BUxpfaBxa4M9oT7j1g503Gaj5IQ==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -7688,3 +7743,7 @@ packages:
       archiver-utils: 4.0.1
       compress-commons: 5.0.1
       readable-stream: 3.6.2
+
+  /zod@3.22.4:
+    resolution: {integrity: sha512-iC+8Io04lddc+mVqQ9AZ7OQ2MrUKGN+oIQyq1vemgt46jwCwLfhq7/pwnBnNXXXZb8VTVLKwp9EDkx+ryxIWmg==}
+    dev: false
