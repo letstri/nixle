@@ -1,12 +1,12 @@
-import type { HTTPMethod } from '..';
-import type { RouteOptionsOrHandler } from './interfaces/Route';
+import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 interface Route<Params, Query, Body> {
     path: string;
     method: HTTPMethod;
-    route: RouteOptionsOrHandler<Params, Query, Body>;
+    options?: RouteOptions<Params, Query, Body>;
+    handler: RouteHandler<Params, Query, Body>;
 }
-interface RouteMethod<Params extends Record<string, unknown> = any, Query extends Record<string, unknown> = any, Body extends Record<string, unknown> = any> {
-    (path: string, route: RouteOptionsOrHandler<Params, Query, Body>): Route<Params, Query, Body>;
+interface RouteMethod<Params = any, Query = any, Body = any> {
+    (path: string, route: RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>): Route<Params, Query, Body>;
 }
 declare const route: {
     get: RouteMethod<any, any, any>;

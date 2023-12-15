@@ -1,81 +1,6 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '../../index';
-export interface RouteOptions<Params, Query, Body> {
-    /**
-     * Status code
-     * @default 200
-     */
-    statusCode?: StatusCode;
-    /**
-     * Path params validation.
-     * In the method you can validate incoming params.
-     *
-     * @param params Incoming params
-     *
-     * @example
-     * paramsValidation(params) {
-     *   // We have a path '/users/:id'
-     *   if (!params.id) {
-     *     createError('ID is required');
-     *   }
-     * }
-     */
-    paramsValidation?(params: any): Params;
-    /**
-     * Body validation.
-     * In the method you can validate body.
-     *
-     * @param body Incoming body
-     *
-     * @example
-     * bodyValidation(body) {
-     *   if (!body.name) {
-     *     createError('Name is required');
-     *   }
-     * }
-     */
-    bodyValidation?(body: any): Body;
-    /**
-     * Query handler.
-     * In the method you can validate query.
-     *
-     * @param query Incoming query
-     *
-     * @example
-     * queryValidation(query) {
-     *   if (!query.name) {
-     *     createError('Name is required');
-     *   }
-     * }
-     */
-    queryValidation?(query: any): Query;
-    /**
-     * Middleware handler.
-     * In the method you can do anything you want and it will be called before the main handler.
-     * If you return something the main handler will not be called.
-     *
-     * @param context All available context methods and properties
-     *
-     * @example
-     * middleware({ getHeader }) {
-     *   if (!getHeader('Authorization')) {
-     *     createError('Authorization is required');
-     *   }
-     * }
-     */
-    middleware?: RouteHandler<Params, Query, Body>;
-    /**
-     * Main request handler.
-     * In the method you can do anything you want but we recommend to call a service created with `createService`.
-     * Returned value will be sent to the client.
-     *
-     * @param context All available context methods and properties
-     *
-     * @example
-     * handler(context) {
-     *   return { message: 'Hello world!' };
-     * }
-     */
-    handler: (context: {
+export interface RouteHandler<Params, Query, Body> {
+    (context: {
         /**
          * Request
          *
@@ -181,10 +106,84 @@ export interface RouteOptions<Params, Query, Body> {
          * getCookie('token'); // -> 123
          */
         getCookie: (key: string) => string | null;
-    }) => any;
+    }): any;
 }
-export type RouteHandlerContext<Params = any, Query = any, Body = any> = Parameters<RouteOptions<Params, Query, Body>['handler']>[0];
-export interface RouteHandler<Params, Query, Body> {
-    (context: RouteHandlerContext<Params, Query, Body>): any;
+export interface RouteOptions<Params, Query, Body> {
+    /**
+     * Status code
+     * @default 200
+     */
+    statusCode?: StatusCode;
+    /**
+     * Path params validation.
+     * In the method you can validate incoming params.
+     *
+     * @param params Incoming params
+     *
+     * @example
+     * paramsValidation(params) {
+     *   // We have a path '/users/:id'
+     *   if (!params.id) {
+     *     createError('ID is required');
+     *   }
+     * }
+     */
+    paramsValidation?(params: any): Params;
+    /**
+     * Body validation.
+     * In the method you can validate body.
+     *
+     * @param body Incoming body
+     *
+     * @example
+     * bodyValidation(body) {
+     *   if (!body.name) {
+     *     createError('Name is required');
+     *   }
+     * }
+     */
+    bodyValidation?(body: any): Body;
+    /**
+     * Query handler.
+     * In the method you can validate query.
+     *
+     * @param query Incoming query
+     *
+     * @example
+     * queryValidation(query) {
+     *   if (!query.name) {
+     *     createError('Name is required');
+     *   }
+     * }
+     */
+    queryValidation?(query: any): Query;
+    /**
+     * Middleware handler.
+     * In the method you can do anything you want and it will be called before the main handler.
+     * If you return something the main handler will not be called.
+     *
+     * @param context All available context methods and properties
+     *
+     * @example
+     * middleware({ getHeader }) {
+     *   if (!getHeader('Authorization')) {
+     *     createError('Authorization is required');
+     *   }
+     * }
+     */
+    middleware?: RouteHandler<Params, Query, Body>;
+    /**
+     * Main request handler.
+     * In the method you can do anything you want but we recommend to call a service created with `createService`.
+     * Returned value will be sent to the client.
+     *
+     * @param context All available context methods and properties
+     *
+     * @example
+     * handler(context) {
+     *   return { message: 'Hello world!' };
+     * }
+     */
+    handler: RouteHandler<Params, Query, Body>;
 }
-export type RouteOptionsOrHandler<Params, Query, Body> = RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>;
+export type RouteHandlerContext<Params = any, Query = any, Body = any> = Parameters<RouteHandler<Params, Query, Body>>[0];

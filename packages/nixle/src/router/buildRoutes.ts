@@ -2,19 +2,13 @@ import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import {
-  createError,
-  isNixleError,
-  logError,
-  transformErrorToResponse,
-  type NixleError,
-} from '~/createError';
+import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
 import { StatusCode, type Route } from '..';
 import { colors } from 'consola/utils';
 
 export const buildRoutes = (
-  options: AppOptions,
+  { provider }: AppOptions,
   routerPath: string,
   routes: Route<any, any, any>[],
 ) => {
@@ -24,39 +18,31 @@ export const buildRoutes = (
     if (routes.length === 0) {
       createError('At least one router is required');
     }
-    if (
-      routes.some(
-        ({ path, method, route }) =>
-          !path || !method || !(typeof route === 'function' ? route : route.handler),
-      )
-    ) {
-      createError('Path and handler are required for each route');
+    if (routes.some(({ path, method, handler }) => !path || !method || !handler)) {
+      createError('Path, method and handler are required for each route');
     }
   } catch (e) {
     logError(e, log);
     process.exit(1);
   }
 
-  routes.forEach(({ path, method, route }) => {
+  routes.forEach(({ path, method, options, handler }) => {
     const routePath = routerPath + fixPath(path);
-    const statusCode = typeof route === 'function' ? undefined : route.statusCode;
-    const routeOptions = typeof route === 'function' ? undefined : route;
-    const _handler = typeof route === 'function' ? route : route.handler;
     const log = contextLog(`${colors.bold(method)} ${routePath}`, 'bgGreen');
 
-    options.provider.createRoute({
+    provider.createRoute({
       method: method.toLowerCase() as Lowercase<HTTPMethod>,
       path: routePath,
-      middleware: (context) => {
+      middleware(context) {
         emitter.emit('request', context);
-        routeOptions?.middleware?.(context);
+        options?.middleware?.(context);
       },
-      handler: async (context) => {
+      async handler(context) {
         try {
           await Promise.all([
-            routeOptions?.queryValidation?.(context.query),
-            routeOptions?.paramsValidation?.(context.params),
-            routeOptions?.bodyValidation?.(context.body),
+            options?.queryValidation?.(context.query),
+            options?.paramsValidation?.(context.params),
+            options?.bodyValidation?.(context.body),
           ]);
         } catch (error) {
           logError(error, log);
@@ -64,14 +50,14 @@ export const buildRoutes = (
           return transformErrorToResponse(error, StatusCode.BAD_REQUEST);
         }
 
-        if (statusCode) {
-          context.setStatusCode(statusCode);
-        }
-
         try {
-          const response = await _handler(context);
+          const response = await handler(context);
 
           emitter.emit('response', response);
+
+          if (options?.statusCode) {
+            context.setStatusCode(options.statusCode);
+          }
 
           return response;
         } catch (error) {

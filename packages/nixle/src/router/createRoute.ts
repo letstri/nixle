@@ -1,26 +1,46 @@
-import type { HTTPMethod } from '..';
-import type { RouteOptionsOrHandler } from './interfaces/Route';
+import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 
 interface Route<Params, Query, Body> {
   path: string;
   method: HTTPMethod;
-  route: RouteOptionsOrHandler<Params, Query, Body>;
+  options?: RouteOptions<Params, Query, Body>;
+  handler: RouteHandler<Params, Query, Body>;
 }
 
-interface RouteMethod<
-  Params extends Record<string, unknown> = any,
-  Query extends Record<string, unknown> = any,
-  Body extends Record<string, unknown> = any,
-> {
-  (path: string, route: RouteOptionsOrHandler<Params, Query, Body>): Route<Params, Query, Body>;
+interface RouteMethod<Params = any, Query = any, Body = any> {
+  (
+    path: string,
+    route: RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>,
+  ): Route<Params, Query, Body>;
 }
 
-const get: RouteMethod = (path, route) => ({ path, route, method: 'GET' });
-const post: RouteMethod = (path, route) => ({ path, route, method: 'POST' });
-const patch: RouteMethod = (path, route) => ({ path, route, method: 'PATCH' });
-const put: RouteMethod = (path, route) => ({ path, route, method: 'PUT' });
-const _delete: RouteMethod = (path, route) => ({ path, route, method: 'DELETE' });
-const options: RouteMethod = (path, route) => ({ path, route, method: 'OPTIONS' });
+const formatRoute =
+  (method: HTTPMethod): RouteMethod =>
+  (path, optionsOrHandler) => {
+    if (typeof optionsOrHandler === 'function') {
+      return {
+        path,
+        method,
+        handler: optionsOrHandler,
+      };
+    }
+
+    return {
+      path,
+      method,
+      options: optionsOrHandler,
+      handler: optionsOrHandler.handler,
+    };
+  };
+
+const get: RouteMethod = (path, optionsOrHandler) => formatRoute('GET')(path, optionsOrHandler);
+const post: RouteMethod = (path, optionsOrHandler) => formatRoute('POST')(path, optionsOrHandler);
+const patch: RouteMethod = (path, optionsOrHandler) => formatRoute('PATCH')(path, optionsOrHandler);
+const put: RouteMethod = (path, optionsOrHandler) => formatRoute('PUT')(path, optionsOrHandler);
+const _delete: RouteMethod = (path, optionsOrHandler) =>
+  formatRoute('DELETE')(path, optionsOrHandler);
+const options: RouteMethod = (path, optionsOrHandler) =>
+  formatRoute('OPTIONS')(path, optionsOrHandler);
 
 const route = {
   get,
