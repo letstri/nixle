@@ -5,16 +5,16 @@ interface Route<Params, Query, Body> {
     options?: RouteOptions<Params, Query, Body>;
     handler: RouteHandler<Params, Query, Body>;
 }
-interface RouteMethod<Params = any, Query = any, Body = any> {
+interface RouteMethod<Params = unknown, Query = unknown, Body = unknown> {
     (path: string, route: RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>): Route<Params, Query, Body>;
 }
 declare const route: {
-    get: RouteMethod<any, any, any>;
-    post: RouteMethod<any, any, any>;
-    patch: RouteMethod<any, any, any>;
-    put: RouteMethod<any, any, any>;
-    delete: RouteMethod<any, any, any>;
-    options: RouteMethod<any, any, any>;
+    get: RouteMethod<unknown, unknown, unknown>;
+    post: RouteMethod<unknown, unknown, unknown>;
+    patch: RouteMethod<unknown, unknown, unknown>;
+    put: RouteMethod<unknown, unknown, unknown>;
+    delete: RouteMethod<unknown, unknown, unknown>;
+    options: RouteMethod<unknown, unknown, unknown>;
 };
 export { route };
 export type { Route };

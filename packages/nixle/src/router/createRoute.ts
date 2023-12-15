@@ -1,13 +1,13 @@
 import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 
-interface Route<Params, Query, Body> {
+interface Route<Params = unknown, Query = unknown, Body = unknown> {
   path: string;
   method: HTTPMethod;
   options?: RouteOptions<Params, Query, Body>;
   handler: RouteHandler<Params, Query, Body>;
 }
 
-interface RouteMethod<Params = any, Query = any, Body = any> {
+interface RouteMethod<Params = unknown, Query = unknown, Body = unknown> {
   (
     path: string,
     route: RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>,
