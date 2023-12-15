@@ -1,6 +1,6 @@
 import { StatusCode } from 'nixle';
 import * as _zod from 'zod';
-interface ZodOptions {
+interface Options {
     /**
      * The message to use when throwing an error.
      *
@@ -14,16 +14,53 @@ interface ZodOptions {
      */
     statusCode?: StatusCode;
 }
+interface ZodObject {
+    <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: Options): (data: any) => Promise<_zod.infer<_zod.ZodObject<T>>>;
+}
 declare global {
     namespace Nixle {
         interface ServiceOptions {
-            zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<T>;
+            zodObject: ZodObject;
         }
         interface RouterOptions {
-            zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<T>;
+            zodObject: ZodObject;
         }
     }
 }
-export declare const zodObject: <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: ZodOptions) => Promise<{ [k_1 in keyof _zod.objectUtil.addQuestionMarks<_zod.baseObjectOutputType<T>, { [k in keyof _zod.baseObjectOutputType<T>]: undefined extends _zod.baseObjectOutputType<T>[k] ? never : k; }[keyof T]>]: _zod.objectUtil.addQuestionMarks<_zod.baseObjectOutputType<T>, { [k_2 in keyof _zod.baseObjectOutputType<T>]: undefined extends _zod.baseObjectOutputType<T>[k_2] ? never : k_2; }[keyof T]>[k_1]; }>;
+/**
+ * @param shape
+ *
+ * @example
+ * const usersRouter = createRouter('/users', ({ zodObject }) => [
+ *   route.get('/', {
+ *     queryValidation: zodObject((zod) => ({
+ *       email: zod.string().email(),
+ *       password: zod.string().min(8),
+ *     })),
+ *     handler: ({ query }) => 'Hello Users!',
+ *   }),
+ * ]);
+ *
+ * @example
+ * import { zodObject } from '@nixle/zod';
+ *
+ * zodObject((zod) => ({
+ *   email: zod.string().email(),
+ *   password: zod.string().min(8),
+ * }))
+ *
+ * @example
+ * import { zodObject } from '@nixle/zod';
+ * import * as zod from 'zod';
+ *
+ * zodObject({
+ *   email: zod.string().email(),
+ *   password: zod.string().min(8),
+ * })
+ *
+ * @param options
+ * @returns (data: any) => ValidatedData
+ */
+export declare const zodObject: ZodObject;
 export declare const zodPlugin: import("nixle/dist/plugins/createPlugin").Plugin;
 export {};
