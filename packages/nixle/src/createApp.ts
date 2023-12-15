@@ -44,16 +44,8 @@ export const createApp = (options: AppOptions) => {
   buildEnv(options.env);
   buildModules(options);
 
-  options.provider.globalMiddleware(({ setHeader, method, url }) => {
+  options.provider.globalMiddleware(({ setHeader }) => {
     setHeader('X-Powered-By', 'Nixle');
-
-    const path = fixPath(url.startsWith('http') ? new URL(url).pathname : url.split('&')[0]);
-
-    const _log = contextLog(`${colors.bold(method)} ${path}`, 'bgGreen');
-
-    _log(`📫 Request received`, {
-      type: 'info',
-    });
   });
 
   const app = {
