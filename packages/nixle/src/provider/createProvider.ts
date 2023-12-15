@@ -8,8 +8,8 @@ export interface Provider {
   createRoute: (params: {
     method: Lowercase<HTTPMethod>;
     path: string;
-    middleware: RouteHandler;
-    handler: RouteHandler;
+    middleware: RouteHandler<any, any, any>;
+    handler: RouteHandler<any, any, any>;
   }) => void;
 }
 

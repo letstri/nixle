@@ -13,7 +13,11 @@ import { emitter } from '~/emmiter';
 import { StatusCode, type Route } from '..';
 import { colors } from 'consola/utils';
 
-export const buildRoutes = (options: AppOptions, routerPath: string, routes: Route[]) => {
+export const buildRoutes = (
+  options: AppOptions,
+  routerPath: string,
+  routes: Route<any, any, any>[],
+) => {
   const log = contextLog(routerPath, 'bgGreen');
 
   try {

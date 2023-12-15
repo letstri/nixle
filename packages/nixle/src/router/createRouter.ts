@@ -11,7 +11,9 @@ const extendRouterOptions = (options: Record<string, unknown>) => {
 
 const createRouter = (
   path: string,
-  routes: (params: { log: typeof log; env: Nixle.Env } & Nixle.RouterOptions) => Route[],
+  routes: (
+    params: { log: typeof log; env: Nixle.Env } & Nixle.RouterOptions,
+  ) => Route<any, any, any>[],
 ) => ({
   path: fixPath(path),
   routes: routes({ log: contextLog(fixPath(path), 'bgGreen'), env, ...routerOptions }),

@@ -1,36 +1,26 @@
 import type { HTTPMethod } from '..';
 import type { RouteOptionsOrHandler } from './interfaces/Route';
 
-interface Route {
+interface Route<Params, Query, Body> {
   path: string;
   method: HTTPMethod;
-  route: RouteOptionsOrHandler;
+  route: RouteOptionsOrHandler<Params, Query, Body>;
 }
 
-const get = <Params = any, Query = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, unknown>,
-): Route => ({ path, route, method: 'GET' });
-const post = <Params = any, Query = any, Body = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, Body>,
-): Route => ({ path, route, method: 'POST' });
-const patch = <Params = any, Query = any, Body = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, Body>,
-): Route => ({ path, route, method: 'PATCH' });
-const put = <Params = any, Query = any, Body = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, Body>,
-): Route => ({ path, route, method: 'PUT' });
-const _delete = <Params = any, Query = any, Body = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, Body>,
-): Route => ({ path, route, method: 'DELETE' });
-const options = <Params = any, Query = any, Body = any>(
-  path: string,
-  route: RouteOptionsOrHandler<Params, Query, Body>,
-): Route => ({ path, route, method: 'OPTIONS' });
+interface RouteMethod<
+  Params extends Record<string, unknown> = any,
+  Query extends Record<string, unknown> = any,
+  Body extends Record<string, unknown> = any,
+> {
+  (path: string, route: RouteOptionsOrHandler<Params, Query, Body>): Route<Params, Query, Body>;
+}
+
+const get: RouteMethod = (path, route) => ({ path, route, method: 'GET' });
+const post: RouteMethod = (path, route) => ({ path, route, method: 'POST' });
+const patch: RouteMethod = (path, route) => ({ path, route, method: 'PATCH' });
+const put: RouteMethod = (path, route) => ({ path, route, method: 'PUT' });
+const _delete: RouteMethod = (path, route) => ({ path, route, method: 'DELETE' });
+const options: RouteMethod = (path, route) => ({ path, route, method: 'OPTIONS' });
 
 const route = {
   get,
@@ -39,7 +29,7 @@ const route = {
   put,
   delete: _delete,
   options,
-} satisfies Record<Lowercase<HTTPMethod>, (path: string, route: RouteOptionsOrHandler) => Route>;
+} satisfies Record<Lowercase<HTTPMethod>, RouteMethod>;
 
 export { route };
 export type { Route };

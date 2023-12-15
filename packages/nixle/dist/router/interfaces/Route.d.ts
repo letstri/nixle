@@ -1,5 +1,5 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '../../index';
-export interface RouteOptions<Params = any, Query = any, Body = any> {
+export interface RouteOptions<Params, Query, Body> {
     /**
      * Status code
      * @default 200
@@ -184,7 +184,7 @@ export interface RouteOptions<Params = any, Query = any, Body = any> {
     }) => any;
 }
 export type RouteHandlerContext<Params = any, Query = any, Body = any> = Parameters<RouteOptions<Params, Query, Body>['handler']>[0];
-export interface RouteHandler<Params = any, Query = any, Body = any> {
+export interface RouteHandler<Params, Query, Body> {
     (context: RouteHandlerContext<Params, Query, Body>): any;
 }
-export type RouteOptionsOrHandler<Params = any, Query = any, Body = any> = RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>;
+export type RouteOptionsOrHandler<Params, Query, Body> = RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>;
