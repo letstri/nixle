@@ -30,7 +30,7 @@ To use a service, you need to import it into your router and then call the servi
 import { createRouter, route } from 'nixle';
 import { usersService } from './usersService';
 
-export const usersRouter = createRouter('/users', () => [
+export const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => {
     const users = await usersService.getUsers();
 
@@ -47,7 +47,7 @@ You can destruct the `params` object to get some useful parameters.
 import { createRouter, route } from 'nixle';
 import { usersService } from './usersService';
 
-export const usersRouter = createRouter('/users', ({ log }) => [
+export const usersRouter = createRouter('/users', ({ route, log }) => [
   route.get('/', () => {
     log('Getting users...', { type: 'info' });
     const users = await usersService.getUsers();

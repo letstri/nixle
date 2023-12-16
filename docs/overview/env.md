@@ -132,9 +132,9 @@ const app = createService('users', ({ env }) => {
 You can also access environment variables in your routes:
 
 ```ts
-import { createRouter, route } from 'nixle';
+import { createRouter } from 'nixle';
 
-const app = createRoute('/users', ({ env }) => [
+const app = createRoute('/users', ({ route, env }) => [
   route.get('/', () => {
     return env.SOME_SERVICE_URL;
   }),

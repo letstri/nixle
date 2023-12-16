@@ -42,9 +42,9 @@ Before you can create a server, you need to create a base. A base is a collabora
 
 ```ts
 // usersModule.ts
-import { createModule, createRouter, route } from 'nixle';
+import { createModule, createRouter } from 'nixle';
 
-const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello World!')]);
+const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello World!')]);
 
 const usersModule = createModule({
   routers: [usersRouter],

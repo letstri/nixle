@@ -53,7 +53,7 @@ And then you can use the `someOption` in the router:
 ```ts
 import { createRouter } from 'nixle';
 
-const app = createRouter('/users', ({ log, someOption }) => [
+const app = createRouter('/users', ({ route, log, someOption }) => [
   route.get('/', () => {
     log(someOption);
   }),

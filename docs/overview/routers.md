@@ -11,9 +11,11 @@ Routers are second fundamental and essential part of the Nixle framework. With r
 To create a router, you need to use the `createRouter` function. This function takes two arguments, which are a base path and a function that returns an array of routes.
 
 ```ts
-import { createRouter, route } from 'nixle';
+import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello World!')]);
+export const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello World!'),
+]);
 ```
 
 After that, you call the `createModule` function to create a module and register the router with the server.
@@ -54,9 +56,9 @@ Available parameters:
 - `headers` - Request headers
 
 ```ts
-import { createRouter, route } from 'nixle';
+import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter('/users', () => [
+export const usersRouter = createRouter('/users', ({ route }) => [
   route.get(
     '/',
     ({ params, body, query, url, method, getCookie, setCookie, getHeader, setHeader, headers }) => {
