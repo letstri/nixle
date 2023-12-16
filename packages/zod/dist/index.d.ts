@@ -15,7 +15,11 @@ interface Options {
     statusCode?: StatusCode;
 }
 interface ZodObject {
-    <T extends _zod.ZodRawShape>(shape: T | ((zod: typeof _zod.z) => T), options?: Options): (data: any) => Promise<_zod.infer<_zod.ZodObject<T>>>;
+    <T extends {
+        [K in string]: _zod.ZodTypeAny;
+    }>(shape: T | ((zod: typeof _zod.z) => T), options?: Options): {
+        validate(data: any): Promise<_zod.infer<_zod.ZodObject<T>>>;
+    };
 }
 declare global {
     namespace Nixle {
@@ -31,20 +35,20 @@ declare global {
  * @param shape
  *
  * @example
- * const usersRouter = createRouter('/users', ({ zodObject }) => [
+ * const usersRouter = createRouter('/users', ({ route, zodObject }) => [
  *   route.get('/', {
- *     queryValidation: zodObject((zod) => ({
+ *     bodyValidation: zodObject((zod) => ({
  *       email: zod.string().email(),
  *       password: zod.string().min(8),
- *     })),
- *     handler: ({ query }) => 'Hello Users!',
+ *     })).validate,
+ *     handler: ({ body }) => `Hello ${body.email}!`,
  *   }),
  * ]);
  *
  * @example
  * import { zodObject } from '@nixle/zod';
  *
- * zodObject((zod) => ({
+ * const { validate } = zodObject((zod) => ({
  *   email: zod.string().email(),
  *   password: zod.string().min(8),
  * }))
@@ -53,13 +57,21 @@ declare global {
  * import { zodObject } from '@nixle/zod';
  * import * as zod from 'zod';
  *
- * zodObject({
+ * const { validate } = zodObject({
  *   email: zod.string().email(),
  *   password: zod.string().min(8),
  * })
  *
  * @param options
- * @returns (data: any) => ValidatedData
+ *
+ * @example
+ * const { validate } = zodObject((zod) => ({
+ *   email: zod.string().email(),
+ *   password: zod.string().min(8),
+ * }), {
+ *   message: 'Custom message',
+ *   statusCode: StatusCode.BAD_REQUEST,
+ * });
  */
 export declare const zodObject: ZodObject;
 export declare const zodPlugin: import("nixle/dist/plugins/createPlugin").Plugin;

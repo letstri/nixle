@@ -1,29 +1,31 @@
-import { createPlugin as u, createError as m, StatusCode as g } from "nixle";
+import { createPlugin as m, createError as u, StatusCode as l } from "nixle";
 import * as r from "zod";
-const s = (t, e) => {
-  const a = r.object(typeof t == "function" ? t(r.z) : t);
-  return async (c) => {
-    try {
-      return await a.parseAsync(c);
-    } catch (n) {
-      const d = n;
-      m({
-        message: e?.message || "Validation error",
-        statusCode: e?.statusCode || g.BAD_REQUEST,
-        details: d.errors.reduce(
-          (i, o) => ({
-            ...i,
-            [o.path.join(".")]: o.message
-          }),
-          {}
-        )
-      });
+const a = (t, e) => {
+  const s = r.object(typeof t == "function" ? t(r.z) : t);
+  return {
+    validate: async (c) => {
+      try {
+        return await s.parseAsync(c);
+      } catch (n) {
+        const d = n;
+        u({
+          message: e?.message || "Validation error",
+          statusCode: e?.statusCode || l.BAD_REQUEST,
+          details: d.errors.reduce(
+            (i, o) => ({
+              ...i,
+              [o.path.join(".")]: o.message
+            }),
+            {}
+          )
+        });
+      }
     }
   };
-}, f = u("zod", ({ extendServiceOptions: t, extendRouterOptions: e }) => {
-  t({ zodObject: s }), e({ zodObject: s });
+}, f = m("zod", ({ extendServiceOptions: t, extendRouterOptions: e }) => {
+  t({ zodObject: a }), e({ zodObject: a });
 });
 export {
-  s as zodObject,
+  a as zodObject,
   f as zodPlugin
 };
