@@ -1,5 +1,5 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '../../index';
-export interface RouteHandler<Params, Query, Body> {
+export interface RouteHandler<P extends unknown, Q extends unknown, B extends unknown> {
     (context: {
         /**
          * Request
@@ -29,17 +29,7 @@ export interface RouteHandler<Params, Query, Body> {
          * // After that we can get params:
          * // => { id: '123' }
          */
-        params: Awaited<Params>;
-        /**
-         * Body parameters
-         *
-         * @example
-         * // We have a request with body { name: 'John' }
-         *
-         * // After that we can get body:
-         * // => { name: 'John' }
-         */
-        body: Awaited<Body>;
+        params: Awaited<P>;
         /**
          * Query parameters
          *
@@ -49,7 +39,17 @@ export interface RouteHandler<Params, Query, Body> {
          * // After that we can get query:
          * // => { name: 'John' }
          */
-        query: Awaited<Query>;
+        query: Awaited<Q>;
+        /**
+         * Body parameters
+         *
+         * @example
+         * // We have a request with body { name: 'John' }
+         *
+         * // After that we can get body:
+         * // => { name: 'John' }
+         */
+        body: Awaited<B>;
         /**
          * Set status code
          *
@@ -57,7 +57,7 @@ export interface RouteHandler<Params, Query, Body> {
          * @default 200
          *
          * @example
-         * setStatusCode(404);
+         * setStatusCode(StatusCodes.BAD_REQUEST);
          */
         setStatusCode: (code: StatusCode) => void;
         /**
@@ -108,7 +108,7 @@ export interface RouteHandler<Params, Query, Body> {
         getCookie: (key: string) => string | null;
     }): any;
 }
-export interface RouteOptions<Params, Query, Body> {
+export interface RouteOptions<P extends unknown, Q extends unknown, B extends unknown> {
     /**
      * Status code
      * @default 200
@@ -128,9 +128,9 @@ export interface RouteOptions<Params, Query, Body> {
      *   }
      * }
      */
-    paramsValidation?(params: any): Params;
+    paramsValidation?(params: any): P;
     /**
-     * Body validation.
+     * B validation.
      * In the method you can validate body.
      *
      * @param body Incoming body
@@ -142,9 +142,9 @@ export interface RouteOptions<Params, Query, Body> {
      *   }
      * }
      */
-    bodyValidation?(body: any): Body;
+    bodyValidation?(body: any): B;
     /**
-     * Query handler.
+     * Q handler.
      * In the method you can validate query.
      *
      * @param query Incoming query
@@ -156,7 +156,7 @@ export interface RouteOptions<Params, Query, Body> {
      *   }
      * }
      */
-    queryValidation?(query: any): Query;
+    queryValidation?(query: any): Q;
     /**
      * Middleware handler.
      * In the method you can do anything you want and it will be called before the main handler.
@@ -171,7 +171,7 @@ export interface RouteOptions<Params, Query, Body> {
      *   }
      * }
      */
-    middleware?: RouteHandler<Params, Query, Body>;
+    middleware?: RouteHandler<P, Q, B>;
     /**
      * Main request handler.
      * In the method you can do anything you want but we recommend to call a service created with `createService`.
@@ -184,6 +184,6 @@ export interface RouteOptions<Params, Query, Body> {
      *   return { message: 'Hello world!' };
      * }
      */
-    handler: RouteHandler<Params, Query, Body>;
+    handler: RouteHandler<P, Q, B>;
 }
-export type RouteHandlerContext<Params = any, Query = any, Body = any> = Parameters<RouteHandler<Params, Query, Body>>[0];
+export type RouteHandlerContext<P extends unknown = unknown, Q extends unknown = unknown, B extends unknown = unknown> = Parameters<RouteHandler<P, Q, B>>[0];

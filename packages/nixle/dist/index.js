@@ -88,30 +88,46 @@ const W = (E) => {
       x(E, O + R, _);
     });
   });
-}, s = {}, w = (E) => {
+}, c = (E, T, R) => typeof R == "function" ? {
+  path: T,
+  method: E,
+  handler: R
+} : {
+  path: T,
+  method: E,
+  options: R,
+  handler: R.handler
+}, w = (E, T) => c("GET", E, T), j = (E, T) => c("POST", E, T), o = (E, T) => c("PATCH", E, T), q = (E, T) => c("PUT", E, T), X = (E, T) => c("DELETE", E, T), K = (E, T) => c("OPTIONS", E, T), J = {
+  get: w,
+  post: j,
+  patch: o,
+  put: q,
+  delete: X,
+  options: K
+}, s = {}, Z = (E) => {
   V.config(E), Object.keys(process.env).forEach((T) => {
     s[T] = process.env[T];
   });
-}, h = {}, j = (E) => {
+}, h = {}, k = (E) => {
   Object.assign(h, E);
-}, d = (E, T) => ({
+}, EE = (E, T) => ({
   path: L(E),
-  routes: T({ log: D(L(E), "bgGreen"), env: s, ...h })
-}), b = {}, o = (E) => {
+  routes: T({ route: J, log: D(L(E), "bgGreen"), env: s, ...h })
+}), b = {}, z = (E) => {
   Object.assign(b, E);
-}, EE = (E, T) => T({ log: D(E), env: s, ...b }), q = (E, T) => {
+}, TE = (E, T) => T({ log: D(E), env: s, ...b }), a = (E, T) => {
   T.plugins && T.plugins.forEach(async ({ name: R, plugin: _ }) => {
     const O = D(R, "bgMagenta");
-    await _({ nixleApp: E, log: O, extendRouterOptions: j, extendServiceOptions: o }), P(`🚀 ${R.trim()} plugin successfully loaded`, { type: "success" });
+    await _({ nixleApp: E, log: O, extendRouterOptions: k, extendServiceOptions: z }), P(`🚀 ${R.trim()} plugin successfully loaded`, { type: "success" });
   });
-}, TE = (E) => {
+}, RE = (E) => {
   E.logger !== !1 && W(E.logger || {});
   try {
     E.provider || l("Provider is required"), E.modules.length === 0 && l("At least one module is required");
   } catch (R) {
     U(R, P), process.exit(1);
   }
-  w(E.env), $(E), E.provider.globalMiddleware(({ setHeader: R }) => {
+  Z(E.env), $(E), E.provider.globalMiddleware(({ setHeader: R }) => {
     R("X-Powered-By", "Nixle");
   });
   const T = {
@@ -121,38 +137,21 @@ const W = (E) => {
       emit: i.emit
     }
   };
-  return E.plugins && q(T, E), P("🚀 Application successfully started", { type: "success" }), T;
-}, RE = (E) => E, c = (E) => (T, R) => typeof R == "function" ? {
-  path: T,
-  method: E,
-  handler: R
-} : {
-  path: T,
-  method: E,
-  options: R,
-  handler: R.handler
-}, X = (E, T) => c("GET")(E, T), K = (E, T) => c("POST")(E, T), J = (E, T) => c("PATCH")(E, T), Z = (E, T) => c("PUT")(E, T), k = (E, T) => c("DELETE")(E, T), z = (E, T) => c("OPTIONS")(E, T), _E = {
-  get: X,
-  post: K,
-  patch: J,
-  put: Z,
-  delete: k,
-  options: z
-}, OE = (E) => E, rE = (E, T) => ({
+  return E.plugins && a(T, E), P("🚀 Application successfully started", { type: "success" }), T;
+}, _E = (E) => E, OE = (E) => E, rE = (E, T) => ({
   name: E,
   plugin: T
 });
 export {
   e as StatusCode,
-  TE as createApp,
+  RE as createApp,
   l as createError,
-  RE as createModule,
+  _E as createModule,
   rE as createPlugin,
   OE as createProvider,
-  d as createRouter,
-  EE as createService,
-  j as extendRouterOptions,
+  EE as createRouter,
+  TE as createService,
+  k as extendRouterOptions,
   v as isNixleError,
-  _E as route,
   h as routerOptions
 };

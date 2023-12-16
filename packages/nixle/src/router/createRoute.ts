@@ -1,46 +1,61 @@
 import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 
-interface Route<Params = unknown, Query = unknown, Body = unknown> {
+interface Route<
+  P extends unknown = unknown,
+  Q extends unknown = unknown,
+  B extends unknown = unknown,
+> {
   path: string;
   method: HTTPMethod;
-  options?: RouteOptions<Params, Query, Body>;
-  handler: RouteHandler<Params, Query, Body>;
+  options?: RouteOptions<P, Q, B>;
+  handler: RouteHandler<P, Q, B>;
 }
 
-interface RouteMethod<Params = unknown, Query = unknown, Body = unknown> {
-  (
-    path: string,
-    route: RouteOptions<Params, Query, Body> | RouteHandler<Params, Query, Body>,
-  ): Route<Params, Query, Body>;
-}
-
-const formatRoute =
-  (method: HTTPMethod): RouteMethod =>
-  (path, optionsOrHandler) => {
-    if (typeof optionsOrHandler === 'function') {
-      return {
-        path,
-        method,
-        handler: optionsOrHandler,
-      };
-    }
-
+const formatMethod = <P extends unknown, Q extends unknown, B extends unknown>(
+  method: HTTPMethod,
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+): Route<P, Q, B> => {
+  if (typeof optionsOrHandler === 'function') {
     return {
       path,
       method,
-      options: optionsOrHandler,
-      handler: optionsOrHandler.handler,
+      handler: optionsOrHandler,
     };
-  };
+  }
 
-const get: RouteMethod = (path, optionsOrHandler) => formatRoute('GET')(path, optionsOrHandler);
-const post: RouteMethod = (path, optionsOrHandler) => formatRoute('POST')(path, optionsOrHandler);
-const patch: RouteMethod = (path, optionsOrHandler) => formatRoute('PATCH')(path, optionsOrHandler);
-const put: RouteMethod = (path, optionsOrHandler) => formatRoute('PUT')(path, optionsOrHandler);
-const _delete: RouteMethod = (path, optionsOrHandler) =>
-  formatRoute('DELETE')(path, optionsOrHandler);
-const options: RouteMethod = (path, optionsOrHandler) =>
-  formatRoute('OPTIONS')(path, optionsOrHandler);
+  return {
+    path,
+    method,
+    options: optionsOrHandler,
+    handler: optionsOrHandler.handler,
+  };
+};
+
+const get = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('GET', path, optionsOrHandler);
+const post = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('POST', path, optionsOrHandler);
+const patch = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('PATCH', path, optionsOrHandler);
+const put = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('PUT', path, optionsOrHandler);
+const _delete = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('DELETE', path, optionsOrHandler);
+const options = <P extends unknown, Q extends unknown, B extends unknown>(
+  path: string,
+  optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
+) => formatMethod('OPTIONS', path, optionsOrHandler);
 
 const route = {
   get,
@@ -49,7 +64,7 @@ const route = {
   put,
   delete: _delete,
   options,
-} satisfies Record<Lowercase<HTTPMethod>, RouteMethod>;
+};
 
 export { route };
 export type { Route };

@@ -1,6 +1,6 @@
 import type { GlobalMiddlewareHandler } from '~/router/interfaces/GlobalMiddleware';
-import type { RouteHandler } from '~/router/interfaces/Route';
 import type { HTTPMethod } from '~/types/HTTPMethod';
+import type { RouteHandler } from '..';
 
 export interface Provider {
   app: Nixle.Provider;

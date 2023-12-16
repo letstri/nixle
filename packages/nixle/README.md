@@ -33,10 +33,10 @@ npm install nixle
 
 ## Usage
 
-To set up your app, use the `createApp` function. Create a module with the `createModule` function and import routes using the `createRouter` function. Define routes with the `route` function. Additionally, you can create services with module-specific logic using the `createService` function.
+To set up your app, use the `createApp` function. Create a module with the `createModule` function and import routes using the `createRouter` function. Additionally, you can create services with module-specific logic using the `createService` function.
 
 ```ts
-import { createRouter, createService, route, createModule } from 'nixle';
+import { createRouter, createService, createModule } from 'nixle';
 import * as zod from 'zod';
 
 declare global {
@@ -67,7 +67,7 @@ const zodPagination = zod.object({
   limit: zod.number().default(10),
 });
 
-const usersRouter = createRouter('/users', () => [
+const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', {
     queryValidation: zodPagination.parseAsync,
     handler: ({ query }) => {
