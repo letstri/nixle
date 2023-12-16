@@ -1,7 +1,7 @@
-import { createApp, createRouter, createModule, route } from 'nixle';
+import { createApp, createRouter, createModule } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 
-const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello Nuxt!')]);
+const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Nuxt!')]);
 
 const usersModule = createModule({
   routers: [usersRouter],

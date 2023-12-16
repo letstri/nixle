@@ -1,8 +1,8 @@
 import express from 'express';
-import { createApp, createModule, createRouter, route } from 'nixle';
+import { createApp, createModule, createRouter } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
-const usersRouter = createRouter('/users', () => [route.get('/', () => 'Hello Express!')]);
+const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Express!')]);
 const usersModule = createModule({
   routers: [usersRouter],
 });
