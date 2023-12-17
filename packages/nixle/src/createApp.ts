@@ -1,6 +1,5 @@
 import type { ConsolaOptions } from 'consola';
-import { colors } from 'consola/utils';
-import { contextLog, createLogger, log } from './logger';
+import { createLogger, log } from './logger';
 import type dotenv from 'dotenv';
 
 import type { Module } from './modules/createModule';
@@ -11,7 +10,6 @@ import { emitter } from './emmiter';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
-import { fixPath } from './utils/fixPath';
 
 export interface AppOptions {
   provider: Provider;

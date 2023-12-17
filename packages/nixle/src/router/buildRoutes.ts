@@ -1,3 +1,4 @@
+import { colors } from 'consola/utils';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { fixPath } from '~/utils/fixPath';
 import { contextLog } from '~/logger';
@@ -5,7 +6,6 @@ import type { AppOptions } from '~/createApp';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
 import { StatusCode, type Route } from '..';
-import { colors } from 'consola/utils';
 
 export const buildRoutes = (
   { provider }: AppOptions,

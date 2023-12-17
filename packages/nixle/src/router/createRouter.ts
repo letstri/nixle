@@ -1,12 +1,12 @@
 import { contextLog, type log } from '~/logger';
 import { type Route, route } from './createRoute';
-import { env } from '~/env';
 import { fixPath } from '~/utils/fixPath';
 
-const routerOptions: Nixle.RouterOptions = {};
-
 const extendRouterOptions = (options: Record<string, unknown>) => {
-  Object.assign(routerOptions, options);
+  __NIXLE.routerOptions = {
+    ...__NIXLE.routerOptions,
+    ...options,
+  };
 };
 
 const createRouter = (
@@ -16,7 +16,12 @@ const createRouter = (
   ) => Route<any, any, any>[],
 ) => ({
   path: fixPath(path),
-  routes: routes({ route, log: contextLog(fixPath(path), 'bgGreen'), env, ...routerOptions }),
+  routes: routes({
+    route,
+    log: contextLog(fixPath(path), 'bgGreen'),
+    env: __NIXLE.env || {},
+    ...__NIXLE.routerOptions,
+  }),
 });
 
-export { createRouter, extendRouterOptions, routerOptions };
+export { createRouter, extendRouterOptions };

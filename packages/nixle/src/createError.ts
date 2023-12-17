@@ -1,6 +1,5 @@
 import dayjs from 'dayjs';
 import { colorize } from 'consola/utils';
-import { DEFAULT_DATE_FORMAT } from './utils/date';
 import { log } from './logger';
 import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
@@ -11,7 +10,6 @@ export interface NixleError<D> {
   statusCode: number;
   message: string;
   details?: D;
-  __nixle: typeof errorSymbol;
 }
 
 const errorSymbol = Symbol('NixleError');
@@ -35,12 +33,12 @@ export function createError(
         : options.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
     time: dayjs().format(),
     details: typeof options === 'string' ? {} : options.details,
-    __nixle: errorSymbol,
-  } satisfies NixleError<unknown>;
+    __symbol: errorSymbol,
+  } satisfies NixleError<unknown> & { __symbol: typeof errorSymbol };
 }
 
 export const isNixleError = (error: any): error is NixleError<unknown> => {
-  return error?.__nixle === errorSymbol;
+  return error?.__symbol === errorSymbol;
 };
 
 export const logError = (error: any, _log: typeof log) => {
@@ -76,7 +74,6 @@ export const transformErrorToResponse = (
     message: _message,
     time: _time,
     details: _details,
-    __nixle: errorSymbol,
   };
 
   if (error instanceof Error) {

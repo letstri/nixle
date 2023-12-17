@@ -1,5 +1,4 @@
 import { contextLog, type log } from '../logger';
-import { env } from '~/env';
 
 const serviceOptions: Nixle.ServiceOptions = {};
 
@@ -15,4 +14,4 @@ export const createService = <Methods extends any = any>(
       env: Nixle.Env;
     } & Nixle.ServiceOptions,
   ) => Methods,
-) => service({ log: contextLog(name), env, ...serviceOptions });
+) => service({ log: contextLog(name), env: __NIXLE.env || {}, ...serviceOptions });

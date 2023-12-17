@@ -6,10 +6,8 @@ interface LogOptions {
   type?: LogType;
 }
 
-let loggerInstance: ConsolaInstance;
-
 export const createLogger = (options: Partial<ConsolaOptions>) => {
-  loggerInstance = createConsola(options);
+  __NIXLE.loggerInstance = createConsola(options);
 };
 
 /**
@@ -22,14 +20,14 @@ export const createLogger = (options: Partial<ConsolaOptions>) => {
  * @example log('Hello world', { type: 'info' })
  */
 export const log = (message: any, options?: LogOptions) => {
-  if (!loggerInstance) {
+  if (!__NIXLE.loggerInstance) {
     return;
   }
 
   const type = options?.type || 'log';
   const nixleMessage = `${colorize('bgBlue', ' Nixle ')}`;
 
-  const method = loggerInstance[type || 'log'];
+  const method = __NIXLE.loggerInstance[type || 'log'];
 
   if (!method) {
     createError(`Logger method "${type}" not found`);
