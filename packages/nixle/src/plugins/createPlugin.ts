@@ -1,16 +1,16 @@
 import type { extendRouterOptions } from '~/router/createRouter';
 import type { extendServiceOptions } from '~/service/createService';
-import type { NixleApp } from '../createApp';
 import type { log } from '../logger';
+import type { Provider } from '..';
 
 interface PluginOptions {
-  nixleApp: NixleApp;
+  provider: Provider;
   log: typeof log;
   extendRouterOptions: typeof extendRouterOptions;
   extendServiceOptions: typeof extendServiceOptions;
 }
 
-type PluginFunction = (options: PluginOptions) => void | Promise<void>;
+type PluginFunction = (options: PluginOptions) => void;
 
 export interface Plugin {
   name: string;

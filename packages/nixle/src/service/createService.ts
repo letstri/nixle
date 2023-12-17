@@ -1,9 +1,10 @@
 import { contextLog, type log } from '../logger';
 
-const serviceOptions: Nixle.ServiceOptions = {};
-
 export const extendServiceOptions = (options: Record<string, unknown>) => {
-  Object.assign(serviceOptions, options);
+  __NIXLE.serviceOptions = {
+    ...__NIXLE.serviceOptions,
+    ...options,
+  };
 };
 
 export const createService = <Methods extends any = any>(
@@ -14,4 +15,4 @@ export const createService = <Methods extends any = any>(
       env: Nixle.Env;
     } & Nixle.ServiceOptions,
   ) => Methods,
-) => service({ log: contextLog(name), env: __NIXLE.env || {}, ...serviceOptions });
+) => service({ log: contextLog(name), env: __NIXLE.env || {}, ...__NIXLE.serviceOptions });

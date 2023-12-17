@@ -1,6 +1,6 @@
 import { createPlugin } from 'nixle';
 
 export const corsPlugin = (config = {}) =>
-  createPlugin('CORS', ({ nixleApp }) => {
+  createPlugin('CORS', ({ provider }) => {
     // TODO
   });

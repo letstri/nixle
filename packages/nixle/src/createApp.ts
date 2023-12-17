@@ -39,6 +39,10 @@ export const createApp = (options: AppOptions) => {
     process.exit(1);
   }
 
+  if (options.plugins) {
+    buildPlugins(options.provider, options);
+  }
+
   buildEnv(options.env);
   buildModules(options);
 
@@ -53,10 +57,6 @@ export const createApp = (options: AppOptions) => {
       emit: emitter.emit,
     },
   };
-
-  if (options.plugins) {
-    buildPlugins(app, options);
-  }
 
   log('🚀 Application successfully started', { type: 'success' });
 

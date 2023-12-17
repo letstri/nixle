@@ -1,6 +1,6 @@
 import { createPlugin as o } from "nixle";
-const c = (i = {}) => o("CORS", ({ nixleApp: n }) => {
+const e = (r = {}) => o("CORS", ({ provider: i }) => {
 });
 export {
-  c as corsPlugin
+  e as corsPlugin
 };
