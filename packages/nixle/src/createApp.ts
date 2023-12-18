@@ -1,6 +1,7 @@
 import type { ConsolaOptions } from 'consola';
 import { createLogger, log } from './logger';
 import type dotenv from 'dotenv';
+import { colorize } from 'consola/utils';
 
 import type { Module } from './modules/createModule';
 import { buildModules } from './modules/buildModules';
@@ -58,7 +59,7 @@ export const createApp = (options: AppOptions) => {
     },
   };
 
-  log('🚀 Application successfully started', { type: 'success' });
+  log.success(`🔥 ${colorize('underline', 'Application successfully started')}`);
 
   return app;
 };

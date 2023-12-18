@@ -1,5 +1,8 @@
-import { type createRouter } from '../router/createRouter';
-export interface Module {
-    routers: ReturnType<typeof createRouter>[];
+import type { Router } from '../router/createRouter';
+export interface ModuleOptions {
+    routers: Router[];
 }
-export declare const createModule: (module: Module) => Module;
+export interface Module {
+    options: ModuleOptions;
+}
+export declare const createModule: (options: ModuleOptions) => Module;

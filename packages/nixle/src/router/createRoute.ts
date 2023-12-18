@@ -1,10 +1,6 @@
 import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 
-interface Route<
-  P extends unknown = unknown,
-  Q extends unknown = unknown,
-  B extends unknown = unknown,
-> {
+interface Route<P extends unknown = any, Q extends unknown = any, B extends unknown = any> {
   path: string;
   method: HTTPMethod;
   options?: RouteOptions<P, Q, B>;

@@ -18,7 +18,7 @@ declare global {
   }
 }
 
-globalThis.__NIXLE = {};
+globalThis.__NIXLE = globalThis.__NIXLE || {};
 
 export type { HTTPMethod } from '~/types/HTTPMethod';
 export type { CookieOptions } from '~/types/CookieOptions';

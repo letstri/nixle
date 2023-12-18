@@ -1,18 +1,14 @@
 import { colors } from 'consola/utils';
 import type { HTTPMethod } from '~/types/HTTPMethod';
-import { fixPath } from '~/utils/fixPath';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
 import { StatusCode, type Route } from '..';
+import { joinPath } from '~/utils/helpers';
 
-export const buildRoutes = (
-  { provider }: AppOptions,
-  routerPath: string,
-  routes: Route<any, any, any>[],
-) => {
-  const log = contextLog(routerPath, 'bgGreen');
+export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes: Route[]) => {
+  const log = contextLog(routerPath || '/', 'bgGreen');
 
   try {
     if (routes.length === 0) {
@@ -27,7 +23,7 @@ export const buildRoutes = (
   }
 
   routes.forEach(({ path, method, options, handler }) => {
-    const routePath = routerPath + fixPath(path);
+    const routePath = joinPath(routerPath, path);
     const log = contextLog(`${colors.bold(method)} ${routePath}`, 'bgGreen');
 
     provider.createRoute({
@@ -66,9 +62,7 @@ export const buildRoutes = (
         }
       },
     });
-  });
 
-  log(`🚏 ${routes.length} route${routes.length === 1 ? '' : 's'} successfully built`, {
-    type: 'success',
+    log.success(`🚏 Successfully registered`);
   });
 };

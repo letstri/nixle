@@ -1,6 +1,11 @@
 import { type log } from '../logger';
 export declare const extendServiceOptions: (options: Record<string, unknown>) => void;
-export declare const createService: <Methods extends unknown = any>(name: string, service: (options: {
+interface ServiceOptions {
     log: typeof log;
     env: Nixle.Env;
-} & Nixle.ServiceOptions) => Methods) => Methods;
+}
+export interface Service<M extends unknown = unknown> {
+    (name: string): M;
+}
+export declare const createService: <M extends unknown = unknown>(service: (options: ServiceOptions & Nixle.ServiceOptions) => M) => Service<M>;
+export {};

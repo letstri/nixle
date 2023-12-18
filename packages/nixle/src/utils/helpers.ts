@@ -1,3 +1,5 @@
+import { joinURL } from 'ufo';
+
 export const pick = <O extends Record<string, any>, K extends keyof O>(
   obj: O,
   fields: K[],
@@ -17,3 +19,10 @@ export const omit = <O extends Record<string, any>, K extends keyof O>(
   >;
 
 export const isPrimitive = (val: any) => val !== Object(val);
+
+export const joinPath = (...paths: string[]) => {
+  const path = joinURL('', ...paths);
+  const _path = path.startsWith('/') ? path : `/${path}`;
+
+  return _path.endsWith('/') ? _path.slice(0, -1) : _path;
+};

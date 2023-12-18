@@ -3,6 +3,7 @@ import { log, contextLog } from '~/logger';
 import { extendRouterOptions } from '~/router/createRouter';
 import { extendServiceOptions } from '~/service/createService';
 import type { Provider } from '..';
+import { colorize } from 'consola/utils';
 
 export const buildPlugins = (provider: Provider, options: AppOptions) => {
   if (!options.plugins) {
@@ -14,6 +15,6 @@ export const buildPlugins = (provider: Provider, options: AppOptions) => {
 
     plugin({ provider, log: _log, extendRouterOptions, extendServiceOptions });
 
-    log(`🚀 ${name.trim()} plugin successfully loaded`, { type: 'success' });
+    log.success(`🚀 ${colorize('bgBlue', ` ${name.trim()} `)} plugin successfully loaded`);
   });
 };

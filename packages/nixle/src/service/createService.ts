@@ -7,12 +7,18 @@ export const extendServiceOptions = (options: Record<string, unknown>) => {
   };
 };
 
-export const createService = <Methods extends any = any>(
-  name: string,
-  service: (
-    options: {
-      log: typeof log;
-      env: Nixle.Env;
-    } & Nixle.ServiceOptions,
-  ) => Methods,
-) => service({ log: contextLog(name), env: __NIXLE.env || {}, ...__NIXLE.serviceOptions });
+interface ServiceOptions {
+  log: typeof log;
+  env: Nixle.Env;
+}
+
+export interface Service<M extends unknown = unknown> {
+  (name: string): M;
+}
+
+export const createService =
+  <M extends unknown = unknown>(
+    service: (options: ServiceOptions & Nixle.ServiceOptions) => M,
+  ): Service<M> =>
+  (name: string): M =>
+    service({ log: contextLog(name, 'bgCyan'), env: __NIXLE.env || {}, ...__NIXLE.serviceOptions });

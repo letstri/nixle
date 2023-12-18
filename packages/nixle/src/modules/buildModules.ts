@@ -1,13 +1,11 @@
 import type { AppOptions } from '~/createApp';
 import { buildRoutes } from '~/router/buildRoutes';
-import { fixPath } from '~/utils/fixPath';
+import { joinPath } from '~/utils/helpers';
 
 export const buildModules = (options: AppOptions) => {
   options.modules.forEach((module) => {
-    module.routers.forEach(({ path, routes }) => {
-      const prefix = options.globalPrefix ? fixPath(options.globalPrefix) : '';
-
-      buildRoutes(options, prefix + path, routes);
+    module.options.routers.forEach(({ path, routes }) => {
+      buildRoutes(options, joinPath(options.globalPrefix || '', path || ''), routes());
     });
   });
 };

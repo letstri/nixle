@@ -52,7 +52,11 @@ export const logError = (error: any, _log: typeof log) => {
     message = `${error.constructor.name} ${JSON.stringify(error)}`;
   }
 
-  _log(colorize('red', message), { type: 'error' });
+  if (error?.statusCode === StatusCode.INTERNAL_SERVER_ERROR) {
+    _log.fatal(colorize('red', message));
+  } else {
+    _log.error(colorize('red', message));
+  }
 
   emitter.emit('error', error);
 };
