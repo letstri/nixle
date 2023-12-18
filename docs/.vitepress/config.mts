@@ -34,14 +34,14 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
-    search: {
-      provider: 'algolia',
-      options: {
-        appId: 'K256RER7U9',
-        apiKey: '486c7538d82a6ce997a0011b8e0dc253',
-        indexName: 'nixle',
-      },
-    },
+    // search: {
+    //   provider: 'algolia',
+    //   options: {
+    //     appId: 'K256RER7U9',
+    //     apiKey: '486c7538d82a6ce997a0011b8e0dc253',
+    //     indexName: 'nixle',
+    //   },
+    // },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/introduction/getting-started' },
