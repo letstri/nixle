@@ -41,15 +41,17 @@ declare global {
  * @param shape
  *
  * @example
- * const usersRouter = createRouter('/users', ({ route, zodObject }) => [
- *   route.get('/', {
- *     bodyValidation: zodObject((zod) => ({
- *       email: zod.string().email(),
- *       password: zod.string().min(8),
- *     })).validate,
- *     handler: ({ body }) => `Hello ${body.email}!`,
- *   }),
- * ]);
+ * const usersRouter = createRouter('/users', {
+ *   routes: ({ route, zodObject }) => [
+ *     route.get('/', {
+ *       bodyValidation: zodObject((zod) => ({
+ *         email: zod.string().email(),
+ *         password: zod.string().min(8),
+ *       })).validate,
+ *       handler: ({ body }) => `Hello ${body.email}!`,
+ *     }),
+ *   ],
+ * });
  *
  * @example
  * import { zodObject } from '@nixle/zod';
@@ -108,6 +110,6 @@ export const zodObject: ZodObject = (shape, options) => {
 };
 
 export const zodPlugin = createPlugin('zod', ({ extendServiceOptions, extendRouterOptions }) => {
-  extendServiceOptions({ zodObject });
   extendRouterOptions({ zodObject });
+  extendServiceOptions({ zodObject });
 });

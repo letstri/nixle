@@ -23,7 +23,7 @@ const a = (t, e) => {
     }
   };
 }, f = m("zod", ({ extendServiceOptions: t, extendRouterOptions: e }) => {
-  t({ zodObject: a }), e({ zodObject: a });
+  e({ zodObject: a }), t({ zodObject: a });
 });
 export {
   a as zodObject,
