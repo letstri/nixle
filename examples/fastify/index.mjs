@@ -1,11 +1,34 @@
 import fastify from 'fastify';
-import { createApp, createModule, createRouter } from 'nixle';
+import { createApp, createModule, createRouter, createService } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Fastify!')]);
+const usersService = createService(({ log }) => {
+  const create = async () => {
+    log.info('Creating user');
+
+    return {};
+  };
+
+  return {
+    create,
+  };
+});
+
+const usersRouter = createRouter('/user', {
+  services: {
+    users: usersService,
+  },
+  routes: ({ route }, { users }) => [
+    route.get('/', {
+      handler: () => users.create(),
+    }),
+  ],
+});
+
 const usersModule = createModule({
   routers: [usersRouter],
 });
+
 const { app } = createApp({
   provider: fastifyProvider(fastify()),
   modules: [usersModule],
