@@ -16,6 +16,7 @@ export class NixleError<D = any> extends Error {
     details?: D;
   }) {
     super();
+    Error.captureStackTrace(this, this.constructor);
     this.name = 'NixleError';
     this.statusCode = statusCode;
     this.message = message;
@@ -23,13 +24,20 @@ export class NixleError<D = any> extends Error {
   }
 
   time = dayjs().format();
-  statusCode = StatusCode.INTERNAL_SERVER_ERROR;
+  statusCode = StatusCode.BAD_REQUEST;
   message = 'Internal Server Error';
   details?: D;
 }
 
+export function createError(options: {
+  message: string;
+  statusCode?: number;
+  details?: any;
+}): never;
+export function createError(message: string): never;
+
 export function createError(
-  options:
+  optionsOrMessage:
     | string
     | {
         message: string;
@@ -37,15 +45,16 @@ export function createError(
         details?: any;
       },
 ): never {
-  const message = typeof options === 'string' ? options : options.message;
+  const message =
+    typeof optionsOrMessage === 'string' ? optionsOrMessage : optionsOrMessage.message;
 
   throw new NixleError({
     message,
     statusCode:
-      typeof options === 'string'
+      typeof optionsOrMessage === 'string'
         ? StatusCode.BAD_REQUEST
-        : options.statusCode || StatusCode.BAD_REQUEST,
-    details: typeof options === 'string' ? {} : options.details,
+        : optionsOrMessage.statusCode || StatusCode.BAD_REQUEST,
+    details: typeof optionsOrMessage === 'string' ? {} : optionsOrMessage.details || {},
   });
 }
 
@@ -64,8 +73,8 @@ export const logError = (error: any, _log: typeof log) => {
     message = `${error.constructor.name} ${JSON.stringify(error)}`;
   }
 
-  if (error?.statusCode === StatusCode.INTERNAL_SERVER_ERROR) {
-    _log.fatal(colorize('red', message));
+  if (error && (!error.statusCode || error.statusCode === StatusCode.INTERNAL_SERVER_ERROR)) {
+    _log.fatal(colorize('red', message), error.stack);
   } else {
     _log.error(colorize('red', message));
   }
@@ -92,13 +101,17 @@ export const transformErrorToResponse = (
     details: _details,
   };
 
-  if (error instanceof Error) {
-    json.details = omit(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
+  json.details = {
+    ...json.details,
+    ...omit(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
       'message',
       'name',
       'stack',
-    ]);
-  }
+      'statusCode',
+      'time',
+      'details',
+    ]),
+  };
 
   return json;
 };

@@ -11,6 +11,7 @@ import { emitter } from './emmiter';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
+import { StatusCode } from '.';
 
 export interface AppOptions {
   provider: Provider;
@@ -30,10 +31,16 @@ export const createApp = (options: AppOptions) => {
 
   try {
     if (!options.provider) {
-      createError('Provider is required');
+      createError({
+        message: 'Provider is required',
+        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+      });
     }
     if (options.modules.length === 0) {
-      createError('At least one module is required');
+      createError({
+        message: 'At least one module is required',
+        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+      });
     }
   } catch (e) {
     logError(e, log);

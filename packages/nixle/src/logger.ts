@@ -1,6 +1,7 @@
 import { createConsola, type ConsolaOptions, type LogType } from 'consola';
 import { colorize, type ColorName } from 'consola/utils';
 import { createError } from '~/createError';
+import { StatusCode } from '.';
 
 export const createLogger = (options: Partial<ConsolaOptions>) => {
   __NIXLE.loggerInstance = createConsola(options);
@@ -16,7 +17,10 @@ const _log = (type: LogType, ...messages: any[]) => {
   const method = __NIXLE.loggerInstance[type];
 
   if (!method) {
-    createError(`Logger method "${type}" not found`);
+    createError({
+      message: `Logger method "${type}" not found`,
+      statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+    });
   }
 
   method(`${nixleMessage}`, ...messages);

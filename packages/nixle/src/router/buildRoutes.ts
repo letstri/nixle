@@ -12,10 +12,16 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
 
   try {
     if (routes.length === 0) {
-      createError('At least one router is required');
+      createError({
+        message: 'At least one router is required',
+        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+      });
     }
     if (routes.some(({ path, method, handler }) => !path || !method || !handler)) {
-      createError('Path, method and handler are required for each route');
+      createError({
+        message: 'Path, method and handler are required for each route',
+        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+      });
     }
   } catch (e) {
     logError(e, log);
@@ -47,9 +53,11 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
             options?.bodyValidation?.(_context.body),
           ]);
         } catch (error) {
+          const statusCode = (error as NixleError)?.statusCode || StatusCode.BAD_REQUEST;
+
           logError(error, log);
-          context.setStatusCode((error as NixleError)?.statusCode || StatusCode.BAD_REQUEST);
-          return transformErrorToResponse(error, StatusCode.BAD_REQUEST);
+          context.setStatusCode(statusCode);
+          return transformErrorToResponse(error, statusCode);
         }
 
         try {
@@ -63,10 +71,9 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
 
           return response;
         } catch (error) {
-          const statusCode =
-            (error as NixleError<any>)?.statusCode || isNixleError(error)
-              ? StatusCode.BAD_REQUEST
-              : StatusCode.INTERNAL_SERVER_ERROR;
+          const statusCode = isNixleError(error)
+            ? error.statusCode
+            : (error as { statusCode?: number })?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
 
           logError(error, log);
           context.setStatusCode(statusCode);

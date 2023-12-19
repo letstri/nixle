@@ -1,7 +1,7 @@
 import { contextLog, log } from '~/logger';
 import { type Route, route } from './createRoute';
 import type { Service } from '~/service/createService';
-import { createError } from '..';
+import { StatusCode, createError } from '..';
 
 const extendRouterOptions = (options: Record<string, unknown>) => {
   __NIXLE.routerOptions = {
@@ -45,7 +45,10 @@ function createRouter<S extends Record<string, Service>>(
   optionsOrRoutes?: RouterOptions<S> | RouterRoutesFunction<S>,
 ): Router<S> {
   if (typeof pathOrOptionsOrRoutes === 'string' && !optionsOrRoutes) {
-    createError('Missing options');
+    createError({
+      message: 'Missing options',
+      statusCode: StatusCode.INTERNAL_SERVER_ERROR,
+    });
   }
 
   const _path = typeof pathOrOptionsOrRoutes === 'string' ? pathOrOptionsOrRoutes : '';

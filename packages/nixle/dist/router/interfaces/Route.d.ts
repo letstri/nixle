@@ -137,9 +137,11 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *
      * @example
      * bodyValidation(body) {
-     *   if (!body.name) {
+     *   if (!body.name || typeof body.name !== 'string') {
      *     createError('Name is required');
      *   }
+     *
+     *   return { name: body.name as string };
      * }
      */
     bodyValidation?(body: any): B;
@@ -151,9 +153,11 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *
      * @example
      * queryValidation(query) {
-     *   if (!query.name) {
+     *   if (!query.name || typeof query.name !== 'string') {
      *     createError('Name is required');
      *   }
+     *
+     *   return { name: query.name as string };
      * }
      */
     queryValidation?(query: any): Q;
