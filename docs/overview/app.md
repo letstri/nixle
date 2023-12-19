@@ -15,6 +15,7 @@ Create an app with the `createApp` function. This function takes a config object
 - `modules` - An array with modules.
 - `logger` - A [consola](/overview/logger) config that will be used to update options of the logger.
 - `env` - A [dotenv](/overview/env) config that will be used to load environment variables.
+- `plugins` - An array of plugins that will be used to extend the app.
 
 ```ts
 import { createApp } from 'nixle';

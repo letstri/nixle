@@ -2,7 +2,7 @@
 outline: deep
 ---
 
-# CORS
+# Swagger
 
 In nearest future, we won't implement Swagger support as separate plugin. Instead, you should use Swagger plugin depends on framework you use.
 
