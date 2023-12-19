@@ -26,3 +26,24 @@ export const joinPath = (...paths: string[]) => {
 
   return _path.endsWith('/') ? _path.slice(0, -1) : _path;
 };
+
+export const tryToParse = (value: string) => {
+  try {
+    const parsed = JSON.parse(value);
+
+    return typeof parsed === 'number' ||
+      typeof parsed === 'boolean' ||
+      parsed === undefined ||
+      parsed === null
+      ? parsed
+      : value;
+  } catch (err) {
+    return value;
+  }
+};
+
+export const parseObject = (obj: Record<string, any>) =>
+  Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, tryToParse(value)])) as Record<
+    string,
+    any
+  >;

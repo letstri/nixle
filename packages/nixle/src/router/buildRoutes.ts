@@ -5,7 +5,7 @@ import type { AppOptions } from '~/createApp';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
 import { StatusCode, type Route } from '..';
-import { joinPath } from '~/utils/helpers';
+import { joinPath, parseObject } from '~/utils/helpers';
 
 export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes: Route[]) => {
   const log = contextLog(routerPath || '/', 'bgGreen');
@@ -34,11 +34,18 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         options?.middleware?.(context);
       },
       async handler(context) {
+        const _context = {
+          ...context,
+          query: parseObject(context.query),
+          params: parseObject(context.params),
+          body: parseObject(context.body),
+        };
+
         try {
           await Promise.all([
-            options?.queryValidation?.(context.query),
-            options?.paramsValidation?.(context.params),
-            options?.bodyValidation?.(context.body),
+            options?.queryValidation?.(_context.query),
+            options?.paramsValidation?.(_context.params),
+            options?.bodyValidation?.(_context.body),
           ]);
         } catch (error) {
           logError(error, log);
@@ -47,7 +54,7 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         }
 
         try {
-          const response = await handler(context);
+          const response = await handler(_context);
 
           emitter.emit('response', response);
 
