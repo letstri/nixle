@@ -17,11 +17,11 @@ const usersService = createService(({ log }) => {
 
 const usersRouter = createRouter('/users', {
   services: {
-    users: usersService,
+    usersService,
   },
-  routes: ({ route }, { users }) => [
+  routes: ({ route }, { usersService }) => [
     route.get('/', {
-      handler: () => users.create(),
+      handler: () => usersService.create(),
     }),
   ],
 });

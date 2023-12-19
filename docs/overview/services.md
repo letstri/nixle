@@ -24,7 +24,7 @@ export const usersService = createService(() => {
 
 ## Usage
 
-To use a service, you need to pass it to the `services` object when creating a router. Then, you can access the service's methods in the `routes` function by destructing the `services` object.
+To use a service, you need to pass it to the `services` object when creating a router. Then, you can access the service's methods in the `routes` function by destructing the second parameter of the function.
 
 ```ts
 import { createRouter } from 'nixle';
@@ -34,11 +34,11 @@ export const usersRouter = createRouter('/users', {
   services: {
     usersService,
   },
-  routes: ({ route }, { users }) => [
+  routes: ({ route }, { usersService }) => [
     route.get('/', () => {
-      const response = await users.getUsers();
+      const users = await usersService.getUsers();
 
-      return response;
+      return users;
     }),
   ],
 });

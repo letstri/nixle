@@ -89,11 +89,11 @@ export const usersRouter = createRouter('/users', {
   services: {
     usersService,
   },
-  routes: ({ route }, { users }) => [
+  routes: ({ route }, { usersService }) => [
     route.get('/', () => {
-      const response = await users.getUsers();
+      const users = await usersService.getUsers();
 
-      return response;
+      return users;
     }),
   ],
 });
