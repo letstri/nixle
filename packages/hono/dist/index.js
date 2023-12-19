@@ -15,23 +15,23 @@ var c = decodeURIComponent, f = /^[\w!#$%&'*.^`|~+-]+$/, g = /^[ !#-:<-[\]-~]*$/
 }, q = (r, a, e = {}) => (a = encodeURIComponent(a), v(r, a, e)), w = (r, a) => {
   const e = r.req.raw.headers.get("Cookie");
   return typeof a == "string" ? e ? l(e, a)[a] : void 0 : e ? l(e) : {};
-}, b = (r, a, e, t) => {
+}, C = (r, a, e, t) => {
   const s = q(a, e, { path: "/", ...t });
   r.header("set-cookie", s, { append: !0 });
-}, y = class {
+}, $ = class {
   constructor() {
     this.createMiddleware = (r) => r;
   }
   createHandlers(...r) {
     return r.filter((a) => a !== void 0);
   }
-}, C = () => new y(), $ = (r) => C().createMiddleware(r);
-const H = m((r) => ({
+}, b = () => new $(), y = (r) => b().createMiddleware(r);
+const j = m((r) => ({
   app: r,
   globalMiddleware: (a) => {
     r.use(
       "*",
-      $(async (e, t) => {
+      y(async (e, t) => {
         await a({
           url: e.req.url,
           method: e.req.method,
@@ -62,13 +62,13 @@ const H = m((r) => ({
         setHeader: (d, u) => i.header(d, u),
         getHeader: (d) => i.req.header(d) || null,
         headers: i.req.header(),
-        setCookie: (d, u, h) => b(i, d, u, h),
+        setCookie: (d, u, h) => C(i, d, u, h),
         getCookie: (d) => w(i, d) || null
       };
-      return await t(o), i.body(await s(o));
+      return await t(o), i.json(await s(o));
     });
   }
 }));
 export {
-  H as honoProvider
+  j as honoProvider
 };

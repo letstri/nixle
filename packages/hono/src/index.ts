@@ -58,9 +58,10 @@ export const honoProvider = createProvider((app) => {
           setCookie: (name, value, options) => setCookie(context, name, value, options),
           getCookie: (name) => getCookie(context, name) || null,
         };
-        const response = await middleware(handlerContext);
 
-        return context.body(await handler(handlerContext));
+        await middleware(handlerContext);
+
+        return context.json(await handler(handlerContext));
       });
     },
   };
