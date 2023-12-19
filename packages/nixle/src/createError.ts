@@ -1,4 +1,5 @@
 import dayjs from 'dayjs';
+import createCallsiteRecord, { renderers } from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
 import { isPrimitive, omit } from './utils/helpers';
@@ -28,6 +29,21 @@ export class NixleError<D = any> extends Error {
   message = 'Internal Server Error';
   details?: D;
 }
+
+const formatErrorStack = (error: Error) => {
+  const stack = createCallsiteRecord({
+    forError: error,
+    isCallsiteFrame: (frame) =>
+      !!frame.fileName &&
+      !frame.fileName.includes('node_modules') &&
+      !frame.fileName.includes('node:') &&
+      !frame.fileName.includes('nixle/dist'),
+  })?.renderSync({
+    renderer: renderers.noColor,
+  });
+
+  return stack;
+};
 
 export function createError(options: {
   message: string;
@@ -74,8 +90,14 @@ export const logError = (error: any, _log: typeof log) => {
     message = `${error.constructor.name} ${JSON.stringify(error)}`;
   }
 
-  if (error && (!error.statusCode || error.statusCode === StatusCode.INTERNAL_SERVER_ERROR)) {
-    _log.fatal(colorize('red', message), error.stack);
+  if (error && (!error.statusCode || error.statusCode >= StatusCode.INTERNAL_SERVER_ERROR)) {
+    if (error instanceof Error) {
+      const stack = formatErrorStack(error);
+
+      _log.fatal(colorize('red', message), ...(stack ? ['\n', stack] : []));
+    } else {
+      _log.fatal(colorize('red', message));
+    }
   } else {
     _log.error(colorize('red', message));
   }
