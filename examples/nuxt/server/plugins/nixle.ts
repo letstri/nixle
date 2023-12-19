@@ -13,7 +13,7 @@ const usersService = createService(({ log }) => {
   };
 });
 
-const usersRouter = createRouter('/user', {
+const usersRouter = createRouter('/users', {
   services: {
     users: usersService,
   },
