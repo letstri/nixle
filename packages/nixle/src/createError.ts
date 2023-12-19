@@ -20,7 +20,7 @@ export function createError(
     | {
         message: string;
         statusCode?: number;
-        details?: Record<string, unknown>;
+        details?: any;
       },
 ): never {
   const message = typeof options === 'string' ? options : options.message;

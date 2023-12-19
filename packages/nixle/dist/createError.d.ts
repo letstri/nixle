@@ -9,7 +9,7 @@ export interface NixleError<D> {
 export declare function createError(options: string | {
     message: string;
     statusCode?: number;
-    details?: Record<string, unknown>;
+    details?: any;
 }): never;
 export declare const isNixleError: (error: any) => error is NixleError<unknown>;
 export declare const logError: (error: any, _log: typeof log) => void;
