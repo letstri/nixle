@@ -43,7 +43,9 @@ export const tryToParse = (value: string) => {
 };
 
 export const parseObject = (obj: Record<string, any>) =>
-  Object.fromEntries(Object.entries(obj).map(([key, value]) => [key, tryToParse(value)])) as Record<
-    string,
-    any
-  >;
+  Object.fromEntries(
+    Object.entries(obj).map(([key, value]) => [
+      key,
+      Array.isArray(value) ? value.map(tryToParse) : tryToParse(value),
+    ]),
+  ) as Record<string, any>;
