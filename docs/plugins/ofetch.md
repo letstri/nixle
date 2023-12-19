@@ -32,6 +32,8 @@ bun i @nixle/ofetch
 
 ## Setup
 
+To use ofetch in your services, you need to add the `ofetchPlugin` to the `plugins` array when creating the app.
+
 ```ts
 import { createApp } from 'nixle';
 import { ofetchPlugin } from '@nixle/ofetch';
@@ -52,7 +54,7 @@ To use ofetch in your services, you can use the `ofetch` function that is availa
 ```ts
 import { createService } from 'nixle';
 
-const usersService = createService('users', ({ ofetch }) => {
+const usersService = createService(({ ofetch }) => {
   const getUsers = async () => {
     const data = await ofetch('/users');
 

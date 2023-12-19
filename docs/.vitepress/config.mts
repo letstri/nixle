@@ -22,8 +22,9 @@ const overview = [
 
 const plugins = [
   { text: 'Create Plugin', link: '/plugins/custom' },
-  { text: 'CORS', link: '/plugins/cors' },
+  { text: 'Zod', link: '/plugins/zod' },
   { text: 'ofetch', link: '/plugins/ofetch' },
+  { text: 'CORS', link: '/plugins/cors' },
   { text: 'Swagger', link: '/plugins/swagger' },
 ];
 
@@ -42,6 +43,9 @@ export default defineConfig({
     //     indexName: 'nixle',
     //   },
     // },
+    search: {
+      provider: 'local',
+    },
     nav: [
       { text: 'Home', link: '/' },
       { text: 'Docs', link: '/introduction/getting-started' },
