@@ -8,17 +8,17 @@ var O = /* @__PURE__ */ ((E) => (E[E.CONTINUE = 100] = "CONTINUE", E[E.SWITCHING
 const V = (E, _) => Object.fromEntries(Object.entries(E).filter(([T]) => !_.includes(T))), F = (E) => E !== Object(E), v = (...E) => {
   const _ = p("", ...E), T = _.startsWith("/") ? _ : `/${_}`;
   return T.endsWith("/") ? T.slice(0, -1) : T;
-}, y = (E) => {
+}, M = (E) => {
   try {
     const _ = JSON.parse(E);
     return typeof _ == "number" || typeof _ == "boolean" || _ === void 0 || _ === null ? _ : E;
   } catch {
     return E;
   }
-}, M = (E) => Object.fromEntries(
+}, y = (E) => Object.fromEntries(
   Object.entries(E).map(([_, T]) => [
     _,
-    Array.isArray(T) ? T.map(y) : y(T)
+    Array.isArray(T) ? T.map(M) : M(T)
   ])
 ), f = H(), G = Symbol("NixleError");
 function L(E) {
@@ -81,15 +81,14 @@ const X = (E) => E?.__symbol === G, P = (E, _) => {
     E.createRoute({
       method: R.toLowerCase(),
       path: i,
-      middleware(I) {
-        f.emit("request", I), N?.middleware?.(I);
+      middleware(c) {
+        f.emit("request", c), N?.middleware?.(c);
       },
-      async handler(I) {
+      async handler(c) {
         const g = {
-          ...I,
-          query: M(I.query),
-          params: M(I.params),
-          body: M(I.body)
+          ...c,
+          query: y(c.query),
+          params: y(c.params)
         };
         try {
           await Promise.all([
@@ -97,14 +96,14 @@ const X = (E) => E?.__symbol === G, P = (E, _) => {
             N?.paramsValidation?.(g.params),
             N?.bodyValidation?.(g.body)
           ]);
-        } catch (c) {
-          return P(c, m), I.setStatusCode(c?.statusCode || O.BAD_REQUEST), b(c, O.BAD_REQUEST);
+        } catch (I) {
+          return P(I, m), c.setStatusCode(I?.statusCode || O.BAD_REQUEST), b(I, O.BAD_REQUEST);
         }
         try {
-          const c = await A(g);
-          return f.emit("response", c), N?.statusCode && I.setStatusCode(N.statusCode), c;
-        } catch (c) {
-          return P(c, m), b(c);
+          const I = await A(g);
+          return f.emit("response", I), N?.statusCode && c.setStatusCode(N.statusCode), I;
+        } catch (I) {
+          return P(I, m), b(I);
         }
       }
     }), m.success("🚏 Successfully registered");

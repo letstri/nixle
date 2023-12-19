@@ -38,7 +38,6 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
           ...context,
           query: parseObject(context.query),
           params: parseObject(context.params),
-          body: parseObject(context.body),
         };
 
         try {
