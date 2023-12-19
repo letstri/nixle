@@ -8,12 +8,15 @@ Nixle provides a simple way to throw exceptions.
 
 ## Overview
 
-To throw an exception, you have a possibility to use the `createError` function. This function takes a string with cause or an object with the following properties:
+To throw an exception in Nixle, you can use the `createError` function. This function accepts a string as the message and an optional second parameter as the status code or an object with the following properties:
 
-- `message` - A string with info.
+- `message` - A string with additional information.
 - `statusCode` - An error code.
+- `details` - An object with additional details.
 
-Or any other fields that you want to add.
+::: tip
+To set the status code, you can use the `StatusCode` enum.
+:::
 
 ```ts
 import { createError, StatusCode } from 'nixle';
@@ -21,7 +24,11 @@ import { createError, StatusCode } from 'nixle';
 export const usersService = createService('users', () => {
   const getUsers = async () => {
     if (Math.random() > 0.5) {
-      createError('You are unauthorized!');
+      if (Math.random() > 0.5) {
+        createError('You are unauthorized!');
+      } else {
+        createError('You are unauthorized!', StatusCode.FORBIDDEN);
+      }
     } else {
       createError({ message: 'You are unauthorized!', statusCode: StatusCode.UNAUTHORIZED });
     }

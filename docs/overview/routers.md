@@ -6,6 +6,10 @@ outline: deep
 
 Routers are a fundamental and essential part of the Nixle framework. They allow you to register routes and define the logic to handle incoming requests.
 
+::: tip
+Nixle currently supports only JSON bodies. Support for other body types will be added in future updates.
+:::
+
 ## Usage
 
 To create a router, you need to use the `createRouter` function.
@@ -198,12 +202,4 @@ export const usersRouter = createRouter(({ route }) => [
     handler: () => 'Hello World!',
   }),
 ]);
-```
-
-## Known issues
-
-For now Nixle supports only JSON body. Support for other body types will be added in the future.
-
-```
-
 ```
