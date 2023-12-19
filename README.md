@@ -103,12 +103,12 @@ import fastify from 'fastify';
 import { createApp, createRouter, createModule } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
-const server = createApp({
+const { app } = createApp({
   provider: fastifyProvider(fastify()),
   modules: [usersModule],
 });
 
-server.listen({ port: 4000 });
+app.listen({ port: 4000 });
 ```
 
 ## Author

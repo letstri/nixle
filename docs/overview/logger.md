@@ -72,7 +72,7 @@ interface ConsolaOptions {
 import { createApp } from 'nixle';
 import { someProvider } from '@nixle/some-provider';
 
-const server = createApp({
+const { app } = createApp({
   provider: someProvider(),
   logger: {
     // Any consola options
