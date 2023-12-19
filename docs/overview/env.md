@@ -54,7 +54,7 @@ interface DotenvConfigOptions {
    *
    * Specify a custom path if your file containing environment variables is located elsewhere.
    *
-   * example: `require('dotenv').config({ path: '/custom/path/to/.env' })`
+   * example: `{ path: '/custom/path/to/.env' }`
    */
   path?: string | URL;
 
@@ -63,7 +63,7 @@ interface DotenvConfigOptions {
    *
    * Specify the encoding of your file containing environment variables.
    *
-   * example: `require('dotenv').config({ encoding: 'latin1' })`
+   * example: `{ encoding: 'latin1' })
    */
   encoding?: string;
 
@@ -72,7 +72,7 @@ interface DotenvConfigOptions {
    *
    * Turn on logging to help debug why certain keys or values are not being set as you expect.
    *
-   * example: `require('dotenv').config({ debug: process.env.DEBUG })`
+   * example: `{ debug: process.env.DEBUG }`
    */
   debug?: boolean;
 
@@ -81,7 +81,7 @@ interface DotenvConfigOptions {
    *
    * Override any environment variables that have already been set on your machine with values from your .env file.
    *
-   * example: `require('dotenv').config({ override: true })`
+   * example: `{ override: true }`
    */
   override?: boolean;
 
@@ -90,7 +90,7 @@ interface DotenvConfigOptions {
    *
    * Specify an object to write your secrets to. Defaults to process.env environment variables.
    *
-   * example: `const processEnv = {}; require('dotenv').config({ processEnv: processEnv })`
+   * example: `const processEnv = {}; { processEnv: processEnv }`
    */
   processEnv?: DotenvPopulateInput;
 
@@ -99,7 +99,7 @@ interface DotenvConfigOptions {
    *
    * Pass the DOTENV_KEY directly to config options. Defaults to looking for process.env.DOTENV_KEY environment variable. Note this only applies to decrypting .env.vault files. If passed as null or undefined, or not passed at all, dotenv falls back to its traditional job of parsing a .env file.
    *
-   * example: `require('dotenv').config({ DOTENV_KEY: 'dotenv://:key_1234…@dotenv.org/vault/.env.vault?environment=production' })`
+   * example: `{ DOTENV_KEY: 'dotenv://:key_1234…@dotenv.org/vault/.env.vault?environment=production' }`
    */
   DOTENV_KEY?: string;
 }
