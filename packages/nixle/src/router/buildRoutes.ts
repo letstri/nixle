@@ -48,7 +48,7 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
           ]);
         } catch (error) {
           logError(error, log);
-          context.setStatusCode((error as NixleError<any>)?.statusCode || StatusCode.BAD_REQUEST);
+          context.setStatusCode((error as NixleError)?.statusCode || StatusCode.BAD_REQUEST);
           return transformErrorToResponse(error, StatusCode.BAD_REQUEST);
         }
 
@@ -63,13 +63,14 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
 
           return response;
         } catch (error) {
-          logError(error, log);
-          context.setStatusCode(
+          const statusCode =
             (error as NixleError<any>)?.statusCode || isNixleError(error)
               ? StatusCode.BAD_REQUEST
-              : StatusCode.INTERNAL_SERVER_ERROR,
-          );
-          return transformErrorToResponse(error);
+              : StatusCode.INTERNAL_SERVER_ERROR;
+
+          logError(error, log);
+          context.setStatusCode(statusCode);
+          return transformErrorToResponse(error, statusCode);
         }
       },
     });

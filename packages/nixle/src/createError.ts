@@ -5,7 +5,7 @@ import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
 
-export class NixleError<D> extends Error {
+export class NixleError<D = any> extends Error {
   constructor({
     statusCode,
     message,
@@ -43,13 +43,13 @@ export function createError(
     message,
     statusCode:
       typeof options === 'string'
-        ? StatusCode.INTERNAL_SERVER_ERROR
-        : options.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
+        ? StatusCode.BAD_REQUEST
+        : options.statusCode || StatusCode.BAD_REQUEST,
     details: typeof options === 'string' ? {} : options.details,
   });
 }
 
-export const isNixleError = (error: any): error is NixleError<unknown> => {
+export const isNixleError = (error: any): error is NixleError => {
   return error instanceof NixleError;
 };
 
@@ -85,7 +85,7 @@ export const transformErrorToResponse = (
   const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
   const _details = (isPrimitiveError && {}) || error.details || {};
 
-  const json: Omit<Pick<NixleError<any>, keyof NixleError<any>>, 'name'> = {
+  const json: Omit<Pick<NixleError, keyof NixleError>, 'name'> = {
     statusCode: _statusCode,
     message: _message,
     time: _time,
