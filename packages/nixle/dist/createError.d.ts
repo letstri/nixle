@@ -16,7 +16,7 @@ export declare function createError(options: {
     statusCode?: number;
     details?: any;
 }): never;
-export declare function createError(message: string): never;
+export declare function createError(message: string, statusCode?: StatusCode): never;
 export declare const isNixleError: (error: any) => error is NixleError<any>;
 export declare const logError: (error: any, _log: typeof log) => void;
-export declare const transformErrorToResponse: (error: any, statusCode?: StatusCode) => Omit<Pick<NixleError<any>, keyof NixleError<any>>, "name">;
+export declare const transformErrorToResponse: (error: any, statusCode: StatusCode) => Omit<Pick<NixleError<any>, keyof NixleError<any>>, "name">;

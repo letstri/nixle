@@ -71,9 +71,7 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
 
           return response;
         } catch (error) {
-          const statusCode = isNixleError(error)
-            ? error.statusCode
-            : (error as { statusCode?: number })?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
+          const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
 
           logError(error, log);
           context.setStatusCode(statusCode);

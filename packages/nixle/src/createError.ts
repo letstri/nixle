@@ -34,7 +34,7 @@ export function createError(options: {
   statusCode?: number;
   details?: any;
 }): never;
-export function createError(message: string): never;
+export function createError(message: string, statusCode?: StatusCode): never;
 
 export function createError(
   optionsOrMessage:
@@ -44,6 +44,7 @@ export function createError(
         statusCode?: number;
         details?: any;
       },
+  statusCode?: StatusCode,
 ): never {
   const message =
     typeof optionsOrMessage === 'string' ? optionsOrMessage : optionsOrMessage.message;
@@ -52,7 +53,7 @@ export function createError(
     message,
     statusCode:
       typeof optionsOrMessage === 'string'
-        ? StatusCode.BAD_REQUEST
+        ? statusCode || StatusCode.BAD_REQUEST
         : optionsOrMessage.statusCode || StatusCode.BAD_REQUEST,
     details: typeof optionsOrMessage === 'string' ? {} : optionsOrMessage.details || {},
   });
@@ -82,20 +83,16 @@ export const logError = (error: any, _log: typeof log) => {
   emitter.emit('error', error);
 };
 
-export const transformErrorToResponse = (
-  error: any,
-  statusCode = StatusCode.INTERNAL_SERVER_ERROR,
-) => {
+export const transformErrorToResponse = (error: any, statusCode: StatusCode) => {
   const defaultTime = dayjs().format();
   const isPrimitiveError = isPrimitive(error);
 
-  const _statusCode = (isPrimitiveError && statusCode) || error.statusCode || statusCode;
   const _message = (isPrimitiveError && error) || error.message || 'Internal Server Error';
   const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
   const _details = (isPrimitiveError && {}) || error.details || {};
 
   const json: Omit<Pick<NixleError, keyof NixleError>, 'name'> = {
-    statusCode: _statusCode,
+    statusCode,
     message: _message,
     time: _time,
     details: _details,
