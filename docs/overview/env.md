@@ -63,7 +63,7 @@ interface DotenvConfigOptions {
    *
    * Specify the encoding of your file containing environment variables.
    *
-   * example: `{ encoding: 'latin1' })
+   * example: `{ encoding: 'latin1' }`
    */
   encoding?: string;
 
