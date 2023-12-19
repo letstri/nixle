@@ -37,7 +37,8 @@ To set up your app, use the `createApp` function. Create a module with the `crea
 
 ```ts
 import { createRouter, createService, createModule } from 'nixle';
-import * as zod from 'zod';
+import { zodPlugin } from '@nixle/zod';
+import { ofetchPlugin } from '@nixle/ofetch';
 
 declare global {
   namespace Nixle {
@@ -47,15 +48,15 @@ declare global {
   }
 }
 
-const usersService = createService('users', ({ log, env }) => {
+const usersService = createService(({ log, env, ofetch }) => {
   const getUsers = async (limit: number) => {
-    log('Getting users...', { type: 'info' });
+    log.info('Getting users...');
 
-    const users = await fetch(`${env.USERS_SERVICE}/users`).then((res) => res.json());
+    const users = await ofetch<{ name: string; email: string }[]>(`${env.USERS_SERVICE}/users`);
 
-    log(`Got ${users.length} users`, { type: 'success' });
+    log.success(`Got ${users.length} users`);
 
-    return users as { name: string; email: string }[];
+    return users;
   };
 
   return {
@@ -63,20 +64,24 @@ const usersService = createService('users', ({ log, env }) => {
   };
 });
 
-const zodPagination = zod.object({
-  limit: zod.number().default(10),
+const usersRouter = createRouter('/users', {
+  services: {
+    usersService,
+  },
+  routes: ({ route, zodObject }, { usersService }) => [
+    route.get('/', {
+      queryValidation: zodObject({
+        limit: zod.number().default(10),
+      }).validate,
+      handler: ({ query }) => {
+        return usersService.getUsers(+query.limit);
+      },
+    }),
+  ],
 });
 
-const usersRouter = createRouter('/users', ({ route }) => [
-  route.get('/', {
-    queryValidation: zodPagination.parseAsync,
-    handler: ({ query }) => {
-      return usersService.getUsers(+query.limit);
-    },
-  }),
-]);
-
 export const usersModule = createModule({
+  plugins: [zodPlugin, ofetchPlugin()],
   routers: [usersRouter],
 });
 ```
