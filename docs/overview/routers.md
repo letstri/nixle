@@ -125,7 +125,7 @@ export const usersRouter = createRouter(({ route }) => [
 
 ### Validation
 
-You can validate the request body by using the `validate` method. For example, you can use the [`@nixle/zod`](/plugons/zod) plugin to validate the request information.
+You can validate the request body by using the `validate` method. For example, you can use the [`@nixle/zod`](/plugins/zod) plugin to validate the request information.
 
 ```ts
 import { createRouter } from 'nixle';
