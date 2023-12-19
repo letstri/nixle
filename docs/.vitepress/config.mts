@@ -35,16 +35,13 @@ export default defineConfig({
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     logo: '/logo.svg',
-    // search: {
-    //   provider: 'algolia',
-    //   options: {
-    //     appId: 'K256RER7U9',
-    //     apiKey: '486c7538d82a6ce997a0011b8e0dc253',
-    //     indexName: 'nixle',
-    //   },
-    // },
     search: {
-      provider: 'local',
+      provider: 'algolia',
+      options: {
+        appId: 'DROL3EC08C',
+        apiKey: '976689f629ffbbec502d2ad03c7f76a6',
+        indexName: 'nixle',
+      },
     },
     nav: [
       { text: 'Home', link: '/' },
