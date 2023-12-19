@@ -64,6 +64,9 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
           return response;
         } catch (error) {
           logError(error, log);
+          context.setStatusCode(
+            (error as NixleError<any>)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
+          );
           return transformErrorToResponse(error);
         }
       },
