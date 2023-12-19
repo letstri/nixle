@@ -5,14 +5,28 @@ import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
 
-export interface NixleError<D> {
-  time: string;
-  statusCode: number;
-  message: string;
+export class NixleError<D> extends Error {
+  constructor({
+    statusCode,
+    message,
+    details,
+  }: {
+    statusCode: StatusCode;
+    message: string;
+    details?: D;
+  }) {
+    super();
+    this.name = 'NixleError';
+    this.statusCode = statusCode;
+    this.message = message;
+    this.details = details;
+  }
+
+  time = dayjs().format();
+  statusCode = StatusCode.INTERNAL_SERVER_ERROR;
+  message = 'Internal Server Error';
   details?: D;
 }
-
-const errorSymbol = Symbol('NixleError');
 
 export function createError(
   options:
@@ -25,20 +39,18 @@ export function createError(
 ): never {
   const message = typeof options === 'string' ? options : options.message;
 
-  throw {
+  throw new NixleError({
     message,
     statusCode:
       typeof options === 'string'
         ? StatusCode.INTERNAL_SERVER_ERROR
         : options.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
-    time: dayjs().format(),
     details: typeof options === 'string' ? {} : options.details,
-    __symbol: errorSymbol,
-  } satisfies NixleError<unknown> & { __symbol: typeof errorSymbol };
+  });
 }
 
 export const isNixleError = (error: any): error is NixleError<unknown> => {
-  return error?.__symbol === errorSymbol;
+  return error instanceof NixleError;
 };
 
 export const logError = (error: any, _log: typeof log) => {
@@ -73,7 +85,7 @@ export const transformErrorToResponse = (
   const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
   const _details = (isPrimitiveError && {}) || error.details || {};
 
-  const json: NixleError<unknown> = {
+  const json: Omit<Pick<NixleError<any>, keyof NixleError<any>>, 'name'> = {
     statusCode: _statusCode,
     message: _message,
     time: _time,

@@ -4,7 +4,7 @@ import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
-import { StatusCode, type Route } from '..';
+import { StatusCode, type Route, isNixleError } from '..';
 import { joinPath, parseObject } from '~/utils/helpers';
 
 export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes: Route[]) => {
@@ -65,7 +65,9 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         } catch (error) {
           logError(error, log);
           context.setStatusCode(
-            (error as NixleError<any>)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR,
+            (error as NixleError<any>)?.statusCode || isNixleError(error)
+              ? StatusCode.BAD_REQUEST
+              : StatusCode.INTERNAL_SERVER_ERROR,
           );
           return transformErrorToResponse(error);
         }
