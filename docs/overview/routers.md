@@ -123,29 +123,6 @@ export const usersRouter = createRouter(({ route }) => [
 ]);
 ```
 
-### Validation
-
-You can validate the request body by using the `validate` method. For example, you can use the [`@nixle/zod`](/plugins/zod) plugin to validate the request information.
-
-```ts
-import { createRouter } from 'nixle';
-
-export const usersRouter = createRouter(({ route, zodObject }) => [
-  route.post('/users/:id', {
-    paramsValidation: zodObject((z) => ({
-      id: z.string(),
-    })),
-    queryValidation: zodObject((z) => ({
-      page: z.string(),
-    })),
-    bodyValidation: zodObject((z) => ({
-      name: z.string(),
-    })),
-    handler: () => 'Hello World!',
-  }),
-]);
-```
-
 ### Parameters
 
 In each route, you can use context parameters to get information about the request.
@@ -176,6 +153,57 @@ export const usersRouter = createRouter(({ route }) => [
 ]);
 ```
 
+### Validation
+
+You can validate the request body by using the `validate` method. For example, you can use the [`@nixle/zod`](/plugins/zod) plugin to validate the request information.
+
+```ts
+import { createRouter } from 'nixle';
+
+export const usersRouter = createRouter(({ route, zodObject }) => [
+  route.post('/users/:id', {
+    paramsValidation: zodObject((z) => ({
+      id: z.string(),
+    })),
+    queryValidation: zodObject((z) => ({
+      page: z.string(),
+    })),
+    bodyValidation: zodObject((z) => ({
+      name: z.string(),
+    })),
+    handler: () => 'Hello World!',
+  }),
+]);
+```
+
+### Middleware
+
+You can use middleware to execute code before the route handler. Context parameters are the same as in the route handler.
+
+```ts
+import { createRouter, StatusCode, createError } from 'nixle';
+
+export const usersRouter = createRouter(({ route }) => [
+  route.get('/users', {
+    middleware: async ({ getHeader }) => {
+      if (!getHeader('Authorization')) {
+        createError({
+          message: 'Unauthorized',
+          statusCode: StatusCode.UNAUTHORIZED,
+        });
+      }
+
+      await new Promise((resolve) => setTimeout(resolve, 1000)); // Some check function
+    },
+    handler: () => 'Hello World!',
+  }),
+]);
+```
+
 ## Known issues
 
 For now Nixle supports only JSON body. Support for other body types will be added in the future.
+
+```
+
+```
