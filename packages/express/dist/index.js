@@ -1,42 +1,43 @@
-import l from "cookie-parser";
-import n from "body-parser";
-import { createProvider as S } from "nixle";
-const g = /* @__PURE__ */ new Map([
+import c from "cookie-parser";
+import h from "body-parser";
+import { createProvider as l } from "nixle";
+const n = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), x = S((o) => (o.use(l()), o.use(n.json()), {
+]), H = l((o) => (o.use(c()), o.use(h.json()), {
   app: o,
-  globalMiddleware: (d) => o.use(async (t, i, s) => {
+  globalMiddleware: (d) => o.use(async (t, i, a) => {
     await d({
       url: t.url,
       method: t.method,
-      setHeader: (e, r) => i.setHeader(e, r),
-      getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
+      setHeader: (r, e) => i.setHeader(r, e),
+      getHeader: (r) => t.headers[r] ? String(t.headers[r]) : null,
       headers: t.headers
-    }), s();
+    }), a();
   }),
-  createRoute: ({ method: d, path: t, middleware: i, handler: s }) => o[d](t, async (e, r) => {
-    const m = {
-      request: e,
-      response: r,
-      method: e.method,
-      params: e.params || {},
-      query: e.query || {},
-      body: e.body,
-      setStatusCode: (a) => r.status(a),
-      setHeader: (a, c) => r.setHeader(a, c),
-      getHeader: (a) => e.headers[a] ? String(e.headers[a]) : null,
-      headers: e.headers,
-      getCookie: (a) => e.cookies[a] || null,
-      setCookie: (a, c, h) => r.cookie(a, c, {
-        ...h,
-        sameSite: g.get(h?.sameSite || "Strict") || "strict"
+  createRoute: ({ method: d, path: t, handler: i }) => o[d](t, async (a, r) => {
+    r.send(
+      await i({
+        request: a,
+        response: r,
+        method: a.method,
+        params: a.params || {},
+        query: a.query || {},
+        body: a.body,
+        setStatusCode: (e) => r.status(e),
+        setHeader: (e, s) => r.setHeader(e, s),
+        getHeader: (e) => a.headers[e] ? String(a.headers[e]) : null,
+        headers: a.headers,
+        getCookie: (e) => a.cookies[e] || null,
+        setCookie: (e, s, m) => r.cookie(e, s, {
+          ...m,
+          sameSite: n.get(m?.sameSite || "Strict") || "strict"
+        })
       })
-    };
-    await i(m), r.send(await s(m));
+    );
   })
 }));
 export {
-  x as expressProvider
+  H as expressProvider
 };

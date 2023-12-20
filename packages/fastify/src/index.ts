@@ -1,7 +1,7 @@
 import type { IncomingMessage, ServerResponse } from 'http';
-import type { FastifyInstance, FastifyReply, FastifyRequest } from 'fastify';
+import type { FastifyInstance } from 'fastify';
 import cookie from '@fastify/cookie';
-import { createProvider, type HTTPMethod, type RouteHandlerContext } from 'nixle';
+import { createProvider, type HTTPMethod } from 'nixle';
 
 declare global {
   namespace Nixle {
@@ -32,30 +32,28 @@ export const fastifyProvider = createProvider((app) => {
           headers: request.headers as Record<string, string>,
         });
       }),
-    createRoute: ({ method, path, middleware, handler }) =>
+    createRoute: ({ method, path, handler }) =>
       app[method](path, async (request, reply) => {
-        const handlerContext: RouteHandlerContext = {
-          request: request.raw,
-          response: reply.raw,
-          method: request.raw.method as HTTPMethod,
-          params: ({ ...(request.params || {}) } satisfies Record<string, string>) || {},
-          query: ({ ...(request.query || {}) } satisfies Record<string, string | string[]>) || {},
-          body: ({ ...(request.body || {}) } satisfies Record<string, string>) || {},
-          setStatusCode: (code) => reply.status(code),
-          setHeader: (key, value) => reply.header(key, value),
-          getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
-          headers: request.headers as Record<string, string>,
-          getCookie: (key) => request.cookies[key] || null,
-          setCookie: (key, value, options) =>
-            reply.setCookie(key, value, {
-              ...options,
-              sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
-            }),
-        };
-
-        const response = await middleware(handlerContext);
-
-        reply.send(await handler(handlerContext));
+        reply.send(
+          await handler({
+            request: request.raw,
+            response: reply.raw,
+            method: request.raw.method as HTTPMethod,
+            params: ({ ...(request.params || {}) } satisfies Record<string, string>) || {},
+            query: ({ ...(request.query || {}) } satisfies Record<string, string | string[]>) || {},
+            body: ({ ...(request.body || {}) } satisfies Record<string, string>) || {},
+            setStatusCode: (code) => reply.status(code),
+            setHeader: (key, value) => reply.header(key, value),
+            getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
+            headers: request.headers as Record<string, string>,
+            getCookie: (key) => request.cookies[key] || null,
+            setCookie: (key, value, options) =>
+              reply.setCookie(key, value, {
+                ...options,
+                sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
+              }),
+          }),
+        );
       }),
   };
 });

@@ -1,5 +1,5 @@
 import type { Elysia, Context } from 'elysia';
-import { createProvider, type HTTPMethod, isNixleError, type RouteHandlerContext } from 'nixle';
+import { createProvider, type HTTPMethod, isNixleError } from 'nixle';
 
 type ElysiaRequest = Context['request'];
 type ElysiaResponse = Context['set'];
@@ -39,9 +39,9 @@ export const elysiaProvider = createProvider((app) => {
           headers: Object.fromEntries(request.headers.entries()),
         });
       }),
-    createRoute: ({ method, path, middleware, handler }) =>
+    createRoute: ({ method, path, handler }) =>
       app[method](path, async (context) => {
-        const handlerContext: RouteHandlerContext = {
+        return handler({
           request: context.request,
           response: context.set,
           method: context.request.method as HTTPMethod,
@@ -62,11 +62,7 @@ export const elysiaProvider = createProvider((app) => {
             context.cookie[name].value = value;
           },
           getCookie: (name) => context.cookie[name].value || null,
-        };
-
-        await middleware(handlerContext);
-
-        return handler(handlerContext);
+        });
       }),
   };
 });

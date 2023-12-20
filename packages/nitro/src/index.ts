@@ -13,7 +13,7 @@ import {
   readBody,
 } from 'h3';
 import type { NitroApp } from 'nitropack';
-import { createProvider, type HTTPMethod, type RouteHandlerContext } from 'nixle';
+import { createProvider, type HTTPMethod } from 'nixle';
 
 declare global {
   namespace Nixle {
@@ -44,11 +44,11 @@ export const nitroProvider = createProvider((app) => {
           ) as Record<string, string>,
         });
       }),
-    createRoute: ({ method, path, middleware, handler }) =>
+    createRoute: ({ method, path, handler }) =>
       app.router.use(
         path,
         eventHandler(async (event) => {
-          const handlerContext: RouteHandlerContext = {
+          return handler({
             request: event.node.req,
             response: event.node.res,
             method: event.method as HTTPMethod,
@@ -67,11 +67,7 @@ export const nitroProvider = createProvider((app) => {
                 sameSite: sameSiteMap.get(options?.sameSite || 'Strict') || 'strict',
               }),
             getCookie: (name) => getCookie(event, name) || null,
-          };
-
-          await middleware(handlerContext);
-
-          return handler(handlerContext);
+          });
         }),
         method,
       ),
