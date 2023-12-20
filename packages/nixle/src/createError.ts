@@ -21,11 +21,15 @@ const renderer: any = {
 
   codeLine(num: string, base: string, src: string, isLast: boolean) {
     let prefix = base ? ' > ' : '   ';
-    let lineNum = prefix + num + ' ';
+    let lineNum = '';
 
-    if (base) lineNum = colorize('bgRed', lineNum);
+    if (base) {
+      lineNum = colorize('bgRed', lineNum);
+    } else {
+      lineNum = colorize('dim', prefix + num + ' ');
+    }
 
-    let line = lineNum + '|' + src;
+    let line = lineNum + colorize('dim', '|') + src;
 
     if (!isLast) line += '\n';
 
