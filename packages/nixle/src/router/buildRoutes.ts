@@ -47,6 +47,15 @@ export const buildRoutes = (appOptions: AppOptions, router: Router) => {
         };
 
         try {
+          await options?.middleware?.(_context);
+        } catch (error) {
+          const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
+
+          context.setStatusCode(statusCode);
+          return transformErrorToResponse(error, statusCode);
+        }
+
+        try {
           if (router.guards.length) {
             await Promise.all(router.guards.map((guard) => guard(_context)));
           }
@@ -67,8 +76,6 @@ export const buildRoutes = (appOptions: AppOptions, router: Router) => {
         }
 
         try {
-          await options?.middleware?.(_context);
-
           const response = await options.handler(_context);
 
           emitter.emit('response', response);
