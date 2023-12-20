@@ -1,10 +1,54 @@
 import dayjs from 'dayjs';
-import createCallsiteRecord, { renderers } from 'callsite-record';
+import createCallsiteRecord from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
 import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
+
+const renderer: any = {
+  syntax: {
+    string: (...m: string[]) => colorize('green', m.join('')),
+    punctuator: (...m: string[]) => colorize('gray', m.join('')),
+    keyword: (...m: string[]) => colorize('cyan', m.join('')),
+    number: (...m: string[]) => colorize('magenta', m.join('')),
+    regex: (...m: string[]) => colorize('magenta', m.join('')),
+    comment: (...m: string[]) => colorize('gray', colorize('bold', m.join(''))),
+    invalid: (...m: string[]) => colorize('inverse', m.join('')),
+  },
+
+  codeFrame: (v: any) => v.slice(1),
+
+  codeLine(num: string, base: string, src: string, isLast: boolean) {
+    let prefix = base ? ' > ' : '   ';
+    let lineNum = prefix + num + ' ';
+
+    if (base) lineNum = colorize('bgRed', lineNum);
+
+    let line = lineNum + '|' + src;
+
+    if (!isLast) line += '\n';
+
+    return line;
+  },
+
+  stackLine(name: string, location: string, isLast: boolean) {
+    let line =
+      `   ${colorize('dim', 'at')} ` +
+      name +
+      ' (' +
+      colorize('blueBright', colorize('underline', location)) +
+      ')';
+
+    if (!isLast) line += '\n';
+
+    return line;
+  },
+
+  stack(stack: string) {
+    return '\n\n' + stack;
+  },
+};
 
 export class NixleError<D = any> extends Error {
   constructor({
@@ -34,12 +78,17 @@ const formatErrorStack = (error: Error) => {
   const stack = createCallsiteRecord({
     forError: error,
     isCallsiteFrame: (frame) =>
-      !!frame.fileName &&
-      !frame.fileName.includes('node_modules') &&
-      !frame.fileName.includes('node:') &&
-      !frame.fileName.includes('nixle/dist'),
+      !!frame.source &&
+      !frame.source.includes('node_modules') &&
+      !frame.source.includes('node:') &&
+      !frame.source.includes('nixle/dist'),
   })?.renderSync({
-    renderer: renderers.noColor,
+    renderer,
+    stackFilter: (frame) =>
+      !!frame.source &&
+      !frame.source.includes('node_modules') &&
+      !frame.source.includes('node:') &&
+      !frame.source.includes('nixle/dist'),
   });
 
   return stack;
