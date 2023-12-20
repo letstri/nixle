@@ -196,7 +196,7 @@ Guards are used to protect routes. They are executed before the route handler. I
 ```ts
 import { createRouter, StatusCode, createError, createGuard } from 'nixle';
 
-const authGuard = createGuard(async ({ getHeader }) => {
+const authGuard = createGuard('auth', async ({ getHeader }) => {
   const token = getHeader('Authorization');
 
   // Or you can use some library to verify the token
