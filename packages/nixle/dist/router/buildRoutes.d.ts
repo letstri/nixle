@@ -1,3 +1,3 @@
 import type { AppOptions } from '../createApp';
-import { type Route } from '..';
-export declare const buildRoutes: ({ provider }: AppOptions, routerPath: string, routes: Route[]) => void;
+import { type Router } from '..';
+export declare const buildRoutes: (appOptions: AppOptions, router: Router) => void;

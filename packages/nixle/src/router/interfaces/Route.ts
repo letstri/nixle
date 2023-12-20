@@ -1,4 +1,5 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '~/index';
+import type { Guard } from '../../createGuard';
 
 export interface RouteHandler<P extends unknown, Q extends unknown, B extends unknown> {
   (context: {
@@ -191,6 +192,19 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * }
    */
   handler: RouteHandler<P, Q, B>;
+  /**
+   * Guards.
+   *
+   * @example
+   * guards: [
+   *   createGuard(async ({ getCookie }) => {
+   *     if (!getCookie('token')) {
+   *       createError('Token is required', StatusCodes.UNAUTHORIZED);
+   *     }
+   *   }),
+   * ]
+   */
+  guards?: Guard[];
 }
 
 export type RouteHandlerContext<

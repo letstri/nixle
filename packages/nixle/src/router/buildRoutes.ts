@@ -4,11 +4,13 @@ import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
-import { StatusCode, type Route, isNixleError } from '..';
+import { StatusCode, type Router } from '..';
 import { joinPath, parseObject } from '~/utils/helpers';
 
-export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes: Route[]) => {
-  const log = contextLog(routerPath || '/', 'bgGreen');
+export const buildRoutes = (appOptions: AppOptions, router: Router) => {
+  const routerPath = joinPath(appOptions.globalPrefix || '', router.path || '');
+  const routerLog = contextLog(routerPath, 'bgGreen');
+  const routes = router.routes();
 
   try {
     if (routes.length === 0) {
@@ -17,29 +19,27 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });
     }
-    if (routes.some(({ path, method, handler }) => !path || !method || !handler)) {
+    if (routes.some(({ path, method, options }) => !path || !method || !options.handler)) {
       createError({
         message: 'Path, method and handler are required for each route',
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });
     }
   } catch (e) {
-    logError(e, log);
+    logError(e, routerLog);
     process.exit(1);
   }
 
-  routes.forEach(({ path, method, options, handler }) => {
+  routes.forEach(({ path, method, options }) => {
     const routePath = joinPath(routerPath, path);
     const log = contextLog(`${colors.bold(method)} ${routePath}`, 'bgGreen');
 
-    provider.createRoute({
+    appOptions.provider.createRoute({
       method: method.toLowerCase() as Lowercase<HTTPMethod>,
       path: routePath,
-      middleware(context) {
-        emitter.emit('request', context);
-        options?.middleware?.(context);
-      },
       async handler(context) {
+        emitter.emit('request', context);
+
         const _context = {
           ...context,
           query: parseObject(context.query),
@@ -47,6 +47,13 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         };
 
         try {
+          if (router.guards.length) {
+            await Promise.all(router.guards.map((guard) => guard(_context)));
+          }
+          if (options?.guards?.length) {
+            await Promise.all(options.guards.map((guard) => guard(_context)));
+          }
+
           await Promise.all([
             options?.queryValidation?.(_context.query),
             options?.paramsValidation?.(_context.params),
@@ -55,13 +62,14 @@ export const buildRoutes = ({ provider }: AppOptions, routerPath: string, routes
         } catch (error) {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.BAD_REQUEST;
 
-          logError(error, log);
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
         }
 
         try {
-          const response = await handler(_context);
+          await options?.middleware?.(_context);
+
+          const response = await options.handler(_context);
 
           emitter.emit('response', response);
 

@@ -3,8 +3,7 @@ import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 interface Route<P extends unknown = any, Q extends unknown = any, B extends unknown = any> {
   path: string;
   method: HTTPMethod;
-  options?: RouteOptions<P, Q, B>;
-  handler: RouteHandler<P, Q, B>;
+  options: RouteOptions<P, Q, B>;
 }
 
 const formatMethod = <P extends unknown, Q extends unknown, B extends unknown>(
@@ -16,7 +15,9 @@ const formatMethod = <P extends unknown, Q extends unknown, B extends unknown>(
     return {
       path,
       method,
-      handler: optionsOrHandler,
+      options: {
+        handler: optionsOrHandler,
+      },
     };
   }
 
@@ -24,7 +25,6 @@ const formatMethod = <P extends unknown, Q extends unknown, B extends unknown>(
     path,
     method,
     options: optionsOrHandler,
-    handler: optionsOrHandler.handler,
   };
 };
 

@@ -28,6 +28,7 @@ export { createApp, type NixleApp } from './createApp';
 export { createModule, type Module } from './modules/createModule';
 export * from './router';
 export { createService } from './service/createService';
+export * from './createGuard';
 export { createProvider, type Provider } from './provider/createProvider';
 export { createError, isNixleError } from './createError';
 export { createPlugin } from './plugins/createPlugin';

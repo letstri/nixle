@@ -2,6 +2,7 @@ import { contextLog, log } from '~/logger';
 import { type Route, route } from './createRoute';
 import type { Service } from '~/service/createService';
 import { StatusCode, createError } from '..';
+import type { Guard } from '~/createGuard';
 
 const extendRouterOptions = (options: Record<string, unknown>) => {
   __NIXLE.routerOptions = {
@@ -23,17 +24,17 @@ interface RouterRoutesFunction<S extends Record<string, Service> = Record<string
 
 interface RouterOptions<S extends Record<string, Service>> {
   services?: S;
+  guards?: Guard[];
   routes: RouterRoutesFunction<S>;
 }
 
 export interface Router<S extends Record<string, Service> = Record<string, Service>> {
-  path?: string;
-  services?: S;
+  path: string;
+  services: S;
+  guards: Guard[];
   routes: () => Route[];
 }
 
-function createRouter<S extends Record<string, Service>>(options: RouterOptions<S>): Router<S>;
-function createRouter(routes: RouterRoutesFunction<any>): Router<any>;
 function createRouter<S extends Record<string, Service>>(
   path: string,
   options: RouterOptions<S>,
@@ -41,39 +42,30 @@ function createRouter<S extends Record<string, Service>>(
 function createRouter(path: string, routes: RouterRoutesFunction): Router;
 
 function createRouter<S extends Record<string, Service>>(
-  pathOrOptionsOrRoutes: string | RouterOptions<S> | RouterRoutesFunction<S>,
+  path: string,
   optionsOrRoutes?: RouterOptions<S> | RouterRoutesFunction<S>,
 ): Router<S> {
-  if (typeof pathOrOptionsOrRoutes === 'string' && !optionsOrRoutes) {
+  const isObject = typeof optionsOrRoutes === 'object';
+
+  if (!optionsOrRoutes || (isObject && !optionsOrRoutes.routes)) {
     createError({
-      message: 'Missing options',
+      message: 'Routes are required',
       statusCode: StatusCode.INTERNAL_SERVER_ERROR,
     });
   }
 
-  const _path = typeof pathOrOptionsOrRoutes === 'string' ? pathOrOptionsOrRoutes : '';
   const _services =
-    typeof pathOrOptionsOrRoutes === 'string' // path
-      ? typeof optionsOrRoutes === 'function' // routes
-        ? ({} as S)
-        : optionsOrRoutes?.services || ({} as S)
-      : typeof pathOrOptionsOrRoutes === 'function'
-      ? ({} as S)
-      : pathOrOptionsOrRoutes.services || ({} as S);
-  const _routesFunction: RouterRoutesFunction<S> =
-    typeof pathOrOptionsOrRoutes === 'string' // path
-      ? typeof optionsOrRoutes === 'function' // routes
-        ? optionsOrRoutes
-        : optionsOrRoutes!.routes
-      : typeof pathOrOptionsOrRoutes === 'function' // routes
-      ? pathOrOptionsOrRoutes
-      : pathOrOptionsOrRoutes.routes;
+    typeof optionsOrRoutes === 'function' ? ({} as S) : optionsOrRoutes?.services || ({} as S);
+  const _routesFunction: RouterRoutesFunction<S> = isObject
+    ? optionsOrRoutes.routes
+    : optionsOrRoutes;
+  const _guards = isObject ? optionsOrRoutes.guards || [] : [];
 
   const formatRoutes = () => {
     return _routesFunction(
       {
         route,
-        log: _path ? contextLog(_path, 'bgGreen') : log,
+        log: contextLog(path, 'bgGreen'),
         env: __NIXLE.env || {},
         ...__NIXLE.routerOptions,
       },
@@ -87,26 +79,11 @@ function createRouter<S extends Record<string, Service>>(
     );
   };
 
-  // routes
-  if (typeof pathOrOptionsOrRoutes === 'function') {
-    return {
-      routes: formatRoutes,
-    };
-  }
-
-  // path
-  if (typeof pathOrOptionsOrRoutes === 'string') {
-    return {
-      path: _path,
-      routes: formatRoutes,
-      services: _services,
-    };
-  }
-
-  // options
   return {
+    path,
     routes: formatRoutes,
     services: _services,
+    guards: _guards,
   };
 }
 

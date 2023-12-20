@@ -13,12 +13,16 @@ interface ServiceOptions {
 }
 
 export interface Service<M extends unknown = unknown> {
-  (name: string): M;
+  (context: string): M;
 }
 
 export const createService =
   <M extends unknown = unknown>(
     service: (options: ServiceOptions & Nixle.ServiceOptions) => M,
   ): Service<M> =>
-  (name: string): M =>
-    service({ log: contextLog(name, 'bgCyan'), env: __NIXLE.env || {}, ...__NIXLE.serviceOptions });
+  (context: string): M =>
+    service({
+      log: contextLog(context, 'bgCyan'),
+      env: __NIXLE.env || {},
+      ...__NIXLE.serviceOptions,
+    });

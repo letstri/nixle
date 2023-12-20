@@ -2,8 +2,7 @@ import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 interface Route<P extends unknown = any, Q extends unknown = any, B extends unknown = any> {
     path: string;
     method: HTTPMethod;
-    options?: RouteOptions<P, Q, B>;
-    handler: RouteHandler<P, Q, B>;
+    options: RouteOptions<P, Q, B>;
 }
 declare const route: {
     get: <P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>) => Route<P, Q, B>;

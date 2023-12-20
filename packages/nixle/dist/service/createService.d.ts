@@ -5,7 +5,7 @@ interface ServiceOptions {
     env: Nixle.Env;
 }
 export interface Service<M extends unknown = unknown> {
-    (name: string): M;
+    (context: string): M;
 }
 export declare const createService: <M extends unknown = unknown>(service: (options: ServiceOptions & Nixle.ServiceOptions) => M) => Service<M>;
 export {};
