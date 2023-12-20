@@ -1,6 +1,6 @@
 {
   "name": "@nixle/express",
-  "version": "0.12.11",
+  "version": "0.12.12",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
