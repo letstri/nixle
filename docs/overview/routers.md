@@ -18,7 +18,7 @@ To create a router, you need to use the `createRouter` function.
 ```ts
 import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter(({ route }) => [
+export const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => 'Hello World!'),
 ]);
 ```
@@ -52,18 +52,6 @@ fetch('http://localhost:4000/users')
 You can register simple routes by using the `route` object. The `route` object provides methods for different HTTP methods such as `get`, `post`, `delete`, etc. You can define the route path and the corresponding handler function to handle incoming requests for that route.
 
 <!-- prettier-ignore -->
-```ts
-import { createRouter } from 'nixle';
-
-export const usersRouter = createRouter(({ route }) => [
-  route.get('/', () => 'Hello World!'),
-]);
-```
-
-### Routes with base path
-
-You can add a base path to a router by passing it as the first argument to the `createRouter` function.
-
 ```ts
 import { createRouter } from 'nixle';
 
@@ -112,7 +100,9 @@ Simple routes are the most common type of routes. They allow you to register a r
 ```ts
 import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter(({ route }) => [route.get('/', () => 'Hello World!')]);
+export const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello World!'),
+]);
 ```
 
 ### Route as an object
@@ -120,8 +110,8 @@ export const usersRouter = createRouter(({ route }) => [route.get('/', () => 'He
 ```ts
 import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter(({ route }) => [
-  route.get('/users', {
+export const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', {
     handler: () => 'Hello World!',
   }),
 ]);
@@ -147,7 +137,7 @@ Available parameters:
 ```ts
 import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter(({ route }) => [
+export const usersRouter = createRouter('/users', ({ route }) => [
   route.get(
     '/',
     ({ params, body, query, url, method, getCookie, setCookie, getHeader, setHeader, headers }) => {
@@ -164,8 +154,8 @@ You can validate the request body by using the `validate` method. For example, y
 ```ts
 import { createRouter } from 'nixle';
 
-export const usersRouter = createRouter(({ route, zodObject }) => [
-  route.post('/users/:id', {
+export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
+  route.post('/:id', {
     paramsValidation: zodObject((z) => ({
       id: z.string(),
     })),
@@ -187,18 +177,47 @@ You can use middleware to execute code before the route handler. Context paramet
 ```ts
 import { createRouter, StatusCode, createError } from 'nixle';
 
-export const usersRouter = createRouter(({ route }) => [
-  route.get('/users', {
+export const usersRouter = createRouter('/users', ({ route, log }) => [
+  route.get('/', {
     middleware: async ({ getHeader }) => {
-      if (!getHeader('Authorization')) {
-        createError({
-          message: 'Unauthorized',
-          statusCode: StatusCode.UNAUTHORIZED,
-        });
-      }
+      log.info('Middleware executed');
 
       await new Promise((resolve) => setTimeout(resolve, 1000)); // Some check function
     },
+    handler: () => 'Hello World!',
+  }),
+]);
+```
+
+### Guards
+
+Guards are used to protect routes. They are executed before the route handler. If the guard returns an error, the route handler will not be executed.
+
+```ts
+import { createRouter, StatusCode, createError, createGuard } from 'nixle';
+
+const authGuard = createGuard(async ({ getHeader }) => {
+  const token = getHeader('Authorization');
+
+  // Or you can use some library to verify the token
+
+  if (!token) {
+    createError('Unauthorized', StatusCode.UNAUTHORIZED);
+  }
+});
+
+export const usersRouter = createRouter('/users', ({ route, log }) => [
+  guards: [authGuard],
+  route.get('/', () => 'Hello World!'),
+]);
+```
+
+Or you can use the `guards` property in the route object.
+
+```ts
+export const usersRouter = createRouter('/users', ({ route, log }) => [
+  route.get('/', {
+    guards: [authGuard],
     handler: () => 'Hello World!',
   }),
 ]);

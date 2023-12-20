@@ -35,12 +35,15 @@ bun i @nixle/nitro
 
 ## Setup
 
+<!-- prettier-ignore-start -->
 ```ts
 // server/plugins/nixle.ts
 import { createApp, createRouter, createModule } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 
-const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Nuxt!')]);
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello Nuxt!'),
+]);
 
 const usersModule = createModule({
   routers: [usersRouter],
@@ -53,6 +56,7 @@ export default defineNitroPlugin((nitroApp) => {
   });
 });
 ```
+<!-- prettier-ignore-end -->
 
 ---
 

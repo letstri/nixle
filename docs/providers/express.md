@@ -32,15 +32,20 @@ bun i @nixle/express
 
 ## Setup
 
+<!-- prettier-ignore-start -->
 ```ts
 import express from 'express';
 import { createApp, createModule, createRouter } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
-const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Express!')]);
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello Express!'),
+]);
+
 const usersModule = createModule({
   routers: [usersRouter],
 });
+
 const { app } = createApp({
   provider: expressProvider(express()),
   modules: [usersModule],
@@ -48,6 +53,7 @@ const { app } = createApp({
 
 app.listen(4000);
 ```
+<!-- prettier-ignore-end -->
 
 ---
 

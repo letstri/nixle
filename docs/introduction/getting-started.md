@@ -40,16 +40,20 @@ Nixle requires [Node.js](https://nodejs.org/en/) version 18+. 20+.
 
 Before you can create a server, you need to create a base. A base is a collection of modules and routes that form the foundation of your server. Once you have created a base, you can proceed to create [services](/overview/services) or explore other topics in the [Overview](/overview/app) section.
 
+<!-- prettier-ignore-start -->
 ```ts
 // usersModule.ts
 import { createModule, createRouter } from 'nixle';
 
-const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello World!')]);
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello World!'),
+]);
 
 const usersModule = createModule({
   routers: [usersRouter],
 });
 ```
+<!-- prettier-ignore-end -->
 
 ### Choose a provider
 

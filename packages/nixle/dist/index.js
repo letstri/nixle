@@ -166,8 +166,8 @@ const j = (E) => E instanceof y, U = (E, e) => {
           const L = R?.statusCode || s.BAD_REQUEST;
           return I.setStatusCode(L), M(R, L);
         }
-        await T?.middleware?.(l);
         try {
+          await T?.middleware?.(l);
           const R = await T.handler(l);
           return a.emit("response", R), T?.statusCode && I.setStatusCode(T.statusCode), R;
         } catch (R) {

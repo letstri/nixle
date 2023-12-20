@@ -54,8 +54,8 @@ In the router, you can use the `zodObject` parameter to validate the request inf
 ```ts
 import { createRouter } from 'nixle';
 
-const usersRouter = createRouter(({ route, zodObject }) => [
-  route.post('/users/:id', {
+const usersRouter = createRouter('/users', ({ route, zodObject }) => [
+  route.post('/:id', {
     paramsValidation: zodObject((z) => ({
       id: z.string(),
     })),

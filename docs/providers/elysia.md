@@ -32,15 +32,20 @@ bun i @nixle/elysia
 
 ## Setup
 
+<!-- prettier-ignore-start -->
 ```ts
 import { Elysia } from 'elysia';
 import { createApp, createModule, createRouter } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
 
-const usersRouter = createRouter('/users', ({ route }) => [route.get('/', () => 'Hello Elysia!')]);
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => 'Hello Elysia!'),
+]);
+
 const usersModule = createModule({
   routers: [usersRouter],
 });
+
 const { app } = createApp({
   provider: elysiaProvider(new Elysia()),
   modules: [usersModule],
@@ -48,6 +53,7 @@ const { app } = createApp({
 
 app.listen(4000);
 ```
+<!-- prettier-ignore-end -->
 
 ---
 
