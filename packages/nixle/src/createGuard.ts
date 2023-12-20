@@ -2,16 +2,16 @@ import { createError, StatusCode, type RouteHandlerContext } from '.';
 import type { NixleError } from './createError';
 
 export interface GuardFunction {
-  (context: RouteHandlerContext): Promise<void> | void;
+  (context: RouteHandlerContext & { env: Nixle.Env }): Promise<void> | void;
 }
 
 export interface Guard {
-  (context: RouteHandlerContext): Promise<void>;
+  (context: RouteHandlerContext & { env: Nixle.Env }): Promise<void>;
 }
 
 export const createGuard =
   (name: string, guard: GuardFunction): Guard =>
-  async (context: RouteHandlerContext) => {
+  async (context: RouteHandlerContext & { env: Nixle.Env }) => {
     try {
       await guard(context);
     } catch (e) {

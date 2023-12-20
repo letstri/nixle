@@ -1,5 +1,5 @@
-import { createConsola as F } from "consola";
-import { colorize as _, colors as v } from "consola/utils";
+import { createConsola as v } from "consola";
+import { colorize as _, colors as F } from "consola/utils";
 import b from "dayjs";
 import Q from "callsite-record";
 import { joinURL as u } from "ufo";
@@ -21,7 +21,7 @@ const Y = (E, e) => Object.fromEntries(Object.entries(E).filter(([r]) => !e.incl
     e,
     Array.isArray(r) ? r.map(h) : h(r)
   ])
-), L = G(), B = {
+), a = G(), B = {
   syntax: {
     string: (...E) => _("green", E.join("")),
     punctuator: (...E) => _("gray", E.join("")),
@@ -74,9 +74,9 @@ function t(E, e) {
     details: typeof E == "string" ? {} : E.details || {}
   });
 }
-const j = (E) => E instanceof y, f = (E, e) => {
+const X = (E) => E instanceof y, f = (E, e) => {
   let r = "";
-  if (j(E) || E instanceof Error ? r = E.message : p(E) ? r = E : r = `${E.constructor.name} ${JSON.stringify(E)}`, E && (!E.statusCode || E.statusCode >= R.INTERNAL_SERVER_ERROR))
+  if (X(E) || E instanceof Error ? r = E.message : p(E) ? r = E : r = `${E.constructor.name} ${JSON.stringify(E)}`, E && (!E.statusCode || E.statusCode >= R.INTERNAL_SERVER_ERROR))
     if (E instanceof Error) {
       const n = H(E);
       e.fatal(_("red", r), ...n ? [`
@@ -85,7 +85,7 @@ const j = (E) => E instanceof y, f = (E, e) => {
       e.fatal(_("red", r));
   else
     e.error(_("red", r));
-  L.emit("error", E);
+  a.emit("error", E);
 }, U = (E, e) => {
   const r = b().format(), n = p(E), i = n && E || E.message || "Internal Server Error", c = n && r || E.time || r, O = n && {} || E.details || {}, s = {
     statusCode: e,
@@ -104,8 +104,8 @@ const j = (E) => E instanceof y, f = (E, e) => {
       "details"
     ])
   }, s;
-}, d = (E) => {
-  __NIXLE.loggerInstance = F(E);
+}, j = (E) => {
+  __NIXLE.loggerInstance = v(E);
 }, N = (E, ...e) => {
   if (!__NIXLE.loggerInstance)
     return;
@@ -131,7 +131,7 @@ const j = (E) => E instanceof y, f = (E, e) => {
     r,
     (...i) => n(_(e, ` ${E} `), ...i)
   ])
-), X = (E, e) => {
+), d = (E, e) => {
   const r = P(E.globalPrefix || "", e.path || ""), n = m(r, "bgGreen"), i = e.routes();
   try {
     i.length === 0 && t({
@@ -145,12 +145,12 @@ const j = (E) => E instanceof y, f = (E, e) => {
     f(c, n), process.exit(1);
   }
   i.forEach(({ path: c, method: O, options: s }) => {
-    const a = P(r, c), g = m(`${v.bold(O)} ${a}`, "bgGreen");
+    const L = P(r, c), g = m(`${F.bold(O)} ${L}`, "bgGreen");
     E.provider.createRoute({
       method: O.toLowerCase(),
-      path: a,
+      path: L,
       async handler(I) {
-        L.emit("request", I);
+        a.emit("request", I);
         const A = {
           ...I,
           query: M(I.query),
@@ -163,7 +163,11 @@ const j = (E) => E instanceof y, f = (E, e) => {
           return I.setStatusCode(l), U(T, l);
         }
         try {
-          e.guards.length && await Promise.all(e.guards.map((T) => T(A))), s?.guards?.length && await Promise.all(s.guards.map((T) => T(A))), await Promise.all([
+          e.guards.length && await Promise.all(
+            e.guards.map((T) => T({ ...A, env: __NIXLE.env || {} }))
+          ), s?.guards?.length && await Promise.all(
+            s.guards.map((T) => T({ ...A, env: __NIXLE.env || {} }))
+          ), await Promise.all([
             s?.queryValidation?.(A.query),
             s?.paramsValidation?.(A.params),
             s?.bodyValidation?.(A.body)
@@ -174,7 +178,7 @@ const j = (E) => E instanceof y, f = (E, e) => {
         }
         try {
           const T = await s.handler(A);
-          return L.emit("response", T), s?.statusCode && I.setStatusCode(s.statusCode), T;
+          return a.emit("response", T), s?.statusCode && I.setStatusCode(s.statusCode), T;
         } catch (T) {
           const l = T?.statusCode || R.INTERNAL_SERVER_ERROR;
           return f(T, g), I.setStatusCode(l), U(T, l);
@@ -185,7 +189,7 @@ const j = (E) => E instanceof y, f = (E, e) => {
 }, w = (E) => {
   E.modules.forEach((e) => {
     e.options.routers.forEach((r) => {
-      X(E, r);
+      d(E, r);
     });
   });
 }, o = (E, e, r) => typeof r == "function" ? {
@@ -228,9 +232,9 @@ function RE(E, e) {
         ...__NIXLE.routerOptions
       },
       Object.entries(n).reduce(
-        (s, [a, g]) => ({
+        (s, [L, g]) => ({
           ...s,
-          [a]: g(a)
+          [L]: g(L)
         }),
         {}
       )
@@ -258,7 +262,7 @@ const z = (E) => {
     __NIXLE.env[e] = process.env[e];
   });
 }, iE = (E) => {
-  E.logger !== !1 && d(E.logger || {});
+  E.logger !== !1 && j(E.logger || {});
   try {
     E.provider || t({
       message: "Provider is required",
@@ -276,8 +280,8 @@ const z = (E) => {
   const e = {
     app: E.provider.app,
     events: {
-      on: L.on,
-      emit: L.emit
+      on: a.on,
+      emit: a.emit
     }
   };
   return D.success(`🔥 ${_("underline", "Application successfully started")}`), e;
@@ -307,5 +311,5 @@ export {
   RE as createRouter,
   cE as createService,
   Z as extendRouterOptions,
-  j as isNixleError
+  X as isNixleError
 };

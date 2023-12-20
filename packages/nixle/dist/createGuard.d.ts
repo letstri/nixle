@@ -1,8 +1,12 @@
 import { type RouteHandlerContext } from '.';
 export interface GuardFunction {
-    (context: RouteHandlerContext): Promise<void> | void;
+    (context: RouteHandlerContext & {
+        env: Nixle.Env;
+    }): Promise<void> | void;
 }
 export interface Guard {
-    (context: RouteHandlerContext): Promise<void>;
+    (context: RouteHandlerContext & {
+        env: Nixle.Env;
+    }): Promise<void>;
 }
 export declare const createGuard: (name: string, guard: GuardFunction) => Guard;

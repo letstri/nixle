@@ -57,10 +57,14 @@ export const buildRoutes = (appOptions: AppOptions, router: Router) => {
 
         try {
           if (router.guards.length) {
-            await Promise.all(router.guards.map((guard) => guard(_context)));
+            await Promise.all(
+              router.guards.map((guard) => guard({ ..._context, env: __NIXLE.env || {} })),
+            );
           }
           if (options?.guards?.length) {
-            await Promise.all(options.guards.map((guard) => guard(_context)));
+            await Promise.all(
+              options.guards.map((guard) => guard({ ..._context, env: __NIXLE.env || {} })),
+            );
           }
 
           await Promise.all([
