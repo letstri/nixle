@@ -14,7 +14,7 @@ To create a plugin, you need to create a function that accepts an application an
 import { createPlugin } from 'nixle';
 
 export const myPlugin = createPlugin('myPlugin', async ({ nixleApp, log }) => {
-  log('Hello from my plugin!');
+  log.info('Hello from my plugin!');
 });
 ```
 
@@ -55,7 +55,7 @@ import { createRouter } from 'nixle';
 
 const app = createRouter('/users', ({ route, log, someOption }) => [
   route.get('/', () => {
-    log(someOption);
+    log.info(someOption);
   }),
 ]);
 ```
@@ -88,7 +88,7 @@ import { createService } from 'nixle';
 
 const app = createService('users', ({ log, someOption }) => {
   const getUsers = async () => {
-    log(someOption);
+    log.info(someOption);
   };
 
   return {

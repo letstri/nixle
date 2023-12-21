@@ -21,7 +21,7 @@ import { createRouter, } from 'nixle';
 
 const usersRouter = createRouter('/users', ({ route, log }) => [
   route.get('/', () => {
-    log('Some log for debug', { type: 'debug' });
+    log.debug('Some log for debug');
 
     return [];
   }),
@@ -37,7 +37,7 @@ import { createService } from 'nixle';
 
 const usersService = createService(({ log }) => {
   const getUsers = () => {
-    log('Some log for debug', { type: 'debug' });
+    log.debug('Some log for debug'});
 
     return [];
   };
