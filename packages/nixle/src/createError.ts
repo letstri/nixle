@@ -78,17 +78,21 @@ const formatErrorStack = (error: Error) => {
   const stack = createCallsiteRecord({
     forError: error,
     isCallsiteFrame: (frame) =>
-      !!frame.source &&
-      !frame.source.includes('node_modules') &&
-      !frame.source.includes('node:') &&
-      !frame.source.includes('nixle/dist'),
+      isNixleError(error)
+        ? !!frame.source &&
+          !frame.source.includes('node_modules') &&
+          !frame.source.includes('node:') &&
+          !frame.source.includes('nixle/dist')
+        : true,
   })?.renderSync({
     renderer,
     stackFilter: (frame) =>
-      !!frame.source &&
-      !frame.source.includes('node_modules') &&
-      !frame.source.includes('node:') &&
-      !frame.source.includes('nixle/dist'),
+      isNixleError(error)
+        ? !!frame.source &&
+          !frame.source.includes('node_modules') &&
+          !frame.source.includes('node:') &&
+          !frame.source.includes('nixle/dist')
+        : true,
   });
 
   return stack;
