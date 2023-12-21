@@ -21,7 +21,7 @@ To set the status code, you can use the `StatusCode` enum.
 ```ts
 import { createError, StatusCode } from 'nixle';
 
-export const usersService = createService('users', () => {
+export const usersService = createService(() => {
   const getUsers = async () => {
     if (Math.random() > 0.5) {
       if (Math.random() > 0.5) {
@@ -48,7 +48,7 @@ To check an error, you can use the `isNixleError` function. This function takes 
 ```ts
 import { createService, createError, isNixleError } from 'nixle';
 
-const usersService = createService('users', () => {
+const usersService = createService(() => {
   const getUsers = async () => {
     try {
       createError('You are unauthorized!');

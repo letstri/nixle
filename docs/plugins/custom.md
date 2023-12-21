@@ -86,7 +86,7 @@ And then you can use the `someOption` in the service:
 ```ts
 import { createService } from 'nixle';
 
-const app = createService('users', ({ log, someOption }) => {
+const app = createService(({ log, someOption }) => {
   const getUsers = async () => {
     log.info(someOption);
   };
