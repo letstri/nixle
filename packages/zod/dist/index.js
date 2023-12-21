@@ -1,7 +1,7 @@
 import { createPlugin as m, createError as u, StatusCode as l } from "nixle";
-import * as r from "zod";
-const a = (t, e) => {
-  const s = r.object(typeof t == "function" ? t(r.z) : t);
+import * as o from "zod";
+const a = (e, t) => {
+  const s = o.object(typeof e == "function" ? e(o.z) : e);
   return {
     validate: async (c) => {
       try {
@@ -9,23 +9,24 @@ const a = (t, e) => {
       } catch (n) {
         const d = n;
         u({
-          message: e?.message || "Validation error",
-          statusCode: e?.statusCode || l.BAD_REQUEST,
+          message: t?.message || "Validation error",
+          statusCode: t?.statusCode || l.BAD_REQUEST,
           details: d.errors.reduce(
-            (i, o) => ({
+            (i, r) => ({
               ...i,
-              [o.path.join(".")]: o.message
+              [r.path.join(".")]: r.message
             }),
             {}
           )
         });
       }
-    }
+    },
+    $infer: {}
   };
-}, f = m("zod", ({ extendServiceOptions: t, extendRouterOptions: e }) => {
-  e({ zodObject: a }), t({ zodObject: a });
+}, z = m("zod", ({ extendServiceOptions: e, extendRouterOptions: t }) => {
+  t({ zodObject: a }), e({ zodObject: a });
 });
 export {
   a as zodObject,
-  f as zodPlugin
+  z as zodPlugin
 };

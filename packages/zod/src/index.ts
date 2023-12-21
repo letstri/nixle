@@ -22,6 +22,7 @@ interface ZodObject {
     options?: Options,
   ): {
     validate(data: any): Promise<_zod.infer<_zod.ZodObject<T>>>;
+    $infer: _zod.infer<_zod.ZodObject<T>>;
   };
 }
 
@@ -104,6 +105,7 @@ export const zodObject: ZodObject = (shape, options) => {
 
   return {
     validate,
+    $infer: {} as any,
   };
 };
 

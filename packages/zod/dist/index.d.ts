@@ -19,6 +19,7 @@ interface ZodObject {
         [K in string]: _zod.ZodTypeAny;
     }>(shape: T | ((zod: typeof _zod.z) => T), options?: Options): {
         validate(data: any): Promise<_zod.infer<_zod.ZodObject<T>>>;
+        $infer: _zod.infer<_zod.ZodObject<T>>;
     };
 }
 declare global {
