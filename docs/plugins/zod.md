@@ -96,3 +96,21 @@ const usersService = createService(({ zodObject }) => {
   };
 });
 ```
+
+### TypeScript
+
+To get the type of the validated object, you can use the `$infer` property.
+
+```ts
+import { createRouter } from 'nixle';
+import { zodObject } from '@nixle/zod';
+
+const user = zodObject((z) => ({
+  id: z.string(),
+  name: z.string(),
+}));
+
+type User = typeof user.$infer;
+
+// { id: string; name: string; }
+```
