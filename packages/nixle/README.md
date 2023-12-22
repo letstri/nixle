@@ -33,12 +33,11 @@ npm install nixle
 
 ## Usage
 
-To set up your app, use the `createApp` function. Create a module with the `createModule` function and import routes using the `createRouter` function. Additionally, you can create services with module-specific logic using the `createService` function.
+To set up your app, use the `createApp` function. Create a router with the `createRouter` function. Additionally, you can create services with module-specific logic using the `createService` function.
 
 ```ts
-import { createRouter, createService, createModule } from 'nixle';
-import { zodPlugin } from '@nixle/zod';
-import { ofetchPlugin } from '@nixle/ofetch';
+// usersRouter.ts
+import { createRouter, createService } from 'nixle';
 
 declare global {
   namespace Nixle {
@@ -64,7 +63,7 @@ const usersService = createService(({ log, env, ofetch }) => {
   };
 });
 
-const usersRouter = createRouter('/users', {
+export const usersRouter = createRouter('/users', {
   services: {
     usersService,
   },
@@ -78,11 +77,6 @@ const usersRouter = createRouter('/users', {
       },
     }),
   ],
-});
-
-export const usersModule = createModule({
-  plugins: [zodPlugin, ofetchPlugin()],
-  routers: [usersRouter],
 });
 ```
 
@@ -100,12 +94,16 @@ Then, import the `fastifyProvider` function and pass it to the `createApp` funct
 
 ```ts
 import fastify from 'fastify';
-import { createApp, createRouter, createModule } from 'nixle';
+import { createApp } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
+import { zodPlugin } from '@nixle/zod';
+import { ofetchPlugin } from '@nixle/ofetch';
+import { usersRouter } from './usersRouter';
 
 const { app } = createApp({
   provider: fastifyProvider(fastify()),
-  modules: [usersModule],
+  router: [usersRouter],
+  plugins: [zodPlugin, ofetchPlugin()],
 });
 
 app.listen({ port: 4000 });

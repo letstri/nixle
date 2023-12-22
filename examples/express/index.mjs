@@ -1,5 +1,5 @@
 import express from 'express';
-import { createApp, createModule, createRouter, createService } from 'nixle';
+import { createApp, createRouter, createService } from 'nixle';
 import { expressProvider } from '@nixle/express';
 
 const usersService = createService(({ log }) => {
@@ -25,13 +25,9 @@ const usersRouter = createRouter('/users', {
   ],
 });
 
-const usersModule = createModule({
-  routers: [usersRouter],
-});
-
 const { app } = createApp({
   provider: expressProvider(express()),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 app.listen(4000);

@@ -25,5 +25,5 @@ features:
     details: Wonderful TypeScript support for all frameworks and our code
   - title: Simple
     icon: 🔨
-    details: Connect to provider, create module > router > service and use. Just try it!
+    details: Connect to provider, create router > service and use. Just try it!
 ---

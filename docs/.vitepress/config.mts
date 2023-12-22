@@ -12,7 +12,6 @@ const providers = [
 
 const overview = [
   { text: 'App', link: '/overview/app' },
-  { text: 'Modules', link: '/overview/modules' },
   { text: 'Routers', link: '/overview/routers' },
   { text: 'Services', link: '/overview/services' },
   { text: 'Logger', link: '/overview/logger' },

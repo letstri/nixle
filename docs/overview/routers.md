@@ -25,17 +25,7 @@ export const usersRouter = createRouter('/users', ({ route }) => [
 
 <!-- prettier-ignore-end -->
 
-After that, you call the `createModule` function to create a module and register the router with the server.
-
-```ts
-import { createModule } from 'nixle';
-
-export const usersModule = createModule({
-  routers: [usersRouter],
-});
-```
-
-And try to send a request to the `/users` path.
+Connect it to `createApp` and try to send a request to the `/users` path.
 
 ```ts
 fetch('http://localhost:4000/users')

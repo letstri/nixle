@@ -77,6 +77,6 @@ const { app } = createApp({
   logger: {
     // Any consola options
   },
-  modules: [someModule],
+  router: [someRouter],
 });
 ```

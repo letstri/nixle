@@ -38,20 +38,16 @@ Nixle requires [Node.js](https://nodejs.org/en/) version 18+. 20+.
 
 ### Create base
 
-Before you can create a server, you need to create a base. A base is a collection of modules and routes that form the foundation of your server. Once you have created a base, you can proceed to create [services](/overview/services) or explore other topics in the [Overview](/overview/app) section.
+Before you can create a server, you need to create a base. A base is a collection routes that form the foundation of your server. Once you have created a base, you can proceed to create [services](/overview/services) or explore other topics in the [Overview](/overview/app) section.
 
 <!-- prettier-ignore-start -->
 ```ts
-// usersModule.ts
-import { createModule, createRouter } from 'nixle';
+// usersRouter.ts
+import { createRouter } from 'nixle';
 
-const usersRouter = createRouter('/users', ({ route }) => [
+export const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => 'Hello World!'),
 ]);
-
-const usersModule = createModule({
-  routers: [usersRouter],
-});
 ```
 <!-- prettier-ignore-end -->
 
@@ -64,12 +60,12 @@ Each provider provides the same functionality, but with different frameworks. Yo
 ```ts [Nuxt]
 import { createApp } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
-import { usersModule } from './usersModule';
+import { usersRouter } from './usersRouter';
 
 export default defineNitroPlugin((nitroApp) => {
   createApp({
     provider: nitroProvider(nitroApp),
-    modules: [usersModule],
+    routers: [usersRouter],
   });
 });
 ```
@@ -78,11 +74,11 @@ export default defineNitroPlugin((nitroApp) => {
 import express from 'express';
 import { createApp } from 'nixle';
 import { expressProvider } from '@nixle/express';
-import { usersModule } from './usersModule';
+import { usersRouter } from './usersRouter';
 
 const { app } = createApp({
   provider: expressProvider(express()),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 app.listen(3000);
@@ -92,11 +88,11 @@ app.listen(3000);
 import fastify from 'fastify';
 import { createApp } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
-import { usersModule } from './usersModule';
+import { usersRouter } from './usersRouter';
 
 const { app } = createApp({
   provider: fastifyProvider(app),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 app.listen({ port: 3000 });
@@ -106,11 +102,11 @@ app.listen({ port: 3000 });
 import { Elysia } from 'elysia';
 import { createApp } from 'nixle';
 import { elysiaProvider } from '@nixle/elysia';
-import { usersModule } from './usersModule';
+import { usersRouter } from './usersRouter';
 
 const { app } = createApp({
   provider: honoProvider(new Elysia()),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 app.listen(3000);
@@ -121,11 +117,11 @@ import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
 import { createApp } from 'nixle';
 import { honoProvider } from '@nixle/hono';
-import { usersModule } from './usersModule';
+import { usersRouter } from './usersRouter';
 
 const { app } = createApp({
   provider: honoProvider(app),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 serve(app, (info) => {

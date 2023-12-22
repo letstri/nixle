@@ -35,20 +35,16 @@ bun i @nixle/fastify
 <!-- prettier-ignore-start -->
 ```ts
 import fastify from 'fastify';
-import { createApp, createModule, createRouter } from 'nixle';
+import { createApp, createRouter } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
 
 const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => 'Hello Fastify!'),
 ]);
 
-const usersModule = createModule({
-  routers: [usersRouter],
-});
-
 const { app } = createApp({
   provider: fastifyProvider(fastify()),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 app.listen({ port: 4000 });

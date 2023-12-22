@@ -1,6 +1,6 @@
 import { Hono } from 'hono';
 import { serve } from '@hono/node-server';
-import { createApp, createModule, createRouter, createService } from 'nixle';
+import { createApp, createRouter, createService } from 'nixle';
 import { honoProvider } from '@nixle/hono';
 
 const usersService = createService(({ log }) => {
@@ -26,13 +26,9 @@ const usersRouter = createRouter('/users', {
   ],
 });
 
-const usersModule = createModule({
-  routers: [usersRouter],
-});
-
 const { app } = createApp({
   provider: honoProvider(new Hono()),
-  modules: [usersModule],
+  routers: [usersRouter],
 });
 
 serve(app, (info) => {

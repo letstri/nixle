@@ -1,11 +1,11 @@
 import type { ConsolaOptions } from 'consola';
 import type dotenv from 'dotenv';
-import type { Module } from './modules/createModule';
 import type { Provider } from './provider/createProvider';
 import type { Plugin } from './plugins/createPlugin';
+import { type Router } from '.';
 export interface AppOptions {
     provider: Provider;
-    modules: Module[];
+    routers: Router[];
     plugins?: Plugin[];
     logger?: Partial<ConsolaOptions> | false;
     env?: dotenv.DotenvConfigOptions;

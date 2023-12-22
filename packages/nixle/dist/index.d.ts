@@ -25,7 +25,6 @@ export type { HTTPMethod } from './types/HTTPMethod';
 export type { CookieOptions } from './types/CookieOptions';
 export { StatusCode } from './types/StatusCode';
 export { createApp, type NixleApp } from './createApp';
-export { createModule, type Module } from './modules/createModule';
 export * from './router';
 export { createService } from './service/createService';
 export * from './createGuard';

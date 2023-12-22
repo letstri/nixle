@@ -3,19 +3,18 @@ import { createLogger, log } from './logger';
 import type dotenv from 'dotenv';
 import { colorize } from 'consola/utils';
 
-import type { Module } from './modules/createModule';
-import { buildModules } from './modules/buildModules';
 import type { Provider } from './provider/createProvider';
 import { createError, logError } from './createError';
 import { emitter } from './emmiter';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
-import { StatusCode } from '.';
+import { StatusCode, type Router } from '.';
+import { buildRouter } from './router/buildRouter';
 
 export interface AppOptions {
   provider: Provider;
-  modules: Module[];
+  routers: Router[];
   plugins?: Plugin[];
   logger?: Partial<ConsolaOptions> | false;
   env?: dotenv.DotenvConfigOptions;
@@ -36,9 +35,9 @@ export const createApp = (options: AppOptions) => {
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });
     }
-    if (options.modules.length === 0) {
+    if (options.routers.length === 0) {
       createError({
-        message: 'At least one module is required',
+        message: 'At least one router is required',
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });
     }
@@ -52,7 +51,9 @@ export const createApp = (options: AppOptions) => {
   }
 
   buildEnv(options.env);
-  buildModules(options);
+  options.routers.forEach((router) => {
+    buildRouter(options, router);
+  });
 
   options.provider.globalMiddleware(({ setHeader }) => {
     setHeader('X-Powered-By', 'Nixle');

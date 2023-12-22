@@ -1,4 +1,4 @@
-import { createApp, createRouter, createModule, createService } from 'nixle';
+import { createApp, createRouter, createService } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 
 const usersService = createService(({ log }) => {
@@ -24,13 +24,9 @@ const usersRouter = createRouter('/users', {
   ],
 });
 
-const usersModule = createModule({
-  routers: [usersRouter],
-});
-
 export default defineNitroPlugin((nitroApp) => {
   createApp({
     provider: nitroProvider(nitroApp),
-    modules: [usersModule],
+    routers: [usersRouter],
   });
 });

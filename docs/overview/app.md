@@ -4,7 +4,7 @@ outline: deep
 
 # App
 
-App is the entry point of your application. It is a wrapper around the provider and provides a way to register modules.
+App is the entry point of your application. It is a wrapper around the provider and provides a way to register routers.
 
 ## Usage
 
@@ -12,7 +12,7 @@ Create an app with the `createApp` function. This function takes a config object
 
 - `globalPrefix` - A prefix that will be used for all routes.
 - `provider` - A provider that will be used to create a store.
-- `modules` - An array with modules.
+- `routers` - An array with routers.
 - `logger` - A [consola](/overview/logger) config that will be used to update options of the logger.
 - `env` - A [dotenv](/overview/env) config that will be used to load environment variables.
 - `plugins` - An array of plugins that will be used to extend the app.
@@ -20,12 +20,12 @@ Create an app with the `createApp` function. This function takes a config object
 ```ts
 import { createApp } from 'nixle';
 import { fastifyProvider } from '@nixle/fastify';
-import { usersModule } from './users';
+import { usersRouter } from './usersRouter';
 
 export const app = createApp({
   globalPrefix: '/api',
   provider: fastifyProvider(),
-  modules: [usersModule],
+  routers: [usersRouter],
   logger: {
     level: 3,
   },

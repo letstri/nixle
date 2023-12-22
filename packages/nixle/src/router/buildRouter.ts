@@ -7,7 +7,7 @@ import { emitter } from '~/emmiter';
 import { StatusCode, type Router } from '..';
 import { joinPath, parseObject } from '~/utils/helpers';
 
-export const buildRoutes = (appOptions: AppOptions, router: Router) => {
+export const buildRouter = (appOptions: AppOptions, router: Router) => {
   const routerPath = joinPath(appOptions.globalPrefix || '', router.path || '');
   const routerLog = contextLog(routerPath, 'bgGreen');
   const routes = router.routes();
