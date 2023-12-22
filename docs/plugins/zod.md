@@ -97,7 +97,7 @@ const usersService = createService(({ zodObject }) => {
 });
 ```
 
-### TypeScript
+## TypeScript
 
 To get the type of the validated object, you can use the `$infer` property.
 
