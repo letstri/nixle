@@ -36,11 +36,9 @@ const provider = createProvider((app) => {
 
         next();
       }),
-    createRoute: ({ method, path, middleware, handler }) =>
+    createRoute: ({ method, path, handler }) =>
       app[method](path, async (request, response) => {
         const formattedContext: RouteHandlerContext = {};
-
-        await middleware(formattedContext);
 
         return handler(formattedContext);
       }),
