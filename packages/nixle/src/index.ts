@@ -1,8 +1,8 @@
 declare global {
   var __NIXLE: {
     loggerInstance?: import('consola').ConsolaInstance;
-    routerOptions?: Nixle.RouterOptions;
-    serviceOptions?: Nixle.ServiceOptions;
+    routerContext?: Nixle.RouterContext;
+    serviceContext?: Nixle.ServiceContext;
     env?: Nixle.Env;
   };
 
@@ -10,8 +10,8 @@ declare global {
     interface Provider {}
     interface Request {}
     interface Response {}
-    interface RouterOptions {}
-    interface ServiceOptions {}
+    interface RouterContext {}
+    interface ServiceContext {}
     interface Env {
       [key: string]: string | undefined;
     }

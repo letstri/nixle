@@ -4,28 +4,27 @@ import type { Service } from '~/service/createService';
 import { StatusCode, createError } from '..';
 import type { Guard } from '~/createGuard';
 
-const extendRouterOptions = (options: Record<string, unknown>) => {
-  __NIXLE.routerOptions = {
-    ...__NIXLE.routerOptions,
-    ...options,
+const extendRouterContext = (context: Record<string, unknown>) => {
+  __NIXLE.routerContext = {
+    ...__NIXLE.routerContext,
+    ...context,
   };
 };
 
-interface RouterRoutesFunction<S extends Record<string, Service> = Record<string, Service>> {
-  (
-    options: {
-      route: typeof route;
-      log: typeof log;
-      env: Nixle.Env;
-    } & Nixle.RouterOptions,
-    services: { [K in keyof S]: ReturnType<S[K]> },
-  ): Route[];
+export interface RouterContext extends Nixle.RouterContext {
+  route: typeof route;
+  log: typeof log;
+  env: Nixle.Env;
+}
+
+interface RouterRoutesHandler<S extends Record<string, Service> = Record<string, Service>> {
+  (context: RouterContext, services: { [K in keyof S]: ReturnType<S[K]> }): Route[];
 }
 
 interface RouterOptions<S extends Record<string, Service>> {
   services?: S;
   guards?: Guard[];
-  routes: RouterRoutesFunction<S>;
+  routes: RouterRoutesHandler<S>;
 }
 
 export interface Router<S extends Record<string, Service> = Record<string, Service>> {
@@ -39,11 +38,11 @@ function createRouter<S extends Record<string, Service>>(
   path: string,
   options: RouterOptions<S>,
 ): Router<S>;
-function createRouter(path: string, routes: RouterRoutesFunction): Router;
+function createRouter(path: string, routes: RouterRoutesHandler): Router;
 
 function createRouter<S extends Record<string, Service>>(
   path: string,
-  optionsOrRoutes?: RouterOptions<S> | RouterRoutesFunction<S>,
+  optionsOrRoutes?: RouterOptions<S> | RouterRoutesHandler<S>,
 ): Router<S> {
   const isObject = typeof optionsOrRoutes === 'object';
 
@@ -56,7 +55,7 @@ function createRouter<S extends Record<string, Service>>(
 
   const _services =
     typeof optionsOrRoutes === 'function' ? ({} as S) : optionsOrRoutes?.services || ({} as S);
-  const _routesFunction: RouterRoutesFunction<S> = isObject
+  const _routesFunction: RouterRoutesHandler<S> = isObject
     ? optionsOrRoutes.routes
     : optionsOrRoutes;
   const _guards = isObject ? optionsOrRoutes.guards || [] : [];
@@ -67,7 +66,7 @@ function createRouter<S extends Record<string, Service>>(
         route,
         log: contextLog(path, 'bgGreen'),
         env: __NIXLE.env || {},
-        ...__NIXLE.routerOptions,
+        ...__NIXLE.routerContext,
       },
       Object.entries(_services).reduce(
         (acc, [key, service]) => ({
@@ -87,4 +86,4 @@ function createRouter<S extends Record<string, Service>>(
   };
 }
 
-export { createRouter, extendRouterOptions };
+export { createRouter, extendRouterContext };

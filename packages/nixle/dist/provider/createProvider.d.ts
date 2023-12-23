@@ -10,4 +10,4 @@ export interface Provider {
         handler: RouteHandler<any, any, any>;
     }) => void;
 }
-export declare const createProvider: (config: (app: Nixle.Provider) => Provider) => (app: Nixle.Provider) => Provider;
+export declare function createProvider(config: (app: Nixle.Provider) => Provider): (app: Nixle.Provider) => Provider;

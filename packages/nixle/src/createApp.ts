@@ -23,7 +23,7 @@ export interface AppOptions {
 
 export type NixleApp = ReturnType<typeof createApp>;
 
-export const createApp = (options: AppOptions) => {
+export function createApp(options: AppOptions) {
   if (options.logger !== false) {
     createLogger(options.logger || {});
   }
@@ -70,4 +70,4 @@ export const createApp = (options: AppOptions) => {
   log.success(`🔥 ${colorize('underline', 'Application successfully started')}`);
 
   return app;
-};
+}

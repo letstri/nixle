@@ -1,28 +1,64 @@
 import { contextLog, type log } from '../logger';
 
-export const extendServiceOptions = (options: Record<string, unknown>) => {
-  __NIXLE.serviceOptions = {
-    ...__NIXLE.serviceOptions,
+export const extendServiceContext = (options: Record<string, unknown>) => {
+  __NIXLE.serviceContext = {
+    ...__NIXLE.serviceContext,
     ...options,
   };
 };
 
-interface ServiceOptions {
+interface ServiceContext extends Nixle.ServiceContext {
   log: typeof log;
   env: Nixle.Env;
+}
+
+interface ServiceMethodsHandler<
+  M extends unknown,
+  S extends Record<string, Service> = Record<string, Service>,
+> {
+  (context: ServiceContext, services: { [K in keyof S]: ReturnType<S[K]> }): M;
+}
+
+interface ServiceOptions<M extends unknown, S extends Record<string, Service>> {
+  services?: S;
+  methods: ServiceMethodsHandler<M, S>;
 }
 
 export interface Service<M extends unknown = unknown> {
   (context: string): M;
 }
 
-export const createService =
-  <M extends unknown = unknown>(
-    service: (options: ServiceOptions & Nixle.ServiceOptions) => M,
-  ): Service<M> =>
-  (context: string): M =>
-    service({
-      log: contextLog(context, 'bgCyan'),
-      env: __NIXLE.env || {},
-      ...__NIXLE.serviceOptions,
-    });
+export function createService<
+  M extends unknown = unknown,
+  S extends Record<string, Service> = Record<string, Service>,
+>(options: ServiceOptions<M, S>): Service<M>;
+export function createService<M extends unknown = unknown>(
+  methods: ServiceMethodsHandler<M>,
+): Service<M>;
+
+export function createService<
+  M extends unknown = unknown,
+  S extends Record<string, Service> = Record<string, Service>,
+>(optionsOrMethods: ServiceOptions<M, S> | ServiceMethodsHandler<M, S>): Service<M> {
+  return (context: string) => {
+    const methods =
+      typeof optionsOrMethods === 'function' ? optionsOrMethods : optionsOrMethods.methods;
+    const _services =
+      typeof optionsOrMethods === 'function' ? ({} as S) : optionsOrMethods.services || ({} as S);
+
+    return methods(
+      {
+        log: contextLog(context, 'bgCyan'),
+        env: __NIXLE.env || {},
+        ...__NIXLE.serviceContext,
+      },
+      Object.entries(_services).reduce(
+        (acc, [key, service]) => ({
+          ...acc,
+          [key]: service(key),
+        }),
+        {} as { [K in keyof S]: ReturnType<S[K]> },
+      ),
+    );
+  };
+}

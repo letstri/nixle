@@ -9,9 +9,8 @@ export interface Guard {
   (context: RouteHandlerContext & { env: Nixle.Env }): Promise<void>;
 }
 
-export const createGuard =
-  (name: string, guard: GuardFunction): Guard =>
-  async (context: RouteHandlerContext & { env: Nixle.Env }) => {
+export function createGuard(name: string, guard: GuardFunction): Guard {
+  return async (context: RouteHandlerContext & { env: Nixle.Env }) => {
     try {
       await guard(context);
     } catch (e) {
@@ -22,3 +21,4 @@ export const createGuard =
       });
     }
   };
+}

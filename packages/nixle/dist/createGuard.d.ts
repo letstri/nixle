@@ -9,4 +9,4 @@ export interface Guard {
         env: Nixle.Env;
     }): Promise<void>;
 }
-export declare const createGuard: (name: string, guard: GuardFunction) => Guard;
+export declare function createGuard(name: string, guard: GuardFunction): Guard;

@@ -12,4 +12,6 @@ export interface Provider {
   }) => void;
 }
 
-export const createProvider = (config: (app: Nixle.Provider) => Provider) => config;
+export function createProvider(config: (app: Nixle.Provider) => Provider) {
+  return config;
+}

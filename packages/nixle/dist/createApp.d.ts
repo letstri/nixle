@@ -12,7 +12,7 @@ export interface AppOptions {
     globalPrefix?: string;
 }
 export type NixleApp = ReturnType<typeof createApp>;
-export declare const createApp: (options: AppOptions) => {
+export declare function createApp(options: AppOptions): {
     app: Nixle.Provider;
     events: {
         on: {
