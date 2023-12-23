@@ -1,9 +1,21 @@
 import { log } from './logger';
 import { StatusCode } from '.';
 interface ErrorOptions<D = any> {
+    /**
+     * @example User with id 1 not found
+     */
     message: string;
+    /**
+     * @default 400 Bad Request
+     */
     statusCode?: number;
+    /**
+     * @example user_not_found
+     */
     code?: string | number;
+    /**
+     * @example { id: 1 }
+     */
     details?: D;
 }
 export declare class NixleError<D = any> extends Error {
