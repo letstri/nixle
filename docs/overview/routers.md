@@ -10,7 +10,7 @@ Routers are a fundamental and essential part of the Nixle framework. They allow 
 Nixle currently supports only JSON bodies. Support for other body types will be added in future updates.
 :::
 
-## Usage
+## Creating
 
 To create a router, you need to use the `createRouter` function.
 
@@ -21,6 +21,20 @@ import { createRouter } from 'nixle';
 export const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => 'Hello World!'),
 ]);
+```
+
+## Usage
+
+To use a router, you need to pass it to the `routers` array when creating an application.
+
+<!-- prettier-ignore -->
+```ts
+import { createApp } from 'nixle';
+import { usersRouter } from './usersRouter';
+
+createApp({
+  routers: [usersRouter],
+})
 ```
 
 <!-- prettier-ignore-end -->
