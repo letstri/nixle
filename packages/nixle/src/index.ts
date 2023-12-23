@@ -1,11 +1,4 @@
 declare global {
-  var __NIXLE: {
-    loggerInstance?: import('consola').ConsolaInstance;
-    routerContext?: Nixle.RouterContext;
-    serviceContext?: Nixle.ServiceContext;
-    env?: Nixle.Env;
-  };
-
   namespace Nixle {
     interface Provider {}
     interface Request {}
@@ -17,8 +10,6 @@ declare global {
     }
   }
 }
-
-globalThis.__NIXLE = globalThis.__NIXLE || {};
 
 export type { HTTPMethod } from '~/types/HTTPMethod';
 export type { CookieOptions } from '~/types/CookieOptions';

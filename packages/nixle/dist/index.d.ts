@@ -1,10 +1,4 @@
 declare global {
-    var __NIXLE: {
-        loggerInstance?: import('consola').ConsolaInstance;
-        routerContext?: Nixle.RouterContext;
-        serviceContext?: Nixle.ServiceContext;
-        env?: Nixle.Env;
-    };
     namespace Nixle {
         interface Provider {
         }

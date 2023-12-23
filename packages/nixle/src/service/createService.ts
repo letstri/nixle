@@ -1,10 +1,10 @@
 import { contextLog, type log } from '../logger';
+import { env } from '~/env';
+
+let serviceContext: Nixle.ServiceContext = {};
 
 export const extendServiceContext = (options: Record<string, unknown>) => {
-  __NIXLE.serviceContext = {
-    ...__NIXLE.serviceContext,
-    ...options,
-  };
+  Object.assign(serviceContext, options);
 };
 
 interface ServiceContext extends Nixle.ServiceContext {
@@ -49,8 +49,8 @@ export function createService<
     return methods(
       {
         log: contextLog(context, 'bgCyan'),
-        env: __NIXLE.env || {},
-        ...__NIXLE.serviceContext,
+        env,
+        ...serviceContext,
       },
       Object.entries(_services).reduce(
         (acc, [key, service]) => ({

@@ -2,6 +2,7 @@ import { colors } from 'consola/utils';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
+import { env } from '~/env';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
 import { StatusCode, type Router } from '..';
@@ -57,14 +58,10 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
 
         try {
           if (router.guards.length) {
-            await Promise.all(
-              router.guards.map((guard) => guard({ ..._context, env: __NIXLE.env || {} })),
-            );
+            await Promise.all(router.guards.map((guard) => guard({ ..._context, env })));
           }
           if (options?.guards?.length) {
-            await Promise.all(
-              options.guards.map((guard) => guard({ ..._context, env: __NIXLE.env || {} })),
-            );
+            await Promise.all(options.guards.map((guard) => guard({ ..._context, env })));
           }
 
           await Promise.all([

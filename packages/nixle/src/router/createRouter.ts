@@ -3,12 +3,12 @@ import { type Route, route } from './createRoute';
 import type { Service } from '~/service/createService';
 import { StatusCode, createError } from '..';
 import type { Guard } from '~/createGuard';
+import { env } from '~/env';
+
+const routerContext: Nixle.RouterContext = {};
 
 const extendRouterContext = (context: Record<string, unknown>) => {
-  __NIXLE.routerContext = {
-    ...__NIXLE.routerContext,
-    ...context,
-  };
+  Object.assign(routerContext, context);
 };
 
 export interface RouterContext extends Nixle.RouterContext {
@@ -65,8 +65,8 @@ function createRouter<S extends Record<string, Service>>(
       {
         route,
         log: contextLog(path, 'bgGreen'),
-        env: __NIXLE.env || {},
-        ...__NIXLE.routerContext,
+        env,
+        ...routerContext,
       },
       Object.entries(_services).reduce(
         (acc, [key, service]) => ({

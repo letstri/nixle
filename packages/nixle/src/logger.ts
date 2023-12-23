@@ -1,20 +1,22 @@
-import { createConsola, type ConsolaOptions, type LogType } from 'consola';
+import { createConsola, type ConsolaOptions, type LogType, type ConsolaInstance } from 'consola';
 import { colorize, type ColorName } from 'consola/utils';
 import { createError } from '~/createError';
 import { StatusCode } from '.';
 
+let loggerInstance: ConsolaInstance;
+
 export const createLogger = (options: Partial<ConsolaOptions>) => {
-  __NIXLE.loggerInstance = createConsola(options);
+  loggerInstance = createConsola(options);
 };
 
 const _log = (type: LogType, ...messages: any[]) => {
-  if (!__NIXLE.loggerInstance) {
+  if (!loggerInstance) {
     return;
   }
 
   const nixleMessage = `${colorize('bgBlue', ' Nixle ')}`;
 
-  const method = __NIXLE.loggerInstance[type];
+  const method = loggerInstance[type];
 
   if (!method) {
     createError({
