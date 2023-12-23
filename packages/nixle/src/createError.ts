@@ -50,26 +50,25 @@ const renderer: any = {
   },
 };
 
+interface ErrorOptions<D = any> {
+  message: string;
+  statusCode?: number;
+  code?: string | number;
+  details?: D;
+}
+
 export class NixleError<D = any> extends Error {
-  constructor({
-    statusCode,
-    message,
-    details,
-  }: {
-    statusCode: StatusCode;
-    message: string;
-    details?: D;
-  }) {
+  constructor({ statusCode, message, details }: ErrorOptions<D>) {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = 'NixleError';
-    this.statusCode = statusCode;
+    this.statusCode = statusCode || StatusCode.BAD_REQUEST;
     this.message = message;
     this.details = details;
   }
 
   time = dayjs().format();
-  statusCode = StatusCode.BAD_REQUEST;
+  statusCode: StatusCode;
   message = 'Internal Server Error';
   details?: D;
 }
@@ -98,21 +97,11 @@ const formatErrorStack = (error: Error) => {
   return stack;
 };
 
-export function createError(options: {
-  message: string;
-  statusCode?: number;
-  details?: any;
-}): never;
+export function createError(options: ErrorOptions): never;
 export function createError(message: string, statusCode?: StatusCode): never;
 
 export function createError(
-  optionsOrMessage:
-    | string
-    | {
-        message: string;
-        statusCode?: number;
-        details?: any;
-      },
+  optionsOrMessage: string | ErrorOptions,
   statusCode?: StatusCode,
 ): never {
   const message =
@@ -124,6 +113,7 @@ export function createError(
       typeof optionsOrMessage === 'string'
         ? statusCode || StatusCode.BAD_REQUEST
         : optionsOrMessage.statusCode || StatusCode.BAD_REQUEST,
+    code: typeof optionsOrMessage === 'string' ? undefined : optionsOrMessage.code,
     details: typeof optionsOrMessage === 'string' ? {} : optionsOrMessage.details || {},
   });
 }
