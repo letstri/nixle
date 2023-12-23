@@ -61,6 +61,37 @@ export const usersService = createService(({ log, env }) => {
 });
 ```
 
+### Services inside service
+
+You can use other services inside your service. To do this, you need to pass the services to the `services` object when creating a service. Then, you can access the service's methods in the `methods` function by destructing the second parameter of the function.
+
+```ts
+import { createService } from 'nixle';
+
+const someAnotherService = createService(() => {
+  const getSomeData = () => {
+    return 'some data';
+  };
+
+  return { getSomeData };
+});
+
+export const usersService = createService({
+  services: {
+    someAnotherService,
+  },
+  methods: ({ log, env }, { someAnotherService }) => {
+    const getUsers = () => {
+      log.info(someAnotherService.getSomeData());
+      log.info('Getting users from site', env.SITE_URL);
+      return ['John', 'Jane'];
+    };
+
+    return { getUsers };
+  },
+});
+```
+
 ### More
 
 To use more parameters, you can install additional plugins. For example, the `@nixle/zod` plugin adds the `zodObject` parameter that allows you to validate any object.
