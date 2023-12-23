@@ -44,24 +44,7 @@ export const usersRouter = createRouter('/users', {
 });
 ```
 
-## Parameters
-
-You can destruct the `params` object to get some useful parameters.
-
-```ts
-import { createService } from 'nixle';
-
-export const usersService = createService(({ log, env }) => {
-  const getUsers = () => {
-    log.info('Getting users from site', env.SITE_URL);
-    return ['John', 'Jane'];
-  };
-
-  return { getUsers };
-});
-```
-
-### Services inside service
+## Services inside service
 
 You can use other services inside your service. To do this, you need to pass the services to the `services` object when creating a service. Then, you can access the service's methods in the `methods` function by destructing the second parameter of the function.
 
@@ -89,6 +72,23 @@ export const usersService = createService({
 
     return { getUsers };
   },
+});
+```
+
+## Parameters
+
+You can destruct the `params` object to get some useful parameters.
+
+```ts
+import { createService } from 'nixle';
+
+export const usersService = createService(({ log, env }) => {
+  const getUsers = () => {
+    log.info('Getting users from site', env.SITE_URL);
+    return ['John', 'Jane'];
+  };
+
+  return { getUsers };
 });
 ```
 
