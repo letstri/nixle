@@ -1,7 +1,7 @@
 import { type FetchOptions, type $Fetch } from 'ofetch';
 declare global {
     namespace Nixle {
-        interface ServiceOptions {
+        interface ServiceContext {
             ofetch: $Fetch;
         }
     }

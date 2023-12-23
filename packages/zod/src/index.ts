@@ -28,11 +28,11 @@ interface ZodObject {
 
 declare global {
   namespace Nixle {
-    interface ServiceOptions {
+    interface ServiceContext {
       zodObject: ZodObject;
     }
 
-    interface RouterOptions {
+    interface RouterContext {
       zodObject: ZodObject;
     }
   }
@@ -109,7 +109,7 @@ export const zodObject: ZodObject = (shape, options) => {
   };
 };
 
-export const zodPlugin = createPlugin('zod', ({ extendServiceOptions, extendRouterOptions }) => {
-  extendRouterOptions({ zodObject });
-  extendServiceOptions({ zodObject });
+export const zodPlugin = createPlugin('zod', ({ extendServiceContext, extendRouterContext }) => {
+  extendRouterContext({ zodObject });
+  extendServiceContext({ zodObject });
 });

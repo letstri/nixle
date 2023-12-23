@@ -3,13 +3,13 @@ import { ofetch, type FetchOptions, type $Fetch } from 'ofetch';
 
 declare global {
   namespace Nixle {
-    interface ServiceOptions {
+    interface ServiceContext {
       ofetch: $Fetch;
     }
   }
 }
 
 export const ofetchPlugin = (options?: FetchOptions) =>
-  createPlugin('ofetch', ({ extendServiceOptions }) => {
-    extendServiceOptions({ ofetch: ofetch.create(options || {}) });
+  createPlugin('ofetch', ({ extendServiceContext }) => {
+    extendServiceContext({ ofetch: ofetch.create(options || {}) });
   });

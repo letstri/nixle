@@ -23,7 +23,7 @@ const a = (e, t) => {
     },
     $infer: {}
   };
-}, z = m("zod", ({ extendServiceOptions: e, extendRouterOptions: t }) => {
+}, z = m("zod", ({ extendServiceContext: e, extendRouterContext: t }) => {
   t({ zodObject: a }), e({ zodObject: a });
 });
 export {

@@ -24,10 +24,10 @@ interface ZodObject {
 }
 declare global {
     namespace Nixle {
-        interface ServiceOptions {
+        interface ServiceContext {
             zodObject: ZodObject;
         }
-        interface RouterOptions {
+        interface RouterContext {
             zodObject: ZodObject;
         }
     }
