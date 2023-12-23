@@ -19,11 +19,12 @@ interface ErrorOptions<D = any> {
     details?: D;
 }
 export declare class NixleError<D = any> extends Error {
-    constructor({ statusCode, message, details }: ErrorOptions<D>);
+    constructor({ statusCode, message, details, code }: ErrorOptions<D>);
     time: string;
     statusCode: StatusCode;
     message: string;
     details?: D;
+    code?: string | number;
 }
 export declare function createError(options: ErrorOptions): never;
 export declare function createError(message: string, statusCode?: StatusCode): never;

@@ -70,19 +70,21 @@ interface ErrorOptions<D = any> {
 }
 
 export class NixleError<D = any> extends Error {
-  constructor({ statusCode, message, details }: ErrorOptions<D>) {
+  constructor({ statusCode, message, details, code }: ErrorOptions<D>) {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = 'NixleError';
     this.statusCode = statusCode || StatusCode.BAD_REQUEST;
     this.message = message;
     this.details = details;
+    this.code = code;
   }
 
   time = dayjs().format();
   statusCode: StatusCode;
   message = 'Internal Server Error';
   details?: D;
+  code?: string | number;
 }
 
 const formatErrorStack = (error: Error) => {
@@ -167,12 +169,14 @@ export const transformErrorToResponse = (error: any, statusCode: StatusCode) => 
   const _message = (isPrimitiveError && error) || error.message || 'Internal Server Error';
   const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
   const _details = (isPrimitiveError && {}) || error.details || {};
+  const _code = (isPrimitiveError && undefined) || error.code;
 
   const json: Omit<Pick<NixleError, keyof NixleError>, 'name'> = {
     statusCode,
     message: _message,
     time: _time,
     details: _details,
+    code: _code,
   };
 
   json.details = {
@@ -184,6 +188,7 @@ export const transformErrorToResponse = (error: any, statusCode: StatusCode) => 
       'statusCode',
       'time',
       'details',
+      'code',
     ]),
   };
 
