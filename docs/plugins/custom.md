@@ -29,7 +29,7 @@ There are two ways to extend the application:
 
 #### Router
 
-You can extend the router options by using function `extendRouterOptions`:
+You can extend the router options by using function `extendRouterContext`:
 
 ```ts
 import { createPlugin } from 'nixle';
@@ -43,8 +43,8 @@ declare global {
   }
 }
 
-export const myPlugin = createPlugin('myPlugin', async ({ extendRouterOptions }) => {
-  extendRouterOptions({ someOption: 'someValue' });
+export const myPlugin = createPlugin('myPlugin', async ({ extendRouterContext }) => {
+  extendRouterContext({ someOption: 'someValue' });
 });
 ```
 
@@ -62,7 +62,7 @@ const app = createRouter('/users', ({ route, log, someOption }) => [
 
 #### Services
 
-You can extend the services by using function `extendServiceOptions`:
+You can extend the services by using function `extendServiceContext`:
 
 ```ts
 import { createPlugin } from 'nixle';
@@ -70,14 +70,14 @@ import { createPlugin } from 'nixle';
 // To create TypeScript definitions
 declare global {
   namespace Nixle {
-    interface ServiceOptions {
+    interface ServiceContext {
       someOption: string;
     }
   }
 }
 
-export const myPlugin = createPlugin('myPlugin', async ({ extendServiceOptions }) => {
-  extendServiceOptions({ someOption: 'someValue' });
+export const myPlugin = createPlugin('myPlugin', async ({ extendServiceContext }) => {
+  extendServiceContext({ someOption: 'someValue' });
 });
 ```
 
