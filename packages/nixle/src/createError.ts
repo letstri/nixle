@@ -91,7 +91,7 @@ const formatErrorStack = (error: Error) => {
   const stack = createCallsiteRecord({
     forError: error,
     isCallsiteFrame: (frame) =>
-      isNixleError(error)
+      isNixleError(error) && error.statusCode < StatusCode.INTERNAL_SERVER_ERROR
         ? !!frame.source &&
           !frame.source.includes('node_modules') &&
           !frame.source.includes('node:') &&
@@ -100,7 +100,7 @@ const formatErrorStack = (error: Error) => {
   })?.renderSync({
     renderer,
     stackFilter: (frame) =>
-      isNixleError(error)
+      isNixleError(error) && error.statusCode < StatusCode.INTERNAL_SERVER_ERROR
         ? !!frame.source &&
           !frame.source.includes('node_modules') &&
           !frame.source.includes('node:') &&
