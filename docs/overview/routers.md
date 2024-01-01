@@ -73,7 +73,7 @@ You can use services in routes by passing them to the `services` object when cre
 ```ts{3-9,12-14}
 import { createRouter, createService } from 'nixle';
 
-const usersService = createService(() => {
+const usersService = createService('users', () => {
   const getUsers = () => {
     return ['John', 'Jane'];
   };

@@ -114,7 +114,7 @@ Then, you can access them in your service's factory function:
 ```ts
 import { createService } from 'nixle';
 
-const app = createService(({ env }) => {
+const app = createService('users', ({ env }) => {
   const getUsers = async () => {
     const users = await fetch(`${env.SOME_SERVICE_URL}/users`).then((res) => res.json());
 

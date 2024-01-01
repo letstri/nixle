@@ -54,7 +54,7 @@ To use ofetch in your services, you can use the `ofetch` function that is availa
 ```ts
 import { createService } from 'nixle';
 
-const usersService = createService(({ ofetch }) => {
+const usersService = createService('users', ({ ofetch }) => {
   const getUsers = async () => {
     const data = await ofetch('/users');
 

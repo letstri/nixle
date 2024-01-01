@@ -77,7 +77,7 @@ In the service, you can use the `zodObject` parameter to validate any object.
 ```ts
 import { createService } from 'nixle';
 
-const usersService = createService(({ zodObject }) => {
+const usersService = createService('users', ({ zodObject }) => {
   const updateUser = async (user) => {
     const { validate } = zodObject((z) => ({
       id: z.string(),

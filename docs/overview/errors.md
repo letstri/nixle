@@ -54,7 +54,7 @@ To check an error, you can use the `isNixleError` function. This function takes 
 ```ts
 import { createService, createError, isNixleError } from 'nixle';
 
-const usersService = createService(() => {
+const usersService = createService('users', () => {
   const getUsers = async () => {
     try {
       createError('You are unauthorized!');
