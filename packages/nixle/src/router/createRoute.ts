@@ -28,30 +28,42 @@ const formatMethod = <P extends unknown, Q extends unknown, B extends unknown>(
   };
 };
 
-const get = <P extends unknown, Q extends unknown, B extends unknown>(
+function get<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('GET', path, optionsOrHandler);
-const post = <P extends unknown, Q extends unknown, B extends unknown>(
+) {
+  return formatMethod('GET', path, optionsOrHandler);
+}
+function post<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('POST', path, optionsOrHandler);
-const patch = <P extends unknown, Q extends unknown, B extends unknown>(
+) {
+  return formatMethod('POST', path, optionsOrHandler);
+}
+function patch<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('PATCH', path, optionsOrHandler);
-const put = <P extends unknown, Q extends unknown, B extends unknown>(
+) {
+  return formatMethod('PATCH', path, optionsOrHandler);
+}
+function put<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('PUT', path, optionsOrHandler);
-const _delete = <P extends unknown, Q extends unknown, B extends unknown>(
+) {
+  return formatMethod('PUT', path, optionsOrHandler);
+}
+function _delete<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('DELETE', path, optionsOrHandler);
-const options = <P extends unknown, Q extends unknown, B extends unknown>(
+) {
+  return formatMethod('DELETE', path, optionsOrHandler);
+}
+function options<P extends unknown, Q extends unknown, B extends unknown>(
   path: string,
   optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>,
-) => formatMethod('OPTIONS', path, optionsOrHandler);
+) {
+  return formatMethod('OPTIONS', path, optionsOrHandler);
+}
 
 const route = {
   get,

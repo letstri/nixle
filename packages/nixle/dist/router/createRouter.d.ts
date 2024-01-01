@@ -1,6 +1,5 @@
 import { log } from '../logger';
 import { type Route, route } from './createRoute';
-import type { Service } from '../service/createService';
 import type { Guard } from '../createGuard';
 declare const extendRouterContext: (context: Record<string, unknown>) => void;
 export interface RouterContext extends Nixle.RouterContext {
@@ -8,22 +7,18 @@ export interface RouterContext extends Nixle.RouterContext {
     log: typeof log;
     env: Nixle.Env;
 }
-interface RouterRoutesHandler<S extends Record<string, Service> = Record<string, Service>> {
-    (context: RouterContext, services: {
-        [K in keyof S]: ReturnType<S[K]>;
-    }): Route[];
+interface RouterRoutesHandler {
+    (context: RouterContext): Route[];
 }
-interface RouterOptions<S extends Record<string, Service>> {
-    services?: S;
+interface RouterOptions {
     guards?: Guard[];
-    routes: RouterRoutesHandler<S>;
+    routes: RouterRoutesHandler;
 }
-export interface Router<S extends Record<string, Service> = Record<string, Service>> {
+export interface Router {
     path: string;
-    services: S;
     guards: Guard[];
     routes: () => Route[];
 }
-declare function createRouter<S extends Record<string, Service>>(path: string, options: RouterOptions<S>): Router<S>;
+declare function createRouter(path: string, options: RouterOptions): Router;
 declare function createRouter(path: string, routes: RouterRoutesHandler): Router;
 export { createRouter, extendRouterContext };

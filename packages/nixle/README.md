@@ -47,7 +47,7 @@ declare global {
   }
 }
 
-const usersService = createService(({ log, env, ofetch }) => {
+const usersService = createService('users', ({ log, env, ofetch }) => {
   const getUsers = async (limit: number) => {
     log.info('Getting users...');
 
@@ -63,21 +63,16 @@ const usersService = createService(({ log, env, ofetch }) => {
   };
 });
 
-export const usersRouter = createRouter('/users', {
-  services: {
-    usersService,
-  },
-  routes: ({ route, zodObject }, { usersService }) => [
-    route.get('/', {
-      queryValidation: zodObject({
-        limit: zod.number().default(10),
-      }).validate,
-      handler: ({ query }) => {
-        return usersService.getUsers(+query.limit);
-      },
-    }),
-  ],
-});
+export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
+  route.get('/', {
+    queryValidation: zodObject({
+      limit: zod.number().default(10),
+    }).validate,
+    handler: ({ query }) => {
+      return usersService().getUsers(+query.limit);
+    },
+  }),
+]);
 ```
 
 ## Providers
