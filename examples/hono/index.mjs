@@ -3,7 +3,7 @@ import { serve } from '@hono/node-server';
 import { createApp, createRouter, createService } from 'nixle';
 import { honoProvider } from '@nixle/hono';
 
-const usersService = createService(({ log }) => {
+const usersService = createService('users', ({ log }) => {
   const create = async () => {
     log.info('Creating user');
 
@@ -15,16 +15,9 @@ const usersService = createService(({ log }) => {
   };
 });
 
-const usersRouter = createRouter('/users', {
-  services: {
-    usersService,
-  },
-  routes: ({ route }, { usersService }) => [
-    route.get('/', {
-      handler: () => usersService.create(),
-    }),
-  ],
-});
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => usersService.create()),
+]);
 
 const { app } = createApp({
   provider: honoProvider(new Hono()),

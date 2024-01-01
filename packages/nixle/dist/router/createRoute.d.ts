@@ -4,13 +4,19 @@ interface Route<P extends unknown = any, Q extends unknown = any, B extends unkn
     method: HTTPMethod;
     options: RouteOptions<P, Q, B>;
 }
+declare function get<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
+declare function post<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
+declare function patch<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
+declare function put<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
+declare function _delete<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
+declare function options<P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>): Route<P, Q, B>;
 declare const route: {
-    get: <P extends unknown, Q extends unknown, B extends unknown>(path: string, optionsOrHandler: RouteOptions<P, Q, B> | RouteHandler<P, Q, B>) => Route<P, Q, B>;
-    post: <P_1 extends unknown, Q_1 extends unknown, B_1 extends unknown>(path: string, optionsOrHandler: RouteOptions<P_1, Q_1, B_1> | RouteHandler<P_1, Q_1, B_1>) => Route<P_1, Q_1, B_1>;
-    patch: <P_2 extends unknown, Q_2 extends unknown, B_2 extends unknown>(path: string, optionsOrHandler: RouteOptions<P_2, Q_2, B_2> | RouteHandler<P_2, Q_2, B_2>) => Route<P_2, Q_2, B_2>;
-    put: <P_3 extends unknown, Q_3 extends unknown, B_3 extends unknown>(path: string, optionsOrHandler: RouteOptions<P_3, Q_3, B_3> | RouteHandler<P_3, Q_3, B_3>) => Route<P_3, Q_3, B_3>;
-    delete: <P_4 extends unknown, Q_4 extends unknown, B_4 extends unknown>(path: string, optionsOrHandler: RouteOptions<P_4, Q_4, B_4> | RouteHandler<P_4, Q_4, B_4>) => Route<P_4, Q_4, B_4>;
-    options: <P_5 extends unknown, Q_5 extends unknown, B_5 extends unknown>(path: string, optionsOrHandler: RouteOptions<P_5, Q_5, B_5> | RouteHandler<P_5, Q_5, B_5>) => Route<P_5, Q_5, B_5>;
+    get: typeof get;
+    post: typeof post;
+    patch: typeof patch;
+    put: typeof put;
+    delete: typeof _delete;
+    options: typeof options;
 };
 export { route };
 export type { Route };

@@ -14,16 +14,9 @@ const usersService = createService(({ log }) => {
   };
 });
 
-const usersRouter = createRouter('/users', {
-  services: {
-    usersService,
-  },
-  routes: ({ route }, { usersService }) => [
-    route.get('/', {
-      handler: () => usersService.create(),
-    }),
-  ],
-});
+const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => usersService().create()),
+]);
 
 const { app } = createApp({
   provider: fastifyProvider(fastify()),
