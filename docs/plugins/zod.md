@@ -58,13 +58,13 @@ const usersRouter = createRouter('/users', ({ route, zodObject }) => [
   route.post('/:id', {
     paramsValidation: zodObject((z) => ({
       id: z.string(),
-    })),
+    })).validate,
     queryValidation: zodObject((z) => ({
       page: z.string(),
-    })),
+    })).validate,
     bodyValidation: zodObject((z) => ({
       name: z.string(),
-    })),
+    })).validate,
     handler: ({ params, query, body }) => 'Hello World!',
   }),
 ]);

@@ -68,9 +68,9 @@ export const usersRouter = createRouter('/users', ({ route }) => [
 
 ### Routes and services
 
-You can use services in routes by passing them to the `services` object when creating a router.
+You can use services in routes by using the returned function from the `createService` function.
 
-```ts{3-9,12-14}
+```ts{3-9,13}
 import { createRouter, createService } from 'nixle';
 
 const usersService = createService('users', () => {
@@ -81,18 +81,13 @@ const usersService = createService('users', () => {
   return { getUsers };
 });
 
-export const usersRouter = createRouter('/users', {
-  services: {
-    usersService,
-  },
-  routes: ({ route }, { usersService }) => [
-    route.get('/', () => {
-      const users = await usersService.getUsers();
+export const usersRouter = createRouter('/users', ({ route }) => [
+  route.get('/', () => {
+    const users = await usersService().getUsers();
 
-      return users;
-    }),
-  ],
-});
+    return users;
+  }),
+]);
 ```
 
 ## Routes
@@ -162,13 +157,13 @@ export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
   route.post('/:id', {
     paramsValidation: zodObject((z) => ({
       id: z.string(),
-    })),
+    })).validate,
     queryValidation: zodObject((z) => ({
       page: z.string(),
-    })),
+    })).validate,
     bodyValidation: zodObject((z) => ({
       name: z.string(),
-    })),
+    })).validate,
     handler: () => 'Hello World!',
   }),
 ]);
@@ -210,10 +205,10 @@ const authGuard = createGuard('auth', async ({ getHeader }) => {
   }
 });
 
-export const usersRouter = createRouter('/users', ({ route, log }) => [
+export const usersRouter = createRouter('/users', {
   guards: [authGuard],
-  route.get('/', () => 'Hello World!'),
-]);
+  routes: ({ route, log }) => [route.get('/', () => 'Hello World!')],
+});
 ```
 
 Or you can use the `guards` property in the route object.
