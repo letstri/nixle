@@ -16,18 +16,31 @@ interface ServiceMethodsHandler<M extends unknown> {
   (context: ServiceContext): M;
 }
 
-export interface Service<M extends unknown = unknown> {
+export interface Service<
+  N extends string,
+  M extends Record<string, () => any> = Record<string, () => any>,
+> {
+  $inferMethods: M;
+  $inferReturns: { [K in keyof M]: ReturnType<M[K]> };
+  name: N;
   (): M;
 }
 
-export function createService<M extends unknown = unknown>(
-  name: string,
-  methods: ServiceMethodsHandler<M>,
-): Service<M> {
-  return () =>
-    methods({
+export function createService<
+  N extends string,
+  M extends Record<string, () => any> = Record<string, () => any>,
+>(name: N, methods: ServiceMethodsHandler<M>): Service<N, M> {
+  const service = () => {
+    return methods({
       log: contextLog(name, 'bgCyan'),
       env,
       ...serviceContext,
     });
+  };
+
+  service.$inferMethods = {} as any;
+  service.$inferReturns = {} as any;
+  service.name = name;
+
+  return service;
 }

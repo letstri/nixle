@@ -1,10 +1,13 @@
 import dayjs from 'dayjs';
+import timezone from 'dayjs/plugin/timezone';
 import createCallsiteRecord from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
 import { isPrimitive, omit } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
+
+dayjs.extend(timezone);
 
 const renderer: any = {
   syntax: {
@@ -80,7 +83,7 @@ export class NixleError<D = any> extends Error {
     this.code = code;
   }
 
-  time = dayjs().format();
+  time = dayjs().tz().format();
   statusCode: StatusCode;
   message = 'Internal Server Error';
   details?: D;
