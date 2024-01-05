@@ -76,3 +76,27 @@ export const usersService = createService('users', ({ zodObject }) => {
   return { getUsers };
 });
 ```
+
+## TypeScript
+
+```ts
+import { createService } from 'nixle';
+
+export const usersService = createService('users', () => {
+  const getUsers = () => {
+    return ['John', 'Jane'];
+  };
+
+  return { getUsers };
+});
+
+type UsersServiceReturns = typeof usersService.$inferMethods;
+// type UsersServiceReturns = {
+//   getUsers: () => string[];
+// }
+
+type UsersServiceReturns = typeof usersService.$inferReturns;
+// type UsersServiceReturns = {
+//   getUsers: string[];
+// }
+```
