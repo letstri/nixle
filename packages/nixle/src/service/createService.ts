@@ -16,7 +16,9 @@ interface ServiceMethodsHandler<M extends unknown> {
   (context: ServiceContext): M;
 }
 
-export interface Service<M extends Record<string, () => any> = Record<string, () => any>> {
+export interface Service<
+  M extends Record<string, (...args: any) => any> = Record<string, (...args: any) => any>,
+> {
   $inferMethods: M;
   $inferReturns: { [K in keyof M]: ReturnType<M[K]> };
   (): M;
@@ -24,7 +26,7 @@ export interface Service<M extends Record<string, () => any> = Record<string, ()
 
 export function createService<
   N extends string,
-  M extends Record<string, () => any> = Record<string, () => any>,
+  M extends Record<string, (...args: any) => any> = Record<string, (...args: any) => any>,
 >(name: N, methods: ServiceMethodsHandler<M>): Service<M> {
   function service() {
     return methods({
