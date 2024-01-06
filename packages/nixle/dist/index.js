@@ -1,5 +1,5 @@
 import { createConsola as K } from "consola";
-import { colorize as c, colors as J } from "consola/utils";
+import { colorize as s, colors as J } from "consola/utils";
 import H from "dayjs";
 import S from "callsite-record";
 import C from "mitt";
@@ -11,69 +11,69 @@ function ne(e) {
 }
 var W = { exports: {} };
 (function(e, r) {
-  (function(E, t) {
-    e.exports = t();
+  (function(E, i) {
+    e.exports = i();
   })(Ee, function() {
-    var E = { year: 0, month: 1, day: 2, hour: 3, minute: 4, second: 5 }, t = {};
-    return function(O, N, s) {
-      var R, u = function(n, i, _) {
+    var E = { year: 0, month: 1, day: 2, hour: 3, minute: 4, second: 5 }, i = {};
+    return function(O, N, c) {
+      var R, u = function(n, t, _) {
         _ === void 0 && (_ = {});
         var T = new Date(n), f = function(g, l) {
           l === void 0 && (l = {});
-          var D = l.timeZoneName || "short", L = g + "|" + D, m = t[L];
-          return m || (m = new Intl.DateTimeFormat("en-US", { hour12: !1, timeZone: g, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZoneName: D }), t[L] = m), m;
-        }(i, _);
+          var D = l.timeZoneName || "short", L = g + "|" + D, m = i[L];
+          return m || (m = new Intl.DateTimeFormat("en-US", { hour12: !1, timeZone: g, year: "numeric", month: "2-digit", day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit", timeZoneName: D }), i[L] = m), m;
+        }(t, _);
         return f.formatToParts(T);
-      }, P = function(n, i) {
-        for (var _ = u(n, i), T = [], f = 0; f < _.length; f += 1) {
+      }, P = function(n, t) {
+        for (var _ = u(n, t), T = [], f = 0; f < _.length; f += 1) {
           var g = _[f], l = g.type, D = g.value, L = E[l];
           L >= 0 && (T[L] = parseInt(D, 10));
         }
         var m = T[3], F = m === 24 ? 0 : m, h = T[0] + "-" + T[1] + "-" + T[2] + " " + F + ":" + T[4] + ":" + T[5] + ":000", y = +n;
-        return (s.utc(h).valueOf() - (y -= y % 1e3)) / 6e4;
+        return (c.utc(h).valueOf() - (y -= y % 1e3)) / 6e4;
       }, a = N.prototype;
-      a.tz = function(n, i) {
+      a.tz = function(n, t) {
         n === void 0 && (n = R);
-        var _ = this.utcOffset(), T = this.toDate(), f = T.toLocaleString("en-US", { timeZone: n }), g = Math.round((T - new Date(f)) / 1e3 / 60), l = s(f, { locale: this.$L }).$set("millisecond", this.$ms).utcOffset(15 * -Math.round(T.getTimezoneOffset() / 15) - g, !0);
-        if (i) {
+        var _ = this.utcOffset(), T = this.toDate(), f = T.toLocaleString("en-US", { timeZone: n }), g = Math.round((T - new Date(f)) / 1e3 / 60), l = c(f, { locale: this.$L }).$set("millisecond", this.$ms).utcOffset(15 * -Math.round(T.getTimezoneOffset() / 15) - g, !0);
+        if (t) {
           var D = l.utcOffset();
           l = l.add(_ - D, "minute");
         }
         return l.$x.$timezone = n, l;
       }, a.offsetName = function(n) {
-        var i = this.$x.$timezone || s.tz.guess(), _ = u(this.valueOf(), i, { timeZoneName: n }).find(function(T) {
+        var t = this.$x.$timezone || c.tz.guess(), _ = u(this.valueOf(), t, { timeZoneName: n }).find(function(T) {
           return T.type.toLowerCase() === "timezonename";
         });
         return _ && _.value;
       };
       var A = a.startOf;
-      a.startOf = function(n, i) {
+      a.startOf = function(n, t) {
         if (!this.$x || !this.$x.$timezone)
-          return A.call(this, n, i);
-        var _ = s(this.format("YYYY-MM-DD HH:mm:ss:SSS"), { locale: this.$L });
-        return A.call(_, n, i).tz(this.$x.$timezone, !0);
-      }, s.tz = function(n, i, _) {
-        var T = _ && i, f = _ || i || R, g = P(+s(), f);
+          return A.call(this, n, t);
+        var _ = c(this.format("YYYY-MM-DD HH:mm:ss:SSS"), { locale: this.$L });
+        return A.call(_, n, t).tz(this.$x.$timezone, !0);
+      }, c.tz = function(n, t, _) {
+        var T = _ && t, f = _ || t || R, g = P(+c(), f);
         if (typeof n != "string")
-          return s(n).tz(f);
+          return c(n).tz(f);
         var l = function(F, h, y) {
           var Q = F - 60 * h * 1e3, d = P(Q, y);
           if (h === d)
             return [Q, h];
           var $ = P(Q -= 60 * (d - h) * 1e3, y);
           return d === $ ? [Q, d] : [F - 60 * Math.min(d, $) * 1e3, Math.max(d, $)];
-        }(s.utc(n, T).valueOf(), g, f), D = l[0], L = l[1], m = s(D).utcOffset(L);
+        }(c.utc(n, T).valueOf(), g, f), D = l[0], L = l[1], m = c(D).utcOffset(L);
         return m.$x.$timezone = f, m;
-      }, s.tz.guess = function() {
+      }, c.tz.guess = function() {
         return Intl.DateTimeFormat().resolvedOptions().timeZone;
-      }, s.tz.setDefault = function(n) {
+      }, c.tz.setDefault = function(n) {
         R = n;
       };
     };
   });
 })(W);
-var te = W.exports;
-const ie = /* @__PURE__ */ ne(te), se = (e, r) => Object.fromEntries(Object.entries(e).filter(([E]) => !r.includes(E))), k = (e) => e !== Object(e), w = (...e) => {
+var ie = W.exports;
+const te = /* @__PURE__ */ ne(ie), ce = (e, r) => Object.fromEntries(Object.entries(e).filter(([E]) => !r.includes(E))), k = (e) => e !== Object(e), w = (...e) => {
   const r = re("", ...e), E = r.startsWith("/") ? r : `/${r}`;
   return E.endsWith("/") ? E.slice(0, -1) : E;
 }, B = (e) => {
@@ -89,29 +89,29 @@ const ie = /* @__PURE__ */ ne(te), se = (e, r) => Object.fromEntries(Object.entr
     Array.isArray(E) ? E.map(B) : B(E)
   ])
 ), p = C();
-H.extend(ie);
-const ce = {
+H.extend(te);
+const se = {
   syntax: {
-    string: (...e) => c("green", e.join("")),
-    punctuator: (...e) => c("gray", e.join("")),
-    keyword: (...e) => c("cyan", e.join("")),
-    number: (...e) => c("magenta", e.join("")),
-    regex: (...e) => c("magenta", e.join("")),
-    comment: (...e) => c("gray", c("bold", e.join(""))),
-    invalid: (...e) => c("inverse", e.join(""))
+    string: (...e) => s("green", e.join("")),
+    punctuator: (...e) => s("gray", e.join("")),
+    keyword: (...e) => s("cyan", e.join("")),
+    number: (...e) => s("magenta", e.join("")),
+    regex: (...e) => s("magenta", e.join("")),
+    comment: (...e) => s("gray", s("bold", e.join(""))),
+    invalid: (...e) => s("inverse", e.join(""))
   },
   codeFrame: (e) => e.slice(1),
-  codeLine(e, r, E, t) {
-    let N = (r ? " > " : "   ") + c("dim", e) + " ";
-    r && (N = c("bgRed", N));
-    let s = N + c("dim", "| ") + E;
-    return t || (s += `
-`), s;
+  codeLine(e, r, E, i) {
+    let N = (r ? " > " : "   ") + s("dim", e) + " ";
+    r && (N = s("bgRed", N));
+    let c = N + s("dim", "| ") + E;
+    return i || (c += `
+`), c;
   },
   stackLine(e, r, E) {
-    let t = `   ${c("dim", "at")} ` + e + " (" + c("blueBright", c("underline", r)) + ")";
-    return E || (t += `
-`), t;
+    let i = `   ${s("dim", "at")} ` + e + " (" + s("blueBright", s("underline", r)) + ")";
+    return E || (i += `
+`), i;
   },
   stack(e) {
     return `
@@ -120,15 +120,15 @@ const ce = {
   }
 };
 class q extends Error {
-  constructor({ statusCode: r, message: E, details: t, code: O }) {
-    super(), this.time = H().tz().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = r || o.BAD_REQUEST, this.message = E, this.details = t, this.code = O;
+  constructor({ statusCode: r, message: E, details: i, code: O }) {
+    super(), this.time = H().tz().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = r || o.BAD_REQUEST, this.message = E, this.details = i, this.code = O;
   }
 }
 const Re = (e) => S({
   forError: e,
   isCallsiteFrame: (E) => Y(e) && e.statusCode < o.INTERNAL_SERVER_ERROR ? !!E.source && !E.source.includes("node_modules") && !E.source.includes("node:") && !E.source.includes("nixle/dist") : !0
 })?.renderSync({
-  renderer: ce,
+  renderer: se,
   stackFilter: (E) => Y(e) && e.statusCode < o.INTERNAL_SERVER_ERROR ? !!E.source && !E.source.includes("node_modules") && !E.source.includes("node:") && !E.source.includes("nixle/dist") : !0
 });
 function U(e, r) {
@@ -144,25 +144,25 @@ const Y = (e) => e instanceof q, j = (e, r) => {
   let E = "";
   if (Y(e) || e instanceof Error ? E = e.message : k(e) ? E = e : E = `${e.constructor.name} ${JSON.stringify(e)}`, e && (!e.statusCode || e.statusCode >= o.INTERNAL_SERVER_ERROR))
     if (e instanceof Error) {
-      const t = Re(e);
-      r.fatal(c("red", E), ...t ? [`
-`, t] : []);
+      const i = Re(e);
+      r.fatal(s("red", E), ...i ? [`
+`, i] : []);
     } else
-      r.fatal(c("red", E));
+      r.fatal(s("red", E));
   else
-    r.error(c("red", E));
+    r.error(s("red", E));
   p.emit("error", e);
 }, V = (e, r) => {
-  const E = H().format(), t = k(e), O = t && e || e.message || "Internal Server Error", N = t && E || e.time || E, s = t && {} || e.details || {}, R = t && void 0 || e.code, u = {
+  const E = H().format(), i = k(e), O = i && e || e.message || "Internal Server Error", N = i && E || e.time || E, c = i && {} || e.details || {}, R = i && void 0 || e.code, u = {
     statusCode: r,
     message: O,
     time: N,
-    details: s,
+    details: c,
     code: R
   };
   return u.details = {
     ...u.details,
-    ...se(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), [
+    ...ce(JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e))), [
       "message",
       "name",
       "stack",
@@ -179,11 +179,11 @@ const Te = (e) => {
 }, I = (e, ...r) => {
   if (!x)
     return;
-  const E = `${c("bgBlue", " Nixle ")}`, t = x[e];
-  t || U({
+  const E = `${s("bgBlue", " Nixle ")}`, i = x[e];
+  i || U({
     message: `Logger method "${e}" not found`,
     statusCode: o.INTERNAL_SERVER_ERROR
-  }), t(`${E}`, ...r);
+  }), i(`${E}`, ...r);
 }, G = {
   info: (...e) => I("info", ...e),
   success: (...e) => I("success", ...e),
@@ -197,9 +197,9 @@ const Te = (e) => {
   fail: (...e) => I("fail", ...e),
   verbose: (...e) => I("verbose", ...e)
 }, M = (e, r = "bgWhite") => Object.fromEntries(
-  Object.entries(G).map(([E, t]) => [
+  Object.entries(G).map(([E, i]) => [
     E,
-    (...O) => t(c(r, ` ${e} `), ...O)
+    (...O) => i(s(r, ` ${e} `), ...O)
   ])
 ), v = (e, r, E) => typeof E == "function" ? {
   path: r,
@@ -250,10 +250,10 @@ function ye(e, r) {
     message: "Routes are required",
     statusCode: o.INTERNAL_SERVER_ERROR
   });
-  const t = E ? r.routes : r, O = E ? r.guards || [] : [];
+  const i = E ? r.routes : r, O = E ? r.guards || [] : [];
   return {
     path: e,
-    routes: () => t({
+    routes: () => i({
       route: fe,
       log: M(e, "bgGreen"),
       env: b,
@@ -267,35 +267,37 @@ const me = (e) => {
   Object.assign(X, e);
 };
 function pe(e, r) {
-  const E = () => r({
-    log: M(e, "bgCyan"),
-    env: b,
-    ...X
-  });
+  function E() {
+    return r({
+      log: M(e, "bgCyan"),
+      env: b,
+      ...X
+    });
+  }
   return E.$inferMethods = {}, E.$inferReturns = {}, E.name = e, E;
 }
 const ue = (e, r) => {
-  r.plugins && r.plugins.forEach(({ name: E, plugin: t }) => {
+  r.plugins && r.plugins.forEach(({ name: E, plugin: i }) => {
     const O = M(E, "bgMagenta");
-    t({ provider: e, log: O, extendRouterContext: Ae, extendServiceContext: me }), G.success(`🚀 ${c("bgBlue", ` ${E.trim()} `)} plugin successfully loaded`);
+    i({ provider: e, log: O, extendRouterContext: Ae, extendServiceContext: me }), G.success(`🚀 ${s("bgBlue", ` ${E.trim()} `)} plugin successfully loaded`);
   });
 }, ge = (e, r) => {
-  const E = w(e.globalPrefix || "", r.path || ""), t = M(E, "bgGreen"), O = r.routes();
+  const E = w(e.globalPrefix || "", r.path || ""), i = M(E, "bgGreen"), O = r.routes();
   try {
     O.length === 0 && U({
       message: "At least one router is required",
       statusCode: o.INTERNAL_SERVER_ERROR
-    }), O.some(({ path: N, method: s, options: R }) => !N || !s || !R.handler) && U({
+    }), O.some(({ path: N, method: c, options: R }) => !N || !c || !R.handler) && U({
       message: "Path, method and handler are required for each route",
       statusCode: o.INTERNAL_SERVER_ERROR
     });
   } catch (N) {
-    j(N, t), process.exit(1);
+    j(N, i), process.exit(1);
   }
-  O.forEach(({ path: N, method: s, options: R }) => {
-    const u = w(E, N), P = M(`${J.bold(s)} ${u}`, "bgGreen");
+  O.forEach(({ path: N, method: c, options: R }) => {
+    const u = w(E, N), P = M(`${J.bold(c)} ${u}`, "bgGreen");
     e.provider.createRoute({
-      method: s.toLowerCase(),
+      method: c.toLowerCase(),
       path: u,
       async handler(a) {
         p.emit("request", a);
@@ -307,8 +309,8 @@ const ue = (e, r) => {
         try {
           await R?.middleware?.(A);
         } catch (n) {
-          const i = n?.statusCode || o.INTERNAL_SERVER_ERROR;
-          return a.setStatusCode(i), V(n, i);
+          const t = n?.statusCode || o.INTERNAL_SERVER_ERROR;
+          return a.setStatusCode(t), V(n, t);
         }
         try {
           r.guards.length && await Promise.all(r.guards.map((n) => n({ ...A, env: b }))), R?.guards?.length && await Promise.all(R.guards.map((n) => n({ ...A, env: b }))), await Promise.all([
@@ -317,15 +319,15 @@ const ue = (e, r) => {
             R?.bodyValidation?.(A.body)
           ]);
         } catch (n) {
-          const i = n?.statusCode || o.BAD_REQUEST;
-          return a.setStatusCode(i), V(n, i);
+          const t = n?.statusCode || o.BAD_REQUEST;
+          return a.setStatusCode(t), V(n, t);
         }
         try {
           const n = await R.handler(A);
           return p.emit("response", n), R?.statusCode && a.setStatusCode(R.statusCode), n;
         } catch (n) {
-          const i = n?.statusCode || o.INTERNAL_SERVER_ERROR;
-          return j(n, P), a.setStatusCode(i), V(n, i);
+          const t = n?.statusCode || o.INTERNAL_SERVER_ERROR;
+          return j(n, P), a.setStatusCode(t), V(n, t);
         }
       }
     }), P.success("🚏 Successfully registered");
@@ -356,17 +358,17 @@ function Me(e) {
       emit: p.emit
     }
   };
-  return G.success(`🔥 ${c("underline", "Application successfully started")}`), r;
+  return G.success(`🔥 ${s("underline", "Application successfully started")}`), r;
 }
 function be(e, r) {
   return async (E) => {
     try {
       await r(E);
-    } catch (t) {
+    } catch (i) {
       U({
-        message: t?.message || `Oops, ${e} guard was failed`,
-        statusCode: t?.statusCode || o.BAD_REQUEST,
-        details: t?.details
+        message: i?.message || `Oops, ${e} guard was failed`,
+        statusCode: i?.statusCode || o.BAD_REQUEST,
+        details: i?.details
       });
     }
   };
