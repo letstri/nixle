@@ -20,7 +20,7 @@ export interface Service<
   M extends Record<string, (...args: any) => any> = Record<string, (...args: any) => any>,
 > {
   $inferMethods: M;
-  $inferReturns: { [K in keyof M]: ReturnType<M[K]> };
+  $inferReturns: { [K in keyof M]: Awaited<ReturnType<M[K]>> };
   (): M;
 }
 
