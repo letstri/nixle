@@ -30,13 +30,13 @@ export function createService<
   N extends string,
   M extends Record<string, () => any> = Record<string, () => any>,
 >(name: N, methods: ServiceMethodsHandler<M>): Service<N, M> {
-  const service = () => {
+  function service() {
     return methods({
       log: contextLog(name, 'bgCyan'),
       env,
       ...serviceContext,
     });
-  };
+  }
 
   service.$inferMethods = {} as any;
   service.$inferReturns = {} as any;
