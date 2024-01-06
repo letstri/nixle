@@ -274,7 +274,7 @@ function pe(e, r) {
       ...X
     });
   }
-  return E.$inferMethods = {}, E.$inferReturns = {}, E.name = e, E;
+  return E.$inferMethods = {}, E.$inferReturns = {}, E;
 }
 const ue = (e, r) => {
   r.plugins && r.plugins.forEach(({ name: E, plugin: i }) => {
