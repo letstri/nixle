@@ -79,6 +79,8 @@ export const usersService = createService('users', ({ zodObject }) => {
 
 ## TypeScript
 
+Services are fully typed. You can use the `$inferMethods` and `$inferReturns` properties to infer the service's methods and return types.
+
 ```ts
 import { createService } from 'nixle';
 
