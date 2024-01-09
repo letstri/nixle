@@ -25,7 +25,6 @@ export const viteConfig = ({
     rollupOptions: {
       external: [
         'consola/utils',
-        'dayjs/plugin/timezone',
         ...Object.keys(_package.dependencies || {}),
         ...Object.keys(_package.devDependencies || {}),
         ...Object.keys(_package.peerDependencies || {}),
