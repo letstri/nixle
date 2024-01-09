@@ -30,13 +30,13 @@ export function createApp(options: AppOptions) {
 
   try {
     if (!options.provider) {
-      createError({
+      throw createError({
         message: 'Provider is required',
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });
     }
     if (options.routers.length === 0) {
-      createError({
+      throw createError({
         message: 'At least one router is required',
         statusCode: StatusCode.INTERNAL_SERVER_ERROR,
       });

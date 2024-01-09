@@ -14,7 +14,7 @@ export function createGuard(name: string, guard: GuardFunction): Guard {
     try {
       await guard(context);
     } catch (e) {
-      createError({
+      throw createError({
         message: (e as NixleError)?.message || `Oops, ${name} guard was failed`,
         statusCode: (e as NixleError)?.statusCode || StatusCode.BAD_REQUEST,
         details: (e as NixleError)?.details,

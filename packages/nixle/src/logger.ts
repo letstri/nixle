@@ -19,7 +19,7 @@ const _log = (type: LogType, ...messages: any[]) => {
   const method = loggerInstance[type];
 
   if (!method) {
-    createError({
+    throw createError({
       message: `Logger method "${type}" not found`,
       statusCode: StatusCode.INTERNAL_SERVER_ERROR,
     });

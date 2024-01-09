@@ -111,24 +111,25 @@ const formatErrorStack = (error: Error) => {
   return stack;
 };
 
-export function createError(options: ErrorOptions): never;
-export function createError(message: string, statusCode?: StatusCode): never;
+export function createError(options: ErrorOptions): NixleError;
+export function createError(message: string, statusCode?: StatusCode): NixleError;
 
-export function createError(
-  optionsOrMessage: string | ErrorOptions,
+export function createError<D = any>(
+  optionsOrMessage: string | ErrorOptions<D>,
   statusCode?: StatusCode,
-): never {
+): NixleError<D> {
   const message =
     typeof optionsOrMessage === 'string' ? optionsOrMessage : optionsOrMessage.message;
 
-  throw new NixleError({
+  return new NixleError<D>({
     message,
     statusCode:
       typeof optionsOrMessage === 'string'
         ? statusCode || StatusCode.BAD_REQUEST
         : optionsOrMessage.statusCode || StatusCode.BAD_REQUEST,
     code: typeof optionsOrMessage === 'string' ? undefined : optionsOrMessage.code,
-    details: typeof optionsOrMessage === 'string' ? {} : optionsOrMessage.details || {},
+    details:
+      typeof optionsOrMessage === 'string' ? ({} as D) : optionsOrMessage.details || ({} as D),
   });
 }
 

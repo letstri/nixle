@@ -26,12 +26,12 @@ export const usersService = createService(() => {
   const getUsers = async () => {
     if (Math.random() > 0.5) {
       if (Math.random() > 0.5) {
-        createError('You are unauthorized!');
+        throw createError('You are unauthorized!');
       } else {
-        createError('You are unauthorized!', StatusCode.FORBIDDEN);
+        throw createError('You are unauthorized!', StatusCode.FORBIDDEN);
       }
     } else {
-      createError({
+      throw createError({
         message: 'You are unauthorized!',
         statusCode: StatusCode.UNAUTHORIZED,
         code: 'USER_UNAUTHORIZED_ERROR',
@@ -57,7 +57,7 @@ import { createService, createError, isNixleError } from 'nixle';
 const usersService = createService('users', () => {
   const getUsers = async () => {
     try {
-      createError('You are unauthorized!');
+      throw createError('You are unauthorized!');
     } catch (error) {
       if (isNixleError(error)) {
         // Handle Nixle error.

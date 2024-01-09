@@ -1,16 +1,16 @@
 import { createPlugin as m, createError as u, StatusCode as l } from "nixle";
 import * as o from "zod";
-const a = (e, t) => {
-  const s = o.object(typeof e == "function" ? e(o.z) : e);
+const a = (t, e) => {
+  const s = o.object(typeof t == "function" ? t(o.z) : t);
   return {
     validate: async (c) => {
       try {
         return await s.parseAsync(c);
       } catch (n) {
         const d = n;
-        u({
-          message: t?.message || "Validation error",
-          statusCode: t?.statusCode || l.BAD_REQUEST,
+        throw u({
+          message: e?.message || "Validation error",
+          statusCode: e?.statusCode || l.BAD_REQUEST,
           details: d.errors.reduce(
             (i, r) => ({
               ...i,
@@ -23,8 +23,8 @@ const a = (e, t) => {
     },
     $infer: {}
   };
-}, z = m("zod", ({ extendServiceContext: e, extendRouterContext: t }) => {
-  t({ zodObject: a }), e({ zodObject: a });
+}, z = m("zod", ({ extendServiceContext: t, extendRouterContext: e }) => {
+  e({ zodObject: a }), t({ zodObject: a });
 });
 export {
   a as zodObject,

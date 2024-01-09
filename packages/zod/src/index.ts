@@ -89,7 +89,7 @@ export const zodObject: ZodObject = (shape, options) => {
     } catch (e) {
       const error = e as _zod.ZodError;
 
-      createError({
+      throw createError({
         message: options?.message || 'Validation error',
         statusCode: options?.statusCode || StatusCode.BAD_REQUEST,
         details: error.errors.reduce(

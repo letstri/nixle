@@ -201,7 +201,7 @@ const authGuard = createGuard('auth', async ({ getHeader }) => {
   // Or you can use some library to verify the token
 
   if (!token) {
-    createError('Unauthorized', StatusCode.UNAUTHORIZED);
+    throw createError('Unauthorized', StatusCode.UNAUTHORIZED);
   }
 });
 

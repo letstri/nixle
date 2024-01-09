@@ -127,7 +127,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * paramsValidation(params) {
    *   // We have a path '/users/:id'
    *   if (!params.id) {
-   *     createError('ID is required');
+   *     throw createError('ID is required');
    *   }
    * }
    */
@@ -141,7 +141,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * @example
    * bodyValidation(body) {
    *   if (!body.name || typeof body.name !== 'string') {
-   *     createError('Name is required');
+   *     throw createError('Name is required');
    *   }
    *
    *   return { name: body.name as string };
@@ -157,7 +157,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * @example
    * queryValidation(query) {
    *   if (!query.name || typeof query.name !== 'string') {
-   *     createError('Name is required');
+   *     throw createError('Name is required');
    *   }
    *
    *   return { name: query.name as string };
@@ -174,7 +174,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * @example
    * middleware({ getHeader }) {
    *   if (!getHeader('Authorization')) {
-   *     createError('Authorization is required');
+   *     throw createError('Authorization is required');
    *   }
    * }
    */
@@ -199,7 +199,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
    * guards: [
    *   createGuard(async ({ getCookie }) => {
    *     if (!getCookie('token')) {
-   *       createError('Token is required', StatusCodes.UNAUTHORIZED);
+   *       throw createError('Token is required', StatusCodes.UNAUTHORIZED);
    *     }
    *   }),
    * ]

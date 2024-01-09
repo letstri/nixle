@@ -38,7 +38,7 @@ function createRouter(path: string, optionsOrRoutes?: RouterOptions | RouterRout
   const isObject = typeof optionsOrRoutes === 'object';
 
   if (!optionsOrRoutes || (isObject && !optionsOrRoutes.routes)) {
-    createError({
+    throw createError({
       message: 'Routes are required',
       statusCode: StatusCode.INTERNAL_SERVER_ERROR,
     });
