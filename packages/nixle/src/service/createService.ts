@@ -25,9 +25,8 @@ export interface Service<
 }
 
 export function createService<
-  N extends string,
   M extends Record<string, (...args: any) => any> = Record<string, (...args: any) => any>,
->(name: N, methods: ServiceMethodsHandler<M>): Service<M> {
+>(name: string, methods: ServiceMethodsHandler<M>): Service<M> {
   function service() {
     return methods({
       log: contextLog(name, 'bgCyan'),

@@ -96,6 +96,6 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
       },
     });
 
-    log.success(`🚏 Successfully registered`);
+    log.info(`🚏 Route registered`);
   });
 };

@@ -166,7 +166,7 @@ export const logError = (error: any, _log: typeof log) => {
 };
 
 export const transformErrorToResponse = (error: any, statusCode: StatusCode) => {
-  const defaultTime = dayjs().format();
+  const defaultTime = dayjs().tz().format();
   const isPrimitiveError = isPrimitive(error);
 
   const _message = (isPrimitiveError && error) || error.message || 'Internal Server Error';
