@@ -26,8 +26,8 @@ export declare class NixleError<D = any> extends Error {
     details?: D;
     code?: string | number;
 }
-export declare function createError(options: ErrorOptions): NixleError;
-export declare function createError(message: string, statusCode?: StatusCode): NixleError;
+export declare function createError<D>(options: ErrorOptions<D>): NixleError<D>;
+export declare function createError<D = never>(message: string, statusCode?: StatusCode): NixleError<D>;
 export declare const isNixleError: (error: any) => error is NixleError<any>;
 export declare const logError: (error: any, _log: typeof log) => void;
 export declare const transformErrorToResponse: (error: any, statusCode: StatusCode) => Omit<Pick<NixleError<any>, keyof NixleError<any>>, "name">;

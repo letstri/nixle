@@ -111,10 +111,10 @@ const formatErrorStack = (error: Error) => {
   return stack;
 };
 
-export function createError(options: ErrorOptions): NixleError;
-export function createError(message: string, statusCode?: StatusCode): NixleError;
+export function createError<D>(options: ErrorOptions<D>): NixleError<D>;
+export function createError<D = never>(message: string, statusCode?: StatusCode): NixleError<D>;
 
-export function createError<D = any>(
+export function createError<D>(
   optionsOrMessage: string | ErrorOptions<D>,
   statusCode?: StatusCode,
 ): NixleError<D> {
