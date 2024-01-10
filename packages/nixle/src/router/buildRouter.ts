@@ -53,8 +53,13 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
 
           context.setStatusCode(statusCode);
+
           return transformErrorToResponse(error, statusCode);
         }
+
+        let query = _context.query;
+        let params = _context.params;
+        let body = _context.body;
 
         try {
           if (router.guards.length) {
@@ -64,11 +69,15 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
             await Promise.all(options.guards.map((guard) => guard({ ..._context, env })));
           }
 
-          await Promise.all([
+          const [_query, _params, _body] = await Promise.all([
             options?.queryValidation?.(_context.query),
             options?.paramsValidation?.(_context.params),
             options?.bodyValidation?.(_context.body),
           ]);
+
+          query = _query || query;
+          params = _params || params;
+          body = _body || body;
         } catch (error) {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.BAD_REQUEST;
 
@@ -77,7 +86,12 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         }
 
         try {
-          const response = await options.handler(_context);
+          const response = await options.handler({
+            ..._context,
+            query,
+            params,
+            body,
+          });
 
           emitter.emit('response', response);
 
