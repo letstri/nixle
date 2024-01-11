@@ -15,11 +15,15 @@ interface Options {
     statusCode?: StatusCode;
 }
 interface ZodObject {
-    <T extends {
-        [K in string]: _zod.ZodTypeAny;
+    <O extends {
+        [K in string]: any;
+    } | void = void, T extends {
+        [K in O extends void ? string : keyof O]: _zod.ZodTypeAny;
+    } = {
+        [K in O extends void ? string : keyof O]: _zod.ZodTypeAny;
     }>(shape: T | ((zod: typeof _zod.z) => T), options?: Options): {
-        validate(data: any): Promise<_zod.infer<_zod.ZodObject<T>>>;
-        $infer: _zod.infer<_zod.ZodObject<T>>;
+        validate(data: any): Promise<O extends void ? _zod.infer<_zod.ZodObject<T>> : O>;
+        $infer: O extends void ? _zod.infer<_zod.ZodObject<T>> : O;
     };
 }
 declare global {
@@ -73,6 +77,17 @@ declare global {
  *   message: 'Custom message',
  *   statusCode: StatusCode.BAD_REQUEST,
  * });
+ *
+ * @example
+ * interface UserCreateInput {
+ *   email: string;
+ *   password: string;
+ * }
+ *
+ * const { validate } = zodObject<UserCreateInput>((zod) => ({
+ *   email: zod.string().email(),
+ *   password: zod.string().min(8),
+ * }));
  */
 export declare const zodObject: ZodObject;
 export declare const zodPlugin: import("nixle/dist/plugins/createPlugin").Plugin;
