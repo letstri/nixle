@@ -15,25 +15,25 @@ interface RouterOptions<Routes extends Route[]> {
     routes: RouterRoutesHandler<Routes>;
 }
 type ConvertRoutes<T extends Route[]> = {
-    [M in T[number]['method']]: {
-        [P in Extract<T[number], {
-            method: M;
-        }> as P['path']]: {
+    [P in T[number]['path']]: {
+        [M in Extract<T[number], {
+            path: P;
+        }> as M['method']]: {
             params: Extract<T[number], {
-                method: M;
-                path: P['path'];
+                path: P;
+                method: M['method'];
             }>['$infer']['params'];
             query: Extract<T[number], {
-                method: M;
-                path: P['path'];
+                path: P;
+                method: M['method'];
             }>['$infer']['query'];
             body: Extract<T[number], {
-                method: M;
-                path: P['path'];
+                path: P;
+                method: M['method'];
             }>['$infer']['body'];
             response: Extract<T[number], {
-                method: M;
-                path: P['path'];
+                path: P;
+                method: M['method'];
             }>['$infer']['response'];
         };
     };

@@ -26,12 +26,12 @@ interface RouterOptions<Routes extends Route[]> {
 }
 
 type ConvertRoutes<T extends Route[]> = {
-  [M in T[number]['method']]: {
-    [P in Extract<T[number], { method: M }> as P['path']]: {
-      params: Extract<T[number], { method: M; path: P['path'] }>['$infer']['params'];
-      query: Extract<T[number], { method: M; path: P['path'] }>['$infer']['query'];
-      body: Extract<T[number], { method: M; path: P['path'] }>['$infer']['body'];
-      response: Extract<T[number], { method: M; path: P['path'] }>['$infer']['response'];
+  [P in T[number]['path']]: {
+    [M in Extract<T[number], { path: P }> as M['method']]: {
+      params: Extract<T[number], { path: P; method: M['method'] }>['$infer']['params'];
+      query: Extract<T[number], { path: P; method: M['method'] }>['$infer']['query'];
+      body: Extract<T[number], { path: P; method: M['method'] }>['$infer']['body'];
+      response: Extract<T[number], { path: P; method: M['method'] }>['$infer']['response'];
     };
   };
 };
