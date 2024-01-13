@@ -12,9 +12,13 @@ import { buildEnv } from './env';
 import { StatusCode, type Router } from '.';
 import { buildRouter } from './router/buildRouter';
 
-export interface AppOptions {
+type ConvertRouters<T extends Router[]> = {
+  [P in T[number]['path']]: Extract<T[number], { path: P }>['$inferRoutes'];
+};
+
+export interface AppOptions<Routers extends Router[] = Router[]> {
   provider: Provider;
-  routers: Router[];
+  routers: Routers;
   plugins?: Plugin[];
   logger?: Partial<ConsolaOptions> | false;
   env?: dotenv.DotenvConfigOptions;
@@ -23,23 +27,17 @@ export interface AppOptions {
 
 export type NixleApp = ReturnType<typeof createApp>;
 
-export function createApp(options: AppOptions) {
+export function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>) {
   if (options.logger !== false) {
     createLogger(options.logger || {});
   }
 
   try {
     if (!options.provider) {
-      throw createError({
-        message: 'Provider is required',
-        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
-      });
+      throw createError('Provider is required', StatusCode.INTERNAL_SERVER_ERROR);
     }
     if (options.routers.length === 0) {
-      throw createError({
-        message: 'At least one router is required',
-        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
-      });
+      throw createError('At least one router is required', StatusCode.INTERNAL_SERVER_ERROR);
     }
   } catch (e) {
     logError(e, log);
@@ -65,6 +63,7 @@ export function createApp(options: AppOptions) {
       on: emitter.on,
       emit: emitter.emit,
     },
+    $inferRouters: {} as ConvertRouters<Routers>,
   };
 
   log.success(`🔥 ${colorize('underline', 'Application successfully started')}`);

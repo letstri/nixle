@@ -3,16 +3,21 @@ import type dotenv from 'dotenv';
 import type { Provider } from './provider/createProvider';
 import type { Plugin } from './plugins/createPlugin';
 import { type Router } from '.';
-export interface AppOptions {
+type ConvertRouters<T extends Router[]> = {
+    [P in T[number]['path']]: Extract<T[number], {
+        path: P;
+    }>['$inferRoutes'];
+};
+export interface AppOptions<Routers extends Router[] = Router[]> {
     provider: Provider;
-    routers: Router[];
+    routers: Routers;
     plugins?: Plugin[];
     logger?: Partial<ConsolaOptions> | false;
     env?: dotenv.DotenvConfigOptions;
     globalPrefix?: string;
 }
 export type NixleApp = ReturnType<typeof createApp>;
-export declare function createApp(options: AppOptions): {
+export declare function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>): {
     app: Nixle.Provider;
     events: {
         on: {
@@ -52,4 +57,6 @@ export declare function createApp(options: AppOptions): {
             }[Key_2] ? Key_2 : never): void;
         };
     };
+    $inferRouters: ConvertRouters<Routers>;
 };
+export {};

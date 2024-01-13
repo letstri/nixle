@@ -7,18 +7,43 @@ export interface RouterContext extends Nixle.RouterContext {
     log: typeof log;
     env: Nixle.Env;
 }
-interface RouterRoutesHandler {
-    (context: RouterContext): Route[];
+interface RouterRoutesHandler<Routes extends Route[]> {
+    (context: RouterContext): Routes;
 }
-interface RouterOptions {
+interface RouterOptions<Routes extends Route[]> {
     guards?: Guard[];
-    routes: RouterRoutesHandler;
+    routes: RouterRoutesHandler<Routes>;
 }
-export interface Router {
-    path: string;
+type ConvertRoutes<T extends Route[]> = {
+    [M in T[number]['method']]: {
+        [P in Extract<T[number], {
+            method: M;
+        }> as P['path']]: {
+            params: Extract<T[number], {
+                method: M;
+                path: P['path'];
+            }>['$infer']['params'];
+            query: Extract<T[number], {
+                method: M;
+                path: P['path'];
+            }>['$infer']['query'];
+            body: Extract<T[number], {
+                method: M;
+                path: P['path'];
+            }>['$infer']['body'];
+            response: Extract<T[number], {
+                method: M;
+                path: P['path'];
+            }>['$infer']['response'];
+        };
+    };
+};
+export interface Router<Path extends string = string, Routes extends Route[] = Route[]> {
+    path: Path;
     guards: Guard[];
-    routes: () => Route[];
+    routes: () => Routes;
+    $inferRoutes: Routes extends Route[] ? ConvertRoutes<Routes> : never;
 }
-declare function createRouter(path: string, options: RouterOptions): Router;
-declare function createRouter(path: string, routes: RouterRoutesHandler): Router;
+declare function createRouter<Path extends string, Routes extends Route[]>(path: Path, options: RouterOptions<Routes>): Router<Path, Routes>;
+declare function createRouter<Path extends string, Routes extends Route[]>(path: Path, routes: RouterRoutesHandler<Routes>): Router<Path, Routes>;
 export { createRouter, extendRouterContext };

@@ -109,7 +109,7 @@ export interface RouteHandler<P extends unknown, Q extends unknown, B extends un
         getCookie: (key: string) => string | null;
     }): any;
 }
-export interface RouteOptions<P extends unknown, Q extends unknown, B extends unknown> {
+export interface RouteOptions<P extends unknown, Q extends unknown, B extends unknown, H extends RouteHandler<P, Q, B>> {
     /**
      * Status code
      * @default 200
@@ -189,7 +189,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *   return { message: 'Hello world!' };
      * }
      */
-    handler: RouteHandler<P, Q, B>;
+    handler: H;
     /**
      * Guards.
      *
