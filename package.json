@@ -1,6 +1,6 @@
 {
   "name": "@nixle/app",
-  "version": "0.17.0",
+  "version": "0.17.1",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "build": "pnpm -r --filter='./packages/nixle' run build && pnpm -r --filter='./packages/*' --filter='!./packages/nixle' run build",
@@ -45,13 +45,13 @@
   ],
   "packageManager": "pnpm@8.11.0",
   "devDependencies": {
-    "@commitlint/cli": "^18.4.3",
-    "@commitlint/config-conventional": "^18.4.3",
+    "@commitlint/cli": "^18.4.4",
+    "@commitlint/config-conventional": "^18.4.4",
     "@types/fs-extra": "^11.0.4",
     "fs-extra": "^11.2.0",
     "husky": "^8.0.3",
-    "tsx": "^4.6.2",
+    "tsx": "^4.7.0",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "vite": "^5.0.11"
   }
 }
