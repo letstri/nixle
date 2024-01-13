@@ -1,5 +1,4 @@
-/// <reference types=".pnpm/@types+node@20.10.4/node_modules/@types/node/http" />
-/// <reference types=".pnpm/@types+node@18.18.13/node_modules/@types/node/http" />
+/// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NitroApp } from 'nitropack';
 declare global {
