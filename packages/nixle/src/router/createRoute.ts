@@ -14,9 +14,9 @@ interface Route<
   $infer: {
     path: Path;
     method: Method;
-    params: Params;
-    query: Query;
-    body: Body;
+    params: Awaited<Params>;
+    query: Awaited<Query>;
+    body: Awaited<Body>;
     response: Awaited<ReturnType<Handler>>;
   };
 }
@@ -36,9 +36,9 @@ const formatMethod = <
   const $infer = {} as {
     path: Path;
     method: Method;
-    params: Params;
-    query: Query;
-    body: Body;
+    params: Awaited<Params>;
+    query: Awaited<Query>;
+    body: Awaited<Body>;
     response: Awaited<ReturnType<Handler>>;
   };
 
