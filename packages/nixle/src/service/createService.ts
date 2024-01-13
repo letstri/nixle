@@ -19,8 +19,6 @@ interface ServiceMethodsHandler<M extends unknown> {
 export interface Service<
   M extends Record<string, (...args: any) => any> = Record<string, (...args: any) => any>,
 > {
-  $inferMethods: M;
-  $inferReturns: { [K in keyof M]: Awaited<ReturnType<M[K]>> };
   (): M;
 }
 
@@ -34,9 +32,6 @@ export function createService<
       ...serviceContext,
     });
   }
-
-  service.$inferMethods = {} as any;
-  service.$inferReturns = {} as any;
 
   return service;
 }
