@@ -1,14 +1,8 @@
 /// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { FastifyInstance } from 'fastify';
-declare global {
-    namespace Nixle {
-        interface Provider extends FastifyInstance {
-        }
-        interface Request extends IncomingMessage {
-        }
-        interface Response extends ServerResponse<IncomingMessage> {
-        }
-    }
+export interface Request extends IncomingMessage {
 }
-export declare const fastifyProvider: (app: Nixle.Provider) => import("nixle").Provider;
+export interface Response extends ServerResponse<IncomingMessage> {
+}
+export declare const fastifyProvider: (app: FastifyInstance<import("fastify").RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, import("fastify").FastifyBaseLogger, import("fastify").FastifyTypeProviderDefault>) => import("nixle").Provider<FastifyInstance<import("fastify").RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, import("fastify").FastifyBaseLogger, import("fastify").FastifyTypeProviderDefault>>;

@@ -3,13 +3,8 @@ import type { FastifyInstance } from 'fastify';
 import cookie from '@fastify/cookie';
 import { createProvider, type HTTPMethod } from 'nixle';
 
-declare global {
-  namespace Nixle {
-    interface Provider extends FastifyInstance {}
-    interface Request extends IncomingMessage {}
-    interface Response extends ServerResponse<IncomingMessage> {}
-  }
-}
+export interface Request extends IncomingMessage {}
+export interface Response extends ServerResponse<IncomingMessage> {}
 
 const sameSiteMap = new Map([
   ['Strict', 'strict' as const],
@@ -17,7 +12,7 @@ const sameSiteMap = new Map([
   ['None', 'none' as const],
 ]);
 
-export const fastifyProvider = createProvider((app) => {
+export const fastifyProvider = createProvider<FastifyInstance>((app) => {
   app.register(cookie);
 
   return {

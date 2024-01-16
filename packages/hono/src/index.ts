@@ -6,15 +6,10 @@ import { createProvider, type HTTPMethod } from 'nixle';
 type HonoRequest = Context['req'];
 type HonoResponse = Context['res'];
 
-declare global {
-  namespace Nixle {
-    interface Provider extends Hono {}
-    interface Request extends HonoRequest {}
-    interface Response extends HonoResponse {}
-  }
-}
+export interface Request extends HonoRequest {}
+export interface Response extends HonoResponse {}
 
-export const honoProvider = createProvider((app) => {
+export const honoProvider = createProvider<Hono>((app) => {
   return {
     app,
     globalMiddleware: (middleware) => {

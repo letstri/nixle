@@ -2,8 +2,8 @@ import type { GlobalMiddlewareHandler } from '~/router/interfaces/GlobalMiddlewa
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import type { RouteHandler } from '..';
 
-export interface Provider {
-  app: Nixle.Provider;
+export interface Provider<T = any> {
+  app: T;
   globalMiddleware: (middleware: GlobalMiddlewareHandler) => void;
   createRoute: (params: {
     method: Lowercase<HTTPMethod>;
@@ -12,6 +12,6 @@ export interface Provider {
   }) => void;
 }
 
-export function createProvider(config: (app: Nixle.Provider) => Provider) {
+export function createProvider<T>(config: (app: T) => Provider<T>) {
   return config;
 }

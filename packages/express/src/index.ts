@@ -3,13 +3,8 @@ import cookieParser from 'cookie-parser';
 import bodyParser from 'body-parser';
 import { createProvider, type HTTPMethod } from 'nixle';
 
-declare global {
-  namespace Nixle {
-    interface Provider extends Express {}
-    interface Request extends ExpressRequest {}
-    interface Response extends ExpressResponse {}
-  }
-}
+export interface Request extends ExpressRequest {}
+export interface Response extends ExpressResponse {}
 
 const sameSiteMap = new Map([
   ['Strict', 'strict' as const],
@@ -17,7 +12,7 @@ const sameSiteMap = new Map([
   ['None', 'none' as const],
 ]);
 
-export const expressProvider = createProvider((app) => {
+export const expressProvider = createProvider<Express>((app) => {
   app.use(cookieParser());
   app.use(bodyParser.json());
 

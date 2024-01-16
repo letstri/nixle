@@ -8,14 +8,14 @@ export interface RouteHandler<P extends unknown, Q extends unknown, B extends un
          * @deprecated Try to not use it, if you need some features from the request, please create an issue.
          * @see https://github.com/letstri/nixle/issues
          */
-        request: Nixle.Request;
+        request: any;
         /**
          * Response
          *
          * @deprecated Try to not use it, if you need some features from the response, please create an issue.
          * @see https://github.com/letstri/nixle/issues
          */
-        response: Nixle.Response;
+        response: any;
         /**
          * HTTP method
          */
@@ -131,7 +131,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      */
     paramsValidation?(params: any): P;
     /**
-     * B validation.
+     * Body validation.
      * In the method you can validate body.
      *
      * @param body Incoming body
@@ -147,7 +147,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      */
     bodyValidation?(body: any): B;
     /**
-     * Q handler.
+     * Query handler.
      * In the method you can validate query.
      *
      * @param query Incoming query

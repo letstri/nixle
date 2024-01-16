@@ -1,11 +1,5 @@
 declare global {
     namespace Nixle {
-        interface Provider {
-        }
-        interface Request {
-        }
-        interface Response {
-        }
         interface RouterContext {
         }
         interface ServiceContext {

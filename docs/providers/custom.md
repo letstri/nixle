@@ -8,8 +8,6 @@ If our list of providers does not include the one you need, you can create your 
 
 In short, you need to import the `createProvider` function from `nixle` and call it with the required fields.
 
-For TypeScript, you should extend the `Nixle.Provider`, `Nixle.Request`, and `Nixle.Response` interfaces to add your own types.
-
 ```ts
 import {
   createProvider,
@@ -17,15 +15,10 @@ import {
   type GlobalMiddlewareHandlerContext,
 } from 'nixle';
 
-declare global {
-  namespace Nixle {
-    interface Provider extends YourProvider {}
-    interface Request extends YourRequest {}
-    interface Response extends YourResponse {}
-  }
-}
+export interface Request extends YourRequest {}
+export interface Response extends YourResponse {}
 
-const provider = createProvider((app) => {
+const provider = createProvider<YourProvider>((app) => {
   return {
     app,
     globalMiddleware: (middleware) =>

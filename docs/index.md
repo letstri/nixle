@@ -2,9 +2,9 @@
 layout: home
 
 hero:
-  name: 'Nixle'
-  text: 'Universal server-side framework'
-  tagline: Backend for everyone and everywhere
+  name: Nixle
+  text: Universal server-side framework
+  tagline: Backend for everyone and everywhere.
   actions:
     - theme: brand
       text: Getting Started

@@ -15,13 +15,8 @@ import {
 import type { NitroApp } from 'nitropack';
 import { createProvider, type HTTPMethod } from 'nixle';
 
-declare global {
-  namespace Nixle {
-    interface Provider extends NitroApp {}
-    interface Request extends IncomingMessage {}
-    interface Response extends ServerResponse<IncomingMessage> {}
-  }
-}
+export interface Request extends IncomingMessage {}
+export interface Response extends ServerResponse<IncomingMessage> {}
 
 const sameSiteMap = new Map([
   ['Strict', 'strict' as const],
@@ -29,7 +24,7 @@ const sameSiteMap = new Map([
   ['None', 'none' as const],
 ]);
 
-export const nitroProvider = createProvider((app) => {
+export const nitroProvider = createProvider<NitroApp>((app) => {
   return {
     app,
     globalMiddleware: (middleware) =>

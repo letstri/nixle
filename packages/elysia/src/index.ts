@@ -4,13 +4,8 @@ import { createProvider, type HTTPMethod, isNixleError } from 'nixle';
 type ElysiaRequest = Context['request'];
 type ElysiaResponse = Context['set'];
 
-declare global {
-  namespace Nixle {
-    interface Provider extends Elysia {}
-    interface Request extends ElysiaRequest {}
-    interface Response extends ElysiaResponse {}
-  }
-}
+export interface Request extends ElysiaRequest {}
+export interface Response extends ElysiaResponse {}
 
 const sameSiteMap = new Map([
   ['Strict', 'strict' as const],
@@ -18,7 +13,7 @@ const sameSiteMap = new Map([
   ['None', 'none' as const],
 ]);
 
-export const elysiaProvider = createProvider((app) => {
+export const elysiaProvider = createProvider<Elysia>((app) => {
   app.onError(({ error, set }) => {
     if (isNixleError(error)) {
       set.status = error.statusCode;

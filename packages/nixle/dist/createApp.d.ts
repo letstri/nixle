@@ -18,7 +18,7 @@ export interface AppOptions<Routers extends Router[] = Router[]> {
 }
 export type NixleApp = ReturnType<typeof createApp>;
 export declare function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>): {
-    app: Nixle.Provider;
+    app: any;
     events: {
         on: {
             <Key extends keyof {
