@@ -1,6 +1,6 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '../../index';
 import type { Guard } from '../../createGuard';
-export interface RouteHandler<P extends unknown, Q extends unknown, B extends unknown> {
+export interface RouteHandler<P extends {} = {}, Q extends {} = {}, B extends {} = {}, R extends unknown = unknown> {
     (context: {
         /**
          * Request
@@ -107,9 +107,9 @@ export interface RouteHandler<P extends unknown, Q extends unknown, B extends un
          * getCookie('token'); // -> 123
          */
         getCookie: (key: string) => string | null;
-    }): any;
+    }): R;
 }
-export interface RouteOptions<P extends unknown, Q extends unknown, B extends unknown, H extends RouteHandler<P, Q, B>> {
+export interface RouteOptions<P extends {}, Q extends {}, B extends {}, R extends unknown> {
     /**
      * Status code
      * @default 200
@@ -158,7 +158,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *     throw createError('Name is required');
      *   }
      *
-     *   return { name: query.name as string };
+     *   return { name: query.name };
      * }
      */
     queryValidation?(query: any): Q;
@@ -176,7 +176,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *   }
      * }
      */
-    middleware?: RouteHandler<P, Q, B>;
+    middleware?: RouteHandler<{}, {}, {}, unknown>;
     /**
      * Main request handler.
      * In the method you can do anything you want but we recommend to call a service created with `createService`.
@@ -189,7 +189,7 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      *   return { message: 'Hello world!' };
      * }
      */
-    handler: H;
+    handler: RouteHandler<P, Q, B, R>;
     /**
      * Guards.
      *
@@ -204,4 +204,4 @@ export interface RouteOptions<P extends unknown, Q extends unknown, B extends un
      */
     guards?: Guard[];
 }
-export type RouteHandlerContext<P extends unknown = unknown, Q extends unknown = unknown, B extends unknown = unknown> = Parameters<RouteHandler<P, Q, B>>[0];
+export type RouteHandlerContext<P extends {} = {}, Q extends {} = {}, B extends {} = {}, R extends unknown = unknown> = Parameters<RouteHandler<P, Q, B, R>>[0];

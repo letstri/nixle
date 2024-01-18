@@ -1,7 +1,7 @@
 import { log } from '../logger';
 import { type Route, route } from './createRoute';
 import type { Guard } from '../createGuard';
-declare const extendRouterContext: (context: Record<string, unknown>) => void;
+declare const extendRouterContext: <T extends unknown>(context: T) => void;
 export interface RouterContext extends Nixle.RouterContext {
     route: typeof route;
     log: typeof log;

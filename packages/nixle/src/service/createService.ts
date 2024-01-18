@@ -3,7 +3,7 @@ import { env } from '~/env';
 
 let serviceContext: Nixle.ServiceContext = {};
 
-export const extendServiceContext = (options: Record<string, unknown>) => {
+export const extendServiceContext = <T extends unknown>(options: T) => {
   Object.assign(serviceContext, options);
 };
 

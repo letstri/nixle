@@ -66,7 +66,7 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     $inferRouters: {} as ConvertRouters<Routers>,
   };
 
-  log.success(`🔥 ${colorize('underline', 'Application successfully started')}`);
+  log.success('🔥 Application successfully started');
 
   return app;
 }

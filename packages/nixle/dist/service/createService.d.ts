@@ -1,5 +1,5 @@
 import { type log } from '../logger';
-export declare const extendServiceContext: (options: Record<string, unknown>) => void;
+export declare const extendServiceContext: <T extends unknown>(options: T) => void;
 interface ServiceContext extends Nixle.ServiceContext {
     log: typeof log;
     env: Nixle.Env;

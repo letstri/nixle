@@ -14,21 +14,12 @@ const usersService = createService('users', ({ log }) => {
 });
 
 const usersRouter = createRouter('/users', ({ route }) => [
-  route.get('/', {
-    // queryValidation: (q) => {
-    //   return { f: 1 };
-    // },
-    handler: () => usersService().create(),
-  }),
+  route.get('/', () => usersService().create()),
 ]);
 
 export default defineNitroPlugin((nitroApp) => {
-  const { $inferRouters } = createApp({
+  createApp({
     provider: nitroProvider(nitroApp),
     routers: [usersRouter],
   });
-
-  type InferRouters = typeof $inferRouters;
-
-  type Users = InferRouters['/users']['/']['GET']['query'];
 });

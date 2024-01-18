@@ -3,49 +3,41 @@ import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 interface Route<
   Path extends string = string,
   Method extends HTTPMethod = HTTPMethod,
-  Params extends unknown = any,
-  Query extends unknown = any,
-  Body extends unknown = any,
-  Handler extends RouteHandler<Params, Query, Body> = RouteHandler<Params, Query, Body>,
+  P extends {} = any,
+  Q extends {} = any,
+  B extends {} = any,
+  R extends unknown = unknown,
 > {
   path: Path;
   method: Method;
-  options: RouteOptions<Params, Query, Body, Handler>;
+  options: RouteOptions<P, Q, B, R>;
   $infer: {
     path: Path;
     method: Method;
-    params: Awaited<Params>;
-    query: Awaited<Query>;
-    body: Awaited<Body>;
-    response: Awaited<ReturnType<Handler>>;
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
   };
 }
 
-const formatMethod = <
-  Path extends string,
-  Method extends HTTPMethod,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(
-  method: Method,
+function get<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
   path: Path,
-  optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler,
-): Route<Path, Method, Params, Query, Body, Handler> => {
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+): Route<Path, 'GET', P, Q, B, R> {
   const $infer = {} as {
     path: Path;
-    method: Method;
-    params: Awaited<Params>;
-    query: Awaited<Query>;
-    body: Awaited<Body>;
-    response: Awaited<ReturnType<Handler>>;
+    method: 'GET';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
   };
 
   if (typeof optionsOrHandler === 'function') {
     return {
       path,
-      method,
+      method: 'GET',
       options: {
         handler: optionsOrHandler,
       },
@@ -55,65 +47,166 @@ const formatMethod = <
 
   return {
     path,
-    method,
+    method: 'GET',
     options: optionsOrHandler,
     $infer,
   };
-};
+}
 
-function get<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('GET', path, optionsOrHandler);
+function post<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
+  path: Path,
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+): Route<Path, 'POST', P, Q, B, R> {
+  const $infer = {} as {
+    path: Path;
+    method: 'POST';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
+  };
+
+  if (typeof optionsOrHandler === 'function') {
+    return {
+      path,
+      method: 'POST',
+      options: {
+        handler: optionsOrHandler,
+      },
+      $infer,
+    };
+  }
+
+  return {
+    path,
+    method: 'POST',
+    options: optionsOrHandler,
+    $infer,
+  };
 }
-function post<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('POST', path, optionsOrHandler);
+function patch<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
+  path: Path,
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+): Route<Path, 'PATCH', P, Q, B, R> {
+  const $infer = {} as {
+    path: Path;
+    method: 'PATCH';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
+  };
+
+  if (typeof optionsOrHandler === 'function') {
+    return {
+      path,
+      method: 'PATCH',
+      options: {
+        handler: optionsOrHandler,
+      },
+      $infer,
+    };
+  }
+
+  return {
+    path,
+    method: 'PATCH',
+    options: optionsOrHandler,
+    $infer,
+  };
 }
-function patch<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('PATCH', path, optionsOrHandler);
+function put<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
+  path: Path,
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+) {
+  const $infer = {} as {
+    path: Path;
+    method: 'PUT';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
+  };
+
+  if (typeof optionsOrHandler === 'function') {
+    return {
+      path,
+      method: 'PUT',
+      options: {
+        handler: optionsOrHandler,
+      },
+      $infer,
+    };
+  }
+
+  return {
+    path,
+    method: 'PUT',
+    options: optionsOrHandler,
+    $infer,
+  };
 }
-function put<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('PUT', path, optionsOrHandler);
+function _delete<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
+  path: Path,
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+): Route<Path, 'DELETE', P, Q, B, R> {
+  const $infer = {} as {
+    path: Path;
+    method: 'DELETE';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
+  };
+
+  if (typeof optionsOrHandler === 'function') {
+    return {
+      path,
+      method: 'DELETE',
+      options: {
+        handler: optionsOrHandler,
+      },
+      $infer,
+    };
+  }
+
+  return {
+    path,
+    method: 'DELETE',
+    options: optionsOrHandler,
+    $infer,
+  };
 }
-function _delete<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('DELETE', path, optionsOrHandler);
-}
-function options<
-  Path extends string,
-  Params extends unknown,
-  Query extends unknown,
-  Body extends unknown,
-  Handler extends RouteHandler<Params, Query, Body>,
->(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler) {
-  return formatMethod('OPTIONS', path, optionsOrHandler);
+function options<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(
+  path: Path,
+  optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>,
+): Route<Path, 'OPTIONS', P, Q, B, R> {
+  const $infer = {} as {
+    path: Path;
+    method: 'OPTIONS';
+    params: Awaited<P>;
+    query: Awaited<Q>;
+    body: Awaited<B>;
+    response: Awaited<R>;
+  };
+
+  if (typeof optionsOrHandler === 'function') {
+    return {
+      path,
+      method: 'OPTIONS',
+      options: {
+        handler: optionsOrHandler,
+      },
+      $infer,
+    };
+  }
+
+  return {
+    path,
+    method: 'OPTIONS',
+    options: optionsOrHandler,
+    $infer,
+  };
 }
 
 const route = {

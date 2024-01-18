@@ -109,7 +109,5 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         }
       },
     });
-
-    log.info(`🚏 Route registered`);
   });
 };

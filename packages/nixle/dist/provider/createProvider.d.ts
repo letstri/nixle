@@ -7,7 +7,7 @@ export interface Provider<T = any> {
     createRoute: (params: {
         method: Lowercase<HTTPMethod>;
         path: string;
-        handler: RouteHandler<any, any, any>;
+        handler: RouteHandler;
     }) => void;
 }
 export declare function createProvider<T>(config: (app: T) => Provider<T>): (app: T) => Provider<T>;

@@ -1,23 +1,35 @@
 import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
-interface Route<Path extends string = string, Method extends HTTPMethod = HTTPMethod, Params extends unknown = any, Query extends unknown = any, Body extends unknown = any, Handler extends RouteHandler<Params, Query, Body> = RouteHandler<Params, Query, Body>> {
+interface Route<Path extends string = string, Method extends HTTPMethod = HTTPMethod, P extends {} = any, Q extends {} = any, B extends {} = any, R extends unknown = unknown> {
     path: Path;
     method: Method;
-    options: RouteOptions<Params, Query, Body, Handler>;
+    options: RouteOptions<P, Q, B, R>;
     $infer: {
         path: Path;
         method: Method;
-        params: Awaited<Params>;
-        query: Awaited<Query>;
-        body: Awaited<Body>;
-        response: Awaited<ReturnType<Handler>>;
+        params: Awaited<P>;
+        query: Awaited<Q>;
+        body: Awaited<B>;
+        response: Awaited<R>;
     };
 }
-declare function get<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "GET", Params, Query, Body, Handler>;
-declare function post<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "POST", Params, Query, Body, Handler>;
-declare function patch<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "PATCH", Params, Query, Body, Handler>;
-declare function put<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "PUT", Params, Query, Body, Handler>;
-declare function _delete<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "DELETE", Params, Query, Body, Handler>;
-declare function options<Path extends string, Params extends unknown, Query extends unknown, Body extends unknown, Handler extends RouteHandler<Params, Query, Body>>(path: Path, optionsOrHandler: RouteOptions<Params, Query, Body, Handler> | Handler): Route<Path, "OPTIONS", Params, Query, Body, Handler>;
+declare function get<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): Route<Path, 'GET', P, Q, B, R>;
+declare function post<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): Route<Path, 'POST', P, Q, B, R>;
+declare function patch<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): Route<Path, 'PATCH', P, Q, B, R>;
+declare function put<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): {
+    path: Path;
+    method: string;
+    options: RouteOptions<P, Q, B, R>;
+    $infer: {
+        path: Path;
+        method: 'PUT';
+        params: Awaited<P>;
+        query: Awaited<Q>;
+        body: Awaited<B>;
+        response: Awaited<R>;
+    };
+};
+declare function _delete<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): Route<Path, 'DELETE', P, Q, B, R>;
+declare function options<Path extends string, P extends {}, Q extends {}, B extends {}, R extends unknown>(path: Path, optionsOrHandler: RouteOptions<P, Q, B, R> | RouteHandler<P, Q, B, R>): Route<Path, 'OPTIONS', P, Q, B, R>;
 declare const route: {
     get: typeof get;
     post: typeof post;

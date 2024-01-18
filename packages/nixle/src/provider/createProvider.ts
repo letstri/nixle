@@ -8,7 +8,7 @@ export interface Provider<T = any> {
   createRoute: (params: {
     method: Lowercase<HTTPMethod>;
     path: string;
-    handler: RouteHandler<any, any, any>;
+    handler: RouteHandler;
   }) => void;
 }
 

@@ -6,7 +6,7 @@ import { env } from '~/env';
 
 const routerContext: Nixle.RouterContext = {};
 
-const extendRouterContext = (context: Record<string, unknown>) => {
+const extendRouterContext = <T extends unknown>(context: T) => {
   Object.assign(routerContext, context);
 };
 
