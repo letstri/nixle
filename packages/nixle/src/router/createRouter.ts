@@ -3,6 +3,7 @@ import { type Route, route } from './createRoute';
 import { StatusCode, createError } from '..';
 import type { Guard } from '~/createGuard';
 import { env } from '~/env';
+import type { ValidPath } from '~/utils/types';
 
 const routerContext: Nixle.RouterContext = {};
 
@@ -44,18 +45,26 @@ export interface Router<Path extends string = string, Routes extends Route[] = R
 }
 
 function createRouter<Path extends string, Routes extends Route[]>(
-  path: Path,
+  path: ValidPath<Path>,
   options: RouterOptions<Routes>,
 ): Router<Path, Routes>;
 function createRouter<Path extends string, Routes extends Route[]>(
-  path: Path,
+  path: ValidPath<Path>,
   routes: RouterRoutesHandler<Routes>,
 ): Router<Path, Routes>;
 
 function createRouter<Path extends string, Routes extends Route[]>(
-  path: Path,
+  path: ValidPath<Path>,
   optionsOrRoutes?: RouterOptions<Routes> | RouterRoutesHandler<Routes>,
-): Router<Path, Routes> {
+): Router<ValidPath<Path>, Routes> {
+  if (!path.startsWith('/')) {
+    throw createError('Path must start with /', StatusCode.INTERNAL_SERVER_ERROR);
+  }
+
+  if (path.endsWith('/')) {
+    throw createError('Path must not end with /', StatusCode.INTERNAL_SERVER_ERROR);
+  }
+
   const isObject = typeof optionsOrRoutes === 'object';
 
   if (!optionsOrRoutes || (isObject && !optionsOrRoutes.routes)) {

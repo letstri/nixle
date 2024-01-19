@@ -1,46 +1,46 @@
-import { createConsola as w } from "consola";
-import { colorize as n, colors as d } from "consola/utils";
-import G from "dayjs";
+import { createConsola as d } from "consola";
+import { colorize as T, colors as B } from "consola/utils";
+import Q from "dayjs";
 import x from "callsite-record";
-import { joinURL as $ } from "ufo";
-import q from "mitt";
-import W from "dotenv";
-var T = /* @__PURE__ */ ((E) => (E[E.CONTINUE = 100] = "CONTINUE", E[E.SWITCHING_PROTOCOLS = 101] = "SWITCHING_PROTOCOLS", E[E.PROCESSING = 102] = "PROCESSING", E[E.EARLY_HINTS = 103] = "EARLY_HINTS", E[E.OK = 200] = "OK", E[E.CREATED = 201] = "CREATED", E[E.ACCEPTED = 202] = "ACCEPTED", E[E.NON_AUTHORITATIVE_INFORMATION = 203] = "NON_AUTHORITATIVE_INFORMATION", E[E.NO_CONTENT = 204] = "NO_CONTENT", E[E.RESET_CONTENT = 205] = "RESET_CONTENT", E[E.PARTIAL_CONTENT = 206] = "PARTIAL_CONTENT", E[E.MULTI_STATUS = 207] = "MULTI_STATUS", E[E.MULTIPLE_CHOICES = 300] = "MULTIPLE_CHOICES", E[E.MOVED_PERMANENTLY = 301] = "MOVED_PERMANENTLY", E[E.MOVED_TEMPORARILY = 302] = "MOVED_TEMPORARILY", E[E.SEE_OTHER = 303] = "SEE_OTHER", E[E.NOT_MODIFIED = 304] = "NOT_MODIFIED", E[E.USE_PROXY = 305] = "USE_PROXY", E[E.TEMPORARY_REDIRECT = 307] = "TEMPORARY_REDIRECT", E[E.PERMANENT_REDIRECT = 308] = "PERMANENT_REDIRECT", E[E.BAD_REQUEST = 400] = "BAD_REQUEST", E[E.UNAUTHORIZED = 401] = "UNAUTHORIZED", E[E.PAYMENT_REQUIRED = 402] = "PAYMENT_REQUIRED", E[E.FORBIDDEN = 403] = "FORBIDDEN", E[E.NOT_FOUND = 404] = "NOT_FOUND", E[E.METHOD_NOT_ALLOWED = 405] = "METHOD_NOT_ALLOWED", E[E.NOT_ACCEPTABLE = 406] = "NOT_ACCEPTABLE", E[E.PROXY_AUTHENTICATION_REQUIRED = 407] = "PROXY_AUTHENTICATION_REQUIRED", E[E.REQUEST_TIMEOUT = 408] = "REQUEST_TIMEOUT", E[E.CONFLICT = 409] = "CONFLICT", E[E.GONE = 410] = "GONE", E[E.LENGTH_REQUIRED = 411] = "LENGTH_REQUIRED", E[E.PRECONDITION_FAILED = 412] = "PRECONDITION_FAILED", E[E.REQUEST_TOO_LONG = 413] = "REQUEST_TOO_LONG", E[E.REQUEST_URI_TOO_LONG = 414] = "REQUEST_URI_TOO_LONG", E[E.UNSUPPORTED_MEDIA_TYPE = 415] = "UNSUPPORTED_MEDIA_TYPE", E[E.REQUESTED_RANGE_NOT_SATISFIABLE = 416] = "REQUESTED_RANGE_NOT_SATISFIABLE", E[E.EXPECTATION_FAILED = 417] = "EXPECTATION_FAILED", E[E.IM_A_TEAPOT = 418] = "IM_A_TEAPOT", E[E.INSUFFICIENT_SPACE_ON_RESOURCE = 419] = "INSUFFICIENT_SPACE_ON_RESOURCE", E[E.METHOD_FAILURE = 420] = "METHOD_FAILURE", E[E.MISDIRECTED_REQUEST = 421] = "MISDIRECTED_REQUEST", E[E.UNPROCESSABLE_ENTITY = 422] = "UNPROCESSABLE_ENTITY", E[E.LOCKED = 423] = "LOCKED", E[E.FAILED_DEPENDENCY = 424] = "FAILED_DEPENDENCY", E[E.UPGRADE_REQUIRED = 426] = "UPGRADE_REQUIRED", E[E.PRECONDITION_REQUIRED = 428] = "PRECONDITION_REQUIRED", E[E.TOO_MANY_REQUESTS = 429] = "TOO_MANY_REQUESTS", E[E.REQUEST_HEADER_FIELDS_TOO_LARGE = 431] = "REQUEST_HEADER_FIELDS_TOO_LARGE", E[E.UNAVAILABLE_FOR_LEGAL_REASONS = 451] = "UNAVAILABLE_FOR_LEGAL_REASONS", E[E.INTERNAL_SERVER_ERROR = 500] = "INTERNAL_SERVER_ERROR", E[E.NOT_IMPLEMENTED = 501] = "NOT_IMPLEMENTED", E[E.BAD_GATEWAY = 502] = "BAD_GATEWAY", E[E.SERVICE_UNAVAILABLE = 503] = "SERVICE_UNAVAILABLE", E[E.GATEWAY_TIMEOUT = 504] = "GATEWAY_TIMEOUT", E[E.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP_VERSION_NOT_SUPPORTED", E[E.INSUFFICIENT_STORAGE = 507] = "INSUFFICIENT_STORAGE", E[E.NETWORK_AUTHENTICATION_REQUIRED = 511] = "NETWORK_AUTHENTICATION_REQUIRED", E))(T || {});
-const k = (E, e) => Object.fromEntries(Object.entries(E).filter(([r]) => !e.includes(r))), V = (E) => E !== Object(E), p = (...E) => {
-  const e = $("", ...E), r = e.startsWith("/") ? e : `/${e}`;
+import { joinURL as W } from "ufo";
+import $ from "mitt";
+import q from "dotenv";
+var n = /* @__PURE__ */ ((E) => (E[E.CONTINUE = 100] = "CONTINUE", E[E.SWITCHING_PROTOCOLS = 101] = "SWITCHING_PROTOCOLS", E[E.PROCESSING = 102] = "PROCESSING", E[E.EARLY_HINTS = 103] = "EARLY_HINTS", E[E.OK = 200] = "OK", E[E.CREATED = 201] = "CREATED", E[E.ACCEPTED = 202] = "ACCEPTED", E[E.NON_AUTHORITATIVE_INFORMATION = 203] = "NON_AUTHORITATIVE_INFORMATION", E[E.NO_CONTENT = 204] = "NO_CONTENT", E[E.RESET_CONTENT = 205] = "RESET_CONTENT", E[E.PARTIAL_CONTENT = 206] = "PARTIAL_CONTENT", E[E.MULTI_STATUS = 207] = "MULTI_STATUS", E[E.MULTIPLE_CHOICES = 300] = "MULTIPLE_CHOICES", E[E.MOVED_PERMANENTLY = 301] = "MOVED_PERMANENTLY", E[E.MOVED_TEMPORARILY = 302] = "MOVED_TEMPORARILY", E[E.SEE_OTHER = 303] = "SEE_OTHER", E[E.NOT_MODIFIED = 304] = "NOT_MODIFIED", E[E.USE_PROXY = 305] = "USE_PROXY", E[E.TEMPORARY_REDIRECT = 307] = "TEMPORARY_REDIRECT", E[E.PERMANENT_REDIRECT = 308] = "PERMANENT_REDIRECT", E[E.BAD_REQUEST = 400] = "BAD_REQUEST", E[E.UNAUTHORIZED = 401] = "UNAUTHORIZED", E[E.PAYMENT_REQUIRED = 402] = "PAYMENT_REQUIRED", E[E.FORBIDDEN = 403] = "FORBIDDEN", E[E.NOT_FOUND = 404] = "NOT_FOUND", E[E.METHOD_NOT_ALLOWED = 405] = "METHOD_NOT_ALLOWED", E[E.NOT_ACCEPTABLE = 406] = "NOT_ACCEPTABLE", E[E.PROXY_AUTHENTICATION_REQUIRED = 407] = "PROXY_AUTHENTICATION_REQUIRED", E[E.REQUEST_TIMEOUT = 408] = "REQUEST_TIMEOUT", E[E.CONFLICT = 409] = "CONFLICT", E[E.GONE = 410] = "GONE", E[E.LENGTH_REQUIRED = 411] = "LENGTH_REQUIRED", E[E.PRECONDITION_FAILED = 412] = "PRECONDITION_FAILED", E[E.REQUEST_TOO_LONG = 413] = "REQUEST_TOO_LONG", E[E.REQUEST_URI_TOO_LONG = 414] = "REQUEST_URI_TOO_LONG", E[E.UNSUPPORTED_MEDIA_TYPE = 415] = "UNSUPPORTED_MEDIA_TYPE", E[E.REQUESTED_RANGE_NOT_SATISFIABLE = 416] = "REQUESTED_RANGE_NOT_SATISFIABLE", E[E.EXPECTATION_FAILED = 417] = "EXPECTATION_FAILED", E[E.IM_A_TEAPOT = 418] = "IM_A_TEAPOT", E[E.INSUFFICIENT_SPACE_ON_RESOURCE = 419] = "INSUFFICIENT_SPACE_ON_RESOURCE", E[E.METHOD_FAILURE = 420] = "METHOD_FAILURE", E[E.MISDIRECTED_REQUEST = 421] = "MISDIRECTED_REQUEST", E[E.UNPROCESSABLE_ENTITY = 422] = "UNPROCESSABLE_ENTITY", E[E.LOCKED = 423] = "LOCKED", E[E.FAILED_DEPENDENCY = 424] = "FAILED_DEPENDENCY", E[E.UPGRADE_REQUIRED = 426] = "UPGRADE_REQUIRED", E[E.PRECONDITION_REQUIRED = 428] = "PRECONDITION_REQUIRED", E[E.TOO_MANY_REQUESTS = 429] = "TOO_MANY_REQUESTS", E[E.REQUEST_HEADER_FIELDS_TOO_LARGE = 431] = "REQUEST_HEADER_FIELDS_TOO_LARGE", E[E.UNAVAILABLE_FOR_LEGAL_REASONS = 451] = "UNAVAILABLE_FOR_LEGAL_REASONS", E[E.INTERNAL_SERVER_ERROR = 500] = "INTERNAL_SERVER_ERROR", E[E.NOT_IMPLEMENTED = 501] = "NOT_IMPLEMENTED", E[E.BAD_GATEWAY = 502] = "BAD_GATEWAY", E[E.SERVICE_UNAVAILABLE = 503] = "SERVICE_UNAVAILABLE", E[E.GATEWAY_TIMEOUT = 504] = "GATEWAY_TIMEOUT", E[E.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP_VERSION_NOT_SUPPORTED", E[E.INSUFFICIENT_STORAGE = 507] = "INSUFFICIENT_STORAGE", E[E.NETWORK_AUTHENTICATION_REQUIRED = 511] = "NETWORK_AUTHENTICATION_REQUIRED", E))(n || {});
+const k = (E, e) => Object.fromEntries(Object.entries(E).filter(([r]) => !e.includes(r))), G = (E) => E !== Object(E), F = (...E) => {
+  const e = W("", ...E), r = e.startsWith("/") ? e : `/${e}`;
   return r.endsWith("/") ? r.slice(0, -1) : r;
-}, u = (E) => {
+}, V = (E) => {
   try {
     const e = JSON.parse(E);
     return typeof e == "number" || typeof e == "boolean" || e === void 0 || e === null ? e : E;
   } catch {
     return E;
   }
-}, Q = (E) => Object.fromEntries(
+}, w = (E) => Object.fromEntries(
   Object.entries(E).map(([e, r]) => [
     e,
-    Array.isArray(r) ? r.map(u) : u(r)
+    Array.isArray(r) ? r.map(V) : V(r)
   ])
-), D = q(), X = {
+), f = $(), X = {
   syntax: {
-    string: (...E) => n("green", E.join("")),
-    punctuator: (...E) => n("gray", E.join("")),
-    keyword: (...E) => n("cyan", E.join("")),
-    number: (...E) => n("magenta", E.join("")),
-    regex: (...E) => n("magenta", E.join("")),
-    comment: (...E) => n("gray", n("bold", E.join(""))),
-    invalid: (...E) => n("inverse", E.join(""))
+    string: (...E) => T("green", E.join("")),
+    punctuator: (...E) => T("gray", E.join("")),
+    keyword: (...E) => T("cyan", E.join("")),
+    number: (...E) => T("magenta", E.join("")),
+    regex: (...E) => T("magenta", E.join("")),
+    comment: (...E) => T("gray", T("bold", E.join(""))),
+    invalid: (...E) => T("inverse", E.join(""))
   },
   codeFrame: (E) => E.slice(1),
   codeLine(E, e, r, R) {
-    let N = (e ? " > " : "   ") + n("dim", E) + " ";
-    e && (N = n("bgRed", N));
-    let A = N + n("dim", "| ") + r;
+    let t = (e ? " > " : "   ") + T("dim", E) + " ";
+    e && (t = T("bgRed", t));
+    let A = t + T("dim", "| ") + r;
     return R || (A += `
 `), A;
   },
   stackLine(E, e, r) {
-    let R = `   ${n("dim", "at")} ` + E + " (" + n("blueBright", n("underline", e)) + ")";
+    let R = `   ${T("dim", "at")} ` + E + " (" + T("blueBright", T("underline", e)) + ")";
     return r || (R += `
 `), R;
   },
@@ -50,46 +50,46 @@ const k = (E, e) => Object.fromEntries(Object.entries(E).filter(([r]) => !e.incl
 ` + E;
   }
 };
-class Y extends Error {
-  constructor({ statusCode: e, message: r, details: R, code: c }) {
-    super(), this.time = G().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = e || T.BAD_REQUEST, this.message = r, this.details = R, this.code = c;
+class p extends Error {
+  constructor({ statusCode: e, message: r, details: R, code: i }) {
+    super(), this.time = Q().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = e || n.BAD_REQUEST, this.message = r, this.details = R, this.code = i;
   }
 }
 const K = (E) => x({
   forError: E,
-  isCallsiteFrame: (r) => y(E) && E.statusCode < T.INTERNAL_SERVER_ERROR ? !!r.source && !r.source.includes("node_modules") && !r.source.includes("node:") && !r.source.includes("nixle/dist") : !0
+  isCallsiteFrame: (r) => b(E) && E.statusCode < n.INTERNAL_SERVER_ERROR ? !!r.source && !r.source.includes("node_modules") && !r.source.includes("node:") && !r.source.includes("nixle/dist") : !0
 })?.renderSync({
   renderer: X,
-  stackFilter: (r) => y(E) && E.statusCode < T.INTERNAL_SERVER_ERROR ? !!r.source && !r.source.includes("node_modules") && !r.source.includes("node:") && !r.source.includes("nixle/dist") : !0
+  stackFilter: (r) => b(E) && E.statusCode < n.INTERNAL_SERVER_ERROR ? !!r.source && !r.source.includes("node_modules") && !r.source.includes("node:") && !r.source.includes("nixle/dist") : !0
 });
-function l(E, e) {
+function N(E, e) {
   const r = typeof E == "string" ? E : E.message;
-  return new Y({
+  return new p({
     message: r,
-    statusCode: typeof E == "string" ? e || T.BAD_REQUEST : E.statusCode || T.BAD_REQUEST,
+    statusCode: typeof E == "string" ? e || n.BAD_REQUEST : E.statusCode || n.BAD_REQUEST,
     code: typeof E == "string" ? void 0 : E.code,
     details: typeof E == "string" ? {} : E.details || {}
   });
 }
-const y = (E) => E instanceof Y, b = (E, e) => {
+const b = (E) => E instanceof p, y = (E, e) => {
   let r = "";
-  if (y(E) || E instanceof Error ? r = E.message : V(E) ? r = E : r = `${E.constructor.name} ${JSON.stringify(E)}`, E && (!E.statusCode || E.statusCode >= T.INTERNAL_SERVER_ERROR))
+  if (b(E) || E instanceof Error ? r = E.message : G(E) ? r = E : r = `${E.constructor.name} ${JSON.stringify(E)}`, E && (!E.statusCode || E.statusCode >= n.INTERNAL_SERVER_ERROR))
     if (E instanceof Error) {
       const R = K(E);
-      e.fatal(n("red", r), ...R ? [`
+      e.fatal(T("red", r), ...R ? [`
 `, R] : []);
     } else
-      e.fatal(n("red", r));
+      e.fatal(T("red", r));
   else
-    e.error(n("red", r));
-  D.emit("error", E);
+    e.error(T("red", r));
+  f.emit("error", E);
 }, h = (E, e) => {
-  const r = G().format(), R = V(E), c = R && E || E.message || "Internal Server Error", N = R && r || E.time || r, A = R && {} || E.details || {}, _ = R && void 0 || E.code, o = {
+  const r = Q().format(), R = G(E), i = R && E || E.message || "Internal Server Error", t = R && r || E.time || r, A = R && {} || E.details || {}, c = R && void 0 || E.code, o = {
     statusCode: e,
-    message: c,
-    time: N,
+    message: i,
+    time: t,
     details: A,
-    code: _
+    code: c
   };
   return o.details = {
     ...o.details,
@@ -104,20 +104,20 @@ const y = (E) => E instanceof Y, b = (E, e) => {
     ])
   }, o;
 };
-let M;
+let u;
 const J = (E) => {
-  M = w(E);
+  u = d(E);
 }, O = (E, ...e) => {
-  if (!M)
+  if (!u)
     return;
-  const r = `${n("bgBlue", " Nixle ")}`, R = M[E];
+  const r = `${T("bgBlue", " Nixle ")}`, R = u[E];
   if (!R)
-    throw l({
+    throw N({
       message: `Logger method "${E}" not found`,
-      statusCode: T.INTERNAL_SERVER_ERROR
+      statusCode: n.INTERNAL_SERVER_ERROR
     });
   R(`${r}`, ...e);
-}, F = {
+}, M = {
   info: (...E) => O("info", ...E),
   success: (...E) => O("success", ...E),
   warn: (...E) => O("warn", ...E),
@@ -130,13 +130,17 @@ const J = (E) => {
   fail: (...E) => O("fail", ...E),
   verbose: (...E) => O("verbose", ...E)
 }, m = (E, e = "bgWhite") => Object.fromEntries(
-  Object.entries(F).map(([r, R]) => [
+  Object.entries(M).map(([r, R]) => [
     r,
-    (...c) => R(n(e, ` ${E} `), ...c)
+    (...i) => R(T(e, ` ${E} `), ...i)
   ])
 );
 function a(E) {
   function e(r, R) {
+    if (!r.startsWith("/"))
+      throw N("Path must start with /", n.INTERNAL_SERVER_ERROR);
+    if (r.endsWith("/"))
+      throw N("Path must not end with /", n.INTERNAL_SERVER_ERROR);
     return {
       path: r,
       method: E,
@@ -153,166 +157,173 @@ const Z = {
   put: a("PUT"),
   delete: a("DELETE"),
   options: a("OPTIONS")
-}, U = {}, z = (E) => {
-  W.config(E), Object.keys(process.env).forEach((e) => {
-    U[e] = process.env[e];
+}, L = {}, z = (E) => {
+  q.config(E), Object.keys(process.env).forEach((e) => {
+    L[e] = process.env[e];
   });
-}, j = {}, S = (E) => {
-  Object.assign(j, E);
+}, Y = {}, S = (E) => {
+  Object.assign(Y, E);
 };
 function NE(E, e) {
+  if (!E.startsWith("/"))
+    throw N("Path must start with /", n.INTERNAL_SERVER_ERROR);
+  if (E.endsWith("/"))
+    throw N("Path must not end with /", n.INTERNAL_SERVER_ERROR);
   const r = typeof e == "object";
   if (!e || r && !e.routes)
-    throw l("Routes are required", T.INTERNAL_SERVER_ERROR);
-  const R = r ? e.routes : e, c = r ? e.guards || [] : [];
+    throw N("Routes are required", n.INTERNAL_SERVER_ERROR);
+  const R = r ? e.routes : e, i = r ? e.guards || [] : [];
   return {
     path: E,
     routes: () => R({
       route: Z,
       log: m(E, "bgGreen"),
-      env: U,
-      ...j
+      env: L,
+      ...Y
     }),
-    guards: c,
+    guards: i,
     $inferRoutes: {}
   };
 }
-let v = {};
+let j = {};
 const C = (E) => {
-  Object.assign(v, E);
+  Object.assign(j, E);
 };
-function OE(E, e) {
+function tE(E, e) {
   function r() {
     return e({
       log: m(E, "bgCyan"),
-      env: U,
-      ...v
+      env: L,
+      ...j
     });
   }
   return r;
 }
 const EE = (E, e) => {
   e.plugins && e.plugins.forEach(({ name: r, plugin: R }) => {
-    const c = m(r, "bgMagenta");
-    R({ provider: E, log: c, extendRouterContext: S, extendServiceContext: C });
+    const i = m(r, "bgMagenta");
+    R({ provider: E, log: i, extendRouterContext: S, extendServiceContext: C });
   });
-}, eE = (E, e) => {
-  const r = p(E.globalPrefix || "", e.path || ""), R = m(r, "bgGreen"), c = e.routes();
+}, rE = (E, e) => {
+  const r = F(E.globalPrefix || "", e.path || ""), R = m(r, "bgGreen"), i = e.routes();
   try {
-    if (c.length === 0)
-      throw l({
-        message: "At least one router is required",
-        statusCode: T.INTERNAL_SERVER_ERROR
-      });
-    if (c.some(({ path: N, method: A, options: _ }) => !N || !A || !_.handler))
-      throw l({
-        message: "Path, method and handler are required for each route",
-        statusCode: T.INTERNAL_SERVER_ERROR
-      });
-  } catch (N) {
-    b(N, R), process.exit(1);
+    if (i.length === 0)
+      throw N("At least one router is required", n.INTERNAL_SERVER_ERROR);
+    if (i.some(({ path: t, method: A, options: c }) => !t || !A || !c.handler))
+      throw N(
+        "Path, method and handler are required for each route",
+        n.INTERNAL_SERVER_ERROR
+      );
+  } catch (t) {
+    y(t, R), process.exit(1);
   }
-  c.forEach(({ path: N, method: A, options: _ }) => {
-    const o = p(r, N), H = m(`${d.bold(A)} ${o}`, "bgGreen");
+  i.forEach(({ path: t, method: A, options: c }) => {
+    const o = F(r, t), v = m(`${B.bold(A)} ${o}`, "bgGreen");
     E.provider.createRoute({
       method: A.toLowerCase(),
       path: o,
-      async handler(t) {
-        D.emit("request", t);
+      async handler(l) {
+        f.emit("request", l);
         const s = {
-          ...t,
-          query: Q(t.query),
-          params: Q(t.params)
+          ...l,
+          query: w(l.query),
+          params: w(l.params)
         };
         try {
-          await _?.middleware?.(s);
-        } catch (i) {
-          const I = i?.statusCode || T.INTERNAL_SERVER_ERROR;
-          return t.setStatusCode(I), h(i, I);
+          await c?.middleware?.(s);
+        } catch (_) {
+          const I = _?.statusCode || n.INTERNAL_SERVER_ERROR;
+          return l.setStatusCode(I), h(_, I);
         }
-        let L = s.query, f = s.params, P = s.body;
+        let D = s.query, P = s.params, U = s.body;
         try {
-          e.guards.length && await Promise.all(e.guards.map((g) => g({ ...s, env: U }))), _?.guards?.length && await Promise.all(_.guards.map((g) => g({ ...s, env: U })));
-          const [i, I, B] = await Promise.all([
-            _?.queryValidation?.(s.query),
-            _?.paramsValidation?.(s.params),
-            _?.bodyValidation?.(s.body)
+          e.guards.length && await Promise.all(e.guards.map((g) => g({ ...s, env: L }))), c?.guards?.length && await Promise.all(c.guards.map((g) => g({ ...s, env: L })));
+          const [_, I, H] = await Promise.all([
+            c?.queryValidation?.(s.query),
+            c?.paramsValidation?.(s.params),
+            c?.bodyValidation?.(s.body)
           ]);
-          L = i || L, f = I || f, P = B || P;
-        } catch (i) {
-          const I = i?.statusCode || T.BAD_REQUEST;
-          return t.setStatusCode(I), h(i, I);
+          D = _ || D, P = I || P, U = H || U;
+        } catch (_) {
+          const I = _?.statusCode || n.BAD_REQUEST;
+          return l.setStatusCode(I), h(_, I);
         }
         try {
-          const i = await _.handler({
+          const _ = await c.handler({
             ...s,
-            query: L,
-            params: f,
-            body: P
+            query: D,
+            params: P,
+            body: U
           });
-          return D.emit("response", i), _?.statusCode && t.setStatusCode(_.statusCode), i;
-        } catch (i) {
-          const I = i?.statusCode || T.INTERNAL_SERVER_ERROR;
-          return b(i, H), t.setStatusCode(I), h(i, I);
+          return f.emit("response", _), c?.statusCode && l.setStatusCode(c.statusCode), _;
+        } catch (_) {
+          const I = _?.statusCode || n.INTERNAL_SERVER_ERROR;
+          return y(_, v), l.setStatusCode(I), h(_, I);
         }
       }
     });
   });
 };
-function sE(E) {
+function OE(E) {
+  if (E.globalPrefix) {
+    if (!E.globalPrefix.startsWith("/"))
+      throw N("Path must start with /", n.INTERNAL_SERVER_ERROR);
+    if (E.globalPrefix.endsWith("/"))
+      throw N("Path must not end with /", n.INTERNAL_SERVER_ERROR);
+  }
   E.logger !== !1 && J(E.logger || {});
   try {
     if (!E.provider)
-      throw l("Provider is required", T.INTERNAL_SERVER_ERROR);
+      throw N("Provider is required", n.INTERNAL_SERVER_ERROR);
     if (E.routers.length === 0)
-      throw l("At least one router is required", T.INTERNAL_SERVER_ERROR);
+      throw N("At least one router is required", n.INTERNAL_SERVER_ERROR);
   } catch (r) {
-    b(r, F), process.exit(1);
+    y(r, M), process.exit(1);
   }
   E.plugins && EE(E.provider, E), z(E.env), E.routers.forEach((r) => {
-    eE(E, r);
+    rE(E, r);
   }), E.provider.globalMiddleware(({ setHeader: r }) => {
     r("X-Powered-By", "Nixle");
   });
   const e = {
     app: E.provider.app,
     events: {
-      on: D.on,
-      emit: D.emit
+      on: f.on,
+      emit: f.emit
     },
     $inferRouters: {}
   };
-  return F.success("🔥 Application successfully started"), e;
+  return M.success("🔥 Application successfully started"), e;
 }
-function IE(E, e) {
+function sE(E, e) {
   return async (r) => {
     try {
       await e(r);
     } catch (R) {
-      throw l({
+      throw N({
         message: R?.message || `Oops, ${E} guard was failed`,
-        statusCode: R?.statusCode || T.BAD_REQUEST,
+        statusCode: R?.statusCode || n.BAD_REQUEST,
         details: R?.details
       });
     }
   };
 }
-function AE(E) {
+function IE(E) {
   return E;
 }
-const tE = (E, e) => ({
+const AE = (E, e) => ({
   name: E,
   plugin: e
 });
 export {
-  T as StatusCode,
-  sE as createApp,
-  l as createError,
-  IE as createGuard,
-  tE as createPlugin,
-  AE as createProvider,
+  n as StatusCode,
+  OE as createApp,
+  N as createError,
+  sE as createGuard,
+  AE as createPlugin,
+  IE as createProvider,
   NE as createRouter,
-  OE as createService,
+  tE as createService,
   S as extendRouterContext,
-  y as isNixleError
+  b as isNixleError
 };

@@ -1,6 +1,7 @@
 import { log } from '../logger';
 import { type Route, route } from './createRoute';
 import type { Guard } from '../createGuard';
+import type { ValidPath } from '../utils/types';
 declare const extendRouterContext: <T extends unknown>(context: T) => void;
 export interface RouterContext extends Nixle.RouterContext {
     route: typeof route;
@@ -44,6 +45,6 @@ export interface Router<Path extends string = string, Routes extends Route[] = R
     routes: () => Routes;
     $inferRoutes: Routes extends Route[] ? ConvertRoutes<Routes> : never;
 }
-declare function createRouter<Path extends string, Routes extends Route[]>(path: Path, options: RouterOptions<Routes>): Router<Path, Routes>;
-declare function createRouter<Path extends string, Routes extends Route[]>(path: Path, routes: RouterRoutesHandler<Routes>): Router<Path, Routes>;
+declare function createRouter<Path extends string, Routes extends Route[]>(path: ValidPath<Path>, options: RouterOptions<Routes>): Router<Path, Routes>;
+declare function createRouter<Path extends string, Routes extends Route[]>(path: ValidPath<Path>, routes: RouterRoutesHandler<Routes>): Router<Path, Routes>;
 export { createRouter, extendRouterContext };

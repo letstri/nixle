@@ -15,16 +15,13 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
 
   try {
     if (routes.length === 0) {
-      throw createError({
-        message: 'At least one router is required',
-        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
-      });
+      throw createError('At least one router is required', StatusCode.INTERNAL_SERVER_ERROR);
     }
     if (routes.some(({ path, method, options }) => !path || !method || !options.handler)) {
-      throw createError({
-        message: 'Path, method and handler are required for each route',
-        statusCode: StatusCode.INTERNAL_SERVER_ERROR,
-      });
+      throw createError(
+        'Path, method and handler are required for each route',
+        StatusCode.INTERNAL_SERVER_ERROR,
+      );
     }
   } catch (e) {
     logError(e, routerLog);

@@ -1,4 +1,5 @@
-import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
+import type { ValidPath } from '~/utils/types';
+import { createError, StatusCode, type HTTPMethod, type RouteHandler, type RouteOptions } from '..';
 
 interface Route<
   Path extends string = string,
@@ -35,11 +36,11 @@ function createRoute<Method extends HTTPMethod>(method: Method) {
     Path extends string,
     Response extends unknown,
   >(
-    path: Path,
+    path: ValidPath<Path>,
     options: RouteOptions<Params, Query, Body, Response>,
   ): Route<Path, Method, Params, Query, Body, Response>;
   function route<Path extends string, Response extends unknown>(
-    path: Path,
+    path: ValidPath<Path>,
     handler: RouteHandler<{}, {}, {}, Response>,
   ): Route<Path, Method, {}, {}, {}, Response>;
 
@@ -50,11 +51,19 @@ function createRoute<Method extends HTTPMethod>(method: Method) {
     Body extends {},
     Response extends unknown,
   >(
-    path: Path,
+    path: ValidPath<Path>,
     optionsOrHandler:
       | RouteOptions<Params, Query, Body, Response>
       | RouteHandler<Params, Query, Body, Response>,
-  ): Route<Path, Method, Params, Query, Body, Response> {
+  ): Route<ValidPath<Path>, Method, Params, Query, Body, Response> {
+    if (!path.startsWith('/')) {
+      throw createError('Path must start with /', StatusCode.INTERNAL_SERVER_ERROR);
+    }
+
+    if (path.endsWith('/')) {
+      throw createError('Path must not end with /', StatusCode.INTERNAL_SERVER_ERROR);
+    }
+
     const options =
       typeof optionsOrHandler === 'function' ? { handler: optionsOrHandler } : optionsOrHandler;
 
