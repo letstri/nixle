@@ -1,5 +1,6 @@
 import type { ValidPath } from '~/utils/types';
-import { createError, StatusCode, type HTTPMethod, type RouteHandler, type RouteOptions } from '..';
+import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
+import { validatePath } from '~/utils/validations';
 
 interface Route<
   Path extends string = string,
@@ -56,13 +57,7 @@ function createRoute<Method extends HTTPMethod>(method: Method) {
       | RouteOptions<Params, Query, Body, Response>
       | RouteHandler<Params, Query, Body, Response>,
   ): Route<ValidPath<Path>, Method, Params, Query, Body, Response> {
-    if (!path.startsWith('/')) {
-      throw createError('Path must start with /', StatusCode.INTERNAL_SERVER_ERROR);
-    }
-
-    if (path.endsWith('/')) {
-      throw createError('Path must not end with /', StatusCode.INTERNAL_SERVER_ERROR);
-    }
+    validatePath(path);
 
     const options =
       typeof optionsOrHandler === 'function' ? { handler: optionsOrHandler } : optionsOrHandler;

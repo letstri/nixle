@@ -4,12 +4,13 @@ import { StatusCode, createError } from '..';
 import type { Guard } from '~/createGuard';
 import { env } from '~/env';
 import type { ValidPath } from '~/utils/types';
+import { validatePath } from '~/utils/validations';
 
 const routerContext: Nixle.RouterContext = {};
 
-const extendRouterContext = <T extends unknown>(context: T) => {
+function extendRouterContext<T extends unknown>(context: T) {
   Object.assign(routerContext, context);
-};
+}
 
 export interface RouterContext extends Nixle.RouterContext {
   route: typeof route;
@@ -57,13 +58,7 @@ function createRouter<Path extends string, Routes extends Route[]>(
   path: ValidPath<Path>,
   optionsOrRoutes?: RouterOptions<Routes> | RouterRoutesHandler<Routes>,
 ): Router<ValidPath<Path>, Routes> {
-  if (!path.startsWith('/')) {
-    throw createError('Path must start with /', StatusCode.INTERNAL_SERVER_ERROR);
-  }
-
-  if (path.endsWith('/')) {
-    throw createError('Path must not end with /', StatusCode.INTERNAL_SERVER_ERROR);
-  }
+  validatePath(path);
 
   const isObject = typeof optionsOrRoutes === 'object';
 

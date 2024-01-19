@@ -10,6 +10,7 @@ import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
 import { StatusCode, type Router } from '.';
 import { buildRouter } from './router/buildRouter';
+import { validatePath } from './utils/validations';
 
 type ConvertRouters<T extends Router[]> = {
   [P in T[number]['path']]: Extract<T[number], { path: P }>['$inferRoutes'];
@@ -28,13 +29,7 @@ export type NixleApp = ReturnType<typeof createApp>;
 
 export function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>) {
   if (options.globalPrefix) {
-    if (!options.globalPrefix.startsWith('/')) {
-      throw createError('Path must start with /', StatusCode.INTERNAL_SERVER_ERROR);
-    }
-
-    if (options.globalPrefix.endsWith('/')) {
-      throw createError('Path must not end with /', StatusCode.INTERNAL_SERVER_ERROR);
-    }
+    validatePath(options.globalPrefix);
   }
 
   if (options.logger !== false) {

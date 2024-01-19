@@ -28,7 +28,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
     process.exit(1);
   }
 
-  routes.forEach(({ path, method, options }) => {
+  routes.forEach(function buildRouters({ path, method, options }) {
     const routePath = joinPath(routerPath, path);
     const log = contextLog(`${colors.bold(method)} ${routePath}`, 'bgGreen');
 
@@ -60,10 +60,18 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
 
         try {
           if (router.guards.length) {
-            await Promise.all(router.guards.map((guard) => guard({ ..._context, env })));
+            await Promise.all(
+              router.guards.map(function validateRouterGuard(guard) {
+                return guard({ ..._context, env });
+              }),
+            );
           }
           if (options?.guards?.length) {
-            await Promise.all(options.guards.map((guard) => guard({ ..._context, env })));
+            await Promise.all(
+              options.guards.map(function validateRouteGuard(guard) {
+                return guard({ ..._context, env });
+              }),
+            );
           }
 
           const [_query, _params, _body] = await Promise.all([

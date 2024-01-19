@@ -1,5 +1,5 @@
 import type { ValidPath } from '../utils/types';
-import { type HTTPMethod, type RouteHandler, type RouteOptions } from '..';
+import type { HTTPMethod, RouteHandler, RouteOptions } from '..';
 interface Route<Path extends string = string, Method extends HTTPMethod = HTTPMethod, Params extends {} = any, Query extends {} = any, Body extends {} = any, Response extends unknown = unknown, Options extends RouteOptions<Params, Query, Body, Response> = RouteOptions<Params, Query, Body, Response>> {
     path: Path;
     method: Method;
