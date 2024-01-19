@@ -7,10 +7,16 @@ interface Route<
   Query extends {} = any,
   Body extends {} = any,
   Response extends unknown = unknown,
+  Options extends RouteOptions<Params, Query, Body, Response> = RouteOptions<
+    Params,
+    Query,
+    Body,
+    Response
+  >,
 > {
   path: Path;
   method: Method;
-  options: RouteOptions<Params, Query, Body, Response>;
+  options: Options;
   $infer: {
     path: Path;
     method: Method;

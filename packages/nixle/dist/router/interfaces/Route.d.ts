@@ -124,9 +124,11 @@ export interface RouteOptions<P extends {}, Q extends {}, B extends {}, R extend
      * @example
      * paramsValidation(params) {
      *   // We have a path '/users/:id'
-     *   if (!params.id) {
+     *   if (!params.id || typeof params.id !== 'string') {
      *     throw createError('ID is required');
      *   }
+     *
+     *   return { id: params.id };
      * }
      */
     paramsValidation?(params: any): P;
@@ -142,7 +144,7 @@ export interface RouteOptions<P extends {}, Q extends {}, B extends {}, R extend
      *     throw createError('Name is required');
      *   }
      *
-     *   return { name: body.name as string };
+     *   return { name: body.name };
      * }
      */
     bodyValidation?(body: any): B;
@@ -176,7 +178,7 @@ export interface RouteOptions<P extends {}, Q extends {}, B extends {}, R extend
      *   }
      * }
      */
-    middleware?: RouteHandler<{}, {}, {}, unknown>;
+    middleware?: RouteHandler<P, Q, B, unknown>;
     /**
      * Main request handler.
      * In the method you can do anything you want but we recommend to call a service created with `createService`.
