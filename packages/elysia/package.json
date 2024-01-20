@@ -34,7 +34,7 @@
   "devDependencies": {
     "tsconfig-replace-paths": "^0.0.14",
     "typescript": "^5.3.3",
-    "vite": "^5.0.8"
+    "vite": "^5.0.12"
   },
   "peerDependencies": {
     "elysia": "^0.7.29",
