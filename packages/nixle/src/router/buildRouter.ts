@@ -48,9 +48,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
           await options?.middleware?.(_context);
         } catch (error) {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
-
           context.setStatusCode(statusCode);
-
           return transformErrorToResponse(error, statusCode);
         }
 
@@ -85,7 +83,6 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
           body = _body || body;
         } catch (error) {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.BAD_REQUEST;
-
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
         }
@@ -106,9 +103,8 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
 
           return response;
         } catch (error) {
-          const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
-
           logError(error, log);
+          const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
         }

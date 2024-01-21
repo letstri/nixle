@@ -25,7 +25,7 @@ const renderer: any = {
 
     if (base) lineNum = colorize('bgRed', lineNum);
 
-    let line = lineNum + colorize('dim', '| ') + src;
+    let line = lineNum + colorize('dim', '| ') + src.slice(0, 300);
 
     if (!isLast) line += '\n';
 
@@ -157,7 +157,7 @@ export const logError = (error: any, _log: typeof log) => {
       _log.fatal(colorize('red', message));
     }
   } else {
-    _log.error(colorize('red', message));
+    _log.error(colorize('red', message), colorize('red', JSON.stringify(error?.details, null, 2)));
   }
 
   emitter.emit('error', error);
