@@ -69,7 +69,7 @@ export const usersRouter = createRouter('/users', ({ route, zodObject }, { users
       limit: zod.number().default(10),
     }).validate,
     handler: ({ query }) => {
-      return usersService.getUsers(+query.limit);
+      return usersService().getUsers(+query.limit);
     },
   }),
 ]);
@@ -95,13 +95,27 @@ import { zodPlugin } from '@nixle/zod';
 import { ofetchPlugin } from '@nixle/ofetch';
 import { usersRouter } from './usersRouter';
 
-const { app } = createApp({
+const { app, $inferRouters } = createApp({
   provider: fastifyProvider(fastify()),
   router: [usersRouter],
   plugins: [zodPlugin, ofetchPlugin()],
 });
 
 app.listen({ port: 4000 });
+
+type NixleRouters = typeof $inferRouters;
+// {
+//   '/users': {
+//     '/': {
+//       GET: {
+//         query: {
+//           limit: number;
+//         };
+//         response: { name: string; email: string }[]
+//       }
+//     }
+//   };
+// }
 ```
 
 ## Author

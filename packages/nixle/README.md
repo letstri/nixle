@@ -95,13 +95,27 @@ import { zodPlugin } from '@nixle/zod';
 import { ofetchPlugin } from '@nixle/ofetch';
 import { usersRouter } from './usersRouter';
 
-const { app } = createApp({
+const { app, $inferRouters } = createApp({
   provider: fastifyProvider(fastify()),
   router: [usersRouter],
   plugins: [zodPlugin, ofetchPlugin()],
 });
 
 app.listen({ port: 4000 });
+
+type NixleRouters = typeof $inferRouters;
+// {
+//   '/users': {
+//     '/': {
+//       GET: {
+//         query: {
+//           limit: number;
+//         };
+//         response: { name: string; email: string }[]
+//       }
+//     }
+//   };
+// }
 ```
 
 ## Author
