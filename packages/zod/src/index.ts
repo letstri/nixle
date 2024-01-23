@@ -1,8 +1,6 @@
 import { StatusCode, createError, createPlugin } from 'nixle';
 import * as _zod from 'zod';
 
-type NonOptionalKeys<T> = { [K in keyof T]-?: undefined extends T[K] ? never : K }[keyof T];
-
 interface Options {
   /**
    * The message to use when throwing an error.
@@ -19,17 +17,12 @@ interface Options {
 }
 
 interface ZodObject {
-  <
-    O extends { [K in string]: any } | void = void,
-    T extends { [K in O extends void ? string : NonOptionalKeys<O>]: _zod.ZodTypeAny } = {
-      [K in O extends void ? string : NonOptionalKeys<O>]: _zod.ZodTypeAny;
-    },
-  >(
+  <T extends { [K in string]: _zod.ZodTypeAny }>(
     shape: T | ((zod: typeof _zod.z) => T),
     options?: Options,
   ): {
-    validate(data: any): Promise<O extends void ? _zod.infer<_zod.ZodObject<T>> : O>;
-    $infer: O extends void ? _zod.infer<_zod.ZodObject<T>> : O;
+    validate(data: any): Promise<_zod.infer<_zod.ZodObject<T>>>;
+    $infer: _zod.infer<_zod.ZodObject<T>>;
   };
 }
 
@@ -86,24 +79,13 @@ declare global {
  *   message: 'Custom message',
  *   statusCode: StatusCode.BAD_REQUEST,
  * });
- *
- * @example
- * interface UserCreateInput {
- *   email: string;
- *   password: string;
- * }
- *
- * const { validate } = zodObject<UserCreateInput>((zod) => ({
- *   email: zod.string().email(),
- *   password: zod.string().min(8),
- * }));
  */
 export const zodObject: ZodObject = (shape, options) => {
   const schema = _zod.object(typeof shape === 'function' ? shape(_zod.z) : shape);
 
   const validate = async (data: any) => {
     try {
-      return (await schema.parseAsync(data)) as any;
+      return await schema.parseAsync(data);
     } catch (e) {
       const error = e as _zod.ZodError;
 
