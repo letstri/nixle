@@ -1,12 +1,14 @@
 import { log } from './logger';
 import { StatusCode } from '.';
-interface ErrorOptions<D = any> {
+export interface ErrorOptions<D = any> {
     /**
      * @example User with id 1 not found
      */
     message: string;
     /**
      * @default 400 Bad Request
+     *
+     * @example StatusCode.BAD_REQUEST
      */
     statusCode?: number;
     /**
@@ -31,4 +33,3 @@ export declare function createError<D = never>(message: string, statusCode?: Sta
 export declare const isNixleError: (error: any) => error is NixleError<any>;
 export declare const logError: (error: any, _log: typeof log) => void;
 export declare const transformErrorToResponse: (error: any, statusCode: StatusCode) => Omit<Pick<NixleError<any>, keyof NixleError<any>>, "name">;
-export {};

@@ -50,13 +50,15 @@ const renderer: any = {
   },
 };
 
-interface ErrorOptions<D = any> {
+export interface ErrorOptions<D = any> {
   /**
    * @example User with id 1 not found
    */
   message: string;
   /**
    * @default 400 Bad Request
+   *
+   * @example StatusCode.BAD_REQUEST
    */
   statusCode?: number;
   /**

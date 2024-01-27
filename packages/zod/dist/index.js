@@ -1,20 +1,26 @@
-import { createPlugin as m, createError as u, StatusCode as l } from "nixle";
-import * as o from "zod";
-const a = (t, e) => {
-  const s = o.object(typeof t == "function" ? t(o.z) : t);
+import { createPlugin as f, createError as u, StatusCode as y } from "nixle";
+import { z as r } from "zod";
+const n = (e, o) => {
+  const c = (() => {
+    if (typeof e == "function") {
+      const t = e(r);
+      return t instanceof r.ZodObject || t instanceof r.ZodEffects ? t.parseAsync : r.object(t).parseAsync;
+    }
+    return e instanceof r.ZodObject ? e.parseAsync : r.object(e).parseAsync;
+  })();
   return {
-    validate: async (c) => {
+    validate: async (t) => {
       try {
-        return await s.parseAsync(c);
-      } catch (n) {
-        const d = n;
+        return await c(t);
+      } catch (a) {
+        const i = a;
         throw u({
-          message: e?.message || "Validation error",
-          statusCode: e?.statusCode || l.BAD_REQUEST,
-          details: d.errors.reduce(
-            (i, r) => ({
-              ...i,
-              [r.path.join(".")]: r.message
+          message: o?.message || "Validation error",
+          statusCode: o?.statusCode || y.BAD_REQUEST,
+          details: i.errors.reduce(
+            (d, s) => ({
+              ...d,
+              [s.path.join(".")]: s.message
             }),
             {}
           )
@@ -23,10 +29,10 @@ const a = (t, e) => {
     },
     $infer: {}
   };
-}, z = m("zod", ({ extendServiceContext: t, extendRouterContext: e }) => {
-  e({ zodObject: a }), t({ zodObject: a });
+}, j = f("zod", ({ extendServiceContext: e, extendRouterContext: o }) => {
+  o({ zodObject: n }), e({ zodObject: n });
 });
 export {
-  a as zodObject,
-  z as zodPlugin
+  n as zodObject,
+  j as zodPlugin
 };
