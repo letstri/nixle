@@ -9,11 +9,7 @@ If our list of providers does not include the one you need, you can create your 
 In short, you need to import the `createProvider` function from `nixle` and call it with the required fields.
 
 ```ts
-import {
-  createProvider,
-  type RouteHandlerContext,
-  type GlobalMiddlewareHandlerContext,
-} from 'nixle';
+import { createProvider, type RouteHandlerContext } from 'nixle';
 
 export interface Request extends YourRequest {}
 export interface Response extends YourResponse {}
@@ -21,14 +17,6 @@ export interface Response extends YourResponse {}
 const provider = createProvider<YourProvider>((app) => {
   return {
     app,
-    globalMiddleware: (middleware) =>
-      app.use(async (request, response, next) => {
-        const formattedContext: GlobalMiddlewareHandlerContext = {};
-
-        await middleware(formattedContext);
-
-        next();
-      }),
     createRoute: ({ method, path, handler }) =>
       app[method](path, async (request, response) => {
         const formattedContext: RouteHandlerContext = {};

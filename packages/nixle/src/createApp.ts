@@ -57,9 +57,10 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     buildRouter(options, router);
   });
 
-  options.provider.globalMiddleware(({ setHeader }) => {
-    setHeader('X-Powered-By', 'Nixle');
-  });
+  // TODO: Add global middleware
+  // options.provider.globalMiddleware(({ setHeader }) => {
+  //   setHeader('X-Powered-By', 'Nixle');
+  // });
 
   const app = {
     app: options.provider.app,

@@ -17,16 +17,6 @@ export const fastifyProvider = createProvider<FastifyInstance>((app) => {
 
   return {
     app,
-    globalMiddleware: (middleware) =>
-      app.addHook('onRequest', async (request, reply) => {
-        await middleware({
-          url: request.raw.url!,
-          method: request.raw.method as HTTPMethod,
-          setHeader: (key, value) => reply.header(key, value),
-          getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),
-          headers: request.headers as Record<string, string>,
-        });
-      }),
     createRoute: ({ method, path, handler }) =>
       app[method](path, async (request, reply) => {
         reply.send(

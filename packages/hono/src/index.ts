@@ -1,6 +1,5 @@
 import type { Hono, Context } from 'hono';
 import { setCookie, getCookie } from 'hono/cookie';
-import { createMiddleware } from 'hono/factory';
 import { createProvider, type HTTPMethod } from 'nixle';
 
 type HonoRequest = Context['req'];
@@ -12,22 +11,6 @@ export interface Response extends HonoResponse {}
 export const honoProvider = createProvider<Hono>((app) => {
   return {
     app,
-    globalMiddleware: (middleware) => {
-      app.use(
-        '*',
-        createMiddleware(async (c, next) => {
-          await middleware({
-            url: c.req.url,
-            method: c.req.method as HTTPMethod,
-            setHeader: (key, value) => c.res.headers.set(key, value),
-            getHeader: (key) => c.req.header(key) || null,
-            headers: c.req.header(),
-          });
-
-          await next();
-        }),
-      );
-    },
     createRoute: ({ method, path, handler }) => {
       const methods: Record<typeof method, typeof app.get> = {
         get: app.get,

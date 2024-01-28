@@ -24,16 +24,6 @@ export const elysiaProvider = createProvider<Elysia>((app) => {
 
   return {
     app,
-    globalMiddleware: (middleware) =>
-      app.onRequest(async ({ request, set }) => {
-        await middleware({
-          url: request.url,
-          method: request.method as HTTPMethod,
-          setHeader: (key, value) => (set.headers[key] = value),
-          getHeader: (key) => request.headers.get(key),
-          headers: Object.fromEntries(request.headers.entries()),
-        });
-      }),
     createRoute: ({ method, path, handler }) =>
       app[method](path, async (context) => {
         return handler({

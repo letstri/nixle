@@ -18,17 +18,6 @@ export const expressProvider = createProvider<Express>((app) => {
 
   return {
     app,
-    globalMiddleware: (middleware) =>
-      app.use(async (request, response, next) => {
-        await middleware({
-          url: request.url,
-          method: request.method as HTTPMethod,
-          setHeader: (key, value) => response.setHeader(key, value),
-          getHeader: (key) => (request.headers[key] ? String(request.headers[key]) : null),
-          headers: request.headers as Record<string, string>,
-        });
-        next();
-      }),
     createRoute: ({ method, path, handler }) =>
       app[method](path, async (request, response) => {
         response.send(

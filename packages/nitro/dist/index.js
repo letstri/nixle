@@ -1,42 +1,31 @@
-import { getRequestURL as m, setHeader as u, getHeader as c, getRequestHeaders as l, eventHandler as g, getRouterParams as h, getQuery as n, readBody as H, setResponseStatus as f, setCookie as S, getCookie as b } from "h3";
-import { createProvider as k } from "nixle";
-const p = /* @__PURE__ */ new Map([
+import { eventHandler as u, getRouterParams as c, getQuery as m, readBody as n, setResponseStatus as g, setHeader as l, getHeader as p, getRequestHeaders as S, setCookie as H, getCookie as y } from "h3";
+import { createProvider as C } from "nixle";
+const f = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), R = k((a) => ({
-  app: a,
-  globalMiddleware: (s) => a.hooks.hook("request", async (t) => {
-    await s({
-      url: m(t).href,
-      method: t.method,
-      setHeader: (o, e) => u(t, o, e),
-      getHeader: (o) => c(t, o) || null,
-      headers: Object.fromEntries(
-        Object.entries(l(t)).filter(([, o]) => o)
-      )
-    });
-  }),
-  createRoute: ({ method: s, path: t, handler: o }) => a.router.use(
-    t,
-    g(async (e) => o({
+]), R = C((o) => ({
+  app: o,
+  createRoute: ({ method: s, path: i, handler: d }) => o.router.use(
+    i,
+    u(async (e) => d({
       request: e.node.req,
       response: e.node.res,
       method: e.method,
-      params: h(e),
-      query: n(e),
-      body: ["post", "put", "patch"].includes(s) ? await H(e) : {},
-      setStatusCode: (r) => f(e, r),
-      setHeader: (r, i) => u(e, r, i),
-      getHeader: (r) => c(e, r) || null,
+      params: c(e),
+      query: m(e),
+      body: ["post", "put", "patch"].includes(s) ? await n(e) : {},
+      setStatusCode: (r) => g(e, r),
+      setHeader: (r, t) => l(e, r, t),
+      getHeader: (r) => p(e, r) || null,
       headers: Object.fromEntries(
-        Object.entries(l(e)).filter(([, r]) => r)
+        Object.entries(S(e)).filter(([, r]) => r)
       ),
-      setCookie: (r, i, d) => S(e, r, i, {
-        ...d,
-        sameSite: p.get(d?.sameSite || "Strict") || "strict"
+      setCookie: (r, t, a) => H(e, r, t, {
+        ...a,
+        sameSite: f.get(a?.sameSite || "Strict") || "strict"
       }),
-      getCookie: (r) => b(e, r) || null
+      getCookie: (r) => y(e, r) || null
     })),
     s
   )

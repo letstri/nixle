@@ -3,11 +3,10 @@ import {
   setCookie,
   getCookie,
   getQuery,
-  eventHandler,
+  defineEventHandler,
   getRequestHeaders,
   getRouterParams,
   setResponseStatus,
-  getRequestURL,
   getHeader,
   setHeader,
   readBody,
@@ -27,22 +26,10 @@ const sameSiteMap = new Map([
 export const nitroProvider = createProvider<NitroApp>((app) => {
   return {
     app,
-    globalMiddleware: (middleware) =>
-      app.hooks.hook('request', async (event) => {
-        await middleware({
-          url: getRequestURL(event).href,
-          method: event.method as HTTPMethod,
-          setHeader: (key, value) => setHeader(event, key, value),
-          getHeader: (key) => getHeader(event, key) || null,
-          headers: Object.fromEntries(
-            Object.entries(getRequestHeaders(event)).filter(([, v]) => v),
-          ) as Record<string, string>,
-        });
-      }),
     createRoute: ({ method, path, handler }) =>
       app.router.use(
         path,
-        eventHandler(async (event) => {
+        defineEventHandler(async (event) => {
           return handler({
             request: event.node.req,
             response: event.node.res,
