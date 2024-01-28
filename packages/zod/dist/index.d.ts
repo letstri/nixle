@@ -3,7 +3,7 @@ import { z } from 'zod';
 interface ZodObject {
     <T extends {
         [K in string]: z.ZodTypeAny;
-    }>(shape: T | z.ZodObject<T> | ((zod: typeof z) => T | z.ZodObject<T> | z.ZodEffects<z.ZodObject<T>>), options?: ErrorOptions): {
+    }>(shape: T | z.ZodObject<T> | ((zod: typeof z) => T | z.ZodObject<T> | z.ZodEffects<z.ZodObject<T>> | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>), options?: ErrorOptions): {
         validate(data: any): Promise<z.infer<z.ZodObject<T>>>;
         $infer: z.infer<z.ZodObject<T>>;
     };
