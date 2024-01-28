@@ -1,10 +1,10 @@
-import { eventHandler as u, getRouterParams as c, getQuery as m, readBody as n, setResponseStatus as g, setHeader as l, getHeader as p, getRequestHeaders as S, setCookie as H, getCookie as y } from "h3";
-import { createProvider as C } from "nixle";
-const f = /* @__PURE__ */ new Map([
+import { defineEventHandler as u, getRouterParams as c, getQuery as m, readBody as n, setResponseStatus as g, setHeader as l, getHeader as p, getRequestHeaders as S, setCookie as H, getCookie as f } from "h3";
+import { createProvider as y } from "nixle";
+const C = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), R = C((o) => ({
+]), R = y((o) => ({
   app: o,
   createRoute: ({ method: s, path: i, handler: d }) => o.router.use(
     i,
@@ -23,9 +23,9 @@ const f = /* @__PURE__ */ new Map([
       ),
       setCookie: (r, t, a) => H(e, r, t, {
         ...a,
-        sameSite: f.get(a?.sameSite || "Strict") || "strict"
+        sameSite: C.get(a?.sameSite || "Strict") || "strict"
       }),
-      getCookie: (r) => y(e, r) || null
+      getCookie: (r) => f(e, r) || null
     })),
     s
   )
