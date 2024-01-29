@@ -1,7 +1,3 @@
-type Events = {
-    request: any;
-    response: any;
-    error: any;
-};
-export declare const emitter: import("mitt").Emitter<Events>;
-export {};
+/// <reference types="node" />
+import EventEmitter from 'node:events';
+export declare const emitter: EventEmitter;

@@ -31,10 +31,10 @@ interface Route<
 
 function createRoute<Method extends HTTPMethod>(method: Method) {
   function route<
+    Path extends string,
     Params extends {},
     Query extends {},
     Body extends {},
-    Path extends string,
     Response extends unknown,
   >(
     path: ValidPath<Path>,

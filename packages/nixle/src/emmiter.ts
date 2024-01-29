@@ -1,9 +1,3 @@
-import mitt from 'mitt';
+import EventEmitter from 'node:events';
 
-type Events = {
-  request: any;
-  response: any;
-  error: any;
-};
-
-export const emitter = mitt<Events>();
+export const emitter = new EventEmitter();

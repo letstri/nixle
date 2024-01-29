@@ -1,12 +1,12 @@
 import type { HTTPMethod } from '~/types/HTTPMethod';
-import type { RouteHandler } from '..';
+import type { ProviderRouteHandler } from './RouteHandler';
 
 export interface Provider<T = any> {
   app: T;
   createRoute: (params: {
     method: Lowercase<HTTPMethod>;
     path: string;
-    handler: RouteHandler;
+    handler: ProviderRouteHandler;
   }) => void;
 }
 

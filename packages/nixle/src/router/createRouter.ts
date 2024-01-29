@@ -5,6 +5,7 @@ import type { Guard } from '~/createGuard';
 import { env } from '~/env';
 import type { ValidPath } from '~/utils/types';
 import { validatePath } from '~/utils/validations';
+import type { Middleware } from '~/createMiddleware';
 
 const routerContext: Nixle.RouterContext = {};
 
@@ -23,6 +24,7 @@ interface RouterRoutesHandler<Routes extends Route[]> {
 }
 
 interface RouterOptions<Routes extends Route[]> {
+  middlewares?: Middleware[];
   guards?: Guard[];
   routes: RouterRoutesHandler<Routes>;
 }
@@ -40,6 +42,7 @@ type ConvertRoutes<T extends Route[]> = {
 
 export interface Router<Path extends string = string, Routes extends Route[] = Route[]> {
   path: Path;
+  middlewares: Middleware[];
   guards: Guard[];
   routes: () => Routes;
   $inferRoutes: Routes extends Route[] ? ConvertRoutes<Routes> : never;
@@ -69,6 +72,7 @@ function createRouter<Path extends string, Routes extends Route[]>(
   const _routesFunction: RouterRoutesHandler<Routes> = isObject
     ? optionsOrRoutes.routes
     : optionsOrRoutes;
+  const middlewares = isObject ? optionsOrRoutes.middlewares || [] : [];
   const guards = isObject ? optionsOrRoutes.guards || [] : [];
 
   const formatRoutes = () => {
@@ -83,6 +87,7 @@ function createRouter<Path extends string, Routes extends Route[]>(
   return {
     path,
     routes: formatRoutes,
+    middlewares,
     guards,
     $inferRoutes: {} as Routes extends Route[] ? ConvertRoutes<Routes> : never,
   };

@@ -1,3 +1,4 @@
+/// <reference types="node" />
 import type { ConsolaOptions } from 'consola';
 import type dotenv from 'dotenv';
 import type { Provider } from './provider/createProvider';
@@ -20,42 +21,8 @@ export type NixleApp = ReturnType<typeof createApp>;
 export declare function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>): {
     app: any;
     events: {
-        on: {
-            <Key extends keyof {
-                request: any;
-                response: any;
-                error: any;
-            }>(type: Key, handler: import("mitt").Handler<{
-                request: any;
-                response: any;
-                error: any;
-            }[Key]>): void;
-            (type: "*", handler: import("mitt").WildcardHandler<{
-                request: any;
-                response: any;
-                error: any;
-            }>): void;
-        };
-        emit: {
-            <Key_1 extends keyof {
-                request: any;
-                response: any;
-                error: any;
-            }>(type: Key_1, event: {
-                request: any;
-                response: any;
-                error: any;
-            }[Key_1]): void;
-            <Key_2 extends keyof {
-                request: any;
-                response: any;
-                error: any;
-            }>(type: undefined extends {
-                request: any;
-                response: any;
-                error: any;
-            }[Key_2] ? Key_2 : never): void;
-        };
+        on: (eventName: string | symbol, listener: (...args: any[]) => void) => import("events");
+        emit: (eventName: string | symbol, ...args: any[]) => boolean;
     };
     $inferRouters: ConvertRouters<Routers>;
 };

@@ -1,11 +1,11 @@
 import { type RouteHandlerContext } from '.';
 import { type log } from './logger';
-export interface GuardFunction {
+export interface MiddlewareFunction {
     (context: RouteHandlerContext & {
         log: typeof log;
     }): Promise<void> | void;
 }
-export interface Guard {
+export interface Middleware {
     (context: RouteHandlerContext): Promise<void>;
 }
-export declare function createGuard<N extends string>(name: Lowercase<N>, guard: GuardFunction): Guard;
+export declare function createMiddleware<N extends string>(name: Lowercase<N>, middleware: MiddlewareFunction): Middleware;

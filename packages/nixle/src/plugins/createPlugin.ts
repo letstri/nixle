@@ -1,5 +1,5 @@
 import type { extendRouterContext } from '~/router/createRouter';
-import type { extendServiceContext } from '~/service/createService';
+import type { extendServiceContext } from '~/createService';
 import type { log } from '../logger';
 import type { Provider } from '..';
 

@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 import createCallsiteRecord from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
-import { isPrimitive, omit } from './utils/helpers';
+import { isPrimitive, exclude } from './utils/helpers';
 import { emitter } from './emmiter';
 import { StatusCode } from '.';
 
@@ -153,10 +153,22 @@ export const logError = (error: any, _log: typeof log) => {
   if (error && (!error.statusCode || error.statusCode >= StatusCode.INTERNAL_SERVER_ERROR)) {
     if (error instanceof Error) {
       const stack = formatErrorStack(error);
+      const params = [
+        colorize('red', message),
+        (error as NixleError)?.details &&
+          colorize('red', JSON.stringify((error as NixleError)?.details, null, 2)),
+        ...(stack ? ['\n', stack] : []),
+      ].filter(Boolean);
 
-      _log.fatal(colorize('red', message), ...(stack ? ['\n', stack] : []));
+      _log.fatal(...params);
     } else {
-      _log.fatal(colorize('red', message));
+      const params = [
+        colorize('red', message),
+        (error as NixleError)?.details &&
+          colorize('red', JSON.stringify((error as NixleError)?.details, null, 2)),
+      ].filter(Boolean);
+
+      _log.fatal(...params);
     }
   } else {
     _log.error(colorize('red', message), colorize('red', JSON.stringify(error?.details, null, 2)));
@@ -184,7 +196,7 @@ export const transformErrorToResponse = (error: any, statusCode: StatusCode) => 
 
   json.details = {
     ...json.details,
-    ...omit(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
+    ...exclude(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
       'message',
       'name',
       'stack',

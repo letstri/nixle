@@ -169,20 +169,26 @@ export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
 ]);
 ```
 
-### Middleware
+### Middlewares
 
-You can use middleware to execute code before the route handler. Context parameters are the same as in the route handler.
+You can use middlewares to execute code before the route handler. Context parameters are the same as in the route handler.
 
 ```ts
-import { createRouter, StatusCode, createError } from 'nixle';
+import { createRouter, StatusCode, createError, createMiddleware } from 'nixle';
+
+const auth = createMiddleware('auth', async ({ getHeader }) => {
+  const token = getHeader('Authorization');
+
+  // Or you can use some library to verify the token
+
+  if (!token) {
+    throw createError('Unauthorized', StatusCode.UNAUTHORIZED);
+  }
+});
 
 export const usersRouter = createRouter('/users', ({ route, log }) => [
   route.get('/', {
-    middleware: async ({ getHeader }) => {
-      log.info('Middleware executed');
-
-      await new Promise((resolve) => setTimeout(resolve, 1000)); // Some check function
-    },
+    middlewares: [auth],
     handler: () => 'Hello World!',
   }),
 ]);

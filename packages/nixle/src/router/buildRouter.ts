@@ -5,7 +5,7 @@ import type { AppOptions } from '~/createApp';
 import { env } from '~/env';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { emitter } from '~/emmiter';
-import { StatusCode, type Router } from '..';
+import { StatusCode, type Router, type RouteHandlerContext } from '..';
 import { joinPath, parseObject } from '~/utils/helpers';
 
 export const buildRouter = (appOptions: AppOptions, router: Router) => {
@@ -36,38 +36,69 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
       method: method.toLowerCase() as Lowercase<HTTPMethod>,
       path: routePath,
       async handler(context) {
-        emitter.emit('request', context);
+        const data: any = {};
 
-        const _context = {
+        const getData = <T extends Record<string, any>, K extends keyof T>(
+          key?: K,
+        ): K extends undefined ? T : T[K] => (key ? data[key] || null : data);
+        const setData = <T extends {} | string, V>(keyOrData: T, value?: V) => {
+          if (typeof keyOrData === 'string') {
+            data[keyOrData] = value;
+          } else {
+            Object.assign(data, keyOrData);
+          }
+        };
+
+        const _context: RouteHandlerContext = {
           ...context,
           query: parseObject(context.query),
           params: parseObject(context.params),
+          headers: Object.fromEntries(
+            Object.entries(context.headers)
+              .filter(([, value]) => typeof value === 'string')
+              .map(([key, value]) => [key.toLowerCase(), value]),
+          ),
+          env,
+          getData,
+          setData,
         };
 
+        emitter.emit('request', context);
+
         try {
-          await options?.middleware?.(_context);
+          if (router?.middlewares) {
+            await Promise.all(
+              router.middlewares.map(function executeRouterMiddleware(middleware) {
+                return middleware(_context);
+              }),
+            );
+          }
+          if (options?.middlewares) {
+            await Promise.all(
+              options.middlewares.map(function executeRouterMiddleware(middleware) {
+                return middleware(_context);
+              }),
+            );
+          }
         } catch (error) {
+          logError(error, log);
           const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
         }
 
-        let query = _context.query;
-        let params = _context.params;
-        let body = _context.body;
-
         try {
           if (router.guards.length) {
             await Promise.all(
               router.guards.map(function validateRouterGuard(guard) {
-                return guard({ ..._context, env });
+                return guard(_context);
               }),
             );
           }
           if (options?.guards?.length) {
             await Promise.all(
               options.guards.map(function validateRouteGuard(guard) {
-                return guard({ ..._context, env });
+                return guard(_context);
               }),
             );
           }
@@ -78,9 +109,9 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
             options?.bodyValidation?.(_context.body),
           ]);
 
-          query = _query || query;
-          params = _params || params;
-          body = _body || body;
+          _context.query = _query || _context.query;
+          _context.params = _params || _context.params;
+          _context.body = _body || _context.body;
         } catch (error) {
           const statusCode = (error as NixleError)?.statusCode || StatusCode.BAD_REQUEST;
           context.setStatusCode(statusCode);
@@ -88,12 +119,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         }
 
         try {
-          const response = await options.handler({
-            ..._context,
-            query,
-            params,
-            body,
-          });
+          const response = await options.handler(_context);
 
           emitter.emit('response', response);
 

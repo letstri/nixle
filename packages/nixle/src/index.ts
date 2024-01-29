@@ -13,7 +13,7 @@ export type { CookieOptions } from '~/types/CookieOptions';
 export { StatusCode } from '~/types/StatusCode';
 export { createApp, type NixleApp } from './createApp';
 export * from './router';
-export { createService } from './service/createService';
+export { createService } from './createService';
 export * from './createGuard';
 export { createProvider, type Provider } from './provider/createProvider';
 export { createError, isNixleError, type ErrorOptions } from './createError';
