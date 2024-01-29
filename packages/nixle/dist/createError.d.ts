@@ -31,5 +31,5 @@ export declare class NixleError<D = any> extends Error {
 export declare function createError<D>(options: ErrorOptions<D>): NixleError<D>;
 export declare function createError<D = never>(message: string, statusCode?: StatusCode): NixleError<D>;
 export declare const isNixleError: (error: any) => error is NixleError<any>;
-export declare const logError: (error: any, _log: typeof log) => void;
+export declare const logError: (error: any, _log: typeof log) => Promise<void>;
 export declare const transformErrorToResponse: (error: any, statusCode: StatusCode) => Omit<Pick<NixleError<any>, keyof NixleError<any>>, "name">;

@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import type { ConsolaOptions } from 'consola';
 import type dotenv from 'dotenv';
 import type { Provider } from './provider/createProvider';
@@ -20,10 +19,15 @@ export interface AppOptions<Routers extends Router[] = Router[]> {
 export type NixleApp = ReturnType<typeof createApp>;
 export declare function createApp<Routers extends Router[] = Router[]>(options: AppOptions<Routers>): {
     app: any;
-    events: {
-        on: (eventName: string | symbol, listener: (...args: any[]) => void) => import("events");
-        emit: (eventName: string | symbol, ...args: any[]) => boolean;
-    };
+    hooks: Pick<import("hookable").Hookable<{
+        request: any;
+        response: any;
+        error: any;
+    }, import("hookable").HookKeys<{
+        request: any;
+        response: any;
+        error: any;
+    }>>, "afterEach" | "beforeEach" | "callHook" | "hook" | "hookOnce">;
     $inferRouters: ConvertRouters<Routers>;
 };
 export {};

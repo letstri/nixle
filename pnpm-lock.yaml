@@ -65,7 +65,7 @@ importers:
         version: link:../../packages/elysia
       elysia:
         specifier: latest
-        version: 0.8.14(typescript@5.3.3)
+        version: 0.8.15(typescript@5.3.3)
       nixle:
         specifier: workspace:^
         version: link:../../packages/nixle
@@ -265,6 +265,9 @@ importers:
       dotenv:
         specifier: ^16.3.2
         version: 16.3.2
+      hookable:
+        specifier: ^5.5.3
+        version: 5.5.3
       ufo:
         specifier: ^1.3.2
         version: 1.3.2
@@ -3800,6 +3803,28 @@ packages:
 
   /elysia@0.8.14(typescript@5.3.3):
     resolution: {integrity: sha512-WOLfl7ZlNaVXxjEdlKmBENA2TkU7rQoR5Xl2glh2zNXvt9Q0tiy+Gdn3n+lqL1K+ZuZXsc1PfuN6fuPj4EHbmQ==}
+    peerDependencies:
+      '@sinclair/typebox': '>= 0.31.0'
+      openapi-types: '>= 12.0.0'
+      typescript: '>= 5.0.0'
+    peerDependenciesMeta:
+      '@sinclair/typebox':
+        optional: true
+      openapi-types:
+        optional: true
+      typescript:
+        optional: true
+    dependencies:
+      cookie: 0.6.0
+      eventemitter3: 5.0.1
+      fast-decode-uri-component: 1.0.1
+      fast-querystring: 1.1.2
+      memoirist: 0.1.10
+      typescript: 5.3.3
+    dev: false
+
+  /elysia@0.8.15(typescript@5.3.3):
+    resolution: {integrity: sha512-jJhIukagVZ31qwTEDrjkvpJv2ZhKewOG+eVbKj3N6MksBkLj1VXcTL6C4PZ1lACv1gU1HVRQNIeTy/eAeiMwZg==}
     peerDependencies:
       '@sinclair/typebox': '>= 0.31.0'
       openapi-types: '>= 12.0.0'

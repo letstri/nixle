@@ -3,7 +3,7 @@ import createCallsiteRecord from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
 import { isPrimitive, exclude } from './utils/helpers';
-import { emitter } from './emmiter';
+import { hooks } from './hooks';
 import { StatusCode } from '.';
 
 const renderer: any = {
@@ -139,7 +139,7 @@ export const isNixleError = (error: any): error is NixleError => {
   return error instanceof NixleError;
 };
 
-export const logError = (error: any, _log: typeof log) => {
+export const logError = async (error: any, _log: typeof log) => {
   let message = '';
 
   if (isNixleError(error) || error instanceof Error) {
@@ -174,7 +174,7 @@ export const logError = (error: any, _log: typeof log) => {
     _log.error(colorize('red', message), colorize('red', JSON.stringify(error?.details, null, 2)));
   }
 
-  emitter.emit('error', error);
+  await hooks.callHook('error', error);
 };
 
 export const transformErrorToResponse = (error: any, statusCode: StatusCode) => {

@@ -4,13 +4,14 @@ import type dotenv from 'dotenv';
 
 import type { Provider } from './provider/createProvider';
 import { createError, logError } from './createError';
-import { emitter } from './emmiter';
+import { hooks } from './hooks';
 import type { Plugin } from './plugins/createPlugin';
 import { buildPlugins } from './plugins/buildPlugins';
 import { buildEnv } from './env';
 import { StatusCode, type Router } from '.';
 import { buildRouter } from './router/buildRouter';
 import { validatePath } from './utils/validations';
+import { pick } from './utils/helpers';
 
 type ConvertRouters<T extends Router[]> = {
   [P in T[number]['path']]: Extract<T[number], { path: P }>['$inferRoutes'];
@@ -64,10 +65,7 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
 
   const app = {
     app: options.provider.app,
-    events: {
-      on: emitter.on,
-      emit: emitter.emit,
-    },
+    hooks: pick(hooks, ['afterEach', 'beforeEach', 'callHook', 'hook', 'hookOnce']),
     $inferRouters: {} as ConvertRouters<Routers>,
   };
 

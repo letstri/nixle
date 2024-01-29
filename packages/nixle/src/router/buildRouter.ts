@@ -4,7 +4,7 @@ import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
 import { env } from '~/env';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
-import { emitter } from '~/emmiter';
+import { hooks } from '~/hooks';
 import { StatusCode, type Router, type RouteHandlerContext } from '..';
 import { joinPath, parseObject } from '~/utils/helpers';
 
@@ -63,7 +63,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
           setData,
         };
 
-        emitter.emit('request', context);
+        await hooks.callHook('request', context);
 
         try {
           if (router?.middlewares) {
@@ -81,7 +81,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
             );
           }
         } catch (error) {
-          logError(error, log);
+          await logError(error, log);
           const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
@@ -121,7 +121,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         try {
           const response = await options.handler(_context);
 
-          emitter.emit('response', response);
+          await hooks.callHook('response', response);
 
           if (options?.statusCode) {
             context.setStatusCode(options.statusCode);
@@ -129,7 +129,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
 
           return response;
         } catch (error) {
-          logError(error, log);
+          await logError(error, log);
           const statusCode = (error as NixleError)?.statusCode || StatusCode.INTERNAL_SERVER_ERROR;
           context.setStatusCode(statusCode);
           return transformErrorToResponse(error, statusCode);
