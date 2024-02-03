@@ -93,7 +93,7 @@ const formatErrorStack = (error: Error) => {
   const stack = createCallsiteRecord({
     forError: error,
     isCallsiteFrame: (frame) =>
-      isNixleError(error) && error.statusCode < StatusCode.INTERNAL_SERVER_ERROR
+      isNixleError(error)
         ? !!frame.source &&
           !frame.source.includes('node_modules') &&
           !frame.source.includes('node:') &&
@@ -102,7 +102,7 @@ const formatErrorStack = (error: Error) => {
   })?.renderSync({
     renderer,
     stackFilter: (frame) =>
-      isNixleError(error) && error.statusCode < StatusCode.INTERNAL_SERVER_ERROR
+      isNixleError(error)
         ? !!frame.source &&
           !frame.source.includes('node_modules') &&
           !frame.source.includes('node:') &&
@@ -150,28 +150,23 @@ export const logError = async (error: any, _log: typeof log) => {
     message = `${error.constructor.name} ${JSON.stringify(error)}`;
   }
 
+  const _details = JSON.stringify((error as NixleError)?.details, null, 2);
+  const details = !!_details && Object.keys(_details).length && _details !== '{}' && _details;
+  const params = [colorize('red', message), details && colorize('red', details)];
+
   if (error && (!error.statusCode || error.statusCode >= StatusCode.INTERNAL_SERVER_ERROR)) {
     if (error instanceof Error) {
       const stack = formatErrorStack(error);
-      const params = [
-        colorize('red', message),
-        (error as NixleError)?.details &&
-          colorize('red', JSON.stringify((error as NixleError)?.details, null, 2)),
-        ...(stack ? ['\n', stack] : []),
-      ].filter(Boolean);
 
-      _log.fatal(...params);
-    } else {
-      const params = [
-        colorize('red', message),
-        (error as NixleError)?.details &&
-          colorize('red', JSON.stringify((error as NixleError)?.details, null, 2)),
-      ].filter(Boolean);
-
-      _log.fatal(...params);
+      if (stack) {
+        params.push('\n');
+        params.push(stack);
+      }
     }
+
+    _log.fatal(...params.filter(Boolean));
   } else {
-    _log.error(colorize('red', message), colorize('red', JSON.stringify(error?.details, null, 2)));
+    _log.error(...params.filter(Boolean));
   }
 
   await hooks.callHook('error', error);
@@ -181,22 +176,19 @@ export const transformErrorToResponse = (error: any, statusCode: StatusCode) => 
   const defaultTime = dayjs().format();
   const isPrimitiveError = isPrimitive(error);
 
-  const _message = (isPrimitiveError && error) || error.message || 'Internal Server Error';
-  const _time = (isPrimitiveError && defaultTime) || error.time || defaultTime;
-  const _details = (isPrimitiveError && {}) || error.details || {};
-  const _code = (isPrimitiveError && undefined) || error.code;
-
   const json: Omit<Pick<NixleError, keyof NixleError>, 'name'> = {
     statusCode,
-    message: _message,
-    time: _time,
-    details: _details,
-    code: _code,
+    message: (isPrimitiveError && error) || error.message || 'Internal Server Error',
+    time: (isPrimitiveError && defaultTime) || error.time || defaultTime,
+    details: (isPrimitiveError && {}) || error.details || {},
+    code: (isPrimitiveError && undefined) || error.code,
   };
+
+  const _error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
   json.details = {
     ...json.details,
-    ...exclude(JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error))), [
+    ...exclude(isPrimitive(_error) ? {} : _error, [
       'message',
       'name',
       'stack',
