@@ -69,7 +69,7 @@ export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
       limit: zod.number().default(10),
     }).validate,
     handler: ({ query }) => {
-      return usersService().getUsers(+query.limit);
+      return usersService().getUsers(query.limit);
     },
   }),
 ]);
