@@ -3,7 +3,7 @@ outline: deep
 title: Nuxt as backend framework
 ---
 
-# Nitro (Nuxt)
+# Nuxt
 
 Nuxt uses [Nitro](https://nitro.unjs.io/) as the backend framework for building server-side applications.
 

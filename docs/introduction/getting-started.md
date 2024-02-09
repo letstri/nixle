@@ -4,7 +4,7 @@ outline: deep
 
 # Getting Started
 
-Nixle is a framework for building HTTP servers. It is designed to be simple, fast, and extensible. It is built on top of existing frameworks, such as Express, Fastify, and Nitro.
+Nixle is a framework for building HTTP servers. It is designed to be simple, fast, and extensible. It is built on top of existing frameworks, such as Express, Fastify, and Nuxt.
 
 ## Installation
 

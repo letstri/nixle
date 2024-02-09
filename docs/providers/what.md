@@ -1,8 +1,8 @@
 ---
 outline: deep
 next:
-  text: 'Nitro (Nuxt)'
-  link: '/providers/nitro'
+  text: 'Nuxt'
+  link: '/providers/nuxt'
 ---
 
 # Providers
@@ -58,7 +58,7 @@ app.listen(3000, () => {
 
 ## Available Providers
 
-- [Nitro (Nuxt)](/providers/nitro)
+- [Nuxt](/providers/nuxt)
 - [Express](/providers/express)
 - [Fastify](/providers/fastify)
 - [Elysia (Bun)](/providers/elysia)

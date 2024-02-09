@@ -2,7 +2,7 @@ import { defineConfig } from 'vitepress';
 
 const providers = [
   { text: 'What is Provider?', link: '/providers/what' },
-  { text: 'Nitro (Nuxt)', link: '/providers/nitro' },
+  { text: 'Nuxt', link: '/providers/nuxt' },
   { text: 'Express', link: '/providers/express' },
   { text: 'Fastify', link: '/providers/fastify' },
   { text: 'Elysia (Bun)', link: '/providers/elysia' },
