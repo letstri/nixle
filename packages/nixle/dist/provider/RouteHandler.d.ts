@@ -1,5 +1,5 @@
 import type { CookieOptions, HTTPMethod, StatusCode } from '..';
-export interface ProviderRouteHandlerContext<P extends {} = {}, Q extends {} = {}, B extends {} = {}> {
+export interface ProviderRouteHandlerContext<P extends Record<string, string> = Record<string, string>, Q extends Record<string, string | string[]> = Record<string, string | string[]>, B extends Record<string, any> = Record<string, any>> {
     /**
      * Request
      *
@@ -106,6 +106,6 @@ export interface ProviderRouteHandlerContext<P extends {} = {}, Q extends {} = {
      */
     getCookie: (key: string) => string | null;
 }
-export interface ProviderRouteHandler<P extends {} = {}, Q extends {} = {}, B extends {} = {}, R extends unknown = unknown> {
+export interface ProviderRouteHandler<P extends Record<string, string> = Record<string, string>, Q extends Record<string, string | string[]> = Record<string, string | string[]>, B extends Record<string, any> = Record<string, any>, R extends unknown = unknown> {
     (context: ProviderRouteHandlerContext<P, Q, B>): R;
 }

@@ -2,7 +2,7 @@ import type { StatusCode } from '../index';
 import type { Guard } from '../createGuard';
 import type { Middleware } from '../createMiddleware';
 import type { ProviderRouteHandlerContext } from '../provider/RouteHandler';
-export interface RouteHandlerContext<P extends {} = {}, Q extends {} = {}, B extends {} = {}> extends ProviderRouteHandlerContext<P, Q, B> {
+export interface RouteHandlerContext<P extends Record<string, any> = Record<string, any>, Q extends Record<string, any> = Record<string, any>, B extends Record<string, any> = Record<string, any>> extends ProviderRouteHandlerContext<P, Q, B> {
     /**
      * Custom data that you can pass to the request.
      *
