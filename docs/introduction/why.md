@@ -12,7 +12,7 @@ Looking ahead to the future, it's also crucial to integrate with SSR frameworks 
 
 ## Solution
 
-That's where **Nixle** comes in. It's designed to solve these problems by providing a simple and intuitive way to create well-structured applications with minimal code. Nixle builds on top of popular frameworks like Fastify, Express, Elysia, Hono, and Nitro, giving developers a consistent and familiar experience. So you can use the same plugins, middlewares, and other features that you're already know for any of these frameworks.
+That's where **Nixle** comes in. It's designed to solve these problems by providing a simple and intuitive way to create well-structured applications with minimal code. Nixle builds on top of popular frameworks like Fastify, Express, Elysia, Hono, and Nuxt, giving developers a consistent and familiar experience. So you can use the same plugins, middlewares, and other features that you're already know for any of these frameworks.
 
 One of the great things about Nixle is that it's built with **TypeScript**, which brings many benefits like type safety and code completion. This makes it easier to write code and reduces the number of bugs in your application.
 
