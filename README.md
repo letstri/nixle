@@ -63,7 +63,7 @@ const usersService = createService('users', ({ log, env, ofetch }) => {
   };
 });
 
-export const usersRouter = createRouter('/users', ({ route, zodObject }, { usersService }) => [
+export const usersRouter = createRouter('/users', ({ route, zodObject }) => [
   route.get('/', {
     queryValidation: zodObject({
       limit: zod.number().default(10),

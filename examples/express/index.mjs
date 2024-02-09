@@ -14,7 +14,7 @@ const usersService = createService('users', ({ log }) => {
   };
 });
 
-const usersRouter = createRouter('/users', ({ route }, { usersService }) => [
+const usersRouter = createRouter('/users', ({ route }) => [
   route.get('/', () => usersService().create()),
 ]);
 
