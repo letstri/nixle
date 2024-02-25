@@ -6,6 +6,6 @@ export interface GuardFunction {
     }): Promise<void> | void;
 }
 export interface Guard {
-    (context: RouteHandlerContext): Promise<void>;
+    (context: RouteHandlerContext): Promise<void> | void;
 }
 export declare function createGuard<N extends string>(name: Lowercase<N>, guard: GuardFunction): Guard;

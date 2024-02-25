@@ -7,7 +7,7 @@ export interface MiddlewareFunction {
 }
 
 export interface Middleware {
-  (context: RouteHandlerContext): Promise<void>;
+  (context: RouteHandlerContext): Promise<void> | void;
 }
 
 export function createMiddleware<N extends string>(

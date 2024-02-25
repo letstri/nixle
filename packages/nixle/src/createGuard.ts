@@ -7,7 +7,7 @@ export interface GuardFunction {
 }
 
 export interface Guard {
-  (context: RouteHandlerContext): Promise<void>;
+  (context: RouteHandlerContext): Promise<void> | void;
 }
 
 export function createGuard<N extends string>(name: Lowercase<N>, guard: GuardFunction): Guard {

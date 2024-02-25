@@ -6,6 +6,6 @@ export interface MiddlewareFunction {
     }): Promise<void> | void;
 }
 export interface Middleware {
-    (context: RouteHandlerContext): Promise<void>;
+    (context: RouteHandlerContext): Promise<void> | void;
 }
 export declare function createMiddleware<N extends string>(name: Lowercase<N>, middleware: MiddlewareFunction): Middleware;
