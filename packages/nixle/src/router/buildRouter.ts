@@ -66,14 +66,21 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         await hooks.callHook('request', context);
 
         try {
-          if (router?.middlewares) {
+          if (options?.middlewares?.length) {
+            await Promise.all(
+              options.middlewares.map(function executeAppMiddleware(middleware) {
+                return middleware(_context);
+              }),
+            );
+          }
+          if (router?.middlewares?.length) {
             await Promise.all(
               router.middlewares.map(function executeRouterMiddleware(middleware) {
                 return middleware(_context);
               }),
             );
           }
-          if (options?.middlewares) {
+          if (options?.middlewares?.length) {
             await Promise.all(
               options.middlewares.map(function executeRouterMiddleware(middleware) {
                 return middleware(_context);

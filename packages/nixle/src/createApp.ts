@@ -12,6 +12,7 @@ import { StatusCode, type Router } from '.';
 import { buildRouter } from './router/buildRouter';
 import { validatePath } from './utils/validations';
 import { pick } from './utils/helpers';
+import { createMiddleware, type Middleware } from './createMiddleware';
 
 type ConvertRouters<T extends Router[]> = {
   [P in T[number]['path']]: Extract<T[number], { path: P }>['$inferRoutes'];
@@ -21,6 +22,7 @@ export interface AppOptions<Routers extends Router[] = Router[]> {
   provider: Provider;
   routers: Routers;
   plugins?: Plugin[];
+  middlewares?: Middleware[];
   logger?: Partial<ConsolaOptions> | false;
   env?: dotenv.DotenvConfigOptions;
   globalPrefix?: string;
@@ -53,15 +55,17 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     buildPlugins(options.provider, options);
   }
 
+  options.middlewares = [
+    createMiddleware('nixle-global-middleware', ({ setHeader }) => {
+      setHeader('X-Powered-By', 'Nixle');
+    }),
+    ...(options.middlewares || []),
+  ];
+
   buildEnv(options.env);
   options.routers.forEach((router) => {
     buildRouter(options, router);
   });
-
-  // TODO: Add global middleware
-  // options.provider.globalMiddleware(({ setHeader }) => {
-  //   setHeader('X-Powered-By', 'Nixle');
-  // });
 
   const app = {
     app: options.provider.app,

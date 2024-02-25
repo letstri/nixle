@@ -3,6 +3,7 @@ import type dotenv from 'dotenv';
 import type { Provider } from './provider/createProvider';
 import type { Plugin } from './plugins/createPlugin';
 import { type Router } from '.';
+import { type Middleware } from './createMiddleware';
 type ConvertRouters<T extends Router[]> = {
     [P in T[number]['path']]: Extract<T[number], {
         path: P;
@@ -12,6 +13,7 @@ export interface AppOptions<Routers extends Router[] = Router[]> {
     provider: Provider;
     routers: Routers;
     plugins?: Plugin[];
+    middlewares?: Middleware[];
     logger?: Partial<ConsolaOptions> | false;
     env?: dotenv.DotenvConfigOptions;
     globalPrefix?: string;
