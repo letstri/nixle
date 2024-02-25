@@ -73,5 +73,5 @@ declare global {
  * });
  */
 export declare const zodObject: ZodObject;
-export declare const zodPlugin: import("nixle/dist/plugins/createPlugin").Plugin;
+export declare const zodPlugin: import("nixle").Plugin;
 export {};

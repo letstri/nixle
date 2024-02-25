@@ -361,10 +361,12 @@ export {
   Ie as createApp,
   N as createError,
   Ae as createGuard,
+  ce as createMiddleware,
   me as createPlugin,
   fe as createProvider,
   Oe as createRouter,
   oe as createService,
   Ee as extendRouterContext,
+  ne as extendServiceContext,
   d as isNixleError
 };
