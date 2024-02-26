@@ -11,7 +11,7 @@ const i = (e, s) => {
   return {
     validate: async (r) => {
       try {
-        return await d(r);
+        return await d(r || {});
       } catch (f) {
         const n = f, c = n.errors.filter(({ path: o }) => o).reduce(
           (o, a) => ({

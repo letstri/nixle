@@ -106,7 +106,7 @@ export const zodObject: ZodObject = (shape, options) => {
 
   const validate = async (data: any) => {
     try {
-      return await parseAsync(data);
+      return await parseAsync(data || {});
     } catch (e) {
       const error = e as z.ZodError;
 
