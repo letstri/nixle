@@ -1,38 +1,40 @@
-import { createPlugin as f, createError as u, StatusCode as y } from "nixle";
-import { z as r } from "zod";
-const n = (e, o) => {
-  const c = (() => {
+import { createPlugin as u, createError as y, StatusCode as p } from "nixle";
+import { z as t } from "zod";
+const i = (e, s) => {
+  const d = (() => {
     if (typeof e == "function") {
-      const t = e(r);
-      return t instanceof r.ZodObject || t instanceof r.ZodEffects ? t.parseAsync : r.object(t).parseAsync;
+      const r = e(t);
+      return r instanceof t.ZodObject || r instanceof t.ZodEffects ? r.parseAsync : t.object(r).parseAsync;
     }
-    return e instanceof r.ZodObject ? e.parseAsync : r.object(e).parseAsync;
+    return e instanceof t.ZodObject ? e.parseAsync : t.object(e).parseAsync;
   })();
   return {
-    validate: async (t) => {
+    validate: async (r) => {
       try {
-        return await c(t);
-      } catch (a) {
-        const i = a;
-        throw u({
-          message: o?.message || "Validation error",
-          statusCode: o?.statusCode || y.BAD_REQUEST,
-          details: i.errors.reduce(
-            (d, s) => ({
-              ...d,
-              [s.path.join(".")]: s.message
-            }),
-            {}
-          )
+        return await d(r);
+      } catch (f) {
+        const n = f, c = n.errors.filter(({ path: o }) => o).reduce(
+          (o, a) => ({
+            ...o,
+            [a.path.join(".")]: a.message
+          }),
+          {}
+        );
+        throw y({
+          message: s?.message || "Validation error",
+          statusCode: s?.statusCode || p.BAD_REQUEST,
+          details: {
+            ...c ? { paths: c } : { errors: n.errors }
+          }
         });
       }
     },
     $infer: {}
   };
-}, j = f("zod", ({ extendServiceContext: e, extendRouterContext: o }) => {
-  o({ zodObject: n }), e({ zodObject: n });
+}, j = u("zod", ({ extendServiceContext: e, extendRouterContext: s }) => {
+  s({ zodObject: i }), e({ zodObject: i });
 });
 export {
-  n as zodObject,
+  i as zodObject,
   j as zodPlugin
 };

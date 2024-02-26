@@ -110,16 +110,22 @@ export const zodObject: ZodObject = (shape, options) => {
     } catch (e) {
       const error = e as z.ZodError;
 
-      throw createError({
-        message: options?.message || 'Validation error',
-        statusCode: options?.statusCode || StatusCode.BAD_REQUEST,
-        details: error.errors.reduce(
+      const paths = error.errors
+        .filter(({ path }) => path)
+        .reduce(
           (acc, curr) => ({
             ...acc,
             [curr.path.join('.')]: curr.message,
           }),
           {},
-        ),
+        );
+
+      throw createError({
+        message: options?.message || 'Validation error',
+        statusCode: options?.statusCode || StatusCode.BAD_REQUEST,
+        details: {
+          ...(paths ? { paths } : { errors: error.errors }),
+        },
       });
     }
   };
