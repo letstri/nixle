@@ -136,7 +136,8 @@ export const zodObject: ZodObject = (shape, options) => {
   };
 };
 
-export const zodPlugin = createPlugin('zod', ({ extendServiceContext, extendRouterContext }) => {
-  extendRouterContext({ zodObject });
-  extendServiceContext({ zodObject });
-});
+export const zodPlugin = () =>
+  createPlugin('zod', ({ extendServiceContext, extendRouterContext }) => {
+    extendRouterContext({ zodObject });
+    extendServiceContext({ zodObject });
+  });
