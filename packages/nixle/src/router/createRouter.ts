@@ -29,14 +29,12 @@ interface RouterOptions<Routes extends Route[]> {
   routes: RouterRoutesHandler<Routes>;
 }
 
-type ConvertRoutes<T extends Route[]> = {
+export type ConvertRoutes<T extends Route[]> = {
   [P in T[number]['path']]: {
-    [M in Extract<T[number], { path: P }> as M['method']]: {
-      params: Extract<T[number], { path: P; method: M['method'] }>['$infer']['params'];
-      query: Extract<T[number], { path: P; method: M['method'] }>['$infer']['query'];
-      body: Extract<T[number], { path: P; method: M['method'] }>['$infer']['body'];
-      response: Extract<T[number], { path: P; method: M['method'] }>['$infer']['response'];
-    };
+    [M in Extract<T[number], { path: P }> as M['method']]: Omit<
+      Extract<T[number], { path: P; method: M['method'] }>['$infer'],
+      'path' | 'method'
+    >;
   };
 };
 
@@ -89,7 +87,7 @@ function createRouter<Path extends string, Routes extends Route[]>(
     routes: formatRoutes,
     middlewares,
     guards,
-    $inferRoutes: {} as Routes extends Route[] ? ConvertRoutes<Routes> : never,
+    $inferRoutes: {} as any,
   };
 }
 
