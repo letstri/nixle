@@ -30,6 +30,9 @@ export const honoProvider = createProvider<Hono>((app) => {
             params: (context.req.param() as Record<string, string>) || {},
             query: (context.req.query() as Record<string, string | string[]>) || {},
             body: await context.req.json(),
+            redirect: async (url, status) => {
+              await context.redirect(url, status);
+            },
             setStatusCode: (code) => context.status(code),
             setHeader: (key, value) => context.header(key, value),
             getHeader: (key) => context.req.header(key) || null,

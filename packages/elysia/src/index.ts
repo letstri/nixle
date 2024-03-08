@@ -33,6 +33,12 @@ export const elysiaProvider = createProvider<Elysia>((app) => {
           params: context.params || {},
           query: (context.query as Record<string, string | string[]>) || {},
           body: (context.body as Record<string, string>) || {},
+          redirect: async (url, status) => {
+            if (status) {
+              context.set.status = status;
+            }
+            context.set.redirect = url;
+          },
           setStatusCode: (code) => (context.set.status = code),
           setHeader: (key, value) => (context.set.headers[key] = value),
           getHeader: (key) => context.request.headers.get(key),

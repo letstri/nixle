@@ -28,6 +28,7 @@ export const expressProvider = createProvider<Express>((app) => {
             params: (request.params as Record<string, string>) || {},
             query: (request.query as Record<string, string | string[]>) || {},
             body: request.body,
+            redirect: async (url, status) => response.redirect(status || 302, url),
             setStatusCode: (code) => response.status(code),
             setHeader: (name, value) => response.setHeader(name, value),
             getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),

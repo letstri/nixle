@@ -1,48 +1,51 @@
 import { createProvider as m } from "nixle";
-var h = decodeURIComponent, f = /^[\w!#$%&'*.^`|~+-]+$/, l = /^[ !#-:<-[\]-~]*$/, d = (i, s) => i.trim().split(";").reduce((r, n) => {
+var h = decodeURIComponent, f = /^[\w!#$%&'*.^`|~+-]+$/, l = /^[ !#-:<-[\]-~]*$/, d = (t, s) => t.trim().split(";").reduce((r, n) => {
   n = n.trim();
-  const t = n.indexOf("=");
-  if (t === -1)
+  const i = n.indexOf("=");
+  if (i === -1)
     return r;
-  const o = n.substring(0, t).trim();
-  if (s && s !== o || !f.test(o))
+  const a = n.substring(0, i).trim();
+  if (s && s !== a || !f.test(a))
     return r;
-  let a = n.substring(t + 1).trim();
-  return a.startsWith('"') && a.endsWith('"') && (a = a.slice(1, -1)), l.test(a) && (r[o] = h(a)), r;
-}, {}), g = (i, s, e = {}) => {
-  let r = `${i}=${s}`;
+  let o = n.substring(i + 1).trim();
+  return o.startsWith('"') && o.endsWith('"') && (o = o.slice(1, -1)), l.test(o) && (r[a] = h(o)), r;
+}, {}), c = (t, s, e = {}) => {
+  let r = `${t}=${s}`;
   return e && typeof e.maxAge == "number" && e.maxAge >= 0 && (r += `; Max-Age=${Math.floor(e.maxAge)}`), e.domain && (r += `; Domain=${e.domain}`), e.path && (r += `; Path=${e.path}`), e.expires && (r += `; Expires=${e.expires.toUTCString()}`), e.httpOnly && (r += "; HttpOnly"), e.secure && (r += "; Secure"), e.sameSite && (r += `; SameSite=${e.sameSite}`), e.partitioned && (r += "; Partitioned"), r;
-}, c = (i, s, e = {}) => (s = encodeURIComponent(s), g(i, s, e)), v = (i, s) => {
-  const e = i.req.raw.headers.get("Cookie");
+}, g = (t, s, e = {}) => (s = encodeURIComponent(s), c(t, s, e)), v = (t, s) => {
+  const e = t.req.raw.headers.get("Cookie");
   return typeof s == "string" ? e ? d(e, s)[s] : void 0 : e ? d(e) : {};
-}, q = (i, s, e, r) => {
-  const n = c(s, e, { path: "/", ...r });
-  i.header("set-cookie", n, { append: !0 });
+}, q = (t, s, e, r) => {
+  const n = g(s, e, { path: "/", ...r });
+  t.header("set-cookie", n, { append: !0 });
 };
-const C = m((i) => ({
-  app: i,
+const C = m((t) => ({
+  app: t,
   createRoute: ({ method: s, path: e, handler: r }) => {
     ({
-      get: i.get,
-      post: i.post,
-      put: i.put,
-      patch: i.patch,
-      delete: i.delete,
-      options: i.options
-    })[s](e, async (t) => t.json(
+      get: t.get,
+      post: t.post,
+      put: t.put,
+      patch: t.patch,
+      delete: t.delete,
+      options: t.options
+    })[s](e, async (i) => i.json(
       await r({
-        request: t.req,
-        response: t.res,
-        method: t.req.method,
-        params: t.req.param() || {},
-        query: t.req.query() || {},
-        body: await t.req.json(),
-        setStatusCode: (o) => t.status(o),
-        setHeader: (o, a) => t.header(o, a),
-        getHeader: (o) => t.req.header(o) || null,
-        headers: t.req.header(),
-        setCookie: (o, a, u) => q(t, o, a, u),
-        getCookie: (o) => v(t, o) || null
+        request: i.req,
+        response: i.res,
+        method: i.req.method,
+        params: i.req.param() || {},
+        query: i.req.query() || {},
+        body: await i.req.json(),
+        redirect: async (a, o) => {
+          await i.redirect(a, o);
+        },
+        setStatusCode: (a) => i.status(a),
+        setHeader: (a, o) => i.header(a, o),
+        getHeader: (a) => i.req.header(a) || null,
+        headers: i.req.header(),
+        setCookie: (a, o, u) => q(i, a, o, u),
+        getCookie: (a) => v(i, a) || null
       })
     ));
   }

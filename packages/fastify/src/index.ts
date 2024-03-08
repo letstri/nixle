@@ -27,6 +27,7 @@ export const fastifyProvider = createProvider<FastifyInstance>((app) => {
             params: ({ ...(request.params || {}) } satisfies Record<string, string>) || {},
             query: ({ ...(request.query || {}) } satisfies Record<string, string | string[]>) || {},
             body: ({ ...(request.body || {}) } satisfies Record<string, string>) || {},
+            redirect: async (url, status) => reply.redirect(status || 302, url),
             setStatusCode: (code) => reply.status(code),
             setHeader: (key, value) => reply.header(key, value),
             getHeader: (name) => (request.headers[name] ? String(request.headers[name]) : null),

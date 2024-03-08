@@ -15,6 +15,7 @@ const h = /* @__PURE__ */ new Map([
         params: { ...t.params || {} },
         query: { ...t.query || {} },
         body: { ...t.body || {} },
+        redirect: async (e, r) => a.redirect(r || 302, e),
         setStatusCode: (e) => a.status(e),
         setHeader: (e, r) => a.header(e, r),
         getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,

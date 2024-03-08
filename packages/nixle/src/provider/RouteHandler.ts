@@ -110,6 +110,16 @@ export interface ProviderRouteHandlerContext<
    * getCookie('token'); // -> 123
    */
   getCookie: (key: string) => string | null;
+  /**
+   * Redirect
+   *
+   * @param url
+   * @param statusCode
+   *
+   * @example
+   * redirect('/users', StatusCode.PERMANENT_REDIRECT);
+   */
+  redirect: (url: string, statusCode?: StatusCode) => void | Promise<void>;
 }
 
 export interface ProviderRouteHandler<

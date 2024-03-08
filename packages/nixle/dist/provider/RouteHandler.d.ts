@@ -105,6 +105,16 @@ export interface ProviderRouteHandlerContext<P extends Record<string, string> = 
      * getCookie('token'); // -> 123
      */
     getCookie: (key: string) => string | null;
+    /**
+     * Redirect
+     *
+     * @param url
+     * @param statusCode
+     *
+     * @example
+     * redirect('/users', StatusCode.PERMANENT_REDIRECT);
+     */
+    redirect: (url: string, statusCode?: StatusCode) => void | Promise<void>;
 }
 export interface ProviderRouteHandler<P extends Record<string, string> = Record<string, string>, Q extends Record<string, string | string[]> = Record<string, string | string[]>, B extends Record<string, any> = Record<string, any>, R extends unknown = unknown> {
     (context: ProviderRouteHandlerContext<P, Q, B>): R;

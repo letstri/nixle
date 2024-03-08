@@ -1,29 +1,30 @@
-import m from "cookie-parser";
+import s from "cookie-parser";
 import n from "body-parser";
-import { createProvider as S } from "nixle";
-const h = /* @__PURE__ */ new Map([
+import { createProvider as y } from "nixle";
+const S = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
   ["Lax", "lax"],
   ["None", "none"]
-]), g = S((r) => (r.use(m()), r.use(n.json()), {
-  app: r,
-  createRoute: ({ method: d, path: s, handler: c }) => r[d](s, async (t, o) => {
-    o.send(
-      await c({
+]), g = y((o) => (o.use(s()), o.use(n.json()), {
+  app: o,
+  createRoute: ({ method: d, path: c, handler: m }) => o[d](c, async (t, r) => {
+    r.send(
+      await m({
         request: t,
-        response: o,
+        response: r,
         method: t.method,
         params: t.params || {},
         query: t.query || {},
         body: t.body,
-        setStatusCode: (e) => o.status(e),
-        setHeader: (e, a) => o.setHeader(e, a),
+        redirect: async (e, a) => r.redirect(a || 302, e),
+        setStatusCode: (e) => r.status(e),
+        setHeader: (e, a) => r.setHeader(e, a),
         getHeader: (e) => t.headers[e] ? String(t.headers[e]) : null,
         headers: t.headers,
         getCookie: (e) => t.cookies[e] || null,
-        setCookie: (e, a, i) => o.cookie(e, a, {
+        setCookie: (e, a, i) => r.cookie(e, a, {
           ...i,
-          sameSite: h.get(i?.sameSite || "Strict") || "strict"
+          sameSite: S.get(i?.sameSite || "Strict") || "strict"
         })
       })
     );

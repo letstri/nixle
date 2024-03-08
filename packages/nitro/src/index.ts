@@ -10,6 +10,7 @@ import {
   getHeader,
   setHeader,
   readBody,
+  sendRedirect,
 } from 'h3';
 import type { NitroApp } from 'nitropack';
 import { createProvider, type HTTPMethod } from 'nixle';
@@ -37,6 +38,9 @@ export const nitroProvider = createProvider<NitroApp>((app) => {
             params: getRouterParams(event),
             query: getQuery(event),
             body: ['post', 'put', 'patch'].includes(method) ? await readBody(event) : {},
+            redirect: async (url, status) => {
+              await sendRedirect(event, url, status);
+            },
             setStatusCode: (code) => setResponseStatus(event, code),
             setHeader: (key, value) => setHeader(event, key, value),
             getHeader: (key) => getHeader(event, key) || null,
