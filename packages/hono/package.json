@@ -1,6 +1,6 @@
 {
   "name": "@nixle/hono",
-  "version": "0.19.5",
+  "version": "0.19.6",
   "description": "Universal server-side framework",
   "scripts": {
     "prepublishOnly": "npm run build",
