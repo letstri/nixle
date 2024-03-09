@@ -5,50 +5,6 @@ import { isPrimitive, exclude } from './utils/helpers';
 import { hooks } from './hooks';
 import { StatusCode } from '.';
 
-const renderer: any = {
-  syntax: {
-    string: (...m: string[]) => colorize('green', m.join('')),
-    punctuator: (...m: string[]) => colorize('gray', m.join('')),
-    keyword: (...m: string[]) => colorize('cyan', m.join('')),
-    number: (...m: string[]) => colorize('magenta', m.join('')),
-    regex: (...m: string[]) => colorize('magenta', m.join('')),
-    comment: (...m: string[]) => colorize('gray', colorize('bold', m.join(''))),
-    invalid: (...m: string[]) => colorize('inverse', m.join('')),
-  },
-
-  codeFrame: (v: any) => v.slice(1),
-
-  codeLine(num: string, base: string, src: string, isLast: boolean) {
-    let prefix = base ? ' > ' : '   ';
-    let lineNum = prefix + colorize('dim', num) + ' ';
-
-    if (base) lineNum = colorize('bgRed', lineNum);
-
-    let line = lineNum + colorize('dim', '| ') + src.slice(0, 300);
-
-    if (!isLast) line += '\n';
-
-    return line;
-  },
-
-  stackLine(name: string, location: string, isLast: boolean) {
-    let line =
-      `   ${colorize('dim', 'at')} ` +
-      name +
-      ' (' +
-      colorize('blueBright', colorize('underline', location)) +
-      ')';
-
-    if (!isLast) line += '\n';
-
-    return line;
-  },
-
-  stack(stack: string) {
-    return '\n\n' + stack;
-  },
-};
-
 export interface ErrorOptions<D = any> {
   /**
    * @example User with id 1 not found
@@ -89,8 +45,18 @@ export class NixleError<D = any> extends Error {
 }
 
 const formatErrorStack = (stack: string) => {
-  // TODO: add formatter for stack
-  return stack;
+  const colorizeLine = (str: string) => {
+    let newLine = str;
+    const file = str.match(/\((.*?)\)/g)?.[0].slice(1, -1);
+
+    if (file) {
+      newLine = newLine.replace(file, colorize('underline', file));
+    }
+
+    return colorize('dim', colorize('redBright', newLine));
+  };
+
+  return `\n${stack.split('\n').slice(1).map(colorizeLine).join('\n')}`;
 };
 
 export function createError<D>(options: ErrorOptions<D>): NixleError<D>;
