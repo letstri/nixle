@@ -119,7 +119,14 @@ export interface ProviderRouteHandlerContext<
    * @example
    * redirect('/users', StatusCode.PERMANENT_REDIRECT);
    */
-  redirect: (url: string, statusCode?: StatusCode) => void | Promise<void>;
+  redirect: (
+    url: string,
+    statusCode?:
+      | StatusCode.MOVED_PERMANENTLY
+      | StatusCode.MOVED_TEMPORARILY
+      | StatusCode.PERMANENT_REDIRECT
+      | StatusCode.TEMPORARY_REDIRECT,
+  ) => void | Promise<void>;
 }
 
 export interface ProviderRouteHandler<

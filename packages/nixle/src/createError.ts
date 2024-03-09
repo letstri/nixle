@@ -1,5 +1,4 @@
 import dayjs from 'dayjs';
-import createCallsiteRecord from 'callsite-record';
 import { colorize } from 'consola/utils';
 import { log } from './logger';
 import { isPrimitive, exclude } from './utils/helpers';
@@ -89,27 +88,8 @@ export class NixleError<D = any> extends Error {
   code?: string | number;
 }
 
-const formatErrorStack = (error: Error) => {
-  const stack = createCallsiteRecord({
-    forError: error,
-    isCallsiteFrame: (frame) =>
-      isNixleError(error)
-        ? !!frame.source &&
-          !frame.source.includes('node_modules') &&
-          !frame.source.includes('node:') &&
-          !frame.source.includes('nixle/dist')
-        : true,
-  })?.renderSync({
-    renderer,
-    stackFilter: (frame) =>
-      isNixleError(error)
-        ? !!frame.source &&
-          !frame.source.includes('node_modules') &&
-          !frame.source.includes('node:') &&
-          !frame.source.includes('nixle/dist')
-        : true,
-  });
-
+const formatErrorStack = (stack: string) => {
+  // TODO: add formatter for stack
   return stack;
 };
 
@@ -156,11 +136,11 @@ export const logError = async (error: any, _log: typeof log) => {
 
   if (error && (!error.statusCode || error.statusCode >= StatusCode.INTERNAL_SERVER_ERROR)) {
     if (error instanceof Error) {
-      const stack = formatErrorStack(error);
+      const { stack } = error;
 
       if (stack) {
         params.push('\n');
-        params.push(stack);
+        params.push(formatErrorStack(stack));
       }
     }
 

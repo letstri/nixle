@@ -8,14 +8,18 @@ export interface Response extends ElysiaResponse {
 export declare const elysiaProvider: (app: Elysia<"", {
     request: {};
     store: {};
+    derive: {};
+    resolve: {};
 }, {
     type: {};
     error: {};
-}, {}, {}, false>) => import("nixle").Provider<Elysia<"", {
+}, {}, {}, {}, false>) => import("nixle").Provider<Elysia<"", {
     request: {};
     store: {};
+    derive: {};
+    resolve: {};
 }, {
     type: {};
     error: {};
-}, {}, {}, false>>;
+}, {}, {}, {}, false>>;
 export {};

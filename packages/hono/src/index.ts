@@ -1,5 +1,6 @@
 import type { Hono, Context } from 'hono';
 import { setCookie, getCookie } from 'hono/cookie';
+import type { StatusCode } from 'hono/utils/http-status';
 import { createProvider, type HTTPMethod } from 'nixle';
 
 type HonoRequest = Context['req'];
@@ -33,7 +34,7 @@ export const honoProvider = createProvider<Hono>((app) => {
             redirect: async (url, status) => {
               await context.redirect(url, status);
             },
-            setStatusCode: (code) => context.status(code),
+            setStatusCode: (code) => context.status(code as StatusCode),
             setHeader: (key, value) => context.header(key, value),
             getHeader: (key) => context.req.header(key) || null,
             headers: context.req.header(),
