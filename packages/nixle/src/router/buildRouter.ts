@@ -41,12 +41,8 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         const getData = <T extends Record<string, any>, K extends keyof T>(
           key?: K,
         ): K extends undefined ? T : T[K] => (key ? data[key] || null : data);
-        const setData = <T extends {} | string, V>(keyOrData: T, value?: V) => {
-          if (typeof keyOrData === 'string') {
-            data[keyOrData] = value;
-          } else {
-            Object.assign(data, keyOrData);
-          }
+        const setData = <K extends string, V>(key: K, value: V) => {
+          data[key] = value;
         };
 
         const _context: RouteHandlerContext = {

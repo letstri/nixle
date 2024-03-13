@@ -33,7 +33,6 @@ export interface RouteHandlerContext<P extends Record<string, any> = Record<stri
      *   ],
      * });
      */
-    setData<D extends Record<string, any>>(data: D): void;
     setData<K extends string, V>(key: K, value: V): void;
     getData<T extends Record<string, any>>(): T;
     getData<T extends Record<string, any>, K extends keyof T = keyof T>(key: K): T[K];
