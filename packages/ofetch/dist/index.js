@@ -1,8 +1,11 @@
-import { createPlugin as e } from "nixle";
-import { ofetch as c } from "ofetch";
-const h = (o) => e("ofetch", ({ extendServiceContext: t }) => {
-  t({ ofetch: c.create(o || {}) });
-});
+import { createPlugin as c } from "nixle";
+import { ofetch as r } from "ofetch";
+const n = (t) => {
+  const o = r.create(t || {});
+  return c("ofetch", ({ extendServiceContext: e }) => {
+    e({ ofetch: o });
+  });
+};
 export {
-  h as ofetchPlugin
+  n as ofetchPlugin
 };
