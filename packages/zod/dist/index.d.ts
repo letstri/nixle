@@ -4,7 +4,21 @@ interface ZodObject {
     <T extends {
         [K in string]: z.ZodTypeAny;
     }>(shape: T | z.ZodObject<T> | ((zod: typeof z) => T | z.ZodObject<T> | z.ZodEffects<z.ZodObject<T>> | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>), options?: ErrorOptions): {
+        /**
+         * @returns {Promise} Returns a promise with validated object
+         * @throws {NixleError} Throws a Nixle error if validation fails
+         */
         validate(data: any): Promise<z.infer<z.ZodObject<T>>>;
+        /**
+         * @example
+         *
+         * const { validate, $infer } = zodObject({
+         *   email: z.string().email(),
+         *   password: z.string().min(8),
+         * });
+         *
+         * type User = typeof $infer;
+         */
         $infer: z.infer<z.ZodObject<T>>;
     };
 }
