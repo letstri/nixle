@@ -9,7 +9,10 @@ declare global {
   }
 }
 
-export const ofetchPlugin = (options?: FetchOptions) =>
-  createPlugin('ofetch', ({ extendServiceContext }) => {
-    extendServiceContext({ ofetch: ofetch.create(options || {}) });
+export const ofetchPlugin = (options?: FetchOptions) => {
+  const _ofetch = ofetch.create(options || {});
+
+  return createPlugin('ofetch', ({ extendServiceContext }) => {
+    extendServiceContext({ ofetch: _ofetch });
   });
+};
