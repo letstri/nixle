@@ -9,7 +9,13 @@ export interface RouteHandlerContext<
   B extends Record<string, any> = Record<string, any>,
 > extends ProviderRouteHandlerContext<P, Q, B> {
   /**
-   * Custom data that you can pass to the request.
+   * Custom data that you can pass to the context.
+   *
+   * `setData` with one param will merge the data with the existing one.
+   * `setData` with two params will set the value for the key.
+   *
+   * `getData` with no params will return all data.
+   * `getData` with one param will return the value for the key.
    *
    * @example
    * const userIdMiddleware = createMiddleware('user-id', ({ setData, getHeader }) => {
@@ -38,6 +44,7 @@ export interface RouteHandlerContext<
    *   ],
    * });
    */
+  setData<D extends Record<string, any>>(data: D): void;
   setData<K extends string, V>(key: K, value: V): void;
   getData<T extends Record<string, any>>(): T;
   getData<T extends Record<string, any>, K extends keyof T = keyof T>(key: K): T[K];
