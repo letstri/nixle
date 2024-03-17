@@ -66,9 +66,9 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
         await hooks.callHook('request', context);
 
         try {
-          if (options?.middlewares?.length) {
+          if (appOptions?.middlewares?.length) {
             await Promise.all(
-              options.middlewares.map(function executeAppMiddleware(middleware) {
+              appOptions.middlewares.map(function executeAppMiddleware(middleware) {
                 return middleware(_context);
               }),
             );
@@ -82,7 +82,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
           }
           if (options?.middlewares?.length) {
             await Promise.all(
-              options.middlewares.map(function executeRouterMiddleware(middleware) {
+              options.middlewares.map(function executeRouteMiddleware(middleware) {
                 return middleware(_context);
               }),
             );
