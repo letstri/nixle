@@ -37,7 +37,7 @@ import { createPlugin } from 'nixle';
 // To create TypeScript definitions
 declare global {
   namespace Nixle {
-    interface RouterOptions {
+    interface RouterContext {
       someOption: string;
     }
   }
