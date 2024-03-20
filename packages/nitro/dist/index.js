@@ -1,4 +1,4 @@
-import { defineEventHandler as c, getRouterParams as u, getQuery as m, readBody as n, sendRedirect as g, setResponseStatus as l, setHeader as p, getHeader as S, getRequestHeaders as y, setCookie as H, getCookie as f } from "h3";
+import { defineEventHandler as c, getRouterParams as u, getQuery as m, readBody as n, sendRedirect as l, setResponseStatus as g, setHeader as p, getHeader as S, getRequestHeaders as y, setCookie as H, getCookie as f } from "h3";
 import { createProvider as C } from "nixle";
 const R = /* @__PURE__ */ new Map([
   ["Strict", "strict"],
@@ -14,11 +14,11 @@ const R = /* @__PURE__ */ new Map([
       method: e.method,
       params: u(e),
       query: m(e),
-      body: ["post", "put", "patch"].includes(o) ? await n(e) : {},
+      body: ["post", "put", "patch", "delete"].includes(o) ? await n(e) : {},
       redirect: async (r, t) => {
-        await g(e, r, t);
+        await l(e, r, t);
       },
-      setStatusCode: (r) => l(e, r),
+      setStatusCode: (r) => g(e, r),
       setHeader: (r, t) => p(e, r, t),
       getHeader: (r) => S(e, r) || null,
       headers: Object.fromEntries(

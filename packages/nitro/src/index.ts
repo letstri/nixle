@@ -37,7 +37,7 @@ export const nitroProvider = createProvider<NitroApp>((app) => {
             method: event.method as HTTPMethod,
             params: getRouterParams(event),
             query: getQuery(event),
-            body: ['post', 'put', 'patch'].includes(method) ? await readBody(event) : {},
+            body: ['post', 'put', 'patch', 'delete'].includes(method) ? await readBody(event) : {},
             redirect: async (url, status) => {
               await sendRedirect(event, url, status);
             },
