@@ -30,7 +30,9 @@ export const honoProvider = createProvider<Hono>((app) => {
             method: context.req.method as HTTPMethod,
             params: (context.req.param() as Record<string, string>) || {},
             query: (context.req.query() as Record<string, string | string[]>) || {},
-            body: await context.req.json(),
+            body: ['post', 'put', 'patch', 'delete'].includes(method)
+              ? await context.req.json()
+              : {},
             redirect: async (url, status) => {
               await context.redirect(url, status);
             },

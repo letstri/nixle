@@ -36,7 +36,7 @@ const C = m((t) => ({
         method: i.req.method,
         params: i.req.param() || {},
         query: i.req.query() || {},
-        body: await i.req.json(),
+        body: ["post", "put", "patch", "delete"].includes(s) ? await i.req.json() : {},
         redirect: async (a, o) => {
           await i.redirect(a, o);
         },
