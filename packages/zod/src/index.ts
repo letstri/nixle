@@ -1,4 +1,4 @@
-import { StatusCode, createError, createPlugin, type ErrorOptions } from 'nixle';
+import { StatusCode, createError, createPlugin, type ErrorOptions, type Logger } from 'nixle';
 import { z } from 'zod';
 
 interface ZodObject {
@@ -15,7 +15,15 @@ interface ZodObject {
           | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>
           | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>
           | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>
-          | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>),
+          | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>
+          | z.ZodEffects<
+              z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>
+            >
+          | z.ZodEffects<
+              z.ZodEffects<
+                z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>
+              >
+            >),
     options?: ErrorOptions,
   ): {
     /**
@@ -23,6 +31,17 @@ interface ZodObject {
      * @throws {NixleError} Throws a Nixle error if validation fails
      */
     validate(data: any): Promise<z.infer<z.ZodObject<T>>>;
+    /**
+     * @returns {Promise} Returns a promise with validated object
+     * @throws {NixleError} Throws a Nixle error if validation fails
+     */
+    validatePartial(data: any): Promise<
+      z.infer<
+        z.ZodObject<{
+          [k in keyof T]: z.ZodOptional<T[k]>;
+        }>
+      >
+    >;
     /**
      * @example
      *
@@ -34,6 +53,21 @@ interface ZodObject {
      * type User = typeof $infer;
      */
     $infer: z.infer<z.ZodObject<T>>;
+    /**
+     * @example
+     *
+     * const { validate, $inferOptional } = zodObject({
+     *   email: z.string().email(),
+     *   password: z.string().min(8),
+     * });
+     *
+     * type User = typeof $inferOptional;
+     */
+    $inferOptional: z.infer<
+      z.ZodObject<{
+        [k in keyof T]: z.ZodOptional<T[k]>;
+      }>
+    >;
   };
 }
 
@@ -86,10 +120,10 @@ declare global {
  * const { validate } = zodObject((z) =>
  *   z
  *     .object({
- *       email: z.string().email(),
  *       password: z.string().min(8),
+ *       oldPassword: z.string().min(8),
  *     })
- *     .refine((obj) => obj.email && obj.password),
+ *     .refine((obj) => obj.password !== obj.oldPassword),
  * );
  *
  * @param options
@@ -104,23 +138,37 @@ declare global {
  * });
  */
 export const zodObject: ZodObject = (shape, options) => {
-  const parseAsync = (() => {
+  const parse = (data: any, { partial }: { partial: boolean }) => {
     if (typeof shape === 'function') {
       const _shape = shape(z);
 
       if (_shape instanceof z.ZodObject) {
-        return _shape.parseAsync;
+        return partial ? _shape.partial().parseAsync(data) : _shape.parseAsync(data);
       }
 
-      return _shape instanceof z.ZodEffects ? _shape.parseAsync : z.object(_shape).parseAsync;
+      if (_shape instanceof z.ZodEffects) {
+        if (partial) {
+          console.warn('Partial validation is not supported with ZodEffects');
+        }
+
+        return _shape.parseAsync(data);
+      }
+
+      return partial
+        ? z.object(_shape).partial().parseAsync(data)
+        : z.object(_shape).parseAsync(data);
     }
 
-    return shape instanceof z.ZodObject ? shape.parseAsync : z.object(shape).parseAsync;
-  })();
+    if (shape instanceof z.ZodObject) {
+      return partial ? shape.partial().parseAsync(data) : shape.parseAsync(data);
+    }
 
-  const validate = async (data: any) => {
+    return partial ? z.object(shape).partial().parseAsync(data) : z.object(shape).parseAsync(data);
+  };
+
+  const tryCatch = async (callback: () => any) => {
     try {
-      return await parseAsync(data || {});
+      return await callback();
     } catch (e) {
       const error = e as z.ZodError;
 
@@ -144,9 +192,14 @@ export const zodObject: ZodObject = (shape, options) => {
     }
   };
 
+  const validate = async (data: any) => tryCatch(() => parse(data, { partial: false }));
+  const validatePartial = async (data: any) => tryCatch(() => parse(data, { partial: true }));
+
   return {
     validate,
+    validatePartial,
     $infer: {} as any,
+    $inferOptional: {} as any,
   };
 };
 

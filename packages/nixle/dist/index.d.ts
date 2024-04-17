@@ -19,4 +19,5 @@ export * from './createGuard';
 export * from './createMiddleware';
 export * from './provider/createProvider';
 export * from './plugins/createPlugin';
+export type { Logger } from './logger';
 export { createError, isNixleError, type ErrorOptions } from './createError';

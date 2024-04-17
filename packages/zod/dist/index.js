@@ -1,40 +1,42 @@
-import { createPlugin as u, createError as y, StatusCode as p } from "nixle";
-import { z as t } from "zod";
-const i = (e, s) => {
-  const d = (() => {
-    if (typeof e == "function") {
-      const r = e(t);
-      return r instanceof t.ZodObject || r instanceof t.ZodEffects ? r.parseAsync : t.object(r).parseAsync;
+import { createPlugin as u, createError as y, StatusCode as d } from "nixle";
+import { z as s } from "zod";
+const p = (t, o) => {
+  const a = (r, { partial: n }) => {
+    if (typeof t == "function") {
+      const e = t(s);
+      return e instanceof s.ZodObject ? n ? e.partial().parseAsync(r) : e.parseAsync(r) : e instanceof s.ZodEffects ? (n && console.warn("Partial validation is not supported with ZodEffects"), e.parseAsync(r)) : n ? s.object(e).partial().parseAsync(r) : s.object(e).parseAsync(r);
     }
-    return e instanceof t.ZodObject ? e.parseAsync : t.object(e).parseAsync;
-  })();
-  return {
-    validate: async (r) => {
-      try {
-        return await d(r || {});
-      } catch (f) {
-        const n = f, c = n.errors.filter(({ path: o }) => o).reduce(
-          (o, a) => ({
-            ...o,
-            [a.path.join(".")]: a.message
-          }),
-          {}
-        );
-        throw y({
-          message: s?.message || "Validation error",
-          statusCode: s?.statusCode || p.BAD_REQUEST,
-          details: {
-            ...c ? { paths: c } : { errors: n.errors }
-          }
-        });
-      }
-    },
-    $infer: {}
+    return t instanceof s.ZodObject ? n ? t.partial().parseAsync(r) : t.parseAsync(r) : n ? s.object(t).partial().parseAsync(r) : s.object(t).parseAsync(r);
+  }, i = async (r) => {
+    try {
+      return await r();
+    } catch (n) {
+      const e = n, f = e.errors.filter(({ path: c }) => c).reduce(
+        (c, l) => ({
+          ...c,
+          [l.path.join(".")]: l.message
+        }),
+        {}
+      );
+      throw y({
+        message: o?.message || "Validation error",
+        statusCode: o?.statusCode || d.BAD_REQUEST,
+        details: {
+          ...f ? { paths: f } : { errors: e.errors }
+        }
+      });
+    }
   };
-}, j = () => u("zod", ({ extendServiceContext: e, extendRouterContext: s }) => {
-  s({ zodObject: i }), e({ zodObject: i });
+  return {
+    validate: async (r) => i(() => a(r, { partial: !1 })),
+    validatePartial: async (r) => i(() => a(r, { partial: !0 })),
+    $infer: {},
+    $inferOptional: {}
+  };
+}, g = () => u("zod", ({ extendServiceContext: t, extendRouterContext: o }) => {
+  o({ zodObject: p }), t({ zodObject: p });
 });
 export {
-  i as zodObject,
-  j as zodPlugin
+  p as zodObject,
+  g as zodPlugin
 };

@@ -5,6 +5,8 @@ import { StatusCode } from '.';
 
 let loggerInstance: ConsolaInstance;
 
+export type Logger = typeof log;
+
 export const createLogger = (options: Partial<ConsolaOptions>) => {
   loggerInstance = createConsola(options);
 };

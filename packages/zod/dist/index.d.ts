@@ -3,12 +3,19 @@ import { z } from 'zod';
 interface ZodObject {
     <T extends {
         [K in string]: z.ZodTypeAny;
-    }>(shape: T | z.ZodObject<T> | ((zod: typeof z) => T | z.ZodObject<T> | z.ZodEffects<z.ZodObject<T>> | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>), options?: ErrorOptions): {
+    }>(shape: T | z.ZodObject<T> | ((zod: typeof z) => T | z.ZodObject<T> | z.ZodEffects<z.ZodObject<T>> | z.ZodEffects<z.ZodEffects<z.ZodObject<T>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>> | z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>>>), options?: ErrorOptions): {
         /**
          * @returns {Promise} Returns a promise with validated object
          * @throws {NixleError} Throws a Nixle error if validation fails
          */
         validate(data: any): Promise<z.infer<z.ZodObject<T>>>;
+        /**
+         * @returns {Promise} Returns a promise with validated object
+         * @throws {NixleError} Throws a Nixle error if validation fails
+         */
+        validatePartial(data: any): Promise<z.infer<z.ZodObject<{
+            [k in keyof T]: z.ZodOptional<T[k]>;
+        }>>>;
         /**
          * @example
          *
@@ -20,6 +27,19 @@ interface ZodObject {
          * type User = typeof $infer;
          */
         $infer: z.infer<z.ZodObject<T>>;
+        /**
+         * @example
+         *
+         * const { validate, $inferOptional } = zodObject({
+         *   email: z.string().email(),
+         *   password: z.string().min(8),
+         * });
+         *
+         * type User = typeof $inferOptional;
+         */
+        $inferOptional: z.infer<z.ZodObject<{
+            [k in keyof T]: z.ZodOptional<T[k]>;
+        }>>;
     };
 }
 declare global {
@@ -69,10 +89,10 @@ declare global {
  * const { validate } = zodObject((z) =>
  *   z
  *     .object({
- *       email: z.string().email(),
  *       password: z.string().min(8),
+ *       oldPassword: z.string().min(8),
  *     })
- *     .refine((obj) => obj.email && obj.password),
+ *     .refine((obj) => obj.password !== obj.oldPassword),
  * );
  *
  * @param options

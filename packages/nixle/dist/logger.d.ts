@@ -1,5 +1,6 @@
 import { type ConsolaOptions } from 'consola';
 import { type ColorName } from 'consola/utils';
+export type Logger = typeof log;
 export declare const createLogger: (options: Partial<ConsolaOptions>) => void;
 /**
  * @description Log message
