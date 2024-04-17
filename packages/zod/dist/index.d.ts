@@ -13,7 +13,7 @@ interface ZodObject {
          * @returns {Promise} Returns a promise with validated object
          * @throws {NixleError} Throws a Nixle error if validation fails
          */
-        validatePartial(data: any): Promise<z.infer<z.ZodObject<{
+        validateOptional(data: any): Promise<z.infer<z.ZodObject<{
             [k in keyof T]: z.ZodOptional<T[k]>;
         }>>>;
         /**
@@ -94,6 +94,15 @@ declare global {
  *     })
  *     .refine((obj) => obj.password !== obj.oldPassword),
  * );
+ *
+ * @example
+ *
+ * import { zodObject } from '@nixle/zod';
+ *
+ * const { validateOptional } = zodObject({
+ *   email: z.string().email(),
+ *   password: z.string().min(8),
+ * });
  *
  * @param options
  *
