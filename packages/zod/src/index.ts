@@ -35,7 +35,7 @@ interface ZodObject {
      * @returns {Promise} Returns a promise with validated object
      * @throws {NixleError} Throws a Nixle error if validation fails
      */
-    validateOptional(data: any): Promise<
+    validatePartial(data: any): Promise<
       z.infer<
         z.ZodObject<{
           [k in keyof T]: z.ZodOptional<T[k]>;
@@ -56,14 +56,14 @@ interface ZodObject {
     /**
      * @example
      *
-     * const { validate, $inferOptional } = zodObject({
+     * const { validate, $inferPartial } = zodObject({
      *   email: z.string().email(),
      *   password: z.string().min(8),
      * });
      *
-     * type User = typeof $inferOptional;
+     * type User = typeof $inferPartial;
      */
-    $inferOptional: z.infer<
+    $inferPartial: z.infer<
       z.ZodObject<{
         [k in keyof T]: z.ZodOptional<T[k]>;
       }>
@@ -130,7 +130,7 @@ declare global {
  *
  * import { zodObject } from '@nixle/zod';
  *
- * const { validateOptional } = zodObject({
+ * const { validatePartial } = zodObject({
  *   email: z.string().email(),
  *   password: z.string().min(8),
  * });
@@ -202,13 +202,13 @@ export const zodObject: ZodObject = (shape, options) => {
   };
 
   const validate = async (data: any) => tryCatch(() => parse(data, { partial: false }));
-  const validateOptional = async (data: any) => tryCatch(() => parse(data, { partial: true }));
+  const validatePartial = async (data: any) => tryCatch(() => parse(data, { partial: true }));
 
   return {
     validate,
-    validateOptional,
+    validatePartial,
     $infer: {} as any,
-    $inferOptional: {} as any,
+    $inferPartial: {} as any,
   };
 };
 

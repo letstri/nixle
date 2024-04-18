@@ -1,13 +1,13 @@
-import { createPlugin as u, createError as y, StatusCode as d } from "nixle";
+import { createPlugin as y, createError as p, StatusCode as d } from "nixle";
 import { z as s } from "zod";
-const p = (t, o) => {
-  const i = (r, { partial: n }) => {
+const u = (t, o) => {
+  const a = (r, { partial: n }) => {
     if (typeof t == "function") {
       const e = t(s);
       return e instanceof s.ZodObject ? n ? e.partial().parseAsync(r) : e.parseAsync(r) : e instanceof s.ZodEffects ? (n && console.warn("Partial validation is not supported with ZodEffects"), e.parseAsync(r)) : n ? s.object(e).partial().parseAsync(r) : s.object(e).parseAsync(r);
     }
     return t instanceof s.ZodObject ? n ? t.partial().parseAsync(r) : t.parseAsync(r) : n ? s.object(t).partial().parseAsync(r) : s.object(t).parseAsync(r);
-  }, a = async (r) => {
+  }, i = async (r) => {
     try {
       return await r();
     } catch (n) {
@@ -18,7 +18,7 @@ const p = (t, o) => {
         }),
         {}
       );
-      throw y({
+      throw p({
         message: o?.message || "Validation error",
         statusCode: o?.statusCode || d.BAD_REQUEST,
         details: {
@@ -28,15 +28,15 @@ const p = (t, o) => {
     }
   };
   return {
-    validate: async (r) => a(() => i(r, { partial: !1 })),
-    validateOptional: async (r) => a(() => i(r, { partial: !0 })),
+    validate: async (r) => i(() => a(r, { partial: !1 })),
+    validatePartial: async (r) => i(() => a(r, { partial: !0 })),
     $infer: {},
-    $inferOptional: {}
+    $inferPartial: {}
   };
-}, O = () => u("zod", ({ extendServiceContext: t, extendRouterContext: o }) => {
-  o({ zodObject: p }), t({ zodObject: p });
+}, P = () => y("zod", ({ extendServiceContext: t, extendRouterContext: o }) => {
+  o({ zodObject: u }), t({ zodObject: u });
 });
 export {
-  p as zodObject,
-  O as zodPlugin
+  u as zodObject,
+  P as zodPlugin
 };
