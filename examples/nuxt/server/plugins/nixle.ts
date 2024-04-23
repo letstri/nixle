@@ -1,4 +1,4 @@
-import { createApp, createRouter, createService, createError } from 'nixle';
+import { createApp, createRouter, createService } from 'nixle';
 import { nitroProvider } from '@nixle/nitro';
 
 const usersService = createService('users', ({ log }) => {

@@ -1,6 +1,6 @@
 import { createConsola as $ } from "consola";
 import { colorize as I, colors as W } from "consola/utils";
-import Q from "dayjs";
+import V from "dayjs";
 import { joinURL as q } from "ufo";
 import { createHooks as k } from "hookable";
 import X from "dotenv";
@@ -8,22 +8,22 @@ var c = /* @__PURE__ */ ((e) => (e[e.CONTINUE = 100] = "CONTINUE", e[e.SWITCHING
 const K = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => E.includes(r))), J = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => !E.includes(r))), U = (e) => e !== Object(e), G = (...e) => {
   const E = q("", ...e), r = E.startsWith("/") ? E : `/${E}`;
   return r.endsWith("/") ? r.slice(0, -1) : r;
-}, v = (e) => {
+}, F = (e) => {
   try {
     const E = JSON.parse(e);
     return typeof E == "number" || typeof E == "boolean" || E === void 0 || E === null ? E : e;
   } catch {
     return e;
   }
-}, F = (e) => Object.fromEntries(
+}, Q = (e) => Object.fromEntries(
   Object.entries(e).map(([E, r]) => [
     E,
-    Array.isArray(r) ? r.map(v) : v(r)
+    Array.isArray(r) ? r.map(F) : F(r)
   ])
-), g = k();
-class V extends Error {
+), m = k();
+class p extends Error {
   constructor({ statusCode: E, message: r, details: R, code: i }) {
-    super(), this.time = Q().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = E || c.BAD_REQUEST, this.message = r, this.details = R, this.code = i;
+    super(), this.time = V().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = E || c.BAD_REQUEST, this.message = r, this.details = R, this.code = i;
   }
 }
 const z = (e) => {
@@ -37,40 +37,40 @@ ${e.split(`
 `).slice(1).map(E).join(`
 `)}`;
 };
-function t(e, E) {
+function _(e, E) {
   const r = typeof e == "string" ? e : e.message;
-  return new V({
+  return new p({
     message: r,
     statusCode: typeof e == "string" ? E || c.BAD_REQUEST : e.statusCode || c.BAD_REQUEST,
     code: typeof e == "string" ? void 0 : e.code,
     details: typeof e == "string" ? {} : e.details || {}
   });
 }
-const Z = (e) => e instanceof V, m = async (e, E) => {
+const Z = (e) => e instanceof p, g = async (e, E) => {
   let r = "";
   Z(e) || e instanceof Error ? r = e.message : U(e) ? r = e : r = `${e.constructor.name} ${JSON.stringify(e)}`;
-  const R = JSON.stringify(e?.details, null, 2), i = !!R && Object.keys(R).length && R !== "{}" && R, _ = [I("red", r), i && I("red", i)];
+  const R = JSON.stringify(e?.details, null, 2), i = !!R && Object.keys(R).length && R !== "{}" && R, s = [I("red", r), i && I("red", i)];
   if (e && (!e.statusCode || e.statusCode >= c.INTERNAL_SERVER_ERROR)) {
     if (e instanceof Error) {
-      const { stack: a } = e;
-      a && (_.push(`
-`), _.push(z(a)));
+      const { stack: O } = e;
+      O && (s.push(`
+`), s.push(z(O)));
     }
-    E.fatal(..._.filter(Boolean));
+    E.fatal(...s.filter(Boolean));
   } else
-    E.error(..._.filter(Boolean));
-  await g.callHook("error", e);
+    E.error(...s.filter(Boolean));
+  await m.callHook("error", e);
 }, P = (e, E) => {
-  const r = Q().format(), R = U(e), i = {
+  const r = V().format(), R = U(e), i = {
     statusCode: E,
     message: R && e || e.message || "Internal Server Error",
     time: R && r || e.time || r,
     details: R && {} || e.details || {},
     code: R && void 0 || e.code
-  }, _ = JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e)));
-  return i.details = {
+  }, s = JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e)));
+  return i.details !== null && typeof i.details == "object" && Object.keys(i.details).length === 0 && (i.details = {
     ...i.details,
-    ...J(U(_) ? {} : _, [
+    ...J(U(s) ? {} : s, [
       "message",
       "name",
       "stack",
@@ -79,33 +79,33 @@ const Z = (e) => e instanceof V, m = async (e, E) => {
       "details",
       "code"
     ])
-  }, i;
+  }), i;
 };
 let h;
 const S = (e) => {
   h = $(e);
-}, N = (e, ...E) => {
+}, l = (e, ...E) => {
   if (!h)
     return;
   const r = `${I("bgBlue", " Nixle ")}`, R = h[e];
   if (!R)
-    throw t({
+    throw _({
       message: `Logger method "${e}" not found`,
       statusCode: c.INTERNAL_SERVER_ERROR
     });
   R(`${r}`, ...E);
 }, w = {
-  info: (...e) => N("info", ...e),
-  success: (...e) => N("success", ...e),
-  warn: (...e) => N("warn", ...e),
-  error: (...e) => N("error", ...e),
-  fatal: (...e) => N("fatal", ...e),
-  debug: (...e) => N("debug", ...e),
-  trace: (...e) => N("trace", ...e),
-  silent: (...e) => N("silent", ...e),
-  log: (...e) => N("log", ...e),
-  fail: (...e) => N("fail", ...e),
-  verbose: (...e) => N("verbose", ...e)
+  info: (...e) => l("info", ...e),
+  success: (...e) => l("success", ...e),
+  warn: (...e) => l("warn", ...e),
+  error: (...e) => l("error", ...e),
+  fatal: (...e) => l("fatal", ...e),
+  debug: (...e) => l("debug", ...e),
+  trace: (...e) => l("trace", ...e),
+  silent: (...e) => l("silent", ...e),
+  log: (...e) => l("log", ...e),
+  fail: (...e) => l("fail", ...e),
+  verbose: (...e) => l("verbose", ...e)
 }, A = (e, E = "bgWhite") => Object.fromEntries(
   Object.entries(w).map(([r, R]) => [
     r,
@@ -114,9 +114,9 @@ const S = (e) => {
 );
 function d(e) {
   if (!e.startsWith("/"))
-    throw t("Path must start with /", c.INTERNAL_SERVER_ERROR);
+    throw _("Path must start with /", c.INTERNAL_SERVER_ERROR);
   if (e.length > 1 && e.endsWith("/"))
-    throw t("Path must not end with /", c.INTERNAL_SERVER_ERROR);
+    throw _("Path must not end with /", c.INTERNAL_SERVER_ERROR);
 }
 function o(e) {
   function E(r, R) {
@@ -141,33 +141,33 @@ const C = {
   getOrThrow(e) {
     const E = b[e];
     if (E === void 0)
-      throw t(`Env variable "${e}" is required`, c.INTERNAL_SERVER_ERROR);
+      throw _(`Env variable "${e}" is required`, c.INTERNAL_SERVER_ERROR);
     return E;
   }
 }), ee = (e) => {
   X.config(e), Object.keys(process.env).forEach((E) => {
     b[E] = process.env[E];
   });
-}, p = {};
+}, v = {};
 function Ee(e) {
-  Object.assign(p, e);
+  Object.assign(v, e);
 }
-function Oe(e, E) {
+function Ne(e, E) {
   d(e);
   const r = typeof E == "object";
   if (!E || r && !E.routes)
-    throw t("Routes are required", c.INTERNAL_SERVER_ERROR);
-  const R = r ? E.routes : E, i = r ? E.middlewares || [] : [], _ = r ? E.guards || [] : [];
+    throw _("Routes are required", c.INTERNAL_SERVER_ERROR);
+  const R = r ? E.routes : E, i = r ? E.middlewares || [] : [], s = r ? E.guards || [] : [];
   return {
     path: e,
     routes: () => R({
       route: C,
       log: A(e, "bgGreen"),
       env: y(),
-      ...p
+      ...v
     }),
     middlewares: i,
-    guards: _,
+    guards: s,
     $inferRoutes: {}
   };
 }
@@ -175,7 +175,7 @@ let H = {};
 const re = (e) => {
   Object.assign(H, e);
 };
-function le(e, E) {
+function ae(e, E) {
   return () => {
     try {
       return E({
@@ -184,7 +184,7 @@ function le(e, E) {
         ...H
       });
     } catch (r) {
-      throw t({
+      throw _({
         message: `Oops, service "${e.toLowerCase()}" was failed`,
         statusCode: c.INTERNAL_SERVER_ERROR,
         details: r
@@ -201,81 +201,81 @@ const Re = (e, E) => {
   const r = G(e.globalPrefix || "", E.path || ""), R = A(r, "bgGreen"), i = E.routes();
   try {
     if (i.length === 0)
-      throw t("At least one router is required", c.INTERNAL_SERVER_ERROR);
-    if (i.some(({ path: _, method: a, options: f }) => !_ || !a || !f.handler))
-      throw t(
+      throw _("At least one router is required", c.INTERNAL_SERVER_ERROR);
+    if (i.some(({ path: s, method: O, options: f }) => !s || !O || !f.handler))
+      throw _(
         "Path, method and handler are required for each route",
         c.INTERNAL_SERVER_ERROR
       );
-  } catch (_) {
-    m(_, R), process.exit(1);
+  } catch (s) {
+    g(s, R), process.exit(1);
   }
-  i.forEach(function({ path: a, method: f, options: O }) {
-    const u = G(r, a), M = A(`${W.bold(f)} ${u}`, "bgGreen");
+  i.forEach(function({ path: O, method: f, options: N }) {
+    const u = G(r, O), M = A(`${W.bold(f)} ${u}`, "bgGreen");
     e.provider.createRoute({
       method: f.toLowerCase(),
       path: u,
-      async handler(l) {
-        const L = {}, B = (n) => n ? L[n] || null : L, Y = (n, T) => {
+      async handler(a) {
+        const L = {}, B = (n) => n ? L[n] || null : L, j = (n, T) => {
           typeof n == "string" ? L[n] = T : Object.assign(L, n);
-        }, s = {
-          ...l,
-          query: F(l.query),
-          params: F(l.params),
+        }, t = {
+          ...a,
+          query: Q(a.query),
+          params: Q(a.params),
           headers: Object.fromEntries(
-            Object.entries(l.headers).filter(([, n]) => typeof n == "string").map(([n, T]) => [n.toLowerCase(), T])
+            Object.entries(a.headers).filter(([, n]) => typeof n == "string").map(([n, T]) => [n.toLowerCase(), T])
           ),
           env: y(),
           getData: B,
-          setData: Y
+          setData: j
         };
-        await g.callHook("request", l);
+        await m.callHook("request", a);
         try {
           e?.middlewares?.length && await Promise.all(
             e.middlewares.map(function(T) {
-              return T(s);
+              return T(t);
             })
           ), E?.middlewares?.length && await Promise.all(
             E.middlewares.map(function(T) {
-              return T(s);
+              return T(t);
             })
-          ), O?.middlewares?.length && await Promise.all(
-            O.middlewares.map(function(T) {
-              return T(s);
+          ), N?.middlewares?.length && await Promise.all(
+            N.middlewares.map(function(T) {
+              return T(t);
             })
           );
         } catch (n) {
-          await m(n, M);
+          await g(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return l.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), P(n, T);
         }
         try {
           E.guards.length && await Promise.all(
             E.guards.map(function(D) {
-              return D(s);
+              return D(t);
             })
-          ), O?.guards?.length && await Promise.all(
-            O.guards.map(function(D) {
-              return D(s);
+          ), N?.guards?.length && await Promise.all(
+            N.guards.map(function(D) {
+              return D(t);
             })
           );
-          const [n, T, j] = await Promise.all([
-            O?.queryValidation?.(s.query),
-            O?.paramsValidation?.(s.params),
-            O?.bodyValidation?.(s.body)
+          const [n, T, Y] = await Promise.all([
+            N?.queryValidation?.(t.query),
+            N?.paramsValidation?.(t.params),
+            N?.bodyValidation?.(t.body)
           ]);
-          s.query = n || s.query, s.params = T || s.params, s.body = j || s.body;
+          t.query = n || t.query, t.params = T || t.params, t.body = Y || t.body;
         } catch (n) {
           const T = n?.statusCode || c.BAD_REQUEST;
-          return l.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), P(n, T);
         }
         try {
-          const n = await O.handler(s);
-          return await g.callHook("response", n), O?.statusCode && l.setStatusCode(O.statusCode), n;
+          const n = await N.handler(t);
+          return await m.callHook("response", n), N?.statusCode && a.setStatusCode(N.statusCode), n;
         } catch (n) {
-          await m(n, M);
+          await g(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return l.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), P(n, T);
         }
       }
     });
@@ -286,7 +286,7 @@ function ie(e, E) {
     try {
       await E({ ...r, log: A(e.toLowerCase(), "bgYellowBright") });
     } catch (R) {
-      throw t({
+      throw _({
         message: R?.message || `Oops, middleware "${e.toLowerCase()}" was failed`,
         statusCode: R?.statusCode || c.INTERNAL_SERVER_ERROR,
         details: R?.details
@@ -294,17 +294,17 @@ function ie(e, E) {
     }
   };
 }
-function ae(e) {
+function Oe(e) {
   e.globalPrefix && d(e.globalPrefix), e.logger !== !1 && S(e.logger || {});
   try {
     if (!e.provider)
-      throw t("Provider is required", c.INTERNAL_SERVER_ERROR);
+      throw _("Provider is required", c.INTERNAL_SERVER_ERROR);
     if (e.routers.length === 0)
-      throw t("At least one router is required", c.INTERNAL_SERVER_ERROR);
+      throw _("At least one router is required", c.INTERNAL_SERVER_ERROR);
   } catch (r) {
-    m(r, w), process.exit(1);
+    g(r, w), process.exit(1);
   }
-  e.env && ee(e.env), e.plugins && Re(e.provider, e), e.middlewares = [
+  ee(e.env), e.plugins && Re(e.provider, e), e.middlewares = [
     ie("nixle-global-middleware", ({ setHeader: r }) => {
       r("X-Powered-By", "Nixle");
     }),
@@ -314,7 +314,7 @@ function ae(e) {
   });
   const E = {
     app: e.provider.app,
-    hooks: K(g, ["afterEach", "beforeEach", "callHook", "hook", "hookOnce"]),
+    hooks: K(m, ["afterEach", "beforeEach", "callHook", "hook", "hookOnce"]),
     $inferRouters: {}
   };
   return w.success("🔥 Application successfully started"), E;
@@ -324,7 +324,7 @@ function Ie(e, E) {
     try {
       await E({ ...r, log: A(e.toLowerCase(), "bgGreenBright") });
     } catch (R) {
-      throw t({
+      throw _({
         message: R?.message || `Oops, guard "${e.toLowerCase()}" was failed`,
         statusCode: R?.statusCode || c.BAD_REQUEST,
         details: R?.details
@@ -341,14 +341,14 @@ const oe = (e, E) => ({
 });
 export {
   c as StatusCode,
-  ae as createApp,
-  t as createError,
+  Oe as createApp,
+  _ as createError,
   Ie as createGuard,
   ie as createMiddleware,
   oe as createPlugin,
   Ae as createProvider,
-  Oe as createRouter,
-  le as createService,
+  Ne as createRouter,
+  ae as createService,
   Ee as extendRouterContext,
   re as extendServiceContext,
   Z as isNixleError

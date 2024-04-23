@@ -51,9 +51,7 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     process.exit(1);
   }
 
-  if (options.env) {
-    buildEnv(options.env);
-  }
+  buildEnv(options.env);
 
   if (options.plugins) {
     buildPlugins(options.provider, options);

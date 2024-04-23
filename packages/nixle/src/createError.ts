@@ -5,7 +5,7 @@ import { isPrimitive, exclude } from './utils/helpers';
 import { hooks } from './hooks';
 import { StatusCode } from '.';
 
-export interface ErrorOptions<D = any> {
+export interface ErrorOptions<D extends unknown = unknown> {
   /**
    * @example 'User with id 1 not found'
    */
@@ -21,12 +21,14 @@ export interface ErrorOptions<D = any> {
    */
   code?: string | number;
   /**
+   * Should be an object
+   *
    * @example { id: 1 }
    */
   details?: D;
 }
 
-export class NixleError<D = any> extends Error {
+export class NixleError<D extends unknown = unknown> extends Error {
   constructor({ statusCode, message, details, code }: ErrorOptions<D>) {
     super();
     Error.captureStackTrace(this, this.constructor);
@@ -59,10 +61,13 @@ const formatErrorStack = (stack: string) => {
   return `\n${stack.split('\n').slice(1).map(colorizeLine).join('\n')}`;
 };
 
-export function createError<D>(options: ErrorOptions<D>): NixleError<D>;
-export function createError<D = never>(message: string, statusCode?: StatusCode): NixleError<D>;
+export function createError<D extends unknown>(options: ErrorOptions<D>): NixleError<D>;
+export function createError<D extends unknown = never>(
+  message: string,
+  statusCode?: StatusCode,
+): NixleError<D>;
 
-export function createError<D>(
+export function createError<D extends unknown>(
   optionsOrMessage: string | ErrorOptions<D>,
   statusCode?: StatusCode,
 ): NixleError<D> {
@@ -132,18 +137,24 @@ export const transformErrorToResponse = (error: any, statusCode: StatusCode) => 
 
   const _error = JSON.parse(JSON.stringify(error, Object.getOwnPropertyNames(error)));
 
-  json.details = {
-    ...json.details,
-    ...exclude(isPrimitive(_error) ? {} : _error, [
-      'message',
-      'name',
-      'stack',
-      'statusCode',
-      'time',
-      'details',
-      'code',
-    ]),
-  };
+  if (
+    json.details !== null &&
+    typeof json.details === 'object' &&
+    Object.keys(json.details).length === 0
+  ) {
+    json.details = {
+      ...json.details,
+      ...exclude(isPrimitive(_error) ? {} : _error, [
+        'message',
+        'name',
+        'stack',
+        'statusCode',
+        'time',
+        'details',
+        'code',
+      ]),
+    };
+  }
 
   return json;
 };
