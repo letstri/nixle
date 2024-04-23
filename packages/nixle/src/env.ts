@@ -1,5 +1,6 @@
 import dotenv from 'dotenv';
 import type { RouteHandlerContext } from './router';
+import { StatusCode, createError } from '.';
 
 export const env: Nixle.Env = {};
 
@@ -9,7 +10,7 @@ export const getEnv = (): RouteHandlerContext['env'] => ({
     const value = env[key];
 
     if (value === undefined) {
-      throw new Error(`Env variable "${key}" is required`);
+      throw createError(`Env variable "${key}" is required`, StatusCode.INTERNAL_SERVER_ERROR);
     }
 
     return value;

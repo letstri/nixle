@@ -37,7 +37,7 @@ ${e.split(`
 `).slice(1).map(E).join(`
 `)}`;
 };
-function N(e, E) {
+function t(e, E) {
   const r = typeof e == "string" ? e : e.message;
   return new V({
     message: r,
@@ -49,16 +49,16 @@ function N(e, E) {
 const Z = (e) => e instanceof V, m = async (e, E) => {
   let r = "";
   Z(e) || e instanceof Error ? r = e.message : U(e) ? r = e : r = `${e.constructor.name} ${JSON.stringify(e)}`;
-  const R = JSON.stringify(e?.details, null, 2), i = !!R && Object.keys(R).length && R !== "{}" && R, t = [I("red", r), i && I("red", i)];
+  const R = JSON.stringify(e?.details, null, 2), i = !!R && Object.keys(R).length && R !== "{}" && R, _ = [I("red", r), i && I("red", i)];
   if (e && (!e.statusCode || e.statusCode >= c.INTERNAL_SERVER_ERROR)) {
     if (e instanceof Error) {
       const { stack: a } = e;
-      a && (t.push(`
-`), t.push(z(a)));
+      a && (_.push(`
+`), _.push(z(a)));
     }
-    E.fatal(...t.filter(Boolean));
+    E.fatal(..._.filter(Boolean));
   } else
-    E.error(...t.filter(Boolean));
+    E.error(..._.filter(Boolean));
   await g.callHook("error", e);
 }, P = (e, E) => {
   const r = Q().format(), R = U(e), i = {
@@ -67,10 +67,10 @@ const Z = (e) => e instanceof V, m = async (e, E) => {
     time: R && r || e.time || r,
     details: R && {} || e.details || {},
     code: R && void 0 || e.code
-  }, t = JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e)));
+  }, _ = JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e)));
   return i.details = {
     ...i.details,
-    ...J(U(t) ? {} : t, [
+    ...J(U(_) ? {} : _, [
       "message",
       "name",
       "stack",
@@ -84,28 +84,28 @@ const Z = (e) => e instanceof V, m = async (e, E) => {
 let h;
 const S = (e) => {
   h = $(e);
-}, _ = (e, ...E) => {
+}, N = (e, ...E) => {
   if (!h)
     return;
   const r = `${I("bgBlue", " Nixle ")}`, R = h[e];
   if (!R)
-    throw N({
+    throw t({
       message: `Logger method "${e}" not found`,
       statusCode: c.INTERNAL_SERVER_ERROR
     });
   R(`${r}`, ...E);
 }, w = {
-  info: (...e) => _("info", ...e),
-  success: (...e) => _("success", ...e),
-  warn: (...e) => _("warn", ...e),
-  error: (...e) => _("error", ...e),
-  fatal: (...e) => _("fatal", ...e),
-  debug: (...e) => _("debug", ...e),
-  trace: (...e) => _("trace", ...e),
-  silent: (...e) => _("silent", ...e),
-  log: (...e) => _("log", ...e),
-  fail: (...e) => _("fail", ...e),
-  verbose: (...e) => _("verbose", ...e)
+  info: (...e) => N("info", ...e),
+  success: (...e) => N("success", ...e),
+  warn: (...e) => N("warn", ...e),
+  error: (...e) => N("error", ...e),
+  fatal: (...e) => N("fatal", ...e),
+  debug: (...e) => N("debug", ...e),
+  trace: (...e) => N("trace", ...e),
+  silent: (...e) => N("silent", ...e),
+  log: (...e) => N("log", ...e),
+  fail: (...e) => N("fail", ...e),
+  verbose: (...e) => N("verbose", ...e)
 }, A = (e, E = "bgWhite") => Object.fromEntries(
   Object.entries(w).map(([r, R]) => [
     r,
@@ -114,9 +114,9 @@ const S = (e) => {
 );
 function d(e) {
   if (!e.startsWith("/"))
-    throw N("Path must start with /", c.INTERNAL_SERVER_ERROR);
+    throw t("Path must start with /", c.INTERNAL_SERVER_ERROR);
   if (e.length > 1 && e.endsWith("/"))
-    throw N("Path must not end with /", c.INTERNAL_SERVER_ERROR);
+    throw t("Path must not end with /", c.INTERNAL_SERVER_ERROR);
 }
 function o(e) {
   function E(r, R) {
@@ -141,7 +141,7 @@ const C = {
   getOrThrow(e) {
     const E = b[e];
     if (E === void 0)
-      throw new Error(`Env variable "${e}" is required`);
+      throw t(`Env variable "${e}" is required`, c.INTERNAL_SERVER_ERROR);
     return E;
   }
 }), ee = (e) => {
@@ -152,12 +152,12 @@ const C = {
 function Ee(e) {
   Object.assign(p, e);
 }
-function le(e, E) {
+function Oe(e, E) {
   d(e);
   const r = typeof E == "object";
   if (!E || r && !E.routes)
-    throw N("Routes are required", c.INTERNAL_SERVER_ERROR);
-  const R = r ? E.routes : E, i = r ? E.middlewares || [] : [], t = r ? E.guards || [] : [];
+    throw t("Routes are required", c.INTERNAL_SERVER_ERROR);
+  const R = r ? E.routes : E, i = r ? E.middlewares || [] : [], _ = r ? E.guards || [] : [];
   return {
     path: e,
     routes: () => R({
@@ -167,7 +167,7 @@ function le(e, E) {
       ...p
     }),
     middlewares: i,
-    guards: t,
+    guards: _,
     $inferRoutes: {}
   };
 }
@@ -175,7 +175,7 @@ let H = {};
 const re = (e) => {
   Object.assign(H, e);
 };
-function Oe(e, E) {
+function le(e, E) {
   return () => {
     try {
       return E({
@@ -184,7 +184,7 @@ function Oe(e, E) {
         ...H
       });
     } catch (r) {
-      throw N({
+      throw t({
         message: `Oops, service "${e.toLowerCase()}" was failed`,
         statusCode: c.INTERNAL_SERVER_ERROR,
         details: r
@@ -201,35 +201,35 @@ const Re = (e, E) => {
   const r = G(e.globalPrefix || "", E.path || ""), R = A(r, "bgGreen"), i = E.routes();
   try {
     if (i.length === 0)
-      throw N("At least one router is required", c.INTERNAL_SERVER_ERROR);
-    if (i.some(({ path: t, method: a, options: f }) => !t || !a || !f.handler))
-      throw N(
+      throw t("At least one router is required", c.INTERNAL_SERVER_ERROR);
+    if (i.some(({ path: _, method: a, options: f }) => !_ || !a || !f.handler))
+      throw t(
         "Path, method and handler are required for each route",
         c.INTERNAL_SERVER_ERROR
       );
-  } catch (t) {
-    m(t, R), process.exit(1);
+  } catch (_) {
+    m(_, R), process.exit(1);
   }
-  i.forEach(function({ path: a, method: f, options: l }) {
+  i.forEach(function({ path: a, method: f, options: O }) {
     const u = G(r, a), M = A(`${W.bold(f)} ${u}`, "bgGreen");
     e.provider.createRoute({
       method: f.toLowerCase(),
       path: u,
-      async handler(O) {
+      async handler(l) {
         const L = {}, B = (n) => n ? L[n] || null : L, Y = (n, T) => {
           typeof n == "string" ? L[n] = T : Object.assign(L, n);
         }, s = {
-          ...O,
-          query: F(O.query),
-          params: F(O.params),
+          ...l,
+          query: F(l.query),
+          params: F(l.params),
           headers: Object.fromEntries(
-            Object.entries(O.headers).filter(([, n]) => typeof n == "string").map(([n, T]) => [n.toLowerCase(), T])
+            Object.entries(l.headers).filter(([, n]) => typeof n == "string").map(([n, T]) => [n.toLowerCase(), T])
           ),
           env: y(),
           getData: B,
           setData: Y
         };
-        await g.callHook("request", O);
+        await g.callHook("request", l);
         try {
           e?.middlewares?.length && await Promise.all(
             e.middlewares.map(function(T) {
@@ -239,43 +239,43 @@ const Re = (e, E) => {
             E.middlewares.map(function(T) {
               return T(s);
             })
-          ), l?.middlewares?.length && await Promise.all(
-            l.middlewares.map(function(T) {
+          ), O?.middlewares?.length && await Promise.all(
+            O.middlewares.map(function(T) {
               return T(s);
             })
           );
         } catch (n) {
           await m(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return O.setStatusCode(T), P(n, T);
+          return l.setStatusCode(T), P(n, T);
         }
         try {
           E.guards.length && await Promise.all(
             E.guards.map(function(D) {
               return D(s);
             })
-          ), l?.guards?.length && await Promise.all(
-            l.guards.map(function(D) {
+          ), O?.guards?.length && await Promise.all(
+            O.guards.map(function(D) {
               return D(s);
             })
           );
           const [n, T, j] = await Promise.all([
-            l?.queryValidation?.(s.query),
-            l?.paramsValidation?.(s.params),
-            l?.bodyValidation?.(s.body)
+            O?.queryValidation?.(s.query),
+            O?.paramsValidation?.(s.params),
+            O?.bodyValidation?.(s.body)
           ]);
           s.query = n || s.query, s.params = T || s.params, s.body = j || s.body;
         } catch (n) {
           const T = n?.statusCode || c.BAD_REQUEST;
-          return O.setStatusCode(T), P(n, T);
+          return l.setStatusCode(T), P(n, T);
         }
         try {
-          const n = await l.handler(s);
-          return await g.callHook("response", n), l?.statusCode && O.setStatusCode(l.statusCode), n;
+          const n = await O.handler(s);
+          return await g.callHook("response", n), O?.statusCode && l.setStatusCode(O.statusCode), n;
         } catch (n) {
           await m(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return O.setStatusCode(T), P(n, T);
+          return l.setStatusCode(T), P(n, T);
         }
       }
     });
@@ -286,7 +286,7 @@ function ie(e, E) {
     try {
       await E({ ...r, log: A(e.toLowerCase(), "bgYellowBright") });
     } catch (R) {
-      throw N({
+      throw t({
         message: R?.message || `Oops, middleware "${e.toLowerCase()}" was failed`,
         statusCode: R?.statusCode || c.INTERNAL_SERVER_ERROR,
         details: R?.details
@@ -298,9 +298,9 @@ function ae(e) {
   e.globalPrefix && d(e.globalPrefix), e.logger !== !1 && S(e.logger || {});
   try {
     if (!e.provider)
-      throw N("Provider is required", c.INTERNAL_SERVER_ERROR);
+      throw t("Provider is required", c.INTERNAL_SERVER_ERROR);
     if (e.routers.length === 0)
-      throw N("At least one router is required", c.INTERNAL_SERVER_ERROR);
+      throw t("At least one router is required", c.INTERNAL_SERVER_ERROR);
   } catch (r) {
     m(r, w), process.exit(1);
   }
@@ -324,7 +324,7 @@ function Ie(e, E) {
     try {
       await E({ ...r, log: A(e.toLowerCase(), "bgGreenBright") });
     } catch (R) {
-      throw N({
+      throw t({
         message: R?.message || `Oops, guard "${e.toLowerCase()}" was failed`,
         statusCode: R?.statusCode || c.BAD_REQUEST,
         details: R?.details
@@ -342,13 +342,13 @@ const oe = (e, E) => ({
 export {
   c as StatusCode,
   ae as createApp,
-  N as createError,
+  t as createError,
   Ie as createGuard,
   ie as createMiddleware,
   oe as createPlugin,
   Ae as createProvider,
-  le as createRouter,
-  Oe as createService,
+  Oe as createRouter,
+  le as createService,
   Ee as extendRouterContext,
   re as extendServiceContext,
   Z as isNixleError
