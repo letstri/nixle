@@ -2,7 +2,7 @@ import { colors } from 'consola/utils';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import { env } from '~/env';
+import { env, getEnv } from '~/env';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { hooks } from '~/hooks';
 import { StatusCode, type Router, type RouteHandlerContext } from '..';
@@ -58,19 +58,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
               .filter(([, value]) => typeof value === 'string')
               .map(([key, value]) => [key.toLowerCase(), value]),
           ),
-          env: {
-            ...env,
-            get: (key) => env[key],
-            getOrThrow: (key) => {
-              if (!env[key]) {
-                throw createError(
-                  `Environment variable ${key} not found`,
-                  StatusCode.INTERNAL_SERVER_ERROR,
-                );
-              }
-              return env[key];
-            },
-          },
+          env: getEnv(),
           getData,
           setData,
         };

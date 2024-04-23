@@ -1,5 +1,6 @@
 import { log } from '../logger';
 import { type Route, route } from './createRoute';
+import { type RouteHandlerContext } from '..';
 import type { Guard } from '../createGuard';
 import type { ValidPath } from '../utils/types';
 import type { Middleware } from '../createMiddleware';
@@ -7,7 +8,7 @@ declare function extendRouterContext<T extends unknown>(context: T): void;
 export interface RouterContext extends Nixle.RouterContext {
     route: typeof route;
     log: typeof log;
-    env: Nixle.Env;
+    env: RouteHandlerContext['env'];
 }
 interface RouterRoutesHandler<Routes extends Route[]> {
     (context: RouterContext): Routes;

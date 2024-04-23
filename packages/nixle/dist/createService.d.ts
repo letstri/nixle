@@ -1,8 +1,9 @@
+import { type RouteHandlerContext } from '.';
 import { type log } from './logger';
 export declare const extendServiceContext: <T extends unknown>(options: T) => void;
 interface ServiceContext extends Nixle.ServiceContext {
     log: typeof log;
-    env: Nixle.Env;
+    env: RouteHandlerContext['env'];
 }
 interface ServiceFunction<M extends unknown> {
     (context: ServiceContext): M;

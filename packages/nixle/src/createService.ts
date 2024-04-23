@@ -1,6 +1,6 @@
-import { StatusCode, createError } from '.';
+import { StatusCode, createError, type RouteHandlerContext } from '.';
 import { contextLog, type log } from './logger';
-import { env } from '~/env';
+import { env, getEnv } from '~/env';
 
 let serviceContext: Nixle.ServiceContext = {};
 
@@ -10,7 +10,7 @@ export const extendServiceContext = <T extends unknown>(options: T) => {
 
 interface ServiceContext extends Nixle.ServiceContext {
   log: typeof log;
-  env: Nixle.Env;
+  env: RouteHandlerContext['env'];
 }
 
 interface ServiceFunction<M extends unknown> {
@@ -31,7 +31,7 @@ export function createService<
     try {
       return methods({
         log: contextLog(name.toLowerCase(), 'bgCyan'),
-        env,
+        env: getEnv(),
         ...serviceContext,
       });
     } catch (e) {

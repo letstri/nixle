@@ -1,8 +1,8 @@
 import { contextLog, log } from '~/logger';
 import { type Route, route } from './createRoute';
-import { StatusCode, createError } from '..';
+import { StatusCode, createError, type RouteHandlerContext } from '..';
 import type { Guard } from '~/createGuard';
-import { env } from '~/env';
+import { env, getEnv } from '~/env';
 import type { ValidPath } from '~/utils/types';
 import { validatePath } from '~/utils/validations';
 import type { Middleware } from '~/createMiddleware';
@@ -16,7 +16,7 @@ function extendRouterContext<T extends unknown>(context: T) {
 export interface RouterContext extends Nixle.RouterContext {
   route: typeof route;
   log: typeof log;
-  env: Nixle.Env;
+  env: RouteHandlerContext['env'];
 }
 
 interface RouterRoutesHandler<Routes extends Route[]> {
@@ -77,7 +77,7 @@ function createRouter<Path extends string, Routes extends Route[]>(
     return _routesFunction({
       route,
       log: contextLog(path, 'bgGreen'),
-      env,
+      env: getEnv(),
       ...routerContext,
     });
   };
