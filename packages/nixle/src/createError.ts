@@ -7,11 +7,11 @@ import { StatusCode } from '.';
 
 export interface ErrorOptions<D = any> {
   /**
-   * @example User with id 1 not found
+   * @example 'User with id 1 not found'
    */
   message: string;
   /**
-   * @default 400 Bad Request
+   * @default 400 // Bad Request
    *
    * @example StatusCode.BAD_REQUEST
    */

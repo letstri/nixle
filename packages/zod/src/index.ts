@@ -1,4 +1,4 @@
-import { StatusCode, createError, createPlugin, type ErrorOptions, type Logger } from 'nixle';
+import { StatusCode, createError, createPlugin, type ErrorOptions } from 'nixle';
 import { z } from 'zod';
 
 interface ZodObject {
@@ -24,7 +24,7 @@ interface ZodObject {
                 z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodEffects<z.ZodObject<T>>>>>>
               >
             >),
-    options?: ErrorOptions,
+    options?: Partial<ErrorOptions>,
   ): {
     /**
      * @returns {Promise} Returns a promise with validated object
@@ -194,9 +194,7 @@ export const zodObject: ZodObject = (shape, options) => {
       throw createError({
         message: options?.message || 'Validation error',
         statusCode: options?.statusCode || StatusCode.BAD_REQUEST,
-        details: {
-          ...(paths ? { paths } : { errors: error.errors }),
-        },
+        details: paths ? { paths } : { errors: error.errors },
       });
     }
   };

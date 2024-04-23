@@ -21,9 +21,7 @@ const u = (t, o) => {
       throw p({
         message: o?.message || "Validation error",
         statusCode: o?.statusCode || d.BAD_REQUEST,
-        details: {
-          ...f ? { paths: f } : { errors: e.errors }
-        }
+        details: f ? { paths: f } : { errors: e.errors }
       });
     }
   };
