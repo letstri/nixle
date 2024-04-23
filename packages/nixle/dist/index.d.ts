@@ -4,8 +4,7 @@ declare global {
         }
         interface ServiceContext {
         }
-        interface Env {
-            [key: string]: string | undefined;
+        interface Env extends Record<string, unknown> {
         }
     }
 }

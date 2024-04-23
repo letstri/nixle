@@ -51,6 +51,10 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     process.exit(1);
   }
 
+  if (options.env) {
+    buildEnv(options.env);
+  }
+
   if (options.plugins) {
     buildPlugins(options.provider, options);
   }
@@ -62,7 +66,6 @@ export function createApp<Routers extends Router[] = Router[]>(options: AppOptio
     ...(options.middlewares || []),
   ];
 
-  buildEnv(options.env);
   options.routers.forEach((router) => {
     buildRouter(options, router);
   });

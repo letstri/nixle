@@ -58,7 +58,19 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
               .filter(([, value]) => typeof value === 'string')
               .map(([key, value]) => [key.toLowerCase(), value]),
           ),
-          env,
+          env: {
+            ...env,
+            get: (key) => env[key],
+            getOrThrow: (key) => {
+              if (!env[key]) {
+                throw createError(
+                  `Environment variable ${key} not found`,
+                  StatusCode.INTERNAL_SERVER_ERROR,
+                );
+              }
+              return env[key];
+            },
+          },
           getData,
           setData,
         };

@@ -50,10 +50,11 @@ export interface RouteHandlerContext<
   getData<T extends Record<string, any>, K extends keyof T = keyof T>(key: K): T[K];
   /**
    * Environment variables.
-   *
-   * @readonly
    */
-  env: Readonly<Nixle.Env>;
+  env: Nixle.Env & {
+    get<K extends keyof Nixle.Env>(key: K): Nixle.Env[K] | undefined;
+    getOrThrow<K extends keyof Nixle.Env>(key: K): Nixle.Env[K];
+  };
 }
 
 export interface RouteHandler<P extends {}, Q extends {}, B extends {}, R extends unknown> {
