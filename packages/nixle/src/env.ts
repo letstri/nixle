@@ -5,6 +5,7 @@ import { StatusCode, createError } from '.';
 export const env: Nixle.Env = {};
 
 export const getEnv = (): RouteHandlerContext['env'] => ({
+  ...env,
   get: (key) => env[key],
   getOrThrow(key) {
     const value = env[key];

@@ -5,7 +5,7 @@ import { joinURL as q } from "ufo";
 import { createHooks as k } from "hookable";
 import X from "dotenv";
 var c = /* @__PURE__ */ ((e) => (e[e.CONTINUE = 100] = "CONTINUE", e[e.SWITCHING_PROTOCOLS = 101] = "SWITCHING_PROTOCOLS", e[e.PROCESSING = 102] = "PROCESSING", e[e.EARLY_HINTS = 103] = "EARLY_HINTS", e[e.OK = 200] = "OK", e[e.CREATED = 201] = "CREATED", e[e.ACCEPTED = 202] = "ACCEPTED", e[e.NON_AUTHORITATIVE_INFORMATION = 203] = "NON_AUTHORITATIVE_INFORMATION", e[e.NO_CONTENT = 204] = "NO_CONTENT", e[e.RESET_CONTENT = 205] = "RESET_CONTENT", e[e.PARTIAL_CONTENT = 206] = "PARTIAL_CONTENT", e[e.MULTI_STATUS = 207] = "MULTI_STATUS", e[e.MULTIPLE_CHOICES = 300] = "MULTIPLE_CHOICES", e[e.MOVED_PERMANENTLY = 301] = "MOVED_PERMANENTLY", e[e.MOVED_TEMPORARILY = 302] = "MOVED_TEMPORARILY", e[e.SEE_OTHER = 303] = "SEE_OTHER", e[e.NOT_MODIFIED = 304] = "NOT_MODIFIED", e[e.USE_PROXY = 305] = "USE_PROXY", e[e.TEMPORARY_REDIRECT = 307] = "TEMPORARY_REDIRECT", e[e.PERMANENT_REDIRECT = 308] = "PERMANENT_REDIRECT", e[e.BAD_REQUEST = 400] = "BAD_REQUEST", e[e.UNAUTHORIZED = 401] = "UNAUTHORIZED", e[e.PAYMENT_REQUIRED = 402] = "PAYMENT_REQUIRED", e[e.FORBIDDEN = 403] = "FORBIDDEN", e[e.NOT_FOUND = 404] = "NOT_FOUND", e[e.METHOD_NOT_ALLOWED = 405] = "METHOD_NOT_ALLOWED", e[e.NOT_ACCEPTABLE = 406] = "NOT_ACCEPTABLE", e[e.PROXY_AUTHENTICATION_REQUIRED = 407] = "PROXY_AUTHENTICATION_REQUIRED", e[e.REQUEST_TIMEOUT = 408] = "REQUEST_TIMEOUT", e[e.CONFLICT = 409] = "CONFLICT", e[e.GONE = 410] = "GONE", e[e.LENGTH_REQUIRED = 411] = "LENGTH_REQUIRED", e[e.PRECONDITION_FAILED = 412] = "PRECONDITION_FAILED", e[e.REQUEST_TOO_LONG = 413] = "REQUEST_TOO_LONG", e[e.REQUEST_URI_TOO_LONG = 414] = "REQUEST_URI_TOO_LONG", e[e.UNSUPPORTED_MEDIA_TYPE = 415] = "UNSUPPORTED_MEDIA_TYPE", e[e.REQUESTED_RANGE_NOT_SATISFIABLE = 416] = "REQUESTED_RANGE_NOT_SATISFIABLE", e[e.EXPECTATION_FAILED = 417] = "EXPECTATION_FAILED", e[e.IM_A_TEAPOT = 418] = "IM_A_TEAPOT", e[e.INSUFFICIENT_SPACE_ON_RESOURCE = 419] = "INSUFFICIENT_SPACE_ON_RESOURCE", e[e.METHOD_FAILURE = 420] = "METHOD_FAILURE", e[e.MISDIRECTED_REQUEST = 421] = "MISDIRECTED_REQUEST", e[e.UNPROCESSABLE_ENTITY = 422] = "UNPROCESSABLE_ENTITY", e[e.LOCKED = 423] = "LOCKED", e[e.FAILED_DEPENDENCY = 424] = "FAILED_DEPENDENCY", e[e.UPGRADE_REQUIRED = 426] = "UPGRADE_REQUIRED", e[e.PRECONDITION_REQUIRED = 428] = "PRECONDITION_REQUIRED", e[e.TOO_MANY_REQUESTS = 429] = "TOO_MANY_REQUESTS", e[e.REQUEST_HEADER_FIELDS_TOO_LARGE = 431] = "REQUEST_HEADER_FIELDS_TOO_LARGE", e[e.UNAVAILABLE_FOR_LEGAL_REASONS = 451] = "UNAVAILABLE_FOR_LEGAL_REASONS", e[e.INTERNAL_SERVER_ERROR = 500] = "INTERNAL_SERVER_ERROR", e[e.NOT_IMPLEMENTED = 501] = "NOT_IMPLEMENTED", e[e.BAD_GATEWAY = 502] = "BAD_GATEWAY", e[e.SERVICE_UNAVAILABLE = 503] = "SERVICE_UNAVAILABLE", e[e.GATEWAY_TIMEOUT = 504] = "GATEWAY_TIMEOUT", e[e.HTTP_VERSION_NOT_SUPPORTED = 505] = "HTTP_VERSION_NOT_SUPPORTED", e[e.INSUFFICIENT_STORAGE = 507] = "INSUFFICIENT_STORAGE", e[e.NETWORK_AUTHENTICATION_REQUIRED = 511] = "NETWORK_AUTHENTICATION_REQUIRED", e))(c || {});
-const K = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => E.includes(r))), J = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => !E.includes(r))), U = (e) => e !== Object(e), G = (...e) => {
+const K = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => E.includes(r))), J = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => !E.includes(r))), h = (e) => e !== Object(e), G = (...e) => {
   const E = q("", ...e), r = E.startsWith("/") ? E : `/${E}`;
   return r.endsWith("/") ? r.slice(0, -1) : r;
 }, F = (e) => {
@@ -20,7 +20,7 @@ const K = (e, E) => Object.fromEntries(Object.entries(e).filter(([r]) => E.inclu
     E,
     Array.isArray(r) ? r.map(F) : F(r)
   ])
-), m = k();
+), D = k();
 class p extends Error {
   constructor({ statusCode: E, message: r, details: R, code: i }) {
     super(), this.time = V().format(), this.message = "Internal Server Error", Error.captureStackTrace(this, this.constructor), this.name = "NixleError", this.statusCode = E || c.BAD_REQUEST, this.message = r, this.details = R, this.code = i;
@@ -48,7 +48,7 @@ function _(e, E) {
 }
 const Z = (e) => e instanceof p, g = async (e, E) => {
   let r = "";
-  Z(e) || e instanceof Error ? r = e.message : U(e) ? r = e : r = `${e.constructor.name} ${JSON.stringify(e)}`;
+  Z(e) || e instanceof Error ? r = e.message : h(e) ? r = e : r = `${e.constructor.name} ${JSON.stringify(e)}`;
   const R = JSON.stringify(e?.details, null, 2), i = !!R && Object.keys(R).length && R !== "{}" && R, s = [I("red", r), i && I("red", i)];
   if (e && (!e.statusCode || e.statusCode >= c.INTERNAL_SERVER_ERROR)) {
     if (e instanceof Error) {
@@ -59,9 +59,9 @@ const Z = (e) => e instanceof p, g = async (e, E) => {
     E.fatal(...s.filter(Boolean));
   } else
     E.error(...s.filter(Boolean));
-  await m.callHook("error", e);
-}, P = (e, E) => {
-  const r = V().format(), R = U(e), i = {
+  await D.callHook("error", e);
+}, U = (e, E) => {
+  const r = V().format(), R = h(e), i = {
     statusCode: E,
     message: R && e || e.message || "Internal Server Error",
     time: R && r || e.time || r,
@@ -70,7 +70,7 @@ const Z = (e) => e instanceof p, g = async (e, E) => {
   }, s = JSON.parse(JSON.stringify(e, Object.getOwnPropertyNames(e)));
   return i.details !== null && typeof i.details == "object" && Object.keys(i.details).length === 0 && (i.details = {
     ...i.details,
-    ...J(U(s) ? {} : s, [
+    ...J(h(s) ? {} : s, [
       "message",
       "name",
       "stack",
@@ -81,20 +81,20 @@ const Z = (e) => e instanceof p, g = async (e, E) => {
     ])
   }), i;
 };
-let h;
+let w;
 const S = (e) => {
-  h = $(e);
+  w = $(e);
 }, l = (e, ...E) => {
-  if (!h)
+  if (!w)
     return;
-  const r = `${I("bgBlue", " Nixle ")}`, R = h[e];
+  const r = `${I("bgBlue", " Nixle ")}`, R = w[e];
   if (!R)
     throw _({
       message: `Logger method "${e}" not found`,
       statusCode: c.INTERNAL_SERVER_ERROR
     });
   R(`${r}`, ...E);
-}, w = {
+}, b = {
   info: (...e) => l("info", ...e),
   success: (...e) => l("success", ...e),
   warn: (...e) => l("warn", ...e),
@@ -107,7 +107,7 @@ const S = (e) => {
   fail: (...e) => l("fail", ...e),
   verbose: (...e) => l("verbose", ...e)
 }, A = (e, E = "bgWhite") => Object.fromEntries(
-  Object.entries(w).map(([r, R]) => [
+  Object.entries(b).map(([r, R]) => [
     r,
     (...i) => R(I(E, ` ${e} `), ...i)
   ])
@@ -136,17 +136,18 @@ const C = {
   put: o("PUT"),
   delete: o("DELETE"),
   options: o("OPTIONS")
-}, b = {}, y = () => ({
-  get: (e) => b[e],
+}, m = {}, y = () => ({
+  ...m,
+  get: (e) => m[e],
   getOrThrow(e) {
-    const E = b[e];
+    const E = m[e];
     if (E === void 0)
       throw _(`Env variable "${e}" is required`, c.INTERNAL_SERVER_ERROR);
     return E;
   }
 }), ee = (e) => {
   X.config(e), Object.keys(process.env).forEach((E) => {
-    b[E] = process.env[E];
+    m[E] = process.env[E];
   });
 }, v = {};
 function Ee(e) {
@@ -229,7 +230,7 @@ const Re = (e, E) => {
           getData: B,
           setData: j
         };
-        await m.callHook("request", a);
+        await D.callHook("request", a);
         try {
           e?.middlewares?.length && await Promise.all(
             e.middlewares.map(function(T) {
@@ -247,16 +248,16 @@ const Re = (e, E) => {
         } catch (n) {
           await g(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return a.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), U(n, T);
         }
         try {
           E.guards.length && await Promise.all(
-            E.guards.map(function(D) {
-              return D(t);
+            E.guards.map(function(P) {
+              return P(t);
             })
           ), N?.guards?.length && await Promise.all(
-            N.guards.map(function(D) {
-              return D(t);
+            N.guards.map(function(P) {
+              return P(t);
             })
           );
           const [n, T, Y] = await Promise.all([
@@ -267,15 +268,15 @@ const Re = (e, E) => {
           t.query = n || t.query, t.params = T || t.params, t.body = Y || t.body;
         } catch (n) {
           const T = n?.statusCode || c.BAD_REQUEST;
-          return a.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), U(n, T);
         }
         try {
           const n = await N.handler(t);
-          return await m.callHook("response", n), N?.statusCode && a.setStatusCode(N.statusCode), n;
+          return await D.callHook("response", n), N?.statusCode && a.setStatusCode(N.statusCode), n;
         } catch (n) {
           await g(n, M);
           const T = n?.statusCode || c.INTERNAL_SERVER_ERROR;
-          return a.setStatusCode(T), P(n, T);
+          return a.setStatusCode(T), U(n, T);
         }
       }
     });
@@ -302,7 +303,7 @@ function Oe(e) {
     if (e.routers.length === 0)
       throw _("At least one router is required", c.INTERNAL_SERVER_ERROR);
   } catch (r) {
-    g(r, w), process.exit(1);
+    g(r, b), process.exit(1);
   }
   ee(e.env), e.plugins && Re(e.provider, e), e.middlewares = [
     ie("nixle-global-middleware", ({ setHeader: r }) => {
@@ -314,10 +315,10 @@ function Oe(e) {
   });
   const E = {
     app: e.provider.app,
-    hooks: K(m, ["afterEach", "beforeEach", "callHook", "hook", "hookOnce"]),
+    hooks: K(D, ["afterEach", "beforeEach", "callHook", "hook", "hookOnce"]),
     $inferRouters: {}
   };
-  return w.success("🔥 Application successfully started"), E;
+  return b.success("🔥 Application successfully started"), E;
 }
 function Ie(e, E) {
   return async (r) => {
