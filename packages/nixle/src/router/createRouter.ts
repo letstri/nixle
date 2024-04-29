@@ -2,7 +2,7 @@ import { contextLog, log } from '~/logger';
 import { type Route, route } from './createRoute';
 import { StatusCode, createError, type RouteHandlerContext } from '..';
 import type { Guard } from '~/createGuard';
-import { env, getEnv } from '~/env';
+import { getEnv } from '~/env';
 import type { ValidPath } from '~/utils/types';
 import { validatePath } from '~/utils/validations';
 import type { Middleware } from '~/createMiddleware';

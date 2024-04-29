@@ -2,7 +2,7 @@ import { colors } from 'consola/utils';
 import type { HTTPMethod } from '~/types/HTTPMethod';
 import { contextLog } from '~/logger';
 import type { AppOptions } from '~/createApp';
-import { env, getEnv } from '~/env';
+import { getEnv } from '~/env';
 import { createError, logError, transformErrorToResponse, type NixleError } from '~/createError';
 import { hooks } from '~/hooks';
 import { StatusCode, type Router, type RouteHandlerContext } from '..';
@@ -17,6 +17,7 @@ export const buildRouter = (appOptions: AppOptions, router: Router) => {
     if (routes.length === 0) {
       throw createError('At least one router is required', StatusCode.INTERNAL_SERVER_ERROR);
     }
+
     if (routes.some(({ path, method, options }) => !path || !method || !options.handler)) {
       throw createError(
         'Path, method and handler are required for each route',

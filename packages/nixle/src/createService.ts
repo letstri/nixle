@@ -1,6 +1,6 @@
 import { StatusCode, createError, type RouteHandlerContext } from '.';
 import { contextLog, type log } from './logger';
-import { env, getEnv } from '~/env';
+import { getEnv } from '~/env';
 
 let serviceContext: Nixle.ServiceContext = {};
 

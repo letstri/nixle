@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import type { RouteHandlerContext } from './router';
 import { StatusCode, createError } from '.';
 
-export const env: Nixle.Env = {};
+const env: Nixle.Env = {};
 
 export const getEnv = (): RouteHandlerContext['env'] => ({
   ...env,
