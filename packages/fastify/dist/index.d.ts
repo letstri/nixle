@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { FastifyInstance } from 'fastify';
 export interface Request extends IncomingMessage {

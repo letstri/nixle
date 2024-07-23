@@ -5,21 +5,45 @@ export interface Request extends ElysiaRequest {
 }
 export interface Response extends ElysiaResponse {
 }
-export declare const elysiaProvider: (app: Elysia<"", {
-    request: {};
+export declare const elysiaProvider: (app: Elysia<"", false, {
+    decorator: {};
     store: {};
     derive: {};
     resolve: {};
 }, {
     type: {};
     error: {};
-}, {}, {}, {}, false>) => import("nixle").Provider<Elysia<"", {
-    request: {};
+}, {
+    schema: {};
+    macro: {};
+    macroFn: {};
+}, {}, {
+    derive: {};
+    resolve: {};
+    schema: {};
+}, {
+    derive: {};
+    resolve: {};
+    schema: {};
+}>) => import("nixle").Provider<Elysia<"", false, {
+    decorator: {};
     store: {};
     derive: {};
     resolve: {};
 }, {
     type: {};
     error: {};
-}, {}, {}, {}, false>>;
+}, {
+    schema: {};
+    macro: {};
+    macroFn: {};
+}, {}, {
+    derive: {};
+    resolve: {};
+    schema: {};
+}, {
+    derive: {};
+    resolve: {};
+    schema: {};
+}>>;
 export {};

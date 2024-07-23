@@ -5,7 +5,7 @@ const l = /* @__PURE__ */ new Map([
   ["None", "none"]
 ]), y = o((t) => (t.onError(({ error: a, set: i }) => (m(a) && (i.status = a.statusCode), a)), {
   app: t,
-  createRoute: ({ method: a, path: i, handler: d }) => t[a](i, async (e) => d({
+  createRoute: ({ method: a, path: i, handler: d }) => t.route(a, i, async (e) => d({
     request: e.request,
     response: e.set,
     method: e.request.method,

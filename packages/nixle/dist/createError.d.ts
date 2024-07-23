@@ -32,6 +32,6 @@ export declare class NixleError<D extends unknown = unknown> extends Error {
 }
 export declare function createError<D extends unknown>(options: ErrorOptions<D>): NixleError<D>;
 export declare function createError<D extends unknown = never>(message: string, statusCode?: StatusCode): NixleError<D>;
-export declare const isNixleError: (error: any) => error is NixleError<unknown>;
+export declare const isNixleError: (error: any) => error is NixleError;
 export declare const logError: (error: any, _log: typeof log) => Promise<void>;
 export declare const transformErrorToResponse: (error: any, statusCode: StatusCode) => Omit<Pick<NixleError<unknown>, keyof NixleError<unknown>>, "name">;

@@ -25,7 +25,7 @@ export const elysiaProvider = createProvider<Elysia>((app) => {
   return {
     app,
     createRoute: ({ method, path, handler }) =>
-      app[method](path, async (context) => {
+      app.route(method, path, async (context) => {
         return handler({
           request: context.request,
           response: context.set,

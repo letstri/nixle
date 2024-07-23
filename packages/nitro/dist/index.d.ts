@@ -1,4 +1,3 @@
-/// <reference types="node" />
 import type { IncomingMessage, ServerResponse } from 'http';
 import type { NitroApp } from 'nitropack';
 export interface Request extends IncomingMessage {
