@@ -16,6 +16,7 @@ export * from './router';
 export * from './createService';
 export * from './createGuard';
 export * from './createMiddleware';
+export * from './createModule';
 export * from './provider/createProvider';
 export * from './plugins/createPlugin';
 export type { Logger } from './logger';
