@@ -18,8 +18,8 @@ type ConvertRouters<T extends Router[]> = {
   [P in T[number]['path']]: Extract<T[number], { path: P }>['$inferRoutes'];
 };
 
-export interface AppOptions<Routers extends Router[] = Router[]> {
-  provider: Provider;
+export interface AppOptions<Routers extends Router[] = Router[], P = any> {
+  provider: Provider<P>;
   routers: Routers;
   plugins?: Plugin[];
   middlewares?: Middleware[];
