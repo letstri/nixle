@@ -1,3 +1,9 @@
+# Deprecated
+
+I created Nixle due to the lack of frameworks in Node.js that have the ability to use types in the frontend that were generated in the backend. However, that was because I had never used tRPC. That's why I'm now closing Nixle and have switched to tRPC in my production project.
+
+---
+
 <p align="center">
   <a href="https://nixle.letstri.dev" target="_blank" rel="noopener noreferrer">
     <img height="50" src="https://nixle.letstri.dev/logo-with-text.svg" alt="Nixle logo">
